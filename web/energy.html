@@ -30,7 +30,6 @@
 html{scroll-behavior:smooth}
 body{background:var(--void);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden}
 
-/* ── FIX: prevent clipped descenders (g, y, p, q) on Syne headings ── */
 h1,h2,h3,h4,.hero h1,.sec-title,.cta-sec h2,.card-title,.bp-title,.ds-name,.fs-title,.ph-name,.why-title,.opt-title,.sys-title,.cap-title,.svc-name,.ind-name{
   overflow:visible;
   padding-bottom:0.25em;
@@ -228,7 +227,7 @@ nav{
   position:relative;
 }
 .signal-band::before{
-  content:'LIVE PROCUREMENT SIGNALS';
+  content:'LIVE ENERGY SECTOR SIGNALS';
   font-family:var(--mono);font-size:0.56rem;
   letter-spacing:0.18em;color:var(--muted);
   white-space:nowrap;padding-right:2rem;
@@ -287,7 +286,7 @@ nav{
 }
 .dom-line{flex:1;height:1px;background:var(--border)}
 
-/* ── GRID (with gap for spacing between cards) ── */
+/* ── GRID ── */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
@@ -295,7 +294,7 @@ nav{
   max-width:1320px;margin:0 auto 1rem;
 }
 
-/* ── CARD POP UPGRADES ── */
+/* ── CARD ── */
 .card{
   background:var(--card);
   border:1px solid var(--border);
@@ -770,1150 +769,979 @@ footer{
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-brand">INTELLICA</a>
-  <ul class="nav-links">
-    <li><a href="#sovereign">Sovereign</a></li>
-    <li><a href="#agentic">Agentic</a></li>
-    <li><a href="#governance">Governance</a></li>
-    <li><a href="#training">Training</a></li>
-    <li>
-      <span>Industries</span>
-      <div class="nav-drop">
-        <a href="government.html" style="color:var(--cyan)">Government &amp; Public Sector <span class="drop-badge live">Live</span></a>
-        <a href="finance.html">Financial Services &amp; Banking <span class="drop-badge soon">Soon</span></a>
-        <a href="energy.html">Energy &amp; Critical Infra <span class="drop-badge soon">Soon</span></a>
-        <a href="health.html">Health &amp; Life Sciences <span class="drop-badge soon">Soon</span></a>
-        <a href="defence.html">Defence &amp; Intelligence <span class="drop-badge soon">Soon</span></a>
-      </div>
-    </li>
-    <li>
-      <span>Partners</span>
-      <div class="nav-drop">
-        <a href="partners.html#technology">Technology Partners <span class="drop-badge soon">Soon</span></a>
-        <a href="partners.html#reseller">Reseller Programme <span class="drop-badge soon">Soon</span></a>
-        <a href="partners.html#apply">Become a Partner <span class="drop-badge rfp">Apply</span></a>
-      </div>
-    </li>
-  </ul>
-  <a href="mailto:dpramsajan@meeting-mind.com" class="nav-cta">Request briefing →</a>
+  <a href="index.html" class="nav-brand">INTELLICA</a>
+  <ul class="nav-links">
+    <li><a href="#sovereign">Sovereign</a></li>
+    <li><a href="#agentic">Agentic</a></li>
+    <li><a href="#compliance">Compliance</a></li>
+    <li><a href="#training">Training</a></li>
+    <li>
+      <span>Industries</span>
+      <div class="nav-drop">
+        <a href="government.html">Government &amp; Public Sector <span class="drop-badge live">Live</span></a>
+        <a href="finance.html">Financial Services &amp; Banking <span class="drop-badge soon">Soon</span></a>
+        <a href="energy.html" style="color:var(--cyan)">Energy &amp; Critical Infra <span class="drop-badge live">Live</span></a>
+        <a href="health.html">Health &amp; Life Sciences <span class="drop-badge soon">Soon</span></a>
+        <a href="defence.html">Defence &amp; Intelligence <span class="drop-badge soon">Soon</span></a>
+      </div>
+    </li>
+    <li>
+      <span>Partners</span>
+      <div class="nav-drop">
+        <a href="partners.html#technology">Technology Partners <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#reseller">Reseller Programme <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#apply">Become a Partner <span class="drop-badge rfp">Apply</span></a>
+      </div>
+    </li>
+  </ul>
+  <a href="mailto:dpramsajan@meeting-mind.com" class="nav-cta">Request briefing →</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <canvas class="hero-canvas" id="grid-canvas"></canvas>
-  <div class="hero-inner">
+  <canvas class="hero-canvas" id="grid-canvas"></canvas>
+  <div class="hero-inner">
 
-    <div class="hero-class">
-      Intellica AI &nbsp;·&nbsp; Government Capability Register &nbsp;·&nbsp; 2026
-    </div>
+    <div class="hero-class">
+      Intellica AI &nbsp;·&nbsp; Energy &amp; Critical Infrastructure Capability Register &nbsp;·&nbsp; 2026
+    </div>
 
-    <h1>
-      The AI infrastructure<br>governments can't afford to get wrong.
-      <span class="line-accent">Verified. Sovereign. Deployed.</span>
-    </h1>
+    <h1>
+      The control plane for grids,<br>plants, and pipelines that can't go down.
+      <span class="line-accent">Sovereign. Provenance-chained. Air-gap ready.</span>
+    </h1>
 
-    <p class="hero-sub">
-      We design and build <strong>production-grade AI systems for government</strong> — formally verified, post-quantum hardened, sovereign by architecture. From agentic service portals to compliance engines, every engagement delivers measurable capability, not slide decks.
-    </p>
+    <p class="hero-sub">
+      Cortex connects to the SCADA, ADMS, GIS, EAM, and historian systems you already run — and gives operators, planners, and regulators <strong>one auditable interface</strong>, with every agent action cryptographically signed and every dispatch-affecting decision gated by human approval.
+    </p>
 
-    <div class="hero-rule"></div>
+    <div class="hero-rule"></div>
 
-    <div class="hero-proof">
-      <div class="proof-cell">
-        <div class="proof-num">85%</div>
-        <div class="proof-label">SaaS cost<br>eliminated on-prem</div>
-      </div>
-      <div class="proof-cell">
-        <div class="proof-num">41%</div>
-        <div class="proof-label">Gov AI blocked<br>by data silos</div>
-      </div>
-      <div class="proof-cell">
-        <div class="proof-num">Aug '26</div>
-        <div class="proof-label">EU AI Act<br>enforcement date</div>
-      </div>
-      <div class="proof-cell">
-        <div class="proof-num">6</div>
-        <div class="proof-label">Active RFPs<br>open now</div>
-      </div>
-      <div class="proof-cell">
-        <div class="proof-num">48h</div>
-        <div class="proof-label">Architecture<br>turnaround</div>
-      </div>
-    </div>
+    <div class="hero-proof">
+      <div class="proof-cell">
+        <div class="proof-num">85%</div>
+        <div class="proof-label">SaaS cost<br>eliminated on-prem</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-num">72%</div>
+        <div class="proof-label">EU utilities lack<br>OT/IT integration</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-num">'28</div>
+        <div class="proof-label">NERC CIP-015-1<br>INSM deadline</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-num">9</div>
+        <div class="proof-label">Active signals<br>tracked this cycle</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-num">48h</div>
+        <div class="proof-label">Architecture<br>turnaround</div>
+      </div>
+    </div>
 
-    <div class="hero-cta">
-      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Send us your problem</a>
-      <a href="https://wa.me/18687195236" class="btn-ghost">WhatsApp Damian</a>
-    </div>
+    <div class="hero-cta">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Send us your problem</a>
+      <a href="https://wa.me/18687195236" class="btn-ghost">WhatsApp Damian</a>
+    </div>
 
-    <div class="hero-verify">
-      <div class="verify-badge vb-check">
-        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        TLA+ model-checked
-      </div>
-      <div class="verify-badge vb-check">
-        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Lean 4 theorem proven
-      </div>
-      <div class="verify-badge vb-check">
-        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        NIST FIPS 203/204/205
-      </div>
-      <div class="verify-badge vb-check">
-        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        EU AI Act Annex IV
-      </div>
-      <div class="verify-badge vb-check">
-        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Post-quantum in production
-      </div>
-    </div>
+    <div class="hero-verify">
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        NERC CIP-015-1 ready
+      </div>
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        CISA OT/IT segmentation
+      </div>
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        EU AI Act Art. 12
+      </div>
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Air-gap capable
+      </div>
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        CortexGuard kill switch
+      </div>
+    </div>
 
-  </div>
+  </div>
 </section>
 
 <!-- SIGNAL BAND -->
 <div class="signal-band">
-  <div class="sig"><span class="dot r"></span>US FOIA RFP — Active</div>
-  <div class="sig"><span class="dot r"></span>Cyber RFP — Jun 24</div>
-  <div class="sig"><span class="dot r"></span>Clinical AI CA — Jun 23</div>
-  <div class="sig"><span class="dot a"></span>Ontario HPC — Jul 6</div>
-  <div class="sig"><span class="dot a"></span>Florida AI Strategy — Jul 16</div>
-  <div class="sig"><span class="dot a"></span>Ontario AI Gov — Jun 2026</div>
-  <div class="sig"><span class="dot g"></span>UAE Agentic — Production</div>
-  <div class="sig"><span class="dot g"></span>Singapore NAIS 2.0 — Active</div>
-  <div class="sig"><span class="dot a"></span>EU AI Act — Aug 2026</div>
+  <div class="sig"><span class="dot a"></span>NERC CIP-015-1 — INSM by Oct 2028</div>
+  <div class="sig"><span class="dot r"></span>CISA OT/IT segmentation — required now</div>
+  <div class="sig"><span class="dot g"></span>FERC "Energized for 2026" — DLR priority</div>
+  <div class="sig"><span class="dot g"></span>ERCOT Enterprise Data &amp; AI org — Jan 2026</div>
+  <div class="sig"><span class="dot a"></span>EU AI Act — enforceable Aug 2026</div>
+  <div class="sig"><span class="dot g"></span>PSE — AI dispatch pre-approval mandate</div>
+  <div class="sig"><span class="dot g"></span>UAE Future Fit Seal — AI tendering in production</div>
+  <div class="sig"><span class="dot g"></span>Busan Port digital twin — production</div>
+  <div class="sig"><span class="dot a"></span>Ontario Sovereign HPC RFP — Jul 6</div>
 </div>
 
 
 <!-- ══ PROCESS OVERVIEW ══ -->
 <div class="process-wrap">
-  <div class="process-inner">
+  <div class="process-inner">
 
-    <p class="sec-eye">Where to start</p>
-    <h2 class="sec-title" style="margin-bottom:0.5rem">The big picture in 60 seconds</h2>
-    <p class="sec-sub">Not sure where AI fits in your agency? Here is how every successful government AI programme is structured — and where Intellica enters.</p>
+    <p class="sec-eye">Where to start</p>
+    <h2 class="sec-title" style="margin-bottom:0.5rem">The big picture in 60 seconds</h2>
+    <p class="sec-sub">Not sure where AI fits in your operation? Here is how every successful utility, grid operator, or operator-of-critical-infrastructure AI programme is structured — and where Cortex enters.</p>
 
-    <!-- Problem / Solution / Outcome -->
-    <div class="bigpic">
-      <div class="bigpic-cell">
-        <div class="bp-icon">The problem</div>
-        <div class="bp-title">Your agency's AI potential is blocked at the foundation</div>
-        <p class="bp-body">Data lives in silos. Vendors sell chatbots as AI. Procurement teams can't evaluate real capability. Staff have no framework to supervise automated decisions. <strong>None of this is your fault — the market is designed to obscure it.</strong></p>
-      </div>
-      <div class="bigpic-cell">
-        <div class="bp-icon">What we do</div>
-        <div class="bp-title">We design the systems that make everything else possible</div>
-        <p class="bp-body">We are not a software vendor. We are the architect who tells you exactly what to build, what to buy, and how to hold vendors accountable — <strong>then build it with you or hand off a blueprint a team can execute immediately.</strong></p>
-      </div>
-      <div class="bigpic-cell">
-        <div class="bp-icon">The outcome</div>
-        <div class="bp-title">Sovereign infrastructure your agency owns and controls</div>
-        <p class="bp-body">Data stays in-country. Costs drop 60–85% vs commercial SaaS. AI decisions are auditable by law. Staff know how to supervise the systems. <strong>And you are not locked into a vendor whose incentives differ from yours.</strong></p>
-      </div>
-    </div>
+    <!-- Problem / Solution / Outcome -->
+    <div class="bigpic">
+      <div class="bigpic-cell">
+        <div class="bp-icon">The problem</div>
+        <div class="bp-title">Your AI pilots can't see your operations</div>
+        <p class="bp-body">Only 28% of European utilities have basic OT/IT data integration — so AI pilots run on stale data exports, control rooms run on SCADA and historians that have never spoken to IT, and every "AI tool" your teams buy becomes another disconnected island. <strong>None of this is your fault — the OT/IT gap predates the AI era by decades.</strong></p>
+      </div>
+      <div class="bigpic-cell">
+        <div class="bp-icon">What we do</div>
+        <div class="bp-title">Cortex is the sovereign layer underneath everything else</div>
+        <p class="bp-body">We are not a forecasting tool, a digital twin vendor, or a chatbot. Cortex is the connector and provenance layer that lets your existing SCADA, ADMS, GIS, AMI, and EAM systems — plus every AI tool you add later — <strong>operate through one auditable, air-gappable interface that you own.</strong></p>
+      </div>
+      <div class="bigpic-cell">
+        <div class="bp-icon">The outcome</div>
+        <div class="bp-title">An agentlake, not another fragmented tool</div>
+        <p class="bp-body">Forrester projects most enterprises will be forced to compose "agentlakes" — shared architectures to orchestrate fractured AI deployments built without coordination. <strong>Deploy Cortex first and every subsequent AI tool plugs into one provenance ledger, one kill switch, one audit trail — instead of one more silo.</strong></p>
+      </div>
+    </div>
 
-    <!-- Five-step flow -->
-    <div class="flow-label">How a typical engagement unfolds</div>
-    <div class="flow-steps">
+    <!-- Five-step flow -->
+    <div class="flow-label">How a typical engagement unfolds</div>
+    <div class="flow-steps">
 
-      <div class="flow-step">
-        <div class="fs-num">01</div>
-        <div class="fs-title">Assess &amp; Orient</div>
-        <p class="fs-body">We map your data landscape, current AI readiness, and highest-value use cases. You get a clear picture of where you stand and what to do first.</p>
-        <div class="fs-entry">2–4 weeks</div>
-      </div>
+      <div class="flow-step">
+        <div class="fs-num">01</div>
+        <div class="fs-title">Assess &amp; Orient</div>
+        <p class="fs-body">We map your OT/IT landscape — SCADA, historian, ADMS/OMS, GIS, AMI, EAM — and identify the highest-value Cortex connector to build first.</p>
+        <div class="fs-entry">2–4 weeks</div>
+      </div>
 
-      <div class="flow-step">
-        <div class="fs-num">02</div>
-        <div class="fs-title">Design the Architecture</div>
-        <p class="fs-body">Sovereign infrastructure plan, integration blueprint, governance framework, and vendor procurement spec — all before a line of code is written.</p>
-        <div class="fs-entry">3–6 weeks</div>
-      </div>
+      <div class="flow-step">
+        <div class="fs-num">02</div>
+        <div class="fs-title">Design the Architecture</div>
+        <p class="fs-body">Cortex deployment tier, connector roadmap, NERC CIP-015-1 / CISA evidence mapping, and a procurement spec — all before a line of code runs against live systems.</p>
+        <div class="fs-entry">3–6 weeks</div>
+      </div>
 
-      <div class="flow-step">
-        <div class="fs-num">03</div>
-        <div class="fs-title">Build the Pilot</div>
-        <p class="fs-body">One focused use case built to production quality — a document agent, case triage system, or regulatory summariser. Proves ROI before full commitment.</p>
-        <div class="fs-entry">4–8 weeks</div>
-      </div>
+      <div class="flow-step">
+        <div class="fs-num">03</div>
+        <div class="fs-title">Build the Pilot</div>
+        <p class="fs-body">One SCADA/historian connector plus one agent skill — digital twin, predictive maintenance, or outage triage — built to production quality on one substation, plant, or feeder.</p>
+        <div class="fs-entry">4–8 weeks</div>
+      </div>
 
-      <div class="flow-step">
-        <div class="fs-num">04</div>
-        <div class="fs-title">Train Your People</div>
-        <p class="fs-body">Executive briefings for leadership, engineering bootcamps for technical staff, oversight training for operators. Your team runs it — not ours.</p>
-        <div class="fs-entry">Parallel track</div>
-      </div>
+      <div class="flow-step">
+        <div class="fs-num">04</div>
+        <div class="fs-title">Train Your People</div>
+        <p class="fs-body">Executive briefings for utility leadership, OT/IT integration bootcamps for engineers, and HITL oversight training for control-room operators supervising agentic outputs.</p>
+        <div class="fs-entry">Parallel track</div>
+      </div>
 
-      <div class="flow-step">
-        <div class="fs-num">05</div>
-        <div class="fs-title">Scale with Confidence</div>
-        <p class="fs-body">Multi-agent expansion, agency-wide rollout, and ongoing architecture oversight. The pilot becomes the playbook. The playbook becomes the programme.</p>
-        <div class="fs-entry">Month 3 onward</div>
-      </div>
+      <div class="flow-step">
+        <div class="fs-num">05</div>
+        <div class="fs-title">Scale with Confidence</div>
+        <p class="fs-body">Additional connectors, additional agent skills, agency-wide rollout — every addition runs through the same provenance ledger and kill switch established in the pilot.</p>
+        <div class="fs-entry">Month 3 onward</div>
+      </div>
 
-    </div>
+    </div>
 
-    <!-- Domain quick-reference summary -->
-    <div class="domain-summary">
-      <div class="ds-label">What we build — by domain</div>
-      <div class="ds-grid">
+    <!-- Domain quick-reference summary -->
+    <div class="domain-summary">
+      <div class="ds-label">What we build — by domain</div>
+      <div class="ds-grid">
 
-        <div class="ds-card">
-          <div class="ds-num">01 // Sovereign Infrastructure</div>
-          <div class="ds-name">Own your AI. Don't rent it.</div>
-          <p class="ds-one">On-prem inference stacks, cross-agency data integration, legacy migration. The foundation everything else runs on.</p>
-          <ul class="ds-benefits">
-            <li>Data never leaves your jurisdiction</li>
-            <li>85% cost reduction vs per-seat SaaS</li>
-            <li>Fully air-gapped, auditable, RBAC-controlled</li>
-          </ul>
-          <div class="ds-entry-point">Data landscape discovery ($9,720)</div>
-        </div>
+        <div class="ds-card">
+          <div class="ds-num">01 // Sovereign OT/IT Infrastructure</div>
+          <div class="ds-name">Connect what's never been connected.</div>
+          <p class="ds-one">Cortex deployment plus the SCADA/historian, ADMS/OMS, GIS, AMI, and EAM connectors that close the OT/IT integration gap — the precondition for every other use case.</p>
+          <ul class="ds-benefits">
+            <li>No rip-and-replace — Strangler Fig migration with rollback</li>
+            <li>85% cost reduction vs per-seat commercial AI SaaS</li>
+            <li>Air-gapped, Ed25519-signed, Merkle-chained provenance</li>
+          </ul>
+          <div class="ds-entry-point">OT/IT integration assessment ($9,720)</div>
+        </div>
 
-        <div class="ds-card">
-          <div class="ds-num">02 // Agentic AI Systems</div>
-          <div class="ds-name">AI that acts, not just answers.</div>
-          <p class="ds-one">Autonomous agents for citizen services, case triage, document drafting, and cybersecurity. Production-ready pilots in 4–8 weeks.</p>
-          <ul class="ds-benefits">
-            <li>Handles routine cases end-to-end without staff</li>
-            <li>Reduces manual processing time 60–80%</li>
-            <li>Full audit trail on every automated decision</li>
-          </ul>
-          <div class="ds-entry-point">Agentic pilot — 1 use case ($23,760)</div>
-        </div>
+        <div class="ds-card">
+          <div class="ds-num">02 // Agentic Grid Operations</div>
+          <div class="ds-name">AI that proposes — operators decide.</div>
+          <p class="ds-one">Digital twin, predictive maintenance, outage triage, demand response, and dynamic line rating advisory — every dispatch-affecting recommendation gated by Crypto HITL.</p>
+          <ul class="ds-benefits">
+            <li>Advisory-only on anything that touches dispatch</li>
+            <li>Reduces restoration sequencing time during storm events</li>
+            <li>Full provenance trail on every recommendation</li>
+          </ul>
+          <div class="ds-entry-point">Cortex Energy Pilot ($32,400)</div>
+        </div>
 
-        <div class="ds-card">
-          <div class="ds-num">03 // Citizen Services</div>
-          <div class="ds-name">Government that works at the speed citizens expect.</div>
-          <p class="ds-one">FOIA automation, precision health platforms, predictive urban management. Proven in production in Abu Dhabi and Singapore.</p>
-          <ul class="ds-benefits">
-            <li>Natural language access to any government service</li>
-            <li>Eliminates form abandonment and call-centre overflow</li>
-            <li>Scales to millions of interactions without added headcount</li>
-          </ul>
-          <div class="ds-entry-point">Citizen portal pilot (custom scoped)</div>
-        </div>
+        <div class="ds-card">
+          <div class="ds-num">03 // Compliance &amp; Regulatory</div>
+          <div class="ds-name">Audit-ready before the deadline lands.</div>
+          <p class="ds-one">NERC CIP-015-1 INSM evidence, CISA OT/IT segmentation and kill-switch documentation, and EU AI Act Art. 12 traceability for any AI touching dispatch.</p>
+          <ul class="ds-benefits">
+            <li>Maps Cortex's existing controls to each requirement line-by-line</li>
+            <li>Advisory-only design pre-aligned to PSE-style pre-approval regimes</li>
+            <li>Audit-ready reporting straight from the provenance ledger</li>
+          </ul>
+          <div class="ds-entry-point">NERC CIP-015-1 readiness ($18,360)</div>
+        </div>
 
-        <div class="ds-card">
-          <div class="ds-num">04 // Governance &amp; Compliance</div>
-          <div class="ds-name">Compliant before the regulator asks.</div>
-          <p class="ds-one">EU AI Act XAI frameworks, AI strategy roadmaps, LLM red-teaming, procurement advisory. Legally required from August 2026.</p>
-          <ul class="ds-benefits">
-            <li>Every automated citizen decision traceable and overridable</li>
-            <li>Aligned to EU AI Act, NIST AI RMF, Singapore AI Verify</li>
-            <li>Procurement templates that filter chatbots from real AI</li>
-          </ul>
-          <div class="ds-entry-point">Governance framework ($10,800)</div>
-        </div>
+        <div class="ds-card">
+          <div class="ds-num">04 // Workforce Training</div>
+          <div class="ds-name">Your control room runs it. Not us.</div>
+          <p class="ds-one">Executive briefings for utility IT/OT leadership, OT/IT integration bootcamps for engineers, and HITL oversight training for control-room operators.</p>
+          <ul class="ds-benefits">
+            <li>Leadership reads vendor AI claims critically before procuring</li>
+            <li>Engineers build and extend connectors in-house</li>
+            <li>Operators know exactly when and how to override an agent</li>
+          </ul>
+          <div class="ds-entry-point">Executive briefing — energy IT/OT ($6,480)</div>
+        </div>
 
-        <div class="ds-card">
-          <div class="ds-num">05 // Workforce Training</div>
-          <div class="ds-name">Your team runs the AI. Not ours.</div>
-          <p class="ds-one">Executive workshops, engineering bootcamps, AI oversight training. Aligned to UAE federal mandates and Singapore NAIS 2.0.</p>
-          <ul class="ds-benefits">
-            <li>Leadership makes confident AI procurement decisions</li>
-            <li>Developers build in-house: no vendor dependency</li>
-            <li>Operators know when and how to override AI decisions</li>
-          </ul>
-          <div class="ds-entry-point">Executive workshop ($6,480)</div>
-        </div>
+        <div class="ds-card">
+          <div class="ds-num">05 // Interconnection &amp; Markets</div>
+          <div class="ds-name">Answer the data-centre queue with data.</div>
+          <p class="ds-one">Grid digital twin and DLR advisory agents aimed directly at FERC's 2026 priority: squeeze more capacity from the grid that exists before new transmission is built.</p>
+          <ul class="ds-benefits">
+            <li>Simulates safe load absorption for interconnection studies</li>
+            <li>Surfaces dynamic line rating opportunities from existing sensors</li>
+            <li>ISO/RTO market feed connector for demand-response planning</li>
+          </ul>
+          <div class="ds-entry-point">Digital twin agent (Cortex Energy Pilot)</div>
+        </div>
 
-        <div class="ds-card">
-          <div class="ds-num">06 // High-Value Sector</div>
-          <div class="ds-name">Sector-specific systems already in production.</div>
-          <p class="ds-one">Port digital twins, clinical decision support, sovereign HPC, AI-native tendering. Benchmarked against live deployments in UAE, South Korea, Singapore.</p>
-          <ul class="ds-benefits">
-            <li>Port operations: IoT, digital twin, autonomous routing</li>
-            <li>Clinical AI: stroke and sepsis acute diagnostic support</li>
-            <li>Sovereign HPC: break-even vs cloud in under 18 months</li>
-          </ul>
-          <div class="ds-entry-point">Sovereign HPC design ($10,800)</div>
-        </div>
+        <div class="ds-card">
+          <div class="ds-num">06 // Sector Programmes</div>
+          <div class="ds-name">Same stack, midstream and ports.</div>
+          <p class="ds-one">The SCADA/historian connector and predictive maintenance agent transfer directly to pipeline SCADA and compressor stations. Smart port digital twins reuse the same GIS and IoT pattern.</p>
+          <ul class="ds-benefits">
+            <li>PI System dominates both power and pipeline historians</li>
+            <li>Direct fit for Trinidad's midstream and port infrastructure</li>
+            <li>Sovereign HPC sizing for national grid operators and NOCs</li>
+          </ul>
+          <div class="ds-entry-point">Sovereign HPC for energy ($10,800)</div>
+        </div>
 
-      </div>
-    </div>
+      </div>
+    </div>
 
-  </div>
+  </div>
 </div><!-- /process-wrap -->
 
 
-<!-- ══ DOMAIN 01: SOVEREIGN INFRASTRUCTURE ══ -->
+<!-- ══ DOMAIN 01: SOVEREIGN OT/IT INFRASTRUCTURE ══ -->
 <div class="dom-div" id="sovereign">
-  <span class="dom-tag">01 // Sovereign Infrastructure</span>
-  <div class="dom-line"></div>
+  <span class="dom-tag">01 // Sovereign OT/IT Infrastructure</span>
+  <div class="dom-line"></div>
 </div>
 
 <div class="grid fade">
 
-  <div class="card" data-class="// available">
-    <div class="card-hd">
-      <span class="card-type">Software · Infrastructure</span>
-      <span class="badge live">Active procurement</span>
-    </div>
-    <h3 class="card-title">Sovereign On-Prem AI Inference Platform</h3>
-    <p class="card-body">Commercial SaaS AI costs compound annually, data leaves your jurisdiction, and per-seat licensing scales against you. <strong>We deploy a self-hosted open-weight inference stack on your hardware — fully air-gapped, with API gateway, RBAC, and usage metering built in.</strong></p>
-    <div class="tco">
-      <div class="tco-lbl">TCO case</div>
-      <p>1,000-user agency at $30/seat/month = <strong>$360K/year recurring</strong>, no asset ownership, data leaves jurisdiction. Sovereign on-prem equivalent: <strong>$50–120K hardware one-time</strong>, zero per-user licensing. Break-even in 6–18 months.</p>
-    </div>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>Full inference stack deployment (vLLM / Ollama / TGI) on agency hardware</li>
-        <li>API gateway with rate limiting, authentication, and full audit logging</li>
-        <li>Model registry and use-case selection matrix</li>
-        <li>3-year TCO model vs commercial SaaS alternative</li>
-        <li>Air-gap isolation configuration and operational runbook</li>
-        <li>Hardware sizing specification: GPU type, VRAM, storage, network</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">$10,800 – $17,940</div><div class="price-note">Assessment + Architecture engagement</div></div>
-      <div class="markets">UAE · Canada · EU member states<br>Active procurement 2026</div>
-    </div>
-    <div class="tags"><span class="tag">on-prem</span><span class="tag">sovereign</span><span class="tag">open-weight</span><span class="tag">vLLM</span></div>
-  </div>
+  <div class="card" data-class="// foundation">
+    <div class="card-hd">
+      <span class="card-type">Software · Sovereign Control Plane</span>
+      <span class="badge live">Cortex core</span>
+    </div>
+    <h3 class="card-title">Cortex Deployment for Energy &amp; Utilities</h3>
+    <p class="card-body">Most "AI for energy" platforms either route operational data to a vendor cloud or bolt a dashboard onto a single system. <strong>Cortex is a single Rust binary plus PostgreSQL/pgvector that runs on your infrastructure — air-gap capable, with every action Ed25519-signed and Merkle-chained.</strong> It is the foundation every connector and agent below plugs into.</p>
+    <div class="tco">
+      <div class="tco-lbl">TCO case</div>
+      <p>A utility running commercial AI SaaS across 1,000 seats at $30/seat/month = <strong>$360K/year recurring</strong>, with operational data leaving the jurisdiction. Cortex on-prem: <strong>$50–120K hardware, one-time</strong>, zero per-seat licensing, full data sovereignty. Break-even in 6–18 months.</p>
+    </div>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Cortex binary deployment on agency/utility infrastructure (Tier B or Tier C)</li>
+        <li>Security Fortress (7-layer) and CortexGuard kill switch configured</li>
+        <li>Provenance ledger (TraceCaps, BLAKE3, Ed25519, IETF SCITT) live from day one</li>
+        <li>Dell AI Factory reference architecture sizing if hardware procurement is in scope</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">Pilot tier — Contact us</div><div class="price-note">90-day single-department pilot, up to 4 connectors</div></div>
+      <div class="markets">Defence, banking, and energy<br>customers run fully air-gapped</div>
+    </div>
+    <div class="tags"><span class="tag">Cortex</span><span class="tag">on-prem</span><span class="tag">air-gap</span><span class="tag">provenance</span></div>
+  </div>
 
-  <div class="card" data-class="// available">
-    <div class="card-hd">
-      <span class="card-type">Software · Integration</span>
-      <span class="badge univ">Universal</span>
-    </div>
-    <h3 class="card-title">Cross-Agency Data Fabric & Semantic Integration Layer</h3>
-    <p class="card-body">Siloed ministry databases — HR, finance, policy repositories, case management — are the number one barrier to government AI. <strong>41% of government AI programmes cite data integration as the primary blocker</strong> (Gartner 2025). We build the governed interoperability layer connecting them over a unified semantic API.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>Data source inventory: quality, PII exposure, and AI-readiness scores per system</li>
-        <li>Current-state data flow diagram across all agency systems</li>
-        <li>Target-state integration architecture with technology recommendations</li>
-        <li>PII and sensitivity classification register</li>
-        <li>Phased implementation roadmap with effort estimates per phase</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">$9,720 – $15,180</div><div class="price-note">Discovery + Architecture</div></div>
-      <div class="markets">US · UK · Singapore · UAE<br>Flagged in national programmes</div>
-    </div>
-    <div class="tags"><span class="tag">data fabric</span><span class="tag">semantic API</span><span class="tag">integration</span></div>
-  </div>
+  <div class="card" data-class="// highest-leverage">
+    <div class="card-hd">
+      <span class="card-type">Software · Connector</span>
+      <span class="badge req">Closes the #1 gap</span>
+    </div>
+    <h3 class="card-title">SCADA / Historian Connector (OPC-UA, PI Web API)</h3>
+    <p class="card-body">Siemens Energy's 2025 benchmark found only 28% of European utilities have basic OT/IT data integration — without it, AI pilots run on historical exports and can never reach real-time operational AI. <strong>This connector mirrors tag-level historian data (OSIsoft PI, Ignition, AVEVA) into Cortex's TraceDB via the existing Mirror Engine</strong>, closing the single most-cited blocker in every 2026 utility AI report.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>OPC-UA and PI Web API client integration into Cortex's Mirror Engine</li>
+        <li>Tag-level CDC mirroring with sub-100ms p95 latency at production volumes</li>
+        <li>Secure DMZ architecture pattern between OT and IT networks</li>
+        <li>Data quality monitoring tuned for high-noise sensor data</li>
+        <li>Read-only by default; write-back gated behind Crypto HITL</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$10,800 – $13,800</div><div class="price-note">10-day connector build</div></div>
+      <div class="markets">Universal — power, oil &amp; gas,<br>water/wastewater historians</div>
+    </div>
+    <div class="tags"><span class="tag">OPC-UA</span><span class="tag">PI System</span><span class="tag">historian</span><span class="tag">CDC</span></div>
+  </div>
 
-  <div class="card" data-class="// available">
-    <div class="card-hd">
-      <span class="card-type">Software · Data Engineering</span>
-      <span class="badge univ">Universal</span>
-    </div>
-    <h3 class="card-title">Legacy Data Migration & AI-Powered Document Extraction</h3>
-    <p class="card-body">Paper archives, scanned PDFs, and legacy databases represent decades of institutional knowledge locked in formats no AI system can query. <strong>We accelerate migration using LLM-based extraction pipelines with human-in-the-loop review queues</strong>, converting unstructured estates into structured, queryable intelligence.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>LLM extraction pipeline for scanned PDFs, paper, and legacy databases</li>
-        <li>Human-in-the-loop review queue design and tooling</li>
-        <li>Structured output schema aligned to target data model</li>
-        <li>Quality and confidence scoring per extracted record</li>
-        <li>Migration runbook and ongoing maintenance documentation</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div><div class="price-note">By volume and document complexity</div></div>
-      <div class="markets">All governments with<br>pre-cloud legacy estates</div>
-    </div>
-    <div class="tags"><span class="tag">ETL</span><span class="tag">unstructured</span><span class="tag">migration</span></div>
-  </div>
+  <div class="card" data-class="// topology">
+    <div class="card-hd">
+      <span class="card-type">Software · Connector</span>
+      <span class="badge univ">Universal</span>
+    </div>
+    <h3 class="card-title">ADMS / OMS &amp; GIS Connectors</h3>
+    <p class="card-body">Outage events, switching states, network topology, and asset geolocation live in Advanced Distribution Management, Outage Management, and GIS systems that rarely talk to anything else. <strong>These connectors map vendor-specific CIM dialects (Schneider, GE, Oracle) into a common internal schema</strong>, feeding Cortex's Genesis Engine to render outage maps, asset density, and vegetation-risk overlays natively.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>ADMS/OMS connector: outage events, switching states, topology — read-first</li>
+        <li>CIM (Common Information Model) data mapping to Cortex internal schema</li>
+        <li>GIS connector: ArcGIS REST / OGC WFS, PostGIS-backed spatial dashboards</li>
+        <li>Write-back for switching orders gated through Crypto HITL (L3)</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$12,960 – $24,840</div><div class="price-note">ADMS/OMS (12 days) + GIS (6 days)</div></div>
+      <div class="markets">T&amp;D utilities · ISOs/RTOs<br>Regional and municipal utilities</div>
+    </div>
+    <div class="tags"><span class="tag">ADMS</span><span class="tag">OMS</span><span class="tag">GIS</span><span class="tag">CIM</span></div>
+  </div>
+
+  <div class="card" data-class="// extend">
+    <div class="card-hd">
+      <span class="card-type">Software · Connector</span>
+      <span class="badge live">Extends existing connector</span>
+    </div>
+    <h3 class="card-title">AMI / Smart Meter Connector &amp; Maximo Energy Extension</h3>
+    <p class="card-body">Cortex already connects to IBM Maximo. <strong>This is a schema-mapping extension — mapping asset hierarchies to substations, feeders, and transformers — plus a new AMI/MDM connector</strong> ingesting consumption, voltage, and outage last-gasp signals via batch CDC, the foundation for demand-forecasting and DER-visibility agent skills.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>AMI/MDM batch ingestion connector (Itron, Landis+Gyr, Oracle MDM, or flat-file)</li>
+        <li>Maximo schema extension: substation/feeder/transformer asset hierarchy mapping</li>
+        <li>Predictive-maintenance work orders surfaced directly into Maximo queues via write-back</li>
+        <li>Outage last-gasp signal integration for restoration prioritisation</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$8,640 – $11,040</div><div class="price-note">8-day connector + extension</div></div>
+      <div class="markets">Utilities already running Maximo<br>or any major MDM platform</div>
+    </div>
+    <div class="tags"><span class="tag">AMI</span><span class="tag">Maximo</span><span class="tag">EAM</span><span class="tag">DER</span></div>
+  </div>
 
 </div>
 
 
-<!-- ══ DOMAIN 02: AGENTIC AI ══ -->
+<!-- ══ DOMAIN 02: AGENTIC GRID OPERATIONS ══ -->
 <div class="dom-div" id="agentic">
-  <span class="dom-tag">02 // Agentic AI Systems</span>
-  <div class="dom-line"></div>
+  <span class="dom-tag">02 // Agentic Grid Operations</span>
+  <div class="dom-line"></div>
 </div>
 
 <div class="grid fade">
 
-  <!-- Featured: Agentic Pilot -->
-  <div class="card feat" data-class="// phase-1">
-    <div class="feat-l">
-      <div class="card-hd">
-        <span class="card-type">Software · Build</span>
-        <span class="badge live">Phase 1 of 3</span>
-      </div>
-      <h3 class="card-title" style="font-size:1.45rem;margin-top:0.5rem">Agentic AI Pilot — Single Use Case</h3>
-      <p class="card-body" style="margin-top:0.5rem">Full production agentic systems are $250K+ multi-month programmes. <strong>This is the correct entry point.</strong> We deliver a production-ready pilot on one targeted use case, with architecture designed to scale. The pilot pays for itself by proving ROI for the larger contract.</p>
-      <div class="opt-stack">
-        <div class="opt-block">
-          <div class="opt-lbl">Option A</div>
-          <div class="opt-title">Document Q&amp;A Agent</div>
-          <div class="opt-body">Staff and citizen queries grounded in agency documents (policies, regulations, forms). RAG over vector store. Tool-use: retrieval, citation generation, escalation routing.</div>
-        </div>
-        <div class="opt-block">
-          <div class="opt-lbl">Option B</div>
-          <div class="opt-title">Case Triage Agent</div>
-          <div class="opt-body">Reads incoming case text, classifies type and priority, routes to correct team, drafts initial recommendation. Integrates with existing case management via API.</div>
-        </div>
-        <div class="opt-block">
-          <div class="opt-lbl">Option C</div>
-          <div class="opt-title">Regulatory Summarisation Agent</div>
-          <div class="opt-body">Monitors new regulatory documents (gazette, legislation), extracts key changes, generates plain-language briefing notes, routes to relevant staff. Scheduled and event-driven.</div>
-        </div>
-      </div>
-      <div class="tags" style="margin-top:1rem">
-        <span class="tag">LangGraph</span><span class="tag">Ollama</span><span class="tag">pgvector</span><span class="tag">FastAPI</span><span class="tag">RAG</span><span class="tag">Docker</span>
-      </div>
-    </div>
-    <div class="feat-r">
-      <div class="dlv-lbl">Engagement breakdown</div>
-      <table class="ptable">
-        <tr><td>Discovery &amp; use-case scoping (3 days)</td><td>$3,240 – $4,140</td></tr>
-        <tr><td>Data pipeline &amp; RAG setup (5 days)</td><td>$5,400 – $6,900</td></tr>
-        <tr><td>Agent build &amp; tool integration (10 days)</td><td>$10,800 – $13,800</td></tr>
-        <tr><td>UI, evaluation &amp; hardening (5 days)</td><td>$5,400 – $6,900</td></tr>
-        <tr><td>Documentation &amp; handover (2 days)</td><td>$2,160 – $2,760</td></tr>
-        <tr class="total"><td>Phase 1 pilot total</td><td>$23,760 – $38,640</td></tr>
-      </table>
-      <div style="margin-top:1.4rem">
-        <div class="dlv-lbl">Scale-up trajectory</div>
-        <div class="phases">
-          <div class="phase">
-            <div class="ph-num">P1</div>
-            <div class="ph-c"><div class="ph-name">Pilot (this engagement)</div><div class="ph-desc">Single use case, 20-test eval harness, deployment runbook</div></div>
-            <div class="ph-price">$24–39K</div>
-          </div>
-          <div class="phase">
-            <div class="ph-num">P2</div>
-            <div class="ph-c"><div class="ph-name">Multi-agent expansion</div><div class="ph-desc">Additional use cases, agent-to-agent coordination</div></div>
-            <div class="ph-price">$150–300K</div>
-          </div>
-          <div class="phase">
-            <div class="ph-num">P3</div>
-            <div class="ph-c"><div class="ph-name">Production hardening &amp; rollout</div><div class="ph-desc">Agency-wide deployment, performance at scale</div></div>
-            <div class="ph-price">Enterprise</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Featured: Cortex Energy Pilot -->
+  <div class="card feat" data-class="// phase-1">
+    <div class="feat-l">
+      <div class="card-hd">
+        <span class="card-type">Software · Build</span>
+        <span class="badge live">Phase 1 of 3</span>
+      </div>
+      <h3 class="card-title" style="font-size:1.45rem;margin-top:0.5rem">Cortex Energy Pilot — Connector + Agent Skill</h3>
+      <p class="card-body" style="margin-top:0.5rem">Agentic AI for grid modernisation pays off most when deployed as a governed workflow orchestrator integrating OMS, ADMS, GIS, AMI, SCADA, and EAM — producing action-ready, traceable outputs. <strong>This pilot delivers the SCADA/historian connector plus one production-ready agent skill</strong>, on one substation, plant, or feeder. Every recommendation is advisory; operators retain dispatch authority.</p>
+      <div class="opt-stack">
+        <div class="opt-block">
+          <div class="opt-lbl">Option A</div>
+          <div class="opt-title">Grid Digital Twin &amp; State Estimation Agent</div>
+          <div class="opt-body">Ingests SCADA, GIS, AMI, and weather data into a continuously updated network model. Answers natural-language "what if" queries for load and interconnection scenarios — directly relevant to data-centre interconnection studies, a named FERC 2026 priority.</div>
+        </div>
+        <div class="opt-block">
+          <div class="opt-lbl">Option B</div>
+          <div class="opt-title">Predictive Maintenance &amp; Asset Health Agent</div>
+          <div class="opt-body">Reads historian and Maximo data to flag transformers, breakers, and feeders trending toward failure. Drafts work orders with provenance-chained justification for human approval before write-back.</div>
+        </div>
+        <div class="opt-block">
+          <div class="opt-lbl">Option C</div>
+          <div class="opt-title">Outage Triage &amp; Restoration Sequencing Agent</div>
+          <div class="opt-body">During storm events, correlates OMS alarm floods with AMI last-gasp signals and crew locations, proposing a prioritised restoration sequence — proposal only, dispatcher confirms via Crypto HITL before any switching order is logged.</div>
+        </div>
+      </div>
+      <div class="tags" style="margin-top:1rem">
+        <span class="tag">Cortex</span><span class="tag">OPC-UA</span><span class="tag">pgvector</span><span class="tag">Crypto HITL</span><span class="tag">TraceCaps</span><span class="tag">Docker</span>
+      </div>
+    </div>
+    <div class="feat-r">
+      <div class="dlv-lbl">Engagement breakdown</div>
+      <table class="ptable">
+        <tr><td>Discovery &amp; connector scoping (3 days)</td><td>$3,240 – $4,140</td></tr>
+        <tr><td>SCADA/historian connector build (10 days)</td><td>$10,800 – $13,800</td></tr>
+        <tr><td>Agent skill build — one option (10 days)</td><td>$10,800 – $13,800</td></tr>
+        <tr><td>Dashboard, Knowledge Snap &amp; testing (5 days)</td><td>$5,400 – $6,900</td></tr>
+        <tr><td>Documentation &amp; handover (2 days)</td><td>$2,160 – $2,760</td></tr>
+        <tr class="total"><td>Phase 1 pilot total</td><td>$32,400 – $41,400</td></tr>
+      </table>
+      <div style="margin-top:1.4rem">
+        <div class="dlv-lbl">Scale-up trajectory</div>
+        <div class="phases">
+          <div class="phase">
+            <div class="ph-num">P1</div>
+            <div class="ph-c"><div class="ph-name">Pilot (this engagement)</div><div class="ph-desc">One connector, one agent skill, one site — reference deployment</div></div>
+            <div class="ph-price">$32–41K</div>
+          </div>
+          <div class="phase">
+            <div class="ph-num">P2</div>
+            <div class="ph-c"><div class="ph-name">Multi-connector, multi-agent expansion</div><div class="ph-desc">ADMS/OMS/GIS/AMI connectors, remaining agent skills, multi-site</div></div>
+            <div class="ph-price">$150–300K</div>
+          </div>
+          <div class="phase">
+            <div class="ph-num">P3</div>
+            <div class="ph-c"><div class="ph-name">Production hardening &amp; rollout</div><div class="ph-desc">Agency- or utility-wide deployment, NERC CIP / CISA evidence in production</div></div>
+            <div class="ph-price">Enterprise</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <div class="card" data-class="// available">
-    <div class="card-hd">
-      <span class="card-type">Software · Agentic</span>
-      <span class="badge rfp">Active mandate</span>
-    </div>
-    <h3 class="card-title">Citizen-Facing Agentic Service Portal</h3>
-    <p class="card-body">Form-based portals generate abandonment, call centre overflow, and inequality of access. <strong>We replace them with an LLM-backed agent that handles natural language queries, navigates eligibility rules, and autonomously completes multi-step applications</strong> on behalf of citizens without human intervention for routine cases.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">Capabilities delivered</div>
-      <ul>
-        <li>Natural language query handling across all service lines</li>
-        <li>Eligibility rule navigation and dynamic form completion</li>
-        <li>Multi-step autonomous application submission</li>
-        <li>Escalation routing to human agents with full context transfer</li>
-        <li>Multilingual support and accessibility compliance</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">See Agentic Pilot</div></div>
-      <div class="markets">UAE: 50% federal services<br>to agentic AI by 2028</div>
-    </div>
-    <div class="tags"><span class="tag">agentic</span><span class="tag">citizen services</span><span class="tag">NLP</span></div>
-  </div>
+  <div class="card" data-class="// ferc-priority">
+    <div class="card-hd">
+      <span class="card-type">Software · Agentic · Markets</span>
+      <span class="badge req">FERC named priority 2026</span>
+    </div>
+    <h3 class="card-title">Demand Response &amp; DER Visibility Agent</h3>
+    <p class="card-body">Renewable integration and electrification strain a grid built for predictable, centralised generation. <strong>This agent aggregates AMI and DER data — solar, battery, EV charging — to forecast demand-response capacity and surface it in plain language for planners</strong>, directly supporting the renewable-integration goals cited across every 2026 utility AI report.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">Capabilities delivered</div>
+      <ul>
+        <li>AMI and DER data aggregation across solar, battery, and EV charging assets</li>
+        <li>Demand-response capacity forecasting in plain-language summaries</li>
+        <li>ISO/RTO market feed connector for day-ahead and real-time price signals</li>
+        <li>Advisory-only — no automated dispatch or market bidding</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">See Cortex Energy Pilot</div></div>
+      <div class="markets">Universal — highest priority where<br>renewable share is rising fastest</div>
+    </div>
+    <div class="tags"><span class="tag">agentic</span><span class="tag">DER</span><span class="tag">demand response</span></div>
+  </div>
 
-  <div class="card" data-class="// available">
-    <div class="card-hd">
-      <span class="card-type">Software · Agentic</span>
-      <span class="badge live">In production</span>
-    </div>
-    <h3 class="card-title">Agentic Case Triage & Workflow Automation</h3>
-    <p class="card-body">Manual case processing — permits, benefits, regulatory filings — consumes disproportionate staff time on decisions that are highly automatable. <strong>Our autonomous agent reads incoming case files, classifies type, routes to the correct team, drafts the initial recommendation, and flags anomalies</strong> requiring human review.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">Capabilities delivered</div>
-      <ul>
-        <li>Automated case classification and priority scoring</li>
-        <li>Team and specialist routing via API integration</li>
-        <li>Initial decision recommendation with supporting rationale</li>
-        <li>Anomaly detection and escalation flagging</li>
-        <li>Full audit trail for every automated decision</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">See Agentic Pilot</div></div>
-      <div class="markets">UAE · Saudi Arabia (SDAIA)<br>UK: HMRC, DWP pilots</div>
-    </div>
-    <div class="tags"><span class="tag">agentic</span><span class="tag">case management</span><span class="tag">automation</span></div>
-  </div>
+  <div class="card" data-class="// ferc-priority">
+    <div class="card-hd">
+      <span class="card-type">Software · Agentic · Transmission</span>
+      <span class="badge req">FERC Order 1920 / DLR</span>
+    </div>
+    <h3 class="card-title">Dynamic Line Rating (DLR) Advisory Agent</h3>
+    <p class="card-body">FERC's January 2026 "Energized for 2026" priorities name dynamic line ratings, advanced demand response, and operational-level cybersecurity as critical deployment focus areas — squeezing more capacity from existing lines while new transmission works through the queue. <strong>This agent combines weather, conductor temperature sensors via SCADA, and topology to recommend real-time line rating adjustments — advisory only, never auto-dispatched.</strong></p>
+    <div class="dlv">
+      <div class="dlv-lbl">Capabilities delivered</div>
+      <ul>
+        <li>Real-time conductor temperature ingestion via SCADA connector</li>
+        <li>Weather-correlated dynamic line rating recommendations</li>
+        <li>Direct support for FERC Order 1920 grid-enhancing technology planning</li>
+        <li>Recommendations logged to provenance ledger for transmission planner review</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">See Cortex Energy Pilot</div></div>
+      <div class="markets">Transmission providers responding<br>to FERC Order 1920 / ANOPR AD22-5</div>
+    </div>
+    <div class="tags"><span class="tag">agentic</span><span class="tag">DLR</span><span class="tag">FERC</span><span class="tag">transmission</span></div>
+  </div>
 
-  <div class="card" data-class="// available">
-    <div class="card-hd">
-      <span class="card-type">Software · Agentic · RAG</span>
-      <span class="badge univ">Multi-jurisdiction</span>
-    </div>
-    <h3 class="card-title">Agentic Document Drafting & Regulatory Summarisation</h3>
-    <p class="card-body">Legal and policy teams produce briefing notes and regulatory summaries from source documents too voluminous to read in full. <strong>Our agent reads court filings, legislation, and policy documents — producing draft outputs grounded in your agency's own knowledge base</strong> with full provenance tracking on every assertion.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">Capabilities delivered</div>
-      <ul>
-        <li>Legislation and gazette monitoring with key-change extraction</li>
-        <li>Plain-language briefing note generation with citation links</li>
-        <li>Correspondence drafting grounded in agency knowledge base</li>
-        <li>Provenance tracking: every claim linked to source document and page</li>
-        <li>Routing and distribution to relevant staff on trigger</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">See Agentic Pilot</div></div>
-      <div class="markets">UK (GOV.UK AI tools)<br>US federal · EU regulators</div>
-    </div>
-    <div class="tags"><span class="tag">agentic</span><span class="tag">legal</span><span class="tag">RAG</span><span class="tag">provenance</span></div>
-  </div>
-
-  <div class="card" data-class="// rfp-jun24">
-    <div class="card-hd">
-      <span class="card-type">Software · Security · Agentic</span>
-      <span class="badge rfp">RFP closes Jun 24, 2026</span>
-    </div>
-    <h3 class="card-title">Agentic Cybersecurity & Penetration Testing Platform</h3>
-    <p class="card-body">Government networks are too large and dynamic for periodic manual pen-testing cycles. <strong>We deploy AI agents for continuous vulnerability scanning, automated pen-test execution, and threat modelling</strong> across government networks. Tied directly to the active US federal RFP closing June 24, 2026.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">Capabilities delivered</div>
-      <ul>
-        <li>Continuous automated vulnerability scanning across network perimeter</li>
-        <li>Structured pen-test execution with machine-readable results</li>
-        <li>AI-driven threat modelling and remediation prioritisation</li>
-        <li>NCSC and NIST alignment with exportable compliance reports</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div><div class="price-note">Per network scope</div></div>
-      <div class="markets">US DoD / federal · UK NCSC<br>NATO member states</div>
-    </div>
-    <div class="tags"><span class="tag">agentic</span><span class="tag">cyber</span><span class="tag">NCSC</span><span class="tag">NIST</span></div>
-  </div>
+  <div class="card" data-class="// reg-filing">
+    <div class="card-hd">
+      <span class="card-type">Software · Agentic · RAG</span>
+      <span class="badge univ">Multi-jurisdiction</span>
+    </div>
+    <h3 class="card-title">Regulatory Filing &amp; Compliance Reporting Agent</h3>
+    <p class="card-body">FERC, NERC CIP, and national regulator filings require pulling structured data from across operational systems into rigid templates — a recurring, time-consuming, error-prone task. <strong>This agent drafts filings by pulling data directly from Cortex-connected systems</strong>, with every populated field provenance-chained back to its source for regulator-facing audit.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">Capabilities delivered</div>
+      <ul>
+        <li>Automated draft generation for FERC, NERC CIP, and national-regulator filings</li>
+        <li>Every populated field linked to source system and timestamp</li>
+        <li>Output formatted for direct regulatory submission, human-reviewed</li>
+        <li>Reusable across recurring filing cycles once configured</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">See Cortex Energy Pilot</div></div>
+      <div class="markets">US (FERC/NERC) · Canada · EU<br>National grid regulators</div>
+    </div>
+    <div class="tags"><span class="tag">agentic</span><span class="tag">regulatory</span><span class="tag">RAG</span><span class="tag">provenance</span></div>
+  </div>
 
 </div>
 
 
-<!-- ══ DOMAIN 03: CITIZEN SERVICES ══ -->
-<div class="dom-div" id="citizen">
-  <span class="dom-tag">03 // Citizen Service Applications</span>
-  <div class="dom-line"></div>
+<!-- ══ DOMAIN 03: COMPLIANCE & REGULATORY ══ -->
+<div class="dom-div" id="compliance">
+  <span class="dom-tag">03 // Compliance &amp; Regulatory</span>
+  <div class="dom-line"></div>
 </div>
 
 <div class="grid fade">
 
-  <div class="card" data-class="// rfp-active">
-    <div class="card-hd">
-      <span class="card-type">Software · Document Processing</span>
-      <span class="badge rfp">Active US RFP</span>
-    </div>
-    <h3 class="card-title">AI-Powered FOI / FOIA Request Management</h3>
-    <p class="card-body">Freedom of Information requests consume disproportionate staff hours on ingestion, redaction, and response coordination. <strong>We automate the full pipeline — ingestion, classification, redaction, and response drafting</strong> — with secure document handling and compliance-ready audit logs. Live US RFP as of May 2026.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>Automated request ingestion and classification by subject and agency</li>
-        <li>AI-assisted redaction with human review queue for sensitive content</li>
-        <li>Response drafting grounded in approved document corpus</li>
-        <li>Compliance audit trail for every request lifecycle stage</li>
-        <li>Cloud-based deployment with secure document handling</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div></div>
-      <div class="markets">US federal (active RFP)<br>UK · Canada</div>
-    </div>
-    <div class="tags"><span class="tag">citizen services</span><span class="tag">documents</span><span class="tag">compliance</span></div>
-  </div>
+  <!-- Featured: NERC CIP-015-1 -->
+  <div class="card feat" data-class="// deadline-2028">
+    <div class="feat-l">
+      <div class="card-hd">
+        <span class="card-type">Software + Consulting · Compliance</span>
+        <span class="badge req">INSM deadline Oct 1, 2028</span>
+      </div>
+      <h3 class="card-title" style="font-size:1.45rem;margin-top:0.5rem">NERC CIP-015-1 Internal Network Security Monitoring Readiness</h3>
+      <p class="card-body" style="margin-top:0.5rem">FERC Order No. 907 (approved June 26, 2025) requires high- and medium-impact Bulk Electric System Cyber Systems with External Routable Connectivity to implement Internal Network Security Monitoring inside Electronic Security Perimeters by October 1, 2028, with all other applicable systems by October 1, 2030. <strong>The standard requires entities to collect network data feeds on a risk-based rationale, detect and evaluate anomalous east-west traffic, and retain data for investigation</strong> — a multi-year build for entities that haven't started.</p>
+      <div class="dlv" style="margin-top:0.75rem">
+        <div class="dlv-lbl">What you receive</div>
+        <ul>
+          <li>Asset classification: identify high/medium-impact BES Cyber Systems with ERC in scope</li>
+          <li>INSM architecture design — network data feed sources, retention, risk-based rationale documentation</li>
+          <li>Cortex CIP-015-1 compliance agent pack: maps connector-level visibility to INSM requirements R1–R3</li>
+          <li>Audit-ready evidence reporting generated directly from the provenance ledger</li>
+          <li>Roadmap aligned to the Oct 2028 / Oct 2030 phased deadlines, including anticipated CIP-015-2 (EACMS/PACS) scope expansion</li>
+        </ul>
+      </div>
+      <div class="tco" style="margin-top:0.75rem">
+        <div class="tco-lbl">Why start now</div>
+        <p>NERC must submit CIP-015-2 modifications (extending INSM to EACMS and PACS outside the ESP) by September 2, 2026. <strong>Entities that delay planning for the 2028 deadline risk falling behind well before the 2030 deadline hits</strong> — and the SCADA/historian connector built for this engagement is the same connector that powers every agentic use case above.</p>
+      </div>
+    </div>
+    <div class="feat-r">
+      <div class="dlv-lbl">NERC CIP-015-1 readiness engagement</div>
+      <table class="ptable" style="margin-top:0.6rem">
+        <tr><td>Discovery &amp; asset classification (3 days)</td><td>$3,240 – $4,140</td></tr>
+        <tr><td>INSM architecture &amp; data feed mapping (5 days)</td><td>$5,400 – $6,900</td></tr>
+        <tr><td>Cortex CIP-015-1 compliance pack config (6 days)</td><td>$6,480 – $8,280</td></tr>
+        <tr><td>Evidence reporting &amp; documentation (3 days)</td><td>$3,240 – $4,140</td></tr>
+        <tr class="total"><td>Readiness engagement total</td><td>$18,360 – $23,460</td></tr>
+      </table>
+      <div style="margin-top:1.3rem">
+        <div class="dlv-lbl">CISA OT/IT segmentation evidence pack</div>
+        <p style="font-size:0.83rem;color:var(--muted);margin-top:0.4rem;line-height:1.65">CISA requires air-gapped development and testing, IT/OT network segmentation, autonomous-agent kill switches, and mandatory human review for any autonomous action affecting critical infrastructure. Cortex's CortexGuard and Security Fortress already satisfy these by design — this 5-day pack ($5,400–$6,900) documents the mapping for auditors.</p>
+      </div>
+      <div class="tags" style="margin-top:1.3rem">
+        <span class="tag">NERC CIP-015-1</span><span class="tag">INSM</span><span class="tag">CISA</span><span class="tag">FERC Order 907</span>
+      </div>
+    </div>
+  </div>
 
-  <div class="card" data-class="// available">
-    <div class="card-hd">
-      <span class="card-type">Software · Health · Analytics</span>
-      <span class="badge live">Benchmark: Singapore NMC</span>
-    </div>
-    <h3 class="card-title">Precision Medicine & Health Data Integration Platform</h3>
-    <p class="card-body">Population-level health intelligence requires integrating genomic, clinical, and environmental datasets that currently live in incompatible silos. <strong>We build the integration and analytics platform for population-level health analytics, early detection modelling, and targeted treatment routing</strong> — modelled on Singapore's National Precision Medicine Programme.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>Multi-source health data integration (genomic, clinical, environmental)</li>
-        <li>Population-level analytics and cohort segmentation</li>
-        <li>Early detection modelling pipeline with confidence scoring</li>
-        <li>Targeted treatment routing recommendations with provenance</li>
-        <li>Data governance and privacy compliance architecture</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div></div>
-      <div class="markets">Singapore (NMC) · UAE<br>Caribbean health ministries</div>
-    </div>
-    <div class="tags"><span class="tag">health</span><span class="tag">precision medicine</span><span class="tag">analytics</span></div>
-  </div>
+  <div class="card" data-class="// pre-approval">
+    <div class="card-hd">
+      <span class="card-type">Consulting · Governance</span>
+      <span class="badge req">PSE-style mandate spreading</span>
+    </div>
+    <h3 class="card-title">AI Governance Framework for Grid-Affecting Systems</h3>
+    <p class="card-body">PSE (Poland's transmission operator) requires pre-approval for any AI system capable of influencing grid dispatch decisions — a regulatory posture other transmission operators are expected to converge toward. <strong>We design the governance framework that classifies your AI use cases by dispatch-influence risk</strong>, defines human oversight protocols per tier, and produces the documentation a pre-approval regime requires.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>AI use-case inventory classified by dispatch-influence risk tier</li>
+        <li>Human oversight protocol per tier, aligned to Cortex's Crypto HITL design</li>
+        <li>EU AI Act Art. 12/14 traceability mapping for any system affecting citizens or grid operations</li>
+        <li>Pre-approval documentation package suitable for regulator submission</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$10,800 – $17,940</div><div class="price-note">9-11 day framework engagement</div></div>
+      <div class="markets">EU transmission operators · PSE-aligned<br>regulators · EU AI Act regulated entities</div>
+    </div>
+    <div class="tags"><span class="tag">governance</span><span class="tag">EU AI Act</span><span class="tag">dispatch risk</span></div>
+  </div>
 
-  <div class="card" data-class="// production">
-    <div class="card-hd">
-      <span class="card-type">Software · Urban · Simulation</span>
-      <span class="badge live">Operational: Abu Dhabi</span>
-    </div>
-    <h3 class="card-title">Predictive Infrastructure & Urban Management AI</h3>
-    <p class="card-body">Traffic, utility grids, ambulance routing, and public safety run on reactive, incident-driven models built for a slower world. <strong>We deploy simulation and predictive models that shift agencies from reactive crisis response to proactive, anticipatory management</strong> — already operational in Abu Dhabi.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>Predictive models for traffic, utilities, ambulance routing, public safety</li>
-        <li>Real-time IoT sensor integration and data ingestion pipeline</li>
-        <li>Simulation environment for policy scenario testing</li>
-        <li>Operations dashboard for command-centre deployment</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div></div>
-      <div class="markets">UAE (Abu Dhabi — production)<br>Singapore Smart Nation · UK cities</div>
-    </div>
-    <div class="tags"><span class="tag">urban</span><span class="tag">simulation</span><span class="tag">predictive</span><span class="tag">IoT</span></div>
-  </div>
-
-</div>
-
-
-<!-- ══ DOMAIN 04: GOVERNANCE ══ -->
-<div class="dom-div" id="governance">
-  <span class="dom-tag">04 // AI Governance, Audit & Compliance</span>
-  <div class="dom-line"></div>
-</div>
-
-<div class="grid fade">
-
-  <!-- Featured: XAI -->
-  <div class="card feat" data-class="// legally-required">
-    <div class="feat-l">
-      <div class="card-hd">
-        <span class="card-type">Software + Consulting · Governance</span>
-        <span class="badge req">Legally required Aug 2026</span>
-      </div>
-      <h3 class="card-title" style="font-size:1.45rem;margin-top:0.5rem">Explainable AI & Human-in-the-Loop Audit Framework</h3>
-      <p class="card-body" style="margin-top:0.5rem">The EU AI Act is enforceable from August 2026. Gartner projects mandatory XAI governance in 70% of agencies by 2029. <strong>Every automated decision affecting a citizen must now be traceable, overridable, and auditable by law.</strong> We build the governance layer that makes your AI systems compliant — not as an afterthought, but as architecture.</p>
-      <div class="dlv" style="margin-top:0.75rem">
-        <div class="dlv-lbl">What you receive</div>
-        <ul>
-          <li>Decision traceability engine — every AI output linked to inputs and reasoning path</li>
-          <li>Human override workflows with escalation and full documentation trails</li>
-          <li>Automated audit logs for all citizen-affecting automated decisions</li>
-          <li>Risk tier classification of all agency AI use cases (EU AI Act tiers)</li>
-          <li>Model card templates for every deployed system</li>
-          <li>Compliance gap report vs EU AI Act, NIST AI RMF, Singapore AI Verify, or ISO 42001</li>
-          <li>Remediation roadmap with prioritised, effort-estimated actions</li>
-        </ul>
-      </div>
-      <div class="tco" style="margin-top:0.75rem">
-        <div class="tco-lbl">Regulatory urgency</div>
-        <p>EU AI Act: enforceable August 2026. All agencies deploying high-risk AI systems affecting citizens — benefits decisions, permit approvals, risk scoring — must have compliant oversight architecture <strong>by this date or face enforcement action.</strong></p>
-      </div>
-    </div>
-    <div class="feat-r">
-      <div class="dlv-lbl">Governance framework engagement</div>
-      <table class="ptable" style="margin-top:0.6rem">
-        <tr><td>Discovery &amp; stakeholder interviews (3 days)</td><td>$3,240 – $4,140</td></tr>
-        <tr><td>Framework drafting (5 days)</td><td>$5,400 – $6,900</td></tr>
-        <tr><td>Model cards &amp; HITL protocol design (3 days)</td><td>$3,240 – $4,140</td></tr>
-        <tr><td>Gap report &amp; roadmap (2 days)</td><td>$2,160 – $2,760</td></tr>
-        <tr class="total"><td>Framework design total</td><td>$10,800 – $17,940</td></tr>
-      </table>
-      <div style="margin-top:1.3rem">
-        <div class="dlv-lbl">XAI technical implementation</div>
-        <p style="font-size:0.83rem;color:var(--muted);margin-top:0.4rem;line-height:1.65">The framework engagement scopes the build. XAI technical implementation — audit log system, override workflows, real-time explanation APIs — is a separate phase priced on system complexity. Typically $50K–$200K depending on number of AI systems in scope.</p>
-      </div>
-      <div class="tags" style="margin-top:1.3rem">
-        <span class="tag">XAI</span><span class="tag">HITL</span><span class="tag">EU AI Act</span><span class="tag">audit</span><span class="tag">ISO 42001</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" data-class="// rfp-active">
-    <div class="card-hd">
-      <span class="card-type">Consulting · Strategy</span>
-      <span class="badge rfp">Active RFPs</span>
-    </div>
-    <h3 class="card-title">AI Strategic Roadmap & Governance Framework</h3>
-    <p class="card-body">Most agency AI programmes fail not because of technology, but because they lack coherent sequencing, governance, and a vendor strategy that protects against lock-in. <strong>We scope, prioritise, and sequence your AI initiatives</strong>, define data governance, model lifecycle management, and sovereign compute strategy — drawing on live benchmarks from UAE, Singapore, and the UK.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>AI use-case inventory prioritised by value and readiness</li>
-        <li>Data governance policy and model lifecycle framework</li>
-        <li>Vendor risk and lock-in mitigation strategy</li>
-        <li>Sovereign compute vs commercial SaaS decision framework</li>
-        <li>Sequenced 18-month AI roadmap with investment estimates</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div><div class="price-note">Florida RFP: Jul 16 · Ontario: Jun 2026</div></div>
-      <div class="markets">US states · Canadian provinces<br>Caribbean · Pacific Island govts</div>
-    </div>
-    <div class="tags"><span class="tag">strategy</span><span class="tag">governance</span><span class="tag">roadmap</span></div>
-  </div>
-
-  <div class="card" data-class="// pre-deploy">
-    <div class="card-hd">
-      <span class="card-type">Software · Evaluation</span>
-      <span class="badge req">Pre-deployment required</span>
-    </div>
-    <h3 class="card-title">LLM Red-Teaming & Safety Evaluation Service</h3>
-    <p class="card-body">Leading government AI programmes require structured adversarial testing before production deployment. <strong>We run structured red-team exercises against your deployed government LLMs using toolkits equivalent to Singapore's Project Moonshot</strong>, delivering benchmarked safety reports against 11 international AI governance principles.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>Structured adversarial test suite: jailbreaking, bias, misinformation, prompt injection</li>
-        <li>Benchmark results against 11 international AI governance principles</li>
-        <li>Singapore AI Verify / UK DSIT / NIST AI RMF alignment report</li>
-        <li>Remediation recommendations with prioritised fixes</li>
-        <li>Signed safety evaluation report suitable for regulatory submission</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div></div>
-      <div class="markets">Singapore (AI Verify) · UK DSIT<br>EU regulators · US NIST</div>
-    </div>
-    <div class="tags"><span class="tag">red-teaming</span><span class="tag">evaluation</span><span class="tag">safety</span></div>
-  </div>
-
-  <div class="card" data-class="// available">
-    <div class="card-hd">
-      <span class="card-type">Consulting · Procurement</span>
-      <span class="badge univ">Universal</span>
-    </div>
-    <h3 class="card-title">AI Procurement Advisory & Vendor RFP Design</h3>
-    <p class="card-body">The 2024 RFP template is obsolete in leading programmes. Agencies consistently fail to distinguish agentic AI platforms from sophisticated chatbots — a failure that costs tens of millions in locked-in contracts. <strong>We design structured, capability-tested procurement processes</strong> with TCO models, portability requirements, eval suites, and lock-in risk clauses.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>RFP template engineered to surface real agentic capability</li>
-        <li>TCO model separating licensing from total cost of ownership</li>
-        <li>Lock-in risk identification matrix and exit clause templates</li>
-        <li>Architecture portability and data export requirements</li>
-        <li>Vendor evaluation scorecard and demo evaluation script</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div></div>
-      <div class="markets">Universal — all governments<br>beginning AI procurement</div>
-    </div>
-    <div class="tags"><span class="tag">procurement</span><span class="tag">RFP</span><span class="tag">vendor risk</span></div>
-  </div>
+  <div class="card" data-class="// available">
+    <div class="card-hd">
+      <span class="card-type">Software · Discovery</span>
+      <span class="badge univ">Universal entry point</span>
+    </div>
+    <h3 class="card-title">OT/IT Integration Assessment &amp; Cortex Architecture</h3>
+    <p class="card-body">Most energy organisations sit at Stage 1 (Ad-hoc Experimentation) of AI maturity — strong on governance from decades of safety compliance, weak on the technology integration that makes operational AI possible. <strong>This assessment maps your SCADA, historian, ADMS, GIS, AMI, and EAM landscape and produces the Cortex connector roadmap</strong> and procurement-ready specification.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>OT/IT data source inventory: system, protocol, quality, sensitivity classification</li>
+        <li>Secure DMZ architecture recommendation between OT and IT networks</li>
+        <li>Cortex connector roadmap sequenced by leverage (SCADA/historian first)</li>
+        <li>Cortex deployment tier recommendation (Pilot / Sovereign Enterprise / Air-Gapped)</li>
+        <li>Procurement-ready technical specification</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$9,720 – $15,180</div><div class="price-note">9-11 day discovery + architecture</div></div>
+      <div class="markets">Universal — utilities, ISOs/RTOs,<br>oil &amp; gas, ministries of energy</div>
+    </div>
+    <div class="tags"><span class="tag">discovery</span><span class="tag">OT/IT</span><span class="tag">Cortex</span></div>
+  </div>
 
 </div>
 
 
-<!-- ══ DOMAIN 05: TRAINING ══ -->
+<!-- ══ DOMAIN 04: WORKFORCE TRAINING ══ -->
 <div class="dom-div" id="training">
-  <span class="dom-tag">05 // Workforce AI Training</span>
-  <div class="dom-line"></div>
+  <span class="dom-tag">04 // Workforce AI Training</span>
+  <div class="dom-line"></div>
 </div>
 
 <div class="grid fade">
 
-  <div class="card" data-class="// fastest-entry">
-    <div class="card-hd">
-      <span class="card-type">Training · Executive</span>
-      <span class="badge univ">Fastest entry point</span>
-    </div>
-    <h3 class="card-title">AI Strategy & Literacy for IT Leadership</h3>
-    <p class="card-body">IT directors and CIOs are making high-stakes AI procurement and governance decisions with frameworks built for a different era. <strong>This 2-day executive workshop gives IT leadership the vocabulary, mental models, and vendor-reading skills</strong> to make sound decisions — and positions your agency as sophisticated in every subsequent vendor negotiation.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">Programme — up to 20 participants</div>
-      <ul>
-        <li>Day 1 Frameworks: what agentic AI actually is vs vendor claims; sovereign vs commercial; how to read an AI RFP; risk and governance basics</li>
-        <li>Day 2 Applied: 2026 global benchmarks (UAE, Singapore, UK) translated to your specific pipeline and priorities</li>
-        <li>Deliverables: agency-customised deck, AI readiness scorecard, vendor evaluation cheat sheet, post-workshop gap report</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">$6,480 – $9,660</div><div class="price-note">Prep + delivery + report + travel</div></div>
-      <div class="markets">Universal — highest-leverage<br>engagement for agency entry</div>
-    </div>
-    <div class="tags"><span class="tag">executive</span><span class="tag">C-suite</span><span class="tag">strategy</span></div>
-  </div>
+  <div class="card" data-class="// fastest-entry">
+    <div class="card-hd">
+      <span class="card-type">Training · Executive</span>
+      <span class="badge univ">Fastest entry point</span>
+    </div>
+    <h3 class="card-title">AI &amp; OT/IT Strategy for Utility &amp; Energy IT Leadership</h3>
+    <p class="card-body">CIOs and IT directors at utilities are evaluating AI vendors — forecasting platforms, digital twins, analytics overlays — without a shared framework for what's real versus what's a dashboard with nothing underneath. <strong>This 2-day executive workshop covers the OT/IT integration gap, Cortex's agentlake positioning, the NERC CIP-015-1 and CISA timelines, and how to read a grid-AI vendor's claims.</strong></p>
+    <div class="dlv">
+      <div class="dlv-lbl">Programme — up to 20 participants</div>
+      <ul>
+        <li>Day 1 Frameworks: OT/IT integration gap, agentic vs analytics-overlay vendors, NERC CIP-015-1 / CISA / EU AI Act timelines</li>
+        <li>Day 2 Applied: benchmarks from ERCOT, PSE, UAE Future Fit Seal, Busan Port translated to your operation</li>
+        <li>Deliverables: utility-customised deck, AI/OT readiness scorecard, vendor evaluation cheat sheet, post-workshop gap report</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$6,480 – $9,660</div><div class="price-note">Prep + delivery + report + travel</div></div>
+      <div class="markets">Universal — highest-leverage<br>engagement for utility entry</div>
+    </div>
+    <div class="tags"><span class="tag">executive</span><span class="tag">C-suite</span><span class="tag">OT/IT</span></div>
+  </div>
 
-  <div class="card" data-class="// available">
-    <div class="card-hd">
-      <span class="card-type">Training · Technical</span>
-      <span class="badge live">70% repeat margin</span>
-    </div>
-    <h3 class="card-title">AI Engineering Bootcamp for Government Developers</h3>
-    <p class="card-body">Vendor dependency is the long-term AI risk for government. <strong>We build in-house engineering capacity through a 5-day hands-on technical programme</strong> covering LLM integration, RAG pipeline construction, agent orchestration, secure API design, and evaluation methodology. Curriculum built once, re-delivers at ~70% margin on repeat runs.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">Programme — up to 12 developers</div>
-      <ul>
-        <li>Module 1: LLM API integration (Python, REST) + prompt engineering and evaluation</li>
-        <li>Module 2: RAG pipeline construction (chunking, embeddings, pgvector/Chroma)</li>
-        <li>Module 3: Agent orchestration basics (tool-use, multi-step workflows)</li>
-        <li>Module 4: Secure API design for government (auth, audit logging, rate limiting)</li>
-        <li>Module 5: Capstone project on agency's own data with assessment rubric per participant</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">$10,800 – $17,940</div><div class="price-note">Curriculum + delivery + lab setup</div></div>
-      <div class="markets">US federal · UK (CDDO)<br>Singapore · Caribbean</div>
-    </div>
-    <div class="tags"><span class="tag">engineering</span><span class="tag">RAG</span><span class="tag">agent dev</span></div>
-  </div>
+  <div class="card" data-class="// available">
+    <div class="card-hd">
+      <span class="card-type">Training · Technical</span>
+      <span class="badge live">70% repeat margin</span>
+    </div>
+    <h3 class="card-title">OT/IT Integration &amp; Agent Development Bootcamp</h3>
+    <p class="card-body">Vendor dependency on grid AI is a long-term operational risk — especially when the vendor's forecasting model can't explain its own recommendations. <strong>This 5-day hands-on programme builds in-house capability to extend Cortex connectors, build agent skills against historian and ADMS data, and design Crypto HITL workflows</strong> for dispatch-affecting recommendations.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">Programme — up to 12 engineers</div>
+      <ul>
+        <li>Module 1: OPC-UA / PI Web API integration patterns and CDC mirroring</li>
+        <li>Module 2: CIM data mapping for ADMS/OMS/GIS connectors</li>
+        <li>Module 3: Agent skill development (digital twin, predictive maintenance patterns)</li>
+        <li>Module 4: Crypto HITL design for dispatch-affecting recommendations</li>
+        <li>Module 5: Capstone — extend a Cortex connector against the utility's own historian</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$10,800 – $17,940</div><div class="price-note">Curriculum + delivery + lab setup</div></div>
+      <div class="markets">Utilities · ISOs/RTOs · NOCs<br>building in-house Cortex capability</div>
+    </div>
+    <div class="tags"><span class="tag">OT/IT</span><span class="tag">OPC-UA</span><span class="tag">agent dev</span></div>
+  </div>
 
-  <div class="card" data-class="// mandate">
-    <div class="card-hd">
-      <span class="card-type">Training · Workforce</span>
-      <span class="badge rfp">National mandate</span>
-    </div>
-    <h3 class="card-title">AI Bilingual Talent Development Programme</h3>
-    <p class="card-body">Singapore's NAIS 2.0 identifies bilingual talent — staff with both domain expertise and AI capability — as the defining strategic resource. UAE mandates AI training for every federal employee. <strong>This structured curriculum produces domain-proficient staff who can supervise, evaluate, and work alongside AI systems</strong> — targeted at non-technical government professionals.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>Prompt engineering and effective AI tool use for domain professionals</li>
-        <li>Agent oversight and error detection for non-technical staff</li>
-        <li>Data literacy and AI output interpretation training</li>
-        <li>Safe deployment and escalation protocols</li>
-        <li>Role-specific modules: HR, finance, legal, policy, operations</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div></div>
-      <div class="markets">Singapore (national mandate)<br>UAE (every federal employee)</div>
-    </div>
-    <div class="tags"><span class="tag">AI literacy</span><span class="tag">reskilling</span><span class="tag">domain+AI</span></div>
-  </div>
-
-  <div class="card" data-class="// eu-required">
-    <div class="card-hd">
-      <span class="card-type">Training · Operations</span>
-      <span class="badge req">EU AI Act required</span>
-    </div>
-    <h3 class="card-title">Agentic AI Oversight & Human-in-the-Loop Operations</h3>
-    <p class="card-body">Deploying agentic AI without training staff to supervise it inverts the risk — you gain automation liability without the productivity benefit. <strong>We equip government staff to supervise, audit, override, and escalate decisions made by autonomous AI systems</strong>, covering HITL mechanics, explainability interpretation, error detection, and escalation protocols.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>HITL operation mechanics — when and how to intervene in AI decisions</li>
-        <li>Explainability output interpretation for non-technical operators</li>
-        <li>Error and anomaly detection in AI-generated recommendations</li>
-        <li>Escalation protocols with documented decision trees</li>
-        <li>Audit log review and compliance documentation procedures</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div></div>
-      <div class="markets">UAE (mandatory) · EU AI Act entities<br>UK · US</div>
-    </div>
-    <div class="tags"><span class="tag">HITL</span><span class="tag">agent ops</span><span class="tag">oversight</span></div>
-  </div>
+  <div class="card" data-class="// control-room">
+    <div class="card-hd">
+      <span class="card-type">Training · Operations</span>
+      <span class="badge req">Required under CISA / dispatch-risk regimes</span>
+    </div>
+    <h3 class="card-title">Control-Room HITL Oversight for Agentic Recommendations</h3>
+    <p class="card-body">CISA's guidance requires mandatory human review for any autonomous action affecting critical infrastructure. Deploying agentic AI in a control room without training operators to interpret, override, and escalate its recommendations creates automation liability with none of the productivity benefit. <strong>This programme trains control-room operators on exactly when and how to intervene.</strong></p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>HITL mechanics for digital twin, predictive maintenance, and outage triage agents</li>
+        <li>Provenance ledger interpretation — tracing any recommendation back to source data</li>
+        <li>Override and escalation protocols with documented decision trees</li>
+        <li>CortexGuard kill-switch drills — when and how to halt all agents</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">Custom scoped</div></div>
+      <div class="markets">Utilities deploying any agentic<br>recommendation into a control room</div>
+    </div>
+    <div class="tags"><span class="tag">HITL</span><span class="tag">control room</span><span class="tag">CISA</span></div>
+  </div>
 
 </div>
 
 
-<!-- ══ DOMAIN 06: HIGH-VALUE SECTOR ══ -->
+<!-- ══ DOMAIN 05: SECTOR PROGRAMMES ══ -->
 <div class="dom-div" id="sector">
-  <span class="dom-tag">06 // High-Value Sector Programmes</span>
-  <div class="dom-line"></div>
+  <span class="dom-tag">05 // Sector Programmes — Midstream, Ports &amp; Sovereign Compute</span>
+  <div class="dom-line"></div>
 </div>
 
 <div class="grid fade">
 
-  <div class="card" data-class="// production">
-    <div class="card-hd">
-      <span class="card-type">Software · Procurement · Finance</span>
-      <span class="badge live">In production: UAE</span>
-    </div>
-    <h3 class="card-title">AI-Native Tendering, Financial Analysis & Regulatory Review</h3>
-    <p class="card-body">Government procurement decisions — tender evaluation, financial due diligence, regulatory compliance review — remain largely manual despite being highly structured and well-suited to AI augmentation. <strong>We deploy an autonomous AI system supporting procurement decisions</strong> at the level already in production use by the UAE's Future Fit Seal programme.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">Capabilities delivered</div>
-      <ul>
-        <li>Automated tender evaluation against defined criteria with scoring rationale</li>
-        <li>AI-assisted financial due diligence with anomaly flagging</li>
-        <li>Regulatory compliance review against applicable frameworks</li>
-        <li>Decision audit trail for every recommendation produced</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div></div>
-      <div class="markets">UAE (production) · Saudi Arabia (SDAIA)<br>Singapore</div>
-    </div>
-    <div class="tags"><span class="tag">procurement</span><span class="tag">finance</span><span class="tag">regulatory</span></div>
-  </div>
+  <div class="card" data-class="// reuse">
+    <div class="card-hd">
+      <span class="card-type">Software · Midstream</span>
+      <span class="badge univ">Direct connector reuse</span>
+    </div>
+    <h3 class="card-title">Pipeline SCADA &amp; Compressor Station Integration</h3>
+    <p class="card-body">PI System dominates process historians across both power generation and pipeline/midstream operations — meaning the SCADA/historian connector built for grid operators transfers directly. <strong>The predictive maintenance agent applies with minimal rework to compressor stations and pipeline integrity management</strong>, giving national oil companies and pipeline operators the same Cortex foundation at a fraction of the original build cost.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Pipeline SCADA / process historian connector (same OPC-UA / PI Web API base)</li>
+        <li>Predictive maintenance agent retargeted to compressor stations and pipeline segments</li>
+        <li>NERC CIP-015-1 equivalent evidence mapping for midstream cybersecurity regimes where applicable</li>
+        <li>Cortex Knowledge Snap for midstream operations</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">Custom scoped</div><div class="price-note">Reduced cost where Cortex Energy Pilot is already deployed</div></div>
+      <div class="markets">National oil companies · pipeline operators<br>Direct fit for Trinidad's energy sector</div>
+    </div>
+    <div class="tags"><span class="tag">midstream</span><span class="tag">PI System</span><span class="tag">pipeline integrity</span></div>
+  </div>
 
-  <div class="card" data-class="// production">
-    <div class="card-hd">
-      <span class="card-type">Software · Logistics · Digital Twin</span>
-      <span class="badge live">Benchmark: Busan 2026</span>
-    </div>
-    <h3 class="card-title">Smart Port Digital Twin & AI Logistics Platform</h3>
-    <p class="card-body">Port operations are among the most data-rich, highest-throughput government-adjacent environments — and among the least optimised. <strong>We build AI-driven digital twins for port operations</strong>, integrating IoT sensor data, blockchain-based documentation, and autonomous routing. Busan Port is the 2026 production benchmark. Trinidad's port infrastructure is a direct regional opportunity.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">Capabilities delivered</div>
-      <ul>
-        <li>Real-time port digital twin integrating IoT sensor feeds</li>
-        <li>AI-optimised vessel routing and berth allocation</li>
-        <li>Blockchain-based cargo documentation and provenance tracking</li>
-        <li>Predictive maintenance scheduling across port infrastructure</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div></div>
-      <div class="markets">South Korea (production)<br>Singapore · Caribbean ports</div>
-    </div>
-    <div class="tags"><span class="tag">logistics</span><span class="tag">digital twin</span><span class="tag">IoT</span><span class="tag">blockchain</span></div>
-  </div>
+  <div class="card" data-class="// production">
+    <div class="card-hd">
+      <span class="card-type">Software · Logistics · Digital Twin</span>
+      <span class="badge live">Benchmark: Busan 2026</span>
+    </div>
+    <h3 class="card-title">Smart Port Digital Twin &amp; AI Logistics Platform</h3>
+    <p class="card-body">Port operations are among the most data-rich, highest-throughput energy-adjacent environments — and among the least optimised. <strong>We build AI-driven digital twins for port operations</strong>, integrating IoT sensor data, GIS, and the same digital-twin agent pattern used for grid state estimation, with blockchain-based cargo documentation and autonomous routing. Busan Port is the 2026 production benchmark; Trinidad's port infrastructure is a direct regional opportunity.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">Capabilities delivered</div>
+      <ul>
+        <li>Real-time port digital twin integrating IoT sensor feeds and GIS</li>
+        <li>AI-optimised vessel routing and berth allocation</li>
+        <li>Blockchain-based cargo documentation and provenance tracking</li>
+        <li>Predictive maintenance scheduling across port infrastructure equipment</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">Custom scoped</div></div>
+      <div class="markets">South Korea (production)<br>Singapore · Caribbean ports</div>
+    </div>
+    <div class="tags"><span class="tag">digital twin</span><span class="tag">IoT</span><span class="tag">blockchain</span><span class="tag">ports</span></div>
+  </div>
 
-  <div class="card" data-class="// rfp-jun23">
-    <div class="card-hd">
-      <span class="card-type">Software · Health · Clinical AI</span>
-      <span class="badge rfp">RFP closes Jun 23, 2026</span>
-    </div>
-    <h3 class="card-title">AI-Powered Acute Diagnostic & Clinical Decision Support</h3>
-    <p class="card-body">Acute conditions — stroke, sepsis — are time-critical and diagnostically complex, producing outcomes highly sensitive to speed and accuracy of initial assessment. <strong>We deploy AI diagnostic tools with real-time clinical decision support integrated into hospital workflows.</strong> Active Canadian procurement (Saskatchewan) closes June 23, 2026.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">Capabilities delivered</div>
-      <ul>
-        <li>AI diagnostic models for stroke and sepsis acute-onset detection</li>
-        <li>Real-time clinical decision support integrated into EHR/EMR workflows</li>
-        <li>Alert and escalation routing for on-call clinical teams</li>
-        <li>Clinical validation suite and performance benchmarking documentation</li>
-        <li>Compliance documentation for medical device regulatory submission</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">Custom scoped</div><div class="price-note">RFP deadline: Jun 23, 2026</div></div>
-      <div class="markets">Canada (Saskatchewan RFP)<br>UK NHS · Caribbean health</div>
-    </div>
-    <div class="tags"><span class="tag">health</span><span class="tag">clinical AI</span><span class="tag">diagnostics</span></div>
-  </div>
-
-  <div class="card" data-class="// rfp-jul6">
-    <div class="card-hd">
-      <span class="card-type">Software · Infrastructure · HPC</span>
-      <span class="badge rfp">RFP closes Jul 6, 2026</span>
-    </div>
-    <h3 class="card-title">Sovereign HPC & National AI Compute Platform</h3>
-    <p class="card-body">National AI ambitions collide with foreign-owned compute — a strategic vulnerability that Singapore addressed with a $1 billion sovereign R&D compute commitment. <strong>We design and stand up national or ministry-level sovereign HPC infrastructure</strong> for AI workloads. Active Canadian federal RFP (Ontario) closes July 6, 2026.</p>
-    <div class="dlv">
-      <div class="dlv-lbl">What you receive</div>
-      <ul>
-        <li>Workload requirements analysis and hardware sizing specification</li>
-        <li>Full HPC architecture: compute, storage, network, model serving</li>
-        <li>Software stack: inference engine, monitoring, identity, model registry</li>
-        <li>3-year TCO model vs commercial cloud alternative</li>
-        <li>RFQ-ready technical procurement specification</li>
-        <li>Risk register: data residency, model updates, staff capacity</li>
-      </ul>
-    </div>
-    <div class="card-ft">
-      <div><div class="price">$10,800 – $17,940</div><div class="price-note">Design engagement · Build contract: $200K+</div></div>
-      <div class="markets">Canada (Ontario · Jul 6)<br>Singapore · USA · Saudi Arabia</div>
-    </div>
-    <div class="tags"><span class="tag">HPC</span><span class="tag">sovereign compute</span><span class="tag">vLLM</span><span class="tag">Kubernetes</span></div>
-  </div>
+  <div class="card" data-class="// available">
+    <div class="card-hd">
+      <span class="card-type">Software · Infrastructure · HPC</span>
+      <span class="badge rfp">Ontario RFP closes Jul 6, 2026</span>
+    </div>
+    <h3 class="card-title">Sovereign HPC for National Grid Operators &amp; NOCs</h3>
+    <p class="card-body">National AI ambitions collide with foreign-owned compute — a strategic vulnerability that Singapore addressed with a $1 billion sovereign R&amp;D compute commitment. <strong>We design and size sovereign HPC infrastructure for grid-scale digital twins, state estimation, and predictive maintenance workloads</strong>, sized specifically for the inference loads Cortex's energy agent skills generate.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Workload requirements analysis for digital twin / predictive maintenance inference loads</li>
+        <li>Hardware sizing: GPU type, VRAM, storage, network — Dell AI Factory / NVIDIA reference architecture</li>
+        <li>Software stack: vLLM/Ollama inference, Kong/Traefik gateway, Prometheus/Grafana, MLflow registry</li>
+        <li>3-year TCO model vs commercial cloud, RFQ-ready procurement specification</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$10,800 – $17,940</div><div class="price-note">Design engagement · Build contract: $200K+</div></div>
+      <div class="markets">Canada (Ontario · Jul 6)<br>National grid operators · NOCs</div>
+    </div>
+    <div class="tags"><span class="tag">HPC</span><span class="tag">sovereign compute</span><span class="tag">vLLM</span></div>
+  </div>
 
 </div>
 
 
 <!-- MARKET MAP -->
 <div class="mmap">
-  <div class="mmap-inner">
-    <p class="sec-eye">Global procurement signal</p>
-    <h2 class="sec-title" style="margin-bottom:0.5rem">Where demand is live right now</h2>
-    <p class="sec-sub" style="margin-bottom:0">Active procurement signals from national AI programmes, live RFPs, and regulatory mandates currently in force.</p>
-    <div class="mmap-grid">
-      <div class="mcell">
-        <div class="mreg">Middle East</div>
-        <ul class="mitems">
-          <li><span class="md"></span>UAE — 50% federal services to agentic AI 2028</li>
-          <li><span class="md"></span>UAE — Future Fit Seal in production</li>
-          <li><span class="md a"></span>Saudi Arabia — SDAIA programmes active</li>
-        </ul>
-      </div>
-      <div class="mcell">
-        <div class="mreg">Asia-Pacific</div>
-        <ul class="mitems">
-          <li><span class="md"></span>Singapore — NAIS 2.0 active</li>
-          <li><span class="md"></span>Singapore — National Precision Medicine</li>
-          <li><span class="md"></span>South Korea — Busan Port production</li>
-        </ul>
-      </div>
-      <div class="mcell">
-        <div class="mreg">North America</div>
-        <ul class="mitems">
-          <li><span class="md a"></span>US federal — FOIA RFP active</li>
-          <li><span class="md a"></span>US federal — Cyber RFP Jun 24</li>
-          <li><span class="md a"></span>Canada — Clinical AI Jun 23</li>
-          <li><span class="md a"></span>Ontario — HPC RFP Jul 6</li>
-          <li><span class="md a"></span>Florida — AI Strategy Jul 16</li>
-        </ul>
-      </div>
-      <div class="mcell">
-        <div class="mreg">Europe</div>
-        <ul class="mitems">
-          <li><span class="md a"></span>EU AI Act — enforceable Aug 2026</li>
-          <li><span class="md"></span>UK — GOV.UK AI tools programme</li>
-          <li><span class="md"></span>UK — CDDO dev modernisation</li>
-          <li><span class="md"></span>UK NHS — clinical AI procurement</li>
-        </ul>
-      </div>
-      <div class="mcell">
-        <div class="mreg">Caribbean &amp; Pacific</div>
-        <ul class="mitems">
-          <li><span class="md a"></span>Trinidad — port infrastructure</li>
-          <li><span class="md a"></span>Caribbean health ministries</li>
-          <li><span class="md a"></span>Pacific Island govts — strategy RFPs</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <div class="mmap-inner">
+    <p class="sec-eye">Global procurement signal</p>
+    <h2 class="sec-title" style="margin-bottom:0.5rem">Where energy-sector demand is live right now</h2>
+    <p class="sec-sub" style="margin-bottom:0">Active regulatory deadlines, RFPs, and national programmes shaping AI procurement across energy and critical infrastructure.</p>
+    <div class="mmap-grid">
+      <div class="mcell">
+        <div class="mreg">North America</div>
+        <ul class="mitems">
+          <li><span class="md a"></span>NERC CIP-015-1 — INSM by Oct 2028 / 2030</li>
+          <li><span class="md"></span>FERC "Energized for 2026" — DLR &amp; demand response</li>
+          <li><span class="md"></span>ERCOT — dedicated Enterprise Data &amp; AI org (Jan 2026)</li>
+          <li><span class="md a"></span>Ontario — Sovereign HPC RFP (Jul 6)</li>
+          <li><span class="md a"></span>CISA — OT/IT segmentation guidance (required now)</li>
+        </ul>
+      </div>
+      <div class="mcell">
+        <div class="mreg">Europe</div>
+        <ul class="mitems">
+          <li><span class="md a"></span>EU AI Act — enforceable Aug 2026 (Art. 12/14)</li>
+          <li><span class="md"></span>Siemens Energy benchmark — 28% OT/IT integration</li>
+          <li><span class="md"></span>PSE (Poland) — AI dispatch pre-approval mandate</li>
+        </ul>
+      </div>
+      <div class="mcell">
+        <div class="mreg">Middle East</div>
+        <ul class="mitems">
+          <li><span class="md"></span>UAE — Future Fit Seal, AI-native tendering in production</li>
+          <li><span class="md a"></span>Saudi Arabia — SDAIA programmes active</li>
+        </ul>
+      </div>
+      <div class="mcell">
+        <div class="mreg">Asia-Pacific</div>
+        <ul class="mitems">
+          <li><span class="md"></span>South Korea — Busan Port digital twin (production)</li>
+          <li><span class="md"></span>Singapore — $1B sovereign R&amp;D compute commitment</li>
+        </ul>
+      </div>
+      <div class="mcell">
+        <div class="mreg">Caribbean</div>
+        <ul class="mitems">
+          <li><span class="md a"></span>Trinidad — midstream &amp; port infrastructure</li>
+          <li><span class="md a"></span>Regional utilities — OT/IT integration gap</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 
 <!-- WHY INTELLICA -->
 <div class="section fade">
-  <p class="sec-eye">Why Intellica</p>
-  <h2 class="sec-title">We do not integrate vendors.<br>We make them accountable.</h2>
-  <p class="sec-sub">Systems integrators manage vendors. We design the systems that make vendors accountable — and the architecture that makes them replaceable.</p>
-  <div class="why-grid">
-    <div class="why-card">
-      <div class="why-icon">Formally verified</div>
-      <h3 class="why-title">We don't claim correctness. We prove it.</h3>
-      <p class="why-body">TLA+ model checking, Lean 4 theorem proving, Dafny deductive verification. Machine-checked proofs for the components where correctness is non-negotiable. Regulators can replay them. Auditors can inspect them.</p>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">Post-quantum</div>
-      <h3 class="why-title">Quantum-resistant, in production today.</h3>
-      <p class="why-body">ML-DSA-44, SLH-DSA, ML-KEM-768 deployed in live systems. Hybrid classical/PQC pathways. NIST FIPS 203/204/205. Government systems built today must survive tomorrow's adversarial compute. We make that the default, not an option.</p>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">Vendor-independent</div>
-      <h3 class="why-title">No referral fees. No commercial alignments.</h3>
-      <p class="why-body">We do not resell software, take referral fees, or hold commercial agreements with AI vendors. Every recommendation is determined entirely by your requirements and the best available sovereign alternatives.</p>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">Compliance architecture</div>
-      <h3 class="why-title">Compliance designed in, not retrofitted.</h3>
-      <p class="why-body">DORA, EU AI Act Annex IV, PCI DSS 4.0, CEN/TS 18264:2026. Compliance architecture is embedded from the first diagram, not discovered at audit. This is the only approach that remains defensible under enforcement.</p>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">Immediately buildable</div>
-      <h3 class="why-title">Any competent team can start on day one.</h3>
-      <p class="why-body">Complete ARC42/C4 blueprints, Architecture Decision Records, component contracts, deployment plans. No interpretation required. The architecture is the handover — your team implements, not translates.</p>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">Compressed timelines</div>
-      <h3 class="why-title">18 months of architecture in weeks.</h3>
-      <p class="why-body">We compress 18-month timelines using specification-driven AI meta-orchestration. Proof: a post-quantum compliance engine, a formally verified core banking platform, and a compiled agentic language — all built solo from scratch, in weeks.</p>
-    </div>
-  </div>
+  <p class="sec-eye">Why Intellica</p>
+  <h2 class="sec-title">We don't sell another tool.<br>We sell the layer underneath all of them.</h2>
+  <p class="sec-sub">Forrester projects most enterprises will be forced to compose "agentlakes" — shared architectures to orchestrate AI tools built without coordination. Cortex is designed to be that layer from day one, not retrofitted after the fragmentation has already happened.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">Sovereign by construction</div>
+      <h3 class="why-title">Your operational data never leaves your infrastructure.</h3>
+      <p class="why-body">Cortex is a single Rust binary plus PostgreSQL/pgvector. It runs on your servers, validates its licence offline, and never makes an outbound call. Defence, banking, and energy customers run it fully air-gapped with updates on physical media.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Provenance, not promises</div>
+      <h3 class="why-title">Every agent action is signed, chained, and replayable.</h3>
+      <p class="why-body">Every query, write, and dashboard generated produces a BLAKE3-hashed, Ed25519-signed TraceCaps capsule, chained into a Merkle tree and anchored to IETF SCITT — satisfying EU AI Act Art. 12 and NERC CIP-015-1 evidence requirements out of the box.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Migration nobody notices</div>
+      <h3 class="why-title">No rip-and-replace. Instant rollback.</h3>
+      <p class="why-body">The Absorption Pipeline mirrors your existing SCADA, ADMS, and EAM systems in real time, gradually generating accessible interfaces behind a Strangler Fig façade — with instant rollback to the legacy system at any workflow step.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Advisory by default</div>
+      <h3 class="why-title">Agents propose. Operators decide.</h3>
+      <p class="why-body">Crypto HITL (L3) requires Ed25519 manifest signing for high-risk operations. Every agent skill in the energy module is advisory-only on anything that touches dispatch — pre-aligned to PSE-style pre-approval regimes before they're mandated elsewhere.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">One kill switch</div>
+      <h3 class="why-title">CortexGuard halts every agent, instantly, even offline.</h3>
+      <p class="why-body">A single administrator action — <code>POST /admin/kill</code> — returns 503 on every subsequent agent request, fully audited, and works identically online or air-gapped. This is the CISA-mandated kill switch, already built.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Vendor-independent</div>
+      <h3 class="why-title">No referral fees. No vendor alignments.</h3>
+      <p class="why-body">We don't resell forecasting platforms, digital twin tools, or analytics overlays, and hold no commercial agreements with AI vendors. Every recommendation — including which connector to build first — is determined by your operational requirements alone.</p>
+    </div>
+  </div>
 </div>
 
 
 <!-- CTA -->
 <div class="cta-sec">
-  <div class="cta-inner">
-    <p class="sec-eye" style="display:inline-block">Start the conversation</p>
-    <h2>Tell us your hardest<br>government AI problem.</h2>
-    <p class="cta-sub">We will send you a complete architecture assessment within 48 hours. No cost for the first review. If it solves your problem — and it will — we discuss what engagement looks like from there.</p>
-    <div class="cta-btns">
-      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Email Damian directly</a>
-      <a href="https://wa.me/18687195236" class="btn-ghost">WhatsApp →</a>
-      <a href="tel:+18687195236" class="btn-ghost">Call →</a>
-    </div>
-  </div>
+  <div class="cta-inner">
+    <p class="sec-eye" style="display:inline-block">Start the conversation</p>
+    <h2>Tell us your hardest<br>OT/IT integration problem.</h2>
+    <p class="cta-sub">We will send you a complete Cortex architecture assessment within 48 hours. No cost for the first review. If it solves your problem — and it will — we discuss what engagement looks like from there.</p>
+    <div class="cta-btns">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Email Damian directly</a>
+      <a href="https://wa.me/18687195236" class="btn-ghost">WhatsApp →</a>
+      <a href="tel:+18687195236" class="btn-ghost">Call →</a>
+    </div>
+  </div>
 </div>
 
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-brand">INTELLICA<span>.</span>AI LLC</div>
-  <ul class="foot-links">
-    <li><a href="https://vericrypt-7qp.pages.dev/dpr">Damian Ramsajan</a></li>
-    <li><a href="mailto:dpramsajan@meeting-mind.com">dpramsajan@meeting-mind.com</a></li>
-    <li><a href="tel:+18687195236">+1 868 719 5236</a></li>
-    <li><a href="https://wa.me/18687195236">WhatsApp</a></li>
-  </ul>
-  <div class="foot-r">Trinidad & Tobago · Remote · 2026</div>
+  <div class="foot-brand">INTELLICA<span>.</span>AI LLC</div>
+  <ul class="foot-links">
+    <li><a href="https://vericrypt-7qp.pages.dev/dpr">Damian Ramsajan</a></li>
+    <li><a href="mailto:dpramsajan@meeting-mind.com">dpramsajan@meeting-mind.com</a></li>
+    <li><a href="tel:+18687195236">+1 868 719 5236</a></li>
+    <li><a href="https://wa.me/18687195236">WhatsApp</a></li>
+  </ul>
+  <div class="foot-r">Trinidad & Tobago · Remote · 2026</div>
 </footer>
 
 
 <script>
 /* ── HERO GRID ANIMATION ── */
 (function(){
-  const canvas=document.getElementById('grid-canvas');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  let W,H,cols,rows,dots=[],sweep=0;
+  const canvas=document.getElementById('grid-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,cols,rows,dots=[],sweep=0;
 
-  function resize(){
-    W=canvas.width=canvas.offsetWidth;
-    H=canvas.height=canvas.offsetHeight;
-    cols=Math.ceil(W/52)+1;
-    rows=Math.ceil(H/52)+1;
-    dots=[];
-    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
-      dots.push({x:c*52,y:r*52,pulse:Math.random()*Math.PI*2});
-    }
-  }
+  function resize(){
+    W=canvas.width=canvas.offsetWidth;
+    H=canvas.height=canvas.offsetHeight;
+    cols=Math.ceil(W/52)+1;
+    rows=Math.ceil(H/52)+1;
+    dots=[];
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      dots.push({x:c*52,y:r*52,pulse:Math.random()*Math.PI*2});
+    }
+  }
 
-  function draw(t){
-    ctx.clearRect(0,0,W,H);
-    sweep=(sweep+0.004)%(Math.PI*2);
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    sweep=(sweep+0.004)%(Math.PI*2);
 
-    ctx.strokeStyle='rgba(148,163,210,0.045)';
-    ctx.lineWidth=0.5;
-    for(let c=0;c<cols;c++){
-      ctx.beginPath();ctx.moveTo(c*52,0);ctx.lineTo(c*52,H);ctx.stroke();
-    }
-    for(let r=0;r<rows;r++){
-      ctx.beginPath();ctx.moveTo(0,r*52);ctx.lineTo(W,r*52);ctx.stroke();
-    }
+    ctx.strokeStyle='rgba(148,163,210,0.045)';
+    ctx.lineWidth=0.5;
+    for(let c=0;c<cols;c++){
+      ctx.beginPath();ctx.moveTo(c*52,0);ctx.lineTo(c*52,H);ctx.stroke();
+    }
+    for(let r=0;r<rows;r++){
+      ctx.beginPath();ctx.moveTo(0,r*52);ctx.lineTo(W,r*52);ctx.stroke();
+    }
 
-    const sx=W*0.5+Math.cos(sweep-Math.PI*0.5)*W*0.9;
-    const gradient=ctx.createLinearGradient(sx-160,0,sx+30,0);
-    gradient.addColorStop(0,'rgba(0,200,255,0)');
-    gradient.addColorStop(0.7,'rgba(0,200,255,0.04)');
-    gradient.addColorStop(1,'rgba(0,200,255,0.09)');
-    ctx.fillStyle=gradient;
-    ctx.fillRect(sx-160,0,190,H);
+    const sx=W*0.5+Math.cos(sweep-Math.PI*0.5)*W*0.9;
+    const gradient=ctx.createLinearGradient(sx-160,0,sx+30,0);
+    gradient.addColorStop(0,'rgba(0,200,255,0)');
+    gradient.addColorStop(0.7,'rgba(0,200,255,0.04)');
+    gradient.addColorStop(1,'rgba(0,200,255,0.09)');
+    ctx.fillStyle=gradient;
+    ctx.fillRect(sx-160,0,190,H);
 
-    for(let d of dots){
-      const dist=Math.abs(d.x-sx);
-      const base=0.06+0.18*Math.max(0,1-dist/120);
-      d.pulse+=0.015;
-      const alpha=base*(0.7+0.3*Math.sin(d.pulse));
-      ctx.beginPath();
-      ctx.arc(d.x,d.y,1.2,0,Math.PI*2);
-      ctx.fillStyle=`rgba(0,200,255,${alpha})`;
-      ctx.fill();
-    }
+    for(let d of dots){
+      const dist=Math.abs(d.x-sx);
+      const base=0.06+0.18*Math.max(0,1-dist/120);
+      d.pulse+=0.015;
+      const alpha=base*(0.7+0.3*Math.sin(d.pulse));
+      ctx.beginPath();
+      ctx.arc(d.x,d.y,1.2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,200,255,${alpha})`;
+      ctx.fill();
+    }
 
-    const op=0.15+0.08*Math.sin(t*0.001);
-    ctx.beginPath();
-    ctx.arc(W*0.5,H*0.5,4,0,Math.PI*2);
-    ctx.fillStyle=`rgba(0,200,255,${op})`;
-    ctx.fill();
+    const op=0.15+0.08*Math.sin(t*0.001);
+    ctx.beginPath();
+    ctx.arc(W*0.5,H*0.5,4,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,200,255,${op})`;
+    ctx.fill();
 
-    requestAnimationFrame(draw);
-  }
+    requestAnimationFrame(draw);
+  }
 
-  window.addEventListener('resize',resize);
-  resize();
-  requestAnimationFrame(draw);
+  window.addEventListener('resize',resize);
+  resize();
+  requestAnimationFrame(draw);
 
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
-    canvas.style.display='none';
-  }
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+    canvas.style.display='none';
+  }
 })();
 
 /* ── SCROLL FADE ── */
 const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}});
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}});
 },{threshold:0.06});
 document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
 </script>
 
 </body>
-</html>
