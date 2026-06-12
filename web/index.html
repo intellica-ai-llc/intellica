@@ -57,64 +57,18 @@ nav{
   animation:navpulse 3s infinite;
 }
 @keyframes navpulse{0%,100%{box-shadow:0 0 10px var(--cyan)}50%{box-shadow:0 0 20px var(--cyan),0 0 40px rgba(0,200,255,0.3)}}
-.nav-links{display:flex;gap:0;list-style:none;align-items:stretch}
-.nav-links>li{position:relative;display:flex;align-items:center}
-.nav-links>li>a,.nav-links>li>span{
-  font-family:var(--mono);font-size:0.67rem;color:var(--muted);
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{
+  font-family:var(--mono);font-size:0.68rem;color:var(--muted);
   text-decoration:none;letter-spacing:0.06em;transition:color 0.2s;
-  padding:0 1rem;height:60px;display:flex;align-items:center;
-  cursor:pointer;white-space:nowrap;
 }
-.nav-links>li>a:hover,.nav-links>li>span:hover,
-.nav-links>li:hover>a,.nav-links>li:hover>span{color:var(--cyan)}
-.nav-links>li>a.active{color:var(--cyan)}
-
-/* dropdown chevron */
-.nav-links>li>span::after{
-  content:'▾';margin-left:0.3rem;font-size:0.5rem;opacity:0.6;
-}
-
-/* dropdown panel */
-.nav-drop{
-  display:none;
-  position:absolute;top:60px;left:0;
-  background:rgba(8,12,22,0.98);
-  backdrop-filter:blur(24px);
-  border:1px solid var(--border-hi);
-  border-top:1px solid var(--cyan);
-  border-radius:0 0 3px 3px;
-  min-width:200px;
-  z-index:200;
-  padding:0.4rem 0;
-}
-.nav-links>li:hover .nav-drop{display:block}
-.nav-drop a{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:1rem;
-  font-family:var(--mono);font-size:0.64rem;
-  color:var(--muted);text-decoration:none;
-  letter-spacing:0.05em;
-  padding:0.6rem 1.1rem;
-  transition:background 0.15s,color 0.15s;
-  white-space:nowrap;
-}
-.nav-drop a:hover{background:rgba(0,200,255,0.06);color:var(--cyan)}
-.nav-drop a .drop-badge{
-  font-size:0.52rem;letter-spacing:0.1em;
-  color:var(--muted);background:var(--surface);
-  border:1px solid var(--border);padding:0.1rem 0.4rem;border-radius:2px;
-}
-.nav-drop a .drop-badge.live{color:var(--green);border-color:rgba(53,212,122,0.25);background:rgba(53,212,122,0.06)}
-.nav-drop a .drop-badge.soon{color:var(--muted)}
-.nav-drop a .drop-badge.rfp{color:var(--amber);border-color:rgba(232,166,23,0.25);background:rgba(232,166,23,0.06)}
-.nav-drop-sep{height:1px;background:var(--border);margin:0.4rem 0}
-
+.nav-links a:hover{color:var(--cyan)}
+.nav-links a.active{color:var(--cyan)}
 .nav-cta{
   font-family:var(--mono);font-size:0.68rem;color:var(--void);
   background:var(--cyan);padding:0.4rem 1.1rem;
   border-radius:2px;text-decoration:none;font-weight:500;
-  letter-spacing:0.06em;transition:opacity 0.2s;white-space:nowrap;
-  margin-left:1rem;
+  letter-spacing:0.06em;transition:opacity 0.2s;
 }
 .nav-cta:hover{opacity:0.85}
 
@@ -270,7 +224,7 @@ nav{
   margin-top:0.3rem;
 }
 .ind-card.active .ind-name{color:var(--cyan)}
-.ind-card.soon{opacity:0.55}
+.ind-card.soon{opacity:0.5;cursor:default;pointer-events:none}
 .ind-card.soon .ind-tag{color:var(--muted)}
 
 /* ── SYSTEMS SECTION ── */
@@ -281,18 +235,9 @@ nav{
   border-radius:4px;
   margin-bottom:1.5rem;
   overflow:hidden;
-  transition:border-color 0.2s,box-shadow 0.2s;
-  display:block;
-  text-decoration:none;
-  color:inherit;
-  cursor:pointer;
+  transition:border-color 0.2s;
 }
-.system-card:hover{
-  border-color:var(--border-hi);
-  box-shadow:0 0 0 1px rgba(0,200,255,0.12),0 8px 32px rgba(0,0,0,0.4);
-}
-.system-card:hover .sys-title{color:var(--cyan)}
-.system-card:hover .sys-viz{background:rgba(5,10,20,0.95)}
+.system-card:hover{border-color:var(--border-hi)}
 
 .sys-top{
   display:grid;grid-template-columns:1fr 1fr;
@@ -541,36 +486,12 @@ footer{
 
 <!-- ══ NAV ══ -->
 <nav>
-  <a href="index.html" class="nav-brand">INTELLICA</a>
+  <a href="/index.html" class="nav-brand">INTELLICA</a>
   <ul class="nav-links">
     <li><a href="#systems">Systems</a></li>
     <li><a href="#capabilities">Capabilities</a></li>
     <li><a href="#services">Engagements</a></li>
-
-    <!-- Industries dropdown -->
-    <li>
-      <span>Industries</span>
-      <div class="nav-drop">
-        <a href="government.html">Government &amp; Public Sector <span class="drop-badge live">Live</span></a>
-        <a href="finance.html">Financial Services &amp; Banking <span class="drop-badge soon">Soon</span></a>
-        <a href="energy.html">Energy &amp; Critical Infra <span class="drop-badge soon">Soon</span></a>
-        <a href="health.html">Health &amp; Life Sciences <span class="drop-badge soon">Soon</span></a>
-        <a href="defence.html">Defence &amp; Intelligence <span class="drop-badge soon">Soon</span></a>
-        <a href="enterprise.html">Enterprise &amp; SaaS <span class="drop-badge soon">Soon</span></a>
-      </div>
-    </li>
-
-    <!-- Partners dropdown -->
-    <li>
-      <span>Partners</span>
-      <div class="nav-drop">
-        <a href="partners.html#technology">Technology Partners <span class="drop-badge soon">Soon</span></a>
-        <a href="partners.html#reseller">Reseller Programme <span class="drop-badge soon">Soon</span></a>
-        <a href="partners.html#academic">Academic &amp; Research <span class="drop-badge soon">Soon</span></a>
-        <div class="nav-drop-sep"></div>
-        <a href="partners.html#apply">Become a Partner <span class="drop-badge rfp">Apply</span></a>
-      </div>
-    </li>
+    <li><a href="government.html" style="color:var(--cyan)">Government ↗</a></li>
   </ul>
   <a href="mailto:dpramsajan@meeting-mind.com" class="nav-cta">Send us your problem →</a>
 </nav>
@@ -627,34 +548,34 @@ footer{
     <div class="ind-grid">
       <a href="government.html" class="ind-card active">
         <div class="ind-num">01</div>
-        <div class="ind-name">Government &amp; Public Sector</div>
+        <div class="ind-name">Government & Public Sector</div>
         <div class="ind-tag">Full offering page →</div>
       </a>
-      <a href="finance.html" class="ind-card soon">
+      <div class="ind-card soon">
         <div class="ind-num">02</div>
-        <div class="ind-name">Financial Services &amp; Banking</div>
+        <div class="ind-name">Financial Services & Banking</div>
         <div class="ind-tag">Coming soon</div>
-      </a>
-      <a href="energy.html" class="ind-card soon">
+      </div>
+      <div class="ind-card soon">
         <div class="ind-num">03</div>
-        <div class="ind-name">Health &amp; Life Sciences</div>
+        <div class="ind-name">Health & Life Sciences</div>
         <div class="ind-tag">Coming soon</div>
-      </a>
-      <a href="energy.html" class="ind-card soon">
+      </div>
+      <div class="ind-card soon">
         <div class="ind-num">04</div>
-        <div class="ind-name">Energy &amp; Critical Infrastructure</div>
+        <div class="ind-name">Energy & Critical Infrastructure</div>
         <div class="ind-tag">Coming soon</div>
-      </a>
-      <a href="partners.html" class="ind-card soon">
+      </div>
+      <div class="ind-card soon">
         <div class="ind-num">05</div>
-        <div class="ind-name">Defence &amp; Intelligence</div>
+        <div class="ind-name">Defence & Intelligence</div>
         <div class="ind-tag">Coming soon</div>
-      </a>
-      <a href="enterprise.html" class="ind-card soon">
+      </div>
+      <div class="ind-card soon">
         <div class="ind-num">06</div>
-        <div class="ind-name">Enterprise &amp; SaaS</div>
+        <div class="ind-name">Enterprise & SaaS</div>
         <div class="ind-tag">Coming soon</div>
-      </a>
+      </div>
     </div>
   </div>
 </div>
@@ -669,7 +590,7 @@ footer{
 <div class="systems-wrap">
 
   <!-- VERICRYPT -->
-  <a href="https://vericrypt-7qp.pages.dev" target="_blank" class="system-card fade">
+  <div class="system-card fade">
     <div class="sys-top">
       <div class="sys-info">
         <div class="sys-status"><span class="dot dot-g"></span>Live · 2026 Post-Quantum Compliance</div>
@@ -707,10 +628,10 @@ footer{
         </div>
       </div>
     </div>
-  </a>
+  </div>
 
   <!-- VERITY -->
-  <a href="https://verity-core-banking.pages.dev" target="_blank" class="system-card fade">
+  <div class="system-card fade">
     <div class="sys-top">
       <div class="sys-info">
         <div class="sys-status"><span class="dot dot-g"></span>Live · 2026 Formally Verified · Agent-Native</div>
@@ -752,10 +673,10 @@ footer{
         </div>
       </div>
     </div>
-  </a>
+  </div>
 
   <!-- ASL -->
-  <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing" target="_blank" class="system-card fade">
+  <div class="system-card fade">
     <div class="sys-top">
       <div class="sys-info">
         <div class="sys-status"><span class="dot dot-g"></span>Language · MIT Licensed · Compiled Agentic</div>
@@ -793,10 +714,10 @@ footer{
         </div>
       </div>
     </div>
-  </a>
+  </div>
 
   <!-- MEETINGMIND -->
-  <a href="https://meeting-mind.com" target="_blank" class="system-card fade">
+  <div class="system-card fade">
     <div class="sys-top">
       <div class="sys-info">
         <div class="sys-status"><span class="dot dot-g"></span>Live SaaS · Revenue · Organisational Intelligence</div>
@@ -831,10 +752,10 @@ footer{
         </div>
       </div>
     </div>
-  </a>
+  </div>
 
   <!-- INTELLECTA CORTEX -->
-  <a href="https://intellecta-cortex.pages.dev/" target="_blank" class="system-card fade">
+  <div class="system-card fade">
     <div class="sys-top">
       <div class="sys-info">
         <div class="sys-status"><span class="dot dot-g"></span>Live · 2026 Enterprise AI Control Plane</div>
@@ -878,10 +799,10 @@ footer{
         </div>
       </div>
     </div>
-  </a>
+  </div>
 
   <!-- VERICHAIN -->
-  <a href="https://verichain-5pt.pages.dev/" target="_blank" class="system-card fade">
+  <div class="system-card fade">
     <div class="sys-top">
       <div class="sys-info">
         <div class="sys-status"><span class="dot dot-g"></span>Live · 2026 Web 4.0 Infrastructure</div>
@@ -919,7 +840,7 @@ footer{
         </div>
       </div>
     </div>
-  </a>
+  </div>
 
 </div><!-- /systems-wrap -->
 
@@ -1044,10 +965,7 @@ footer{
     <div class="foot-tag">Principal: Damian Ramsajan · Trinidad &amp; Tobago · Remote · Global</div>
   </div>
   <ul class="foot-links">
-    <li><a href="government.html">Government</a></li>
-    <li><a href="finance.html">Finance</a></li>
-    <li><a href="energy.html">Energy</a></li>
-    <li><a href="partners.html">Partners</a></li>
+    <li><a href="government.html">Government Offerings</a></li>
     <li><a href="https://vericrypt-7qp.pages.dev/dpr">Profile</a></li>
     <li><a href="mailto:dpramsajan@meeting-mind.com">dpramsajan@meeting-mind.com</a></li>
     <li><a href="tel:+18687195236">+1 868 719 5236</a></li>
