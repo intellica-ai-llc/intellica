@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intellica AI — Sovereign AI Systems for Enterprise & Government</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --void:      #050810;
+  --deep:      #080C16;
+  --surface:   #0C1220;
+  --card:      #0F1628;
+  --card-hi:   #131D35;
+  --lift:      #192236;
+  --border:    rgba(148,163,210,0.10);
+  --border-hi: rgba(148,163,210,0.22);
+  --border-act:rgba(148,163,210,0.40);
+  --cyan:      #00C8FF;
+  --cyan-dim:  rgba(0,200,255,0.08);
+  --amber:     #E8A617;
+  --green:     #35D47A;
+  --red:       #FF4D4D;
+  --text:      #C8D4F0;
+  --text-hi:   #E8EEFF;
+  --muted:     #6678A0;
+  --faint:     rgba(148,163,210,0.35);
+  --mono:      'IBM Plex Mono',monospace;
+  --display:   'Syne',sans-serif;
+  --body:      'IBM Plex Sans',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4rem;height:60px;
+  background:rgba(5,8,16,0.90);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.nav-brand{
+  font-family:var(--display);font-size:1rem;font-weight:700;
+  letter-spacing:0.12em;color:var(--text-hi);text-decoration:none;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.nav-brand::before{
+  content:'';display:block;width:6px;height:6px;
+  background:var(--cyan);border-radius:50%;
+  box-shadow:0 0 10px var(--cyan);
+  animation:navpulse 3s infinite;
+}
+@keyframes navpulse{0%,100%{box-shadow:0 0 10px var(--cyan)}50%{box-shadow:0 0 20px var(--cyan),0 0 40px rgba(0,200,255,0.3)}}
+.nav-links{display:flex;gap:0;list-style:none;align-items:stretch}
+.nav-links>li{position:relative;display:flex;align-items:center}
+.nav-links>li>a,.nav-links>li>span{
+  font-family:var(--mono);font-size:0.67rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.06em;transition:color 0.2s;
+  padding:0 1rem;height:60px;display:flex;align-items:center;
+  cursor:pointer;white-space:nowrap;
+}
+.nav-links>li>a:hover,.nav-links>li>span:hover,
+.nav-links>li:hover>a,.nav-links>li:hover>span{color:var(--cyan)}
+.nav-links>li>a.active{color:var(--cyan)}
+
+/* dropdown chevron */
+.nav-links>li>span::after{
+  content:'▾';margin-left:0.3rem;font-size:0.5rem;opacity:0.6;
+}
+
+/* dropdown panel */
+.nav-drop{
+  display:none;
+  position:absolute;top:60px;left:0;
+  background:rgba(8,12,22,0.98);
+  backdrop-filter:blur(24px);
+  border:1px solid var(--border-hi);
+  border-top:1px solid var(--cyan);
+  border-radius:0 0 3px 3px;
+  min-width:200px;
+  z-index:200;
+  padding:0.4rem 0;
+}
+.nav-links>li:hover .nav-drop{display:block}
+.nav-drop a{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;
+  font-family:var(--mono);font-size:0.64rem;
+  color:var(--muted);text-decoration:none;
+  letter-spacing:0.05em;
+  padding:0.6rem 1.1rem;
+  transition:background 0.15s,color 0.15s;
+  white-space:nowrap;
+}
+.nav-drop a:hover{background:rgba(0,200,255,0.06);color:var(--cyan)}
+.nav-drop a .drop-badge{
+  font-size:0.52rem;letter-spacing:0.1em;
+  color:var(--muted);background:var(--surface);
+  border:1px solid var(--border);padding:0.1rem 0.4rem;border-radius:2px;
+}
+.nav-drop a .drop-badge.live{color:var(--green);border-color:rgba(53,212,122,0.25);background:rgba(53,212,122,0.06)}
+.nav-drop a .drop-badge.soon{color:var(--muted)}
+.nav-drop a .drop-badge.rfp{color:var(--amber);border-color:rgba(232,166,23,0.25);background:rgba(232,166,23,0.06)}
+.nav-drop-sep{height:1px;background:var(--border);margin:0.4rem 0}
+
+.nav-cta{
+  font-family:var(--mono);font-size:0.68rem;color:var(--void);
+  background:var(--cyan);padding:0.4rem 1.1rem;
+  border-radius:2px;text-decoration:none;font-weight:500;
+  letter-spacing:0.06em;transition:opacity 0.2s;white-space:nowrap;
+  margin-left:1rem;
+}
+.nav-cta:hover{opacity:0.85}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:7rem 2rem 5rem;
+  position:relative;overflow:hidden;
+}
+#hero-canvas{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:820px}
+
+.hero-ident{
+  display:inline-flex;align-items:center;gap:1rem;
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2.2rem;
+}
+.hero-ident::before,.hero-ident::after{
+  content:'';display:block;width:32px;height:1px;background:var(--border-hi);
+}
+
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(2rem,4vw,3.4rem);
+  font-weight:600;line-height:1.15;
+  letter-spacing:-0.025em;
+  color:var(--text-hi);margin-bottom:0;
+}
+.h1-accent{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1px var(--cyan);
+  font-weight:700;
+}
+.hero-sub{
+  margin-top:1.1rem;
+  font-family:var(--body);font-size:1rem;font-weight:300;
+  color:var(--muted);letter-spacing:0.01em;line-height:1.7;
+  max-width:600px;margin-left:auto;margin-right:auto;
+}
+.hero-sub strong{color:var(--text);font-weight:400}
+
+.hero-rule{width:1px;height:40px;background:var(--border-hi);margin:2rem auto}
+
+/* Proof bar */
+.proof-bar{
+  display:flex;align-items:stretch;
+  border:1px solid var(--border-hi);border-radius:2px;overflow:hidden;
+  max-width:700px;margin:0 auto 2.2rem;
+}
+.pc{
+  flex:1;padding:0.85rem 0.9rem;
+  border-right:1px solid var(--border);
+  text-align:center;background:rgba(12,18,32,0.7);
+}
+.pc:last-child{border-right:none}
+.pn{
+  font-family:var(--display);font-size:1.3rem;font-weight:700;
+  color:var(--cyan);line-height:1;margin-bottom:0.2rem;
+}
+.pl{
+  font-family:var(--mono);font-size:0.54rem;
+  color:var(--muted);letter-spacing:0.08em;
+  text-transform:uppercase;line-height:1.4;
+}
+
+.hero-cta{
+  display:flex;align-items:center;justify-content:center;
+  gap:0.85rem;margin-bottom:2.2rem;flex-wrap:wrap;
+}
+.btn-p{
+  font-family:var(--mono);font-size:0.72rem;letter-spacing:0.07em;
+  color:var(--void);background:var(--cyan);border:none;
+  padding:0.78rem 1.9rem;border-radius:2px;
+  text-decoration:none;font-weight:500;cursor:pointer;transition:opacity 0.2s;
+}
+.btn-p:hover{opacity:0.85}
+.btn-g{
+  font-family:var(--mono);font-size:0.72rem;letter-spacing:0.07em;
+  color:var(--text);background:transparent;
+  border:1px solid var(--border-hi);padding:0.78rem 1.9rem;border-radius:2px;
+  text-decoration:none;cursor:pointer;transition:border-color 0.2s,color 0.2s;
+}
+.btn-g:hover{border-color:var(--faint);color:var(--text-hi)}
+
+.verify-row{
+  display:flex;align-items:center;justify-content:center;
+  gap:1.8rem;flex-wrap:wrap;
+}
+.vbadge{
+  display:flex;align-items:center;gap:0.4rem;
+  font-family:var(--mono);font-size:0.59rem;
+  color:rgba(53,212,122,0.8);letter-spacing:0.05em;
+}
+.vbadge svg{width:12px;height:12px;flex-shrink:0}
+
+/* ── SECTION SHARED ── */
+.sec{padding:6rem 4rem;max-width:1320px;margin:0 auto}
+.eye{
+  font-family:var(--mono);font-size:0.65rem;
+  color:var(--cyan);letter-spacing:0.22em;
+  text-transform:uppercase;margin-bottom:0.6rem;
+}
+.sec-t{
+  font-family:var(--display);
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:700;letter-spacing:-0.025em;
+  line-height:1.05;margin-bottom:0.9rem;color:var(--text-hi);
+}
+.sec-t em{font-style:normal;color:var(--cyan)}
+.sec-s{font-size:0.95rem;color:var(--muted);max-width:540px;margin-bottom:3rem;line-height:1.7}
+
+/* ── INDUSTRY STRIP ── */
+.industry-strip{
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:3rem 4rem;
+}
+.industry-strip-inner{max-width:1320px;margin:0 auto}
+.ind-label{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.2em;color:var(--muted);
+  text-transform:uppercase;margin-bottom:2rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.ind-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.ind-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:3px;overflow:hidden;
+}
+.ind-card{
+  background:var(--card);padding:1.4rem 1.5rem;
+  display:flex;flex-direction:column;gap:0.4rem;
+  border-left:2px solid transparent;
+  transition:background 0.2s,border-left-color 0.2s;
+  text-decoration:none;
+}
+.ind-card:hover{background:var(--card-hi);border-left-color:var(--cyan)}
+.ind-num{font-family:var(--mono);font-size:0.56rem;color:var(--muted);letter-spacing:0.12em}
+.ind-name{
+  font-family:var(--display);font-size:0.9rem;font-weight:600;
+  color:var(--text-hi);line-height:1.2;
+}
+.ind-tag{
+  font-family:var(--mono);font-size:0.6rem;color:var(--cyan);
+  margin-top:0.3rem;
+}
+.ind-card.active .ind-name{color:var(--cyan)}
+.ind-card.soon{opacity:0.55}
+.ind-card.soon .ind-tag{color:var(--muted)}
+
+/* ── SYSTEMS SECTION ── */
+.systems-wrap{padding:0 4rem 2rem;max-width:1320px;margin:0 auto}
+.system-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  margin-bottom:1.5rem;
+  overflow:hidden;
+  transition:border-color 0.2s,box-shadow 0.2s;
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  cursor:pointer;
+}
+.system-card:hover{
+  border-color:var(--border-hi);
+  box-shadow:0 0 0 1px rgba(0,200,255,0.12),0 8px 32px rgba(0,0,0,0.4);
+}
+.system-card:hover .sys-title{color:var(--cyan)}
+.system-card:hover .sys-viz{background:rgba(5,10,20,0.95)}
+
+.sys-top{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;
+}
+.sys-info{
+  padding:2rem 2.2rem;
+  border-right:1px solid var(--border);
+}
+.sys-viz{
+  padding:1.8rem 2rem;
+  background:var(--deep);
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:220px;
+  position:relative;overflow:hidden;
+}
+
+/* Status pill */
+.sys-status{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  font-family:var(--mono);font-size:0.58rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.sys-status .dot{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+.dot-g{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot-a{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+
+.sys-name{
+  font-family:var(--mono);font-size:0.62rem;
+  color:var(--muted);letter-spacing:0.16em;
+  text-transform:uppercase;margin-bottom:0.5rem;
+}
+.sys-title{
+  font-family:var(--display);font-size:1.25rem;
+  font-weight:600;color:var(--text-hi);
+  line-height:1.2;margin-bottom:0.8rem;letter-spacing:-0.01em;
+}
+.sys-body{
+  font-size:0.86rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;
+}
+.sys-body strong{color:var(--text);font-weight:500}
+.sys-link{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  font-family:var(--mono);font-size:0.65rem;
+  color:var(--cyan);letter-spacing:0.06em;
+  text-decoration:none;transition:opacity 0.2s;
+}
+.sys-link:hover{opacity:0.75}
+.sys-tags{
+  display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:1rem;
+}
+.stag{
+  font-family:var(--mono);font-size:0.56rem;
+  color:var(--muted);border:1px solid var(--border);
+  padding:0.12rem 0.45rem;border-radius:2px;letter-spacing:0.04em;
+}
+
+/* ── PIPELINE VISUALISATIONS ── */
+/* Shared pipeline styles */
+.pipe{display:flex;flex-direction:column;gap:0.4rem;position:relative;z-index:1}
+.pipe-row{display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap}
+.pnode{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.04em;
+  padding:0.25rem 0.6rem;border-radius:2px;
+  white-space:nowrap;
+}
+.pnode.c{background:rgba(0,200,255,0.1);color:var(--cyan);border:1px solid rgba(0,200,255,0.25)}
+.pnode.g{background:rgba(53,212,122,0.08);color:var(--green);border:1px solid rgba(53,212,122,0.2)}
+.pnode.a{background:rgba(232,166,23,0.08);color:var(--amber);border:1px solid rgba(232,166,23,0.2)}
+.pnode.m{background:rgba(148,163,210,0.06);color:var(--text);border:1px solid var(--border)}
+.pnode.d{background:rgba(148,163,210,0.03);color:var(--muted);border:1px dashed var(--border)}
+.parr{color:var(--muted);font-size:0.7rem;flex-shrink:0}
+.pipe-lbl{
+  font-family:var(--mono);font-size:0.55rem;
+  color:rgba(102,120,160,0.6);letter-spacing:0.1em;
+  text-transform:uppercase;margin-top:0.3rem;
+}
+.pipe-cert{
+  margin-top:0.75rem;padding:0.5rem 0.75rem;
+  background:rgba(0,200,255,0.04);
+  border:1px solid rgba(0,200,255,0.14);
+  border-radius:2px;
+  font-family:var(--mono);font-size:0.58rem;
+  color:var(--cyan);letter-spacing:0.06em;
+}
+.pipe-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;
+  margin-top:0.5rem;
+}
+.pgcell{
+  background:rgba(148,163,210,0.03);
+  border:1px solid var(--border);
+  border-radius:2px;padding:0.4rem 0.6rem;
+  font-family:var(--mono);font-size:0.56rem;
+  color:var(--muted);letter-spacing:0.04em;
+  line-height:1.4;
+}
+.pgcell span{display:block;color:var(--cyan);margin-bottom:0.15rem}
+
+/* ── CAPABILITIES ── */
+.cap-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:4px;overflow:hidden;
+}
+.cap-card{
+  background:var(--card);padding:1.8rem;
+  transition:background 0.2s;
+  border-left:2px solid transparent;
+}
+.cap-card:hover{background:var(--card-hi);border-left-color:var(--cyan)}
+.cap-icon{
+  font-family:var(--mono);font-size:1.1rem;
+  color:var(--cyan);margin-bottom:0.9rem;
+  opacity:0.9;
+}
+.cap-title{
+  font-family:var(--display);font-size:1rem;font-weight:600;
+  color:var(--text-hi);margin-bottom:0.4rem;
+}
+.cap-body{font-size:0.83rem;color:var(--muted);line-height:1.65}
+
+/* ── SERVICES ── */
+.svc-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:4px;overflow:hidden;
+}
+.svc-card{
+  background:var(--card);padding:2rem 1.8rem;
+  display:flex;flex-direction:column;gap:0.8rem;
+  border-top:2px solid transparent;
+  transition:background 0.2s,border-top-color 0.2s;
+}
+.svc-card:hover{background:var(--card-hi);border-top-color:var(--cyan)}
+.svc-name{
+  font-family:var(--display);font-size:1.1rem;font-weight:600;
+  color:var(--text-hi);line-height:1.2;
+}
+.svc-price{
+  font-family:var(--display);font-size:1.4rem;font-weight:700;color:var(--cyan);
+}
+.svc-body{font-size:0.84rem;color:var(--muted);line-height:1.65;flex:1}
+.svc-body strong{color:var(--text);font-weight:500}
+.svc-feat{
+  list-style:none;display:flex;flex-direction:column;gap:0.28rem;
+  margin-top:0.3rem;
+}
+.svc-feat li{
+  font-size:0.79rem;color:var(--text);
+  padding-left:1rem;position:relative;line-height:1.4;
+}
+.svc-feat li::before{
+  content:'→';position:absolute;left:0;
+  color:var(--cyan);font-size:0.7rem;
+}
+
+/* ── CTA ── */
+.cta-sec{
+  padding:7rem 4rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-inner{max-width:620px;margin:0 auto;position:relative;z-index:1}
+.cta-sec::before{
+  content:'';position:absolute;
+  bottom:-240px;left:50%;transform:translateX(-50%);
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(0,200,255,0.05) 0%,transparent 65%);
+  pointer-events:none;
+}
+.cta-sec h2{
+  font-family:var(--display);
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:700;letter-spacing:-0.025em;
+  line-height:1.1;color:var(--text-hi);
+  margin:1.5rem 0 1.1rem;
+}
+.cta-sub{color:var(--muted);font-size:0.95rem;line-height:1.75;margin-bottom:2.5rem}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:1.8rem 4rem;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+}
+.foot-l{display:flex;flex-direction:column;gap:0.3rem}
+.foot-brand{
+  font-family:var(--mono);font-size:0.72rem;font-weight:500;
+  color:var(--text-hi);letter-spacing:0.12em;
+}
+.foot-brand span{color:var(--cyan)}
+.foot-tag{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em}
+.foot-links{display:flex;gap:1.5rem;list-style:none;flex-wrap:wrap}
+.foot-links a{
+  font-family:var(--mono);font-size:0.62rem;
+  color:var(--muted);text-decoration:none;
+  letter-spacing:0.06em;transition:color 0.2s;
+}
+.foot-links a:hover{color:var(--cyan)}
+.foot-r{font-family:var(--mono);font-size:0.6rem;color:rgba(102,120,160,0.45);letter-spacing:0.08em}
+
+/* ── SCROLL FADE ── */
+.fade{opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease}
+.fade.vis{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;transition:none}}
+
+/* ── SURFACE BAND ── */
+.surface-band{
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  nav{padding:0 1.25rem}
+  .nav-links{display:none}
+  .hero{padding:7rem 1.25rem 4rem}
+  .proof-bar{flex-wrap:wrap}
+  .pc{min-width:100px}
+  .sec{padding:4rem 1.25rem}
+  .systems-wrap{padding:0 1.25rem 2rem}
+  .sys-top{grid-template-columns:1fr}
+  .sys-info{border-right:none;border-bottom:1px solid var(--border)}
+  .sys-viz{min-height:180px}
+  .cap-grid{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:1fr}
+  .ind-grid{grid-template-columns:repeat(2,1fr)}
+  .industry-strip{padding:3rem 1.25rem}
+  .cta-sec{padding:5rem 1.25rem}
+  footer{padding:1.8rem 1.25rem;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="index.html" class="nav-brand">INTELLICA</a>
+  <ul class="nav-links">
+    <li><a href="#systems">Systems</a></li>
+    <li><a href="#capabilities">Capabilities</a></li>
+    <li><a href="#services">Engagements</a></li>
+
+    <!-- Industries dropdown -->
+    <li>
+      <span>Industries</span>
+      <div class="nav-drop">
+        <a href="government.html">Government &amp; Public Sector <span class="drop-badge live">Live</span></a>
+        <a href="finance.html">Financial Services &amp; Banking <span class="drop-badge soon">Soon</span></a>
+        <a href="energy.html">Energy &amp; Critical Infra <span class="drop-badge soon">Soon</span></a>
+        <a href="health.html">Health &amp; Life Sciences <span class="drop-badge soon">Soon</span></a>
+        <a href="defence.html">Defence &amp; Intelligence <span class="drop-badge soon">Soon</span></a>
+        <a href="enterprise.html">Enterprise &amp; SaaS <span class="drop-badge soon">Soon</span></a>
+      </div>
+    </li>
+
+    <!-- Partners dropdown -->
+    <li>
+      <span>Partners</span>
+      <div class="nav-drop">
+        <a href="partners.html#technology">Technology Partners <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#reseller">Reseller Programme <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#academic">Academic &amp; Research <span class="drop-badge soon">Soon</span></a>
+        <div class="nav-drop-sep"></div>
+        <a href="partners.html#apply">Become a Partner <span class="drop-badge rfp">Apply</span></a>
+      </div>
+    </li>
+  </ul>
+  <a href="mailto:dpramsajan@meeting-mind.com" class="nav-cta">Send us your problem →</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-inner">
+
+    <div class="hero-ident">
+      Intellica AI LLC &nbsp;·&nbsp; Sovereign AI Systems &nbsp;·&nbsp; Remote · Global
+    </div>
+
+    <h1>
+      Production AI systems<br>built in weeks, not months.
+      <span class="h1-accent">Verified. Sovereign. Yours.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Not prototypes. Not demos. <strong>Production-grade systems</strong> — formally verified, post-quantum hardened, fully documented, deployed to live infrastructure. We've shipped 8 systems across compliance, banking, agentic infrastructure, and SaaS. Each took weeks.
+    </p>
+
+    <div class="hero-rule"></div>
+
+    <div class="proof-bar">
+      <div class="pc"><div class="pn">8</div><div class="pl">Systems<br>shipped</div></div>
+      <div class="pc"><div class="pn">48h</div><div class="pl">Architecture<br>turnaround</div></div>
+      <div class="pc"><div class="pn">3</div><div class="pl">Formal verif.<br>tools in use</div></div>
+      <div class="pc"><div class="pn">0</div><div class="pl">Compile<br>warnings</div></div>
+      <div class="pc"><div class="pn">PQC</div><div class="pl">Post-quantum<br>in production</div></div>
+      <div class="pc"><div class="pn">$0</div><div class="pl">First arch.<br>review</div></div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-p">Send us your problem</a>
+      <a href="government.html" class="btn-g">Government offerings →</a>
+    </div>
+
+    <div class="verify-row">
+      <div class="vbadge"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>TLA+ model-checked</div>
+      <div class="vbadge"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Lean 4 theorem proven</div>
+      <div class="vbadge"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>NIST FIPS 203/204/205</div>
+      <div class="vbadge"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>EU AI Act Annex IV</div>
+      <div class="vbadge"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Dafny containment proven</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ INDUSTRY STRIP ══ -->
+<div class="industry-strip">
+  <div class="industry-strip-inner">
+    <div class="ind-label">Industry offerings</div>
+    <div class="ind-grid">
+      <a href="government.html" class="ind-card active">
+        <div class="ind-num">01</div>
+        <div class="ind-name">Government &amp; Public Sector</div>
+        <div class="ind-tag">Full offering page →</div>
+      </a>
+      <a href="finance.html" class="ind-card soon">
+        <div class="ind-num">02</div>
+        <div class="ind-name">Financial Services &amp; Banking</div>
+        <div class="ind-tag">Coming soon</div>
+      </a>
+      <a href="energy.html" class="ind-card soon">
+        <div class="ind-num">03</div>
+        <div class="ind-name">Health &amp; Life Sciences</div>
+        <div class="ind-tag">Coming soon</div>
+      </a>
+      <a href="energy.html" class="ind-card soon">
+        <div class="ind-num">04</div>
+        <div class="ind-name">Energy &amp; Critical Infrastructure</div>
+        <div class="ind-tag">Coming soon</div>
+      </a>
+      <a href="partners.html" class="ind-card soon">
+        <div class="ind-num">05</div>
+        <div class="ind-name">Defence &amp; Intelligence</div>
+        <div class="ind-tag">Coming soon</div>
+      </a>
+      <a href="enterprise.html" class="ind-card soon">
+        <div class="ind-num">06</div>
+        <div class="ind-name">Enterprise &amp; SaaS</div>
+        <div class="ind-tag">Coming soon</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SYSTEMS SECTION ══ -->
+<div class="sec fade" id="systems">
+  <p class="eye">02 — Production portfolio · click to verify</p>
+  <h2 class="sec-t">What we've <em>actually built</em></h2>
+  <p class="sec-s">Every system below is live. Each was architected and shipped in weeks — not months. These are not case studies. They are running infrastructure.</p>
+</div>
+
+<div class="systems-wrap">
+
+  <!-- VERICRYPT -->
+  <a href="https://vericrypt-7qp.pages.dev" target="_blank" class="system-card fade">
+    <div class="sys-top">
+      <div class="sys-info">
+        <div class="sys-status"><span class="dot dot-g"></span>Live · 2026 Post-Quantum Compliance</div>
+        <div class="sys-name">VeriCrypt · Post-Quantum Pipeline</div>
+        <h3 class="sys-title">Post-Quantum Compliance Engine</h3>
+        <p class="sys-body">Air-gapped binary. <strong>One command produces a cryptographically signed, regulator-ready .pqc compliance artifact.</strong> Anchored to a Merkle root. Signed with NIST FIPS 205 (SLH-DSA). Replays bit-identically. Built for CISOs facing DORA Article 65.</p>
+        <a href="https://vericrypt-7qp.pages.dev" class="sys-link" target="_blank">VeriCrypt Post-Quantum Compliance Engine ↗</a>
+        <div class="sys-tags">
+          <span class="stag">Rust</span><span class="stag">TLA+</span><span class="stag">SLH-DSA</span><span class="stag">Lean 4</span><span class="stag">TEE</span><span class="stag">DORA</span>
+        </div>
+      </div>
+      <div class="sys-viz">
+        <div class="pipe">
+          <div class="pipe-row">
+            <div class="pnode m">Compliance Payload</div>
+            <span class="parr">→</span>
+            <div class="pnode c">TEE</div>
+            <span class="parr">→</span>
+            <div class="pnode c">Air-Gap Execution</div>
+          </div>
+          <div class="pipe-row" style="margin-left:1rem">
+            <div class="pnode a">SLH-DSA</div>
+            <span class="parr">+</span>
+            <div class="pnode a">FIPS 205 Sign</div>
+            <span class="parr">→</span>
+            <div class="pnode g">Merkle Root Anchor</div>
+          </div>
+          <div class="pipe-cert">
+            .pqc Compliance Artifact · Signed · Reproducible · DORA-ready
+          </div>
+          <div class="pipe-grid">
+            <div class="pgcell"><span>Verification</span>TLA+ · Lean 4 · Formal Proof</div>
+            <div class="pgcell"><span>Replay</span>Bit-identical · NIST verified</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- VERITY -->
+  <a href="https://verity-core-banking.pages.dev" target="_blank" class="system-card fade">
+    <div class="sys-top">
+      <div class="sys-info">
+        <div class="sys-status"><span class="dot dot-g"></span>Live · 2026 Formally Verified · Agent-Native</div>
+        <div class="sys-name">Verity · Formally Verified Core Banking</div>
+        <h3 class="sys-title">Formally Verified Core Banking Platform</h3>
+        <p class="sys-body">Formally verified Rust core banking platform. <strong>TLA+-verified Conservation of Value invariant — every ledger transition is machine-checked to be sound before execution.</strong> ML-DSA-44 + ML-KEM-768 post-quantum cryptography throughout. Full OWASP Agentic Top 10 coverage. EU AI Act 93%+ addressability.</p>
+        <a href="https://verity-core-banking.pages.dev" class="sys-link" target="_blank">Verity Core Banking Platform ↗</a>
+        <div class="sys-tags">
+          <span class="stag">TLA+</span><span class="stag">ML-DSA-44</span><span class="stag">ML-KEM-768</span><span class="stag">PASETO v4</span><span class="stag">PCI DSS 4.0</span>
+        </div>
+      </div>
+      <div class="sys-viz">
+        <div class="pipe">
+          <div class="pipe-row">
+            <div class="pnode c">TLA+ CoV Invariant</div>
+            <span class="parr">→</span>
+            <div class="pnode g">Conservation of Value</div>
+          </div>
+          <div class="pipe-row">
+            <div class="pnode a">ML-DSA-44</div>
+            <span class="parr">+</span>
+            <div class="pnode a">ML-KEM-768 PQC</div>
+            <span class="parr">→</span>
+            <div class="pnode m">PASETO v4 Auth</div>
+          </div>
+          <div class="pipe-row">
+            <div class="pnode d">Core Banking Kernel</div>
+            <span class="parr">→</span>
+            <div class="pnode c">CoV invariant</div>
+            <span class="parr">+</span>
+            <div class="pnode g">agent-safe exec</div>
+          </div>
+          <div class="pipe-grid" style="margin-top:0.75rem">
+            <div class="pgcell"><span>PCI DSS 4.0 ✓</span>Full coverage verified</div>
+            <div class="pgcell"><span>EU AI Act</span>93%+ addressable</div>
+            <div class="pgcell"><span>OWASP Agentic</span>Top 10 coverage</div>
+            <div class="pgcell"><span>Agent-Native</span>MCP safe execution</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- ASL -->
+  <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing" target="_blank" class="system-card fade">
+    <div class="sys-top">
+      <div class="sys-info">
+        <div class="sys-status"><span class="dot dot-g"></span>Language · MIT Licensed · Compiled Agentic</div>
+        <div class="sys-name">ASL / Agent-Seed · Compiler Pipeline</div>
+        <h3 class="sys-title">Compiled Agentic Programming Language</h3>
+        <p class="sys-body"><strong>A programming language designed from scratch for safe agentic systems.</strong> Hand-written lexer, parser, Hindley-Milner type inference, SSA IR, bytecode VM. Dafny-verified containment proof. 253-test conformance suite. The language Intellica uses to specify and verify agent behaviour before deployment.</p>
+        <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing" class="sys-link" target="_blank">ASL / Agent-Seed ↗</a>
+        <div class="sys-tags">
+          <span class="stag">Rust</span><span class="stag">Dafny</span><span class="stag">H-M Types</span><span class="stag">SSA IR</span><span class="stag">NANOZK</span>
+        </div>
+      </div>
+      <div class="sys-viz">
+        <div class="pipe">
+          <div class="pipe-row">
+            <div class="pnode m">.asl Source</div>
+            <span class="parr">→</span>
+            <div class="pnode m">Lexer</div>
+            <span class="parr">→</span>
+            <div class="pnode m">Parser</div>
+            <span class="parr">→</span>
+            <div class="pnode c">H-M Type Infer.</div>
+          </div>
+          <div class="pipe-row">
+            <div class="pnode c">SSA IR</div>
+            <span class="parr">→</span>
+            <div class="pnode a">Optimised</div>
+            <span class="parr">→</span>
+            <div class="pnode g">Bytecode VM</div>
+            <span class="parr">→</span>
+            <div class="pnode g">Containment-safe exec</div>
+          </div>
+          <div class="pipe-cert">
+            Dafny Containment Proof — machine-checked · 253-test suite · ZK NANO
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- MEETINGMIND -->
+  <a href="https://meeting-mind.com" target="_blank" class="system-card fade">
+    <div class="sys-top">
+      <div class="sys-info">
+        <div class="sys-status"><span class="dot dot-g"></span>Live SaaS · Revenue · Organisational Intelligence</div>
+        <div class="sys-name">MeetingMind · SaaS Data Pipeline</div>
+        <h3 class="sys-title">AI Meeting Intelligence Platform</h3>
+        <p class="sys-body">Production SaaS. <strong>Monetised. Stripe-integrated. Live under active use.</strong> 13-field AI extraction pipeline, cross-meeting coaching, initiative tracking. Detected and blocked a live security scanner in production. A reference architecture for rapid AI SaaS delivery.</p>
+        <a href="https://meeting-mind.com" class="sys-link" target="_blank">MeetingMind ↗</a>
+        <div class="sys-tags">
+          <span class="stag">TypeScript</span><span class="stag">Cloudflare</span><span class="stag">Supabase</span><span class="stag">Stripe</span><span class="stag">AssemblyAI</span>
+        </div>
+      </div>
+      <div class="sys-viz">
+        <div class="pipe">
+          <div class="pipe-row">
+            <div class="pnode m">Meeting Audio</div>
+            <span class="parr">→</span>
+            <div class="pnode c">AssemblyAI STT</div>
+            <span class="parr">→</span>
+            <div class="pnode c">AI Extraction</div>
+          </div>
+          <div class="pipe-row" style="margin-left:0.5rem">
+            <div class="pnode a">13-field pipeline</div>
+            <span class="parr">→</span>
+            <div class="pnode g">Action · Decisions · Risk</div>
+          </div>
+          <div class="pipe-grid" style="margin-top:0.5rem">
+            <div class="pgcell"><span>Supabase</span>Postgres + RLS</div>
+            <div class="pgcell"><span>Cloudflare</span>Edge + Workers</div>
+            <div class="pgcell"><span>Stripe</span>Billing · Monetised</div>
+            <div class="pgcell"><span>Security</span>Live threat blocked</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- INTELLECTA CORTEX -->
+  <a href="https://intellecta-cortex.pages.dev/" target="_blank" class="system-card fade">
+    <div class="sys-top">
+      <div class="sys-info">
+        <div class="sys-status"><span class="dot dot-g"></span>Live · 2026 Enterprise AI Control Plane</div>
+        <div class="sys-name">Intellecta Cortex · Sovereign Control Plane</div>
+        <h3 class="sys-title">Enterprise AI Control Plane — Sovereign</h3>
+        <p class="sys-body">Self-hosted, air-gap capable enterprise AI control plane. <strong>Single Rust binary (≤10MB) connects to Maximo, SAP, Salesforce, Snowflake — replacing every legacy interface with one natural-language workspace.</strong> Every agent action BLAKE3-hashed, Ed25519-signed, Merkle-chained. Zero data exodus. EU AI Act Art.12 · NERC CIP-015-1 · IETF SCITT.</p>
+        <a href="https://intellecta-cortex.pages.dev/" class="sys-link" target="_blank">Intellecta Cortex ↗</a>
+        <div class="sys-tags">
+          <span class="stag">Rust</span><span class="stag">PostgreSQL</span><span class="stag">Ed25519</span><span class="stag">IETF SCITT</span><span class="stag">WCAG 2.2 AA</span><span class="stag">EU AI Act</span>
+        </div>
+      </div>
+      <div class="sys-viz">
+        <div class="pipe">
+          <div class="pipe-row">
+            <div class="pnode m">SAP/Maximo</div>
+            <span class="parr">+</span>
+            <div class="pnode m">Salesforce</div>
+            <span class="parr">+</span>
+            <div class="pnode m">Snowflake</div>
+          </div>
+          <div class="pipe-row">
+            <span style="font-size:0.65rem;color:var(--muted)">↓ Observer Agent · field-level CDC</span>
+          </div>
+          <div class="pipe-row">
+            <div class="pnode c">CORTEX CORE</div>
+            <span class="parr">·</span>
+            <div class="pnode d">≤10MB Rust binary</div>
+            <span class="parr">+</span>
+            <div class="pnode d">pgvector</div>
+          </div>
+          <div class="pipe-row">
+            <div class="pnode a">BLAKE3</div>
+            <span class="parr">·</span>
+            <div class="pnode a">Ed25519</div>
+            <span class="parr">·</span>
+            <div class="pnode a">IETF SCITT</div>
+            <span class="parr">·</span>
+            <div class="pnode a">Merkle</div>
+          </div>
+          <div class="pipe-cert">Security Fortress · 7 Layers · &lt;100ms CoW branches · instant rollback</div>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- VERICHAIN -->
+  <a href="https://verichain-5pt.pages.dev/" target="_blank" class="system-card fade">
+    <div class="sys-top">
+      <div class="sys-info">
+        <div class="sys-status"><span class="dot dot-g"></span>Live · 2026 Web 4.0 Infrastructure</div>
+        <div class="sys-name">VeriChain · Verifiable Agent Economy</div>
+        <h3 class="sys-title">Trustless Agent Economy Infrastructure</h3>
+        <p class="sys-body">Trustless infrastructure for autonomous agent economies. <strong>Every AI decision is a formally proven Decision Primitive — cryptographically signed, Merkle-proofed, permanently on-chain.</strong> NANOZK tiered proofs (ε &lt; 10⁻³⁷). ORCHID Kuramoto consensus (&lt;4s finality). Bitcoin Lightning settlement — uncensorable by architecture.</p>
+        <a href="https://verichain-5pt.pages.dev/" class="sys-link" target="_blank">VeriChain — Verifiable Agent Economy ↗</a>
+        <div class="sys-tags">
+          <span class="stag">Rust</span><span class="stag">NANOZK</span><span class="stag">ORCHID</span><span class="stag">Lightning</span><span class="stag">ERC-8004</span><span class="stag">Dafny</span>
+        </div>
+      </div>
+      <div class="sys-viz">
+        <div class="pipe">
+          <div class="pipe-row">
+            <div class="pnode m">ASL Agentseed VM</div>
+            <span class="parr">→</span>
+            <div class="pnode c">NANOZK Prover</div>
+            <span class="parr">→</span>
+            <div class="pnode g">ε &lt; 10⁻³⁷ T1–T4</div>
+          </div>
+          <div class="pipe-row">
+            <div class="pnode a">Capability Vault</div>
+            <span class="parr">+</span>
+            <div class="pnode a">Spera hypergraph</div>
+            <span class="parr">→</span>
+            <div class="pnode c">Decision Primitive Store</div>
+          </div>
+          <div class="pipe-row" style="margin-left:0.5rem">
+            <span style="font-size:0.6rem;color:var(--muted)">keccak256 · Merkle-proofed · append-only · ZK integrity</span>
+          </div>
+          <div class="pipe-grid" style="margin-top:0.5rem">
+            <div class="pgcell"><span>ORCHID Consensus</span>Kuramoto &lt;4s finality</div>
+            <div class="pgcell"><span>Lightning Settlement</span>L402 · uncensorable</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+
+</div><!-- /systems-wrap -->
+
+
+<!-- ══ CAPABILITIES ══ -->
+<div class="sec surface-band fade" style="max-width:100%;padding:5rem 0">
+  <div style="max-width:1320px;margin:0 auto;padding:0 4rem">
+    <p class="eye">03 — What we bring to your problem</p>
+    <h2 class="sec-t">Capabilities &amp; <em>expertise</em></h2>
+    <p class="sec-s">Six disciplines applied in combination. No single capability is sufficient. Together they produce systems that hold.</p>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-icon">⬡</div>
+        <h3 class="cap-title">Agentic Systems Architecture</h3>
+        <p class="cap-body">Multi-agent orchestration across all three topologies. OWASP Agentic Top 10. MCP server design. Memory substrates with formal guarantees. Safe-by-construction execution patterns verified before deployment.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">∀</div>
+        <h3 class="cap-title">Formal Verification</h3>
+        <p class="cap-body">TLA+ model checking. Lean 4 theorem proving. Dafny deductive verification. We don't claim safety — we prove it, with machine-checked proofs that regulators can replay and auditors can inspect.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">⊛</div>
+        <h3 class="cap-title">Post-Quantum Security</h3>
+        <p class="cap-body">ML-DSA-44, SLH-DSA, ML-KEM-768 deployed in production. Hybrid classical/PQC pathways. NIST FIPS 203/204/205. Constant-time implementation verified via dudect. Government systems built today must survive tomorrow's adversarial compute.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">⟳</div>
+        <h3 class="cap-title">Zero-to-Live Infrastructure</h3>
+        <p class="cap-body">Idempotent scaffold scripting. Zero-warning Rust compilation. ARC42 + C4 blueprints. Architecture Decision Records. Any competent engineering team can begin implementation on day one — no interpretation required.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">§</div>
+        <h3 class="cap-title">Compliance-Ready Systems</h3>
+        <p class="cap-body">DORA · EU AI Act Annex IV · PCI DSS 4.0 · CEN/TS 18264:2026. Compliance architecture is designed in from the first diagram — never retrofitted after the fact. The only approach that survives enforcement.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">⚡</div>
+        <h3 class="cap-title">AI Meta-Orchestration</h3>
+        <p class="cap-body">We compress 18-month engineering timelines into weeks using specification-driven AI meta-orchestration. Your team receives complete, verified, immediately buildable architectures — and executes from day one.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<div class="sec fade" id="services">
+  <p class="eye">04 — Engagements &amp; pricing</p>
+  <h2 class="sec-t">How we can <em>work together</em></h2>
+  <p class="sec-s">Four engagement models. All begin with a free 48-hour architecture review. Fixed-price milestones. No ambiguity about what you receive.</p>
+  <div class="svc-grid">
+
+    <div class="svc-card">
+      <div class="svc-name">Architecture Sprint</div>
+      <div class="svc-price">$2,500 – $7,500</div>
+      <p class="svc-body">48–72 hour production system design. <strong>Full ARC42/C4 architecture blueprint, Architecture Decision Records, component contracts, and deployment plan.</strong> Any competent engineering team can implement from it immediately. No ongoing commitment required.</p>
+      <ul class="svc-feat">
+        <li>Complete ARC42 + C4 model</li>
+        <li>Architecture Decision Records</li>
+        <li>Component contracts + interfaces</li>
+        <li>Deployment plan + runbook</li>
+      </ul>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-name">Fractional CTO</div>
+      <div class="svc-price">$4K – $15K / month</div>
+      <p class="svc-body">Embedded architecture leadership. <strong>We own the architecture so your team can focus on execution.</strong> System oversight, technical strategy, team mentorship, weekly architecture reviews, and continuous specification updates. Remote-first.</p>
+      <ul class="svc-feat">
+        <li>Weekly architecture reviews</li>
+        <li>Technical strategy ownership</li>
+        <li>Team mentorship + specification updates</li>
+        <li>Vendor evaluation + technology selection</li>
+      </ul>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-name">Advisory</div>
+      <div class="svc-price">$200 – $350 / hour</div>
+      <p class="svc-body">Systems architecture, AI infrastructure, post-quantum security, formal verification, compliance design. <strong>Targeted expertise for critical decisions.</strong> Architecture review, threat modelling, technology selection, regulatory strategy.</p>
+      <ul class="svc-feat">
+        <li>Architecture and security review</li>
+        <li>Threat modelling + risk analysis</li>
+        <li>Regulatory compliance strategy</li>
+        <li>Technology selection + vendor risk</li>
+      </ul>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-name">Full Systems Build</div>
+      <div class="svc-price">$25K – $250K+</div>
+      <p class="svc-body">End-to-end architecture plus scaffolded codebase for enterprise deployment. <strong>Zero-warning Rust workspace with full CI/CD, documentation, and team onboarding delivered in weeks.</strong> Every component formally specified, every interface contract documented. Fixed-price milestones.</p>
+      <ul class="svc-feat">
+        <li>Full production system delivery</li>
+        <li>Formal verification where applicable</li>
+        <li>CI/CD, documentation, team onboarding</li>
+        <li>Fixed-price milestones — no surprises</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ CTA ══ -->
+<div class="cta-sec">
+  <div class="cta-inner">
+    <p class="eye" style="display:inline-block">05 — Work with us</p>
+    <h2>Tell us your hardest<br><em style="font-style:normal;color:var(--cyan)">technical problem.</em></h2>
+    <p class="cta-sub">We'll send you a complete architecture design within 48 hours. No charge for the first architecture review. If it solves your problem — and it will — we discuss what ongoing engagement looks like from there.</p>
+    <div class="cta-btns">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-p">Email us directly</a>
+      <a href="https://wa.me/18687195236" class="btn-g">WhatsApp →</a>
+      <a href="tel:+18687195236" class="btn-g">+1 868 719 5236</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="foot-l">
+    <div class="foot-brand">INTELLICA<span>.</span>AI LLC</div>
+    <div class="foot-tag">Principal: Damian Ramsajan · Trinidad &amp; Tobago · Remote · Global</div>
+  </div>
+  <ul class="foot-links">
+    <li><a href="government.html">Government</a></li>
+    <li><a href="finance.html">Finance</a></li>
+    <li><a href="energy.html">Energy</a></li>
+    <li><a href="partners.html">Partners</a></li>
+    <li><a href="https://vericrypt-7qp.pages.dev/dpr">Profile</a></li>
+    <li><a href="mailto:dpramsajan@meeting-mind.com">dpramsajan@meeting-mind.com</a></li>
+    <li><a href="tel:+18687195236">+1 868 719 5236</a></li>
+    <li><a href="https://wa.me/18687195236">WhatsApp</a></li>
+  </ul>
+  <div class="foot-r">INTELLICA AI LLC · 2026 · All systems verified</div>
+</footer>
+
+<script>
+/* ── HERO GRID ANIMATION (identical to government page) ── */
+(function(){
+  const canvas=document.getElementById('hero-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,cols,rows,dots=[],sweep=0;
+  function resize(){
+    W=canvas.width=canvas.offsetWidth;
+    H=canvas.height=canvas.offsetHeight;
+    cols=Math.ceil(W/52)+1;rows=Math.ceil(H/52)+1;dots=[];
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)
+      dots.push({x:c*52,y:r*52,pulse:Math.random()*Math.PI*2});
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    sweep=(sweep+0.004)%(Math.PI*2);
+    ctx.strokeStyle='rgba(148,163,210,0.045)';ctx.lineWidth=0.5;
+    for(let c=0;c<cols;c++){ctx.beginPath();ctx.moveTo(c*52,0);ctx.lineTo(c*52,H);ctx.stroke()}
+    for(let r=0;r<rows;r++){ctx.beginPath();ctx.moveTo(0,r*52);ctx.lineTo(W,r*52);ctx.stroke()}
+    const sx=W*0.5+Math.cos(sweep-Math.PI*0.5)*W*0.9;
+    const g=ctx.createLinearGradient(sx-160,0,sx+30,0);
+    g.addColorStop(0,'rgba(0,200,255,0)');
+    g.addColorStop(0.7,'rgba(0,200,255,0.04)');
+    g.addColorStop(1,'rgba(0,200,255,0.09)');
+    ctx.fillStyle=g;ctx.fillRect(sx-160,0,190,H);
+    for(let d of dots){
+      const dist=Math.abs(d.x-sx);
+      const base=0.06+0.18*Math.max(0,1-dist/120);
+      d.pulse+=0.015;
+      const alpha=base*(0.7+0.3*Math.sin(d.pulse));
+      ctx.beginPath();ctx.arc(d.x,d.y,1.2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,200,255,${alpha})`;ctx.fill();
+    }
+    const op=0.15+0.08*Math.sin(t*0.001);
+    ctx.beginPath();ctx.arc(W*0.5,H*0.5,4,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,200,255,${op})`;ctx.fill();
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);resize();
+  requestAnimationFrame(draw);
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)canvas.style.display='none';
+})();
+
+/* ── SCROLL FADE ── */
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');obs.unobserve(x.target)}});
+},{threshold:0.06});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+</script>
+
+</body>
+</html>
