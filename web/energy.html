@@ -61,9 +61,15 @@ nav{
 .nav-links>li>a,.nav-links>li>span{
   font-family:var(--mono);font-size:0.67rem;color:var(--muted);
   text-decoration:none;letter-spacing:0.06em;transition:color 0.2s;
-  padding:0 0.9rem;height:60px;display:flex;align-items:center;
+  padding:0 0.9rem;height:60px;display:flex;align-items:center;gap:0.4rem;
   cursor:pointer;white-space:nowrap;
 }
+.nav-pill{
+  font-size:0.5rem;letter-spacing:0.1em;
+  color:var(--green);background:rgba(53,212,122,0.06);
+  border:1px solid rgba(53,212,122,0.25);padding:0.08rem 0.35rem;border-radius:2px;
+}
+.nav-pill.soon{color:var(--muted);border-color:var(--border-hi);background:transparent}
 .nav-links>li>a:hover,.nav-links>li>span:hover,
 .nav-links>li:hover>a,.nav-links>li:hover>span{color:var(--cyan)}
 .nav-links>li>span::after{content:'▾';margin-left:0.3rem;font-size:0.5rem;opacity:0.6}
@@ -771,18 +777,19 @@ footer{
 <nav>
   <a href="index.html" class="nav-brand">INTELLICA</a>
   <ul class="nav-links">
-    <li><a href="#sovereign">Sovereign</a></li>
-    <li><a href="#agentic">Agentic</a></li>
-    <li><a href="#compliance">Compliance</a></li>
-    <li><a href="#training">Training</a></li>
+    <li><a href="government.html">Government <span class="nav-pill">Live</span></a></li>
+    <li><a href="energy.html" style="color:var(--cyan)">Energy <span class="nav-pill">Live</span></a></li>
+    <li><a href="finance.html">Finance <span class="nav-pill">Live</span></a></li>
+    <li><a href="smb.html">SMB <span class="nav-pill soon">Soon</span></a></li>
+    <li><a href="enterprise.html">Enterprise <span class="nav-pill soon">Soon</span></a></li>
     <li>
-      <span>Industries</span>
-      <div class="nav-drop">
-        <a href="government.html">Government &amp; Public Sector <span class="drop-badge live">Live</span></a>
-        <a href="finance.html">Financial Services &amp; Banking <span class="drop-badge soon">Soon</span></a>
-        <a href="energy.html" style="color:var(--cyan)">Energy &amp; Critical Infra <span class="drop-badge live">Live</span></a>
-        <a href="health.html">Health &amp; Life Sciences <span class="drop-badge soon">Soon</span></a>
-        <a href="defence.html">Defence &amp; Intelligence <span class="drop-badge soon">Soon</span></a>
+      <span>Platforms</span>
+       <div class="nav-drop">
+        <a href="https://intellecta-cortex.pages.dev/">Cortex — Control Plane <span class="drop-badge live">Live</span></a>
+        <a href="https://verity-core-banking.pages.dev/">Verity — Core Banking <span class="drop-badge live">Live</span></a>
+        <a href="https://vericrypt-7qp.pages.dev/">VeriCrypt — PQC Compliance <span class="drop-badge live">Live</span></a>
+        <a href="https://verichain-5pt.pages.dev/">VeriCrypt — PQC Compliance <span class="drop-badge live">Live</span></a>
+        <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing/">VeriCrypt — PQC Compliance <span class="drop-badge live">Live</span></a>
       </div>
     </li>
     <li>

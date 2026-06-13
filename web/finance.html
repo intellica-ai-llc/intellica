@@ -1,0 +1,1726 @@
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --void:       #050810;
+  --deep:       #080C16;
+  --surface:    #0C1220;
+  --card:       #0F1628;
+  --card-hi:    #131D35;
+  --lift:       #192236;
+  --border:     rgba(148,163,210,0.10);
+  --border-hi:  rgba(148,163,210,0.22);
+  --border-act: rgba(148,163,210,0.40);
+  --cyan:       #00C8FF;
+  --cyan-dim:   rgba(0,200,255,0.08);
+  --amber:      #E8A617;
+  --amber-dim:  rgba(232,166,23,0.08);
+  --green:      #35D47A;
+  --green-dim:  rgba(53,212,122,0.08);
+  --red:        #FF4D4D;
+  --text:       #C8D4F0;
+  --text-hi:    #E8EEFF;
+  --muted:      #6678A0;
+  --faint:      rgba(148,163,210,0.35);
+  --mono:       'IBM Plex Mono',monospace;
+  --display:    'Syne',sans-serif;
+  --body:       'IBM Plex Sans',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+h1,h2,h3,h4,.hero h1,.sec-title,.cta-sec h2,.card-title,.bp-title,.ds-name,.fs-title,.ph-name,.why-title,.opt-title,.sys-title,.cap-title,.svc-name,.ind-name{
+  overflow:visible;
+  padding-bottom:0.25em;
+  line-height:1.25;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4rem;height:60px;
+  background:rgba(5,8,16,0.88);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.nav-brand{
+  font-family:var(--display);font-size:1rem;font-weight:700;
+  letter-spacing:0.12em;color:var(--text-hi);text-decoration:none;
+  display:flex;align-items:center;gap:0.5rem;
+  padding-bottom:0.25em;overflow:visible;
+}
+.nav-brand::before{
+  content:'';display:block;width:6px;height:6px;
+  background:var(--cyan);border-radius:50%;
+  box-shadow:0 0 10px var(--cyan);
+}
+.nav-links{display:flex;gap:0;list-style:none;align-items:stretch}
+.nav-links>li{position:relative;display:flex;align-items:center}
+.nav-links>li>a,.nav-links>li>span{
+  font-family:var(--mono);font-size:0.67rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.06em;transition:color 0.2s;
+  padding:0 0.9rem;height:60px;display:flex;align-items:center;gap:0.4rem;
+  cursor:pointer;white-space:nowrap;
+}
+.nav-links>li>a:hover,.nav-links>li>span:hover,
+.nav-links>li:hover>a,.nav-links>li:hover>span{color:var(--cyan)}
+.nav-links>li>span::after{content:'▾';margin-left:0.3rem;font-size:0.5rem;opacity:0.6}
+.nav-drop{
+  display:none;position:absolute;top:60px;left:0;
+  background:rgba(5,8,16,0.98);backdrop-filter:blur(24px);
+  border:1px solid var(--border-hi);border-top:1px solid var(--cyan);
+  border-radius:0 0 3px 3px;min-width:210px;z-index:200;padding:0.4rem 0;
+}
+.nav-links>li:hover .nav-drop{display:block}
+.nav-drop a{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  font-family:var(--mono);font-size:0.64rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.05em;
+  padding:0.6rem 1.1rem;transition:background 0.15s,color 0.15s;white-space:nowrap;
+}
+.nav-drop a:hover{background:rgba(0,200,255,0.06);color:var(--cyan)}
+.nav-pill{
+  font-size:0.5rem;letter-spacing:0.1em;
+  color:var(--green);background:rgba(53,212,122,0.06);
+  border:1px solid rgba(53,212,122,0.25);padding:0.08rem 0.35rem;border-radius:2px;
+}
+.nav-pill.soon{color:var(--muted);border-color:var(--border-hi);background:transparent}
+.drop-badge{
+  font-size:0.52rem;letter-spacing:0.1em;
+  color:var(--muted);background:var(--surface);
+  border:1px solid var(--border);padding:0.1rem 0.4rem;border-radius:2px;
+}
+.drop-badge.live{color:var(--green);border-color:rgba(53,212,122,0.25);background:rgba(53,212,122,0.06)}
+.drop-badge.soon{color:var(--muted)}
+.drop-badge.rfp{color:var(--amber);border-color:rgba(232,166,23,0.25);background:rgba(232,166,23,0.06)}
+.nav-cta{
+  font-family:var(--mono);font-size:0.68rem;color:var(--void);
+  background:var(--cyan);padding:0.4rem 1.1rem;
+  border-radius:2px;text-decoration:none;font-weight:500;
+  letter-spacing:0.06em;transition:opacity 0.2s;margin-left:1rem;
+}
+.nav-cta:hover{opacity:0.85}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:7rem 2rem 4.5rem;
+  position:relative;overflow:hidden;
+}
+.hero-canvas{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+}
+.hero-inner{position:relative;z-index:1;max-width:780px}
+
+.hero-class{
+  display:inline-flex;align-items:center;gap:1rem;
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2.2rem;
+}
+.hero-class::before,.hero-class::after{
+  content:'';display:block;width:32px;height:1px;background:var(--border-hi);
+}
+
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(2rem,4vw,3.4rem);
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:-0.025em;
+  color:var(--text-hi);
+  margin-bottom:0;
+  padding-bottom:0.25em;
+  overflow:visible;
+}
+.hero h1 .line-accent{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1px var(--cyan);
+  font-weight:700;
+  padding-bottom:0.2em;
+}
+
+.hero-sub{
+  margin-top:1.1rem;
+  font-family:var(--body);
+  font-size:1rem;font-weight:300;
+  color:var(--muted);
+  letter-spacing:0.01em;
+  line-height:1.7;
+  max-width:580px;
+  margin-left:auto;margin-right:auto;
+}
+.hero-sub strong{color:var(--text);font-weight:400}
+
+.hero-rule{
+  width:1px;height:40px;
+  background:var(--border-hi);
+  margin:2rem auto;
+}
+
+.hero-proof{
+  display:flex;align-items:stretch;justify-content:center;
+  gap:0;
+  border:1px solid var(--border-hi);
+  border-radius:2px;overflow:hidden;
+  max-width:640px;margin:0 auto 2.2rem;
+}
+.proof-cell{
+  flex:1;padding:0.85rem 1rem;
+  border-right:1px solid var(--border);
+  text-align:center;
+  background:rgba(12,18,32,0.7);
+}
+.proof-cell:last-child{border-right:none}
+.proof-num{
+  font-family:var(--display);font-size:1.35rem;font-weight:700;
+  color:var(--cyan);line-height:1;margin-bottom:0.2rem;
+}
+.proof-label{
+  font-family:var(--mono);font-size:0.56rem;
+  color:var(--muted);letter-spacing:0.08em;
+  text-transform:uppercase;line-height:1.4;
+}
+
+.hero-cta{
+  display:flex;align-items:center;justify-content:center;
+  gap:0.85rem;margin-bottom:2.2rem;flex-wrap:wrap;
+}
+.btn-primary{
+  font-family:var(--mono);font-size:0.72rem;letter-spacing:0.07em;
+  color:var(--void);background:var(--cyan);border:none;
+  padding:0.78rem 1.9rem;border-radius:2px;
+  text-decoration:none;font-weight:500;cursor:pointer;
+  transition:opacity 0.2s;
+}
+.btn-primary:hover{opacity:0.85}
+.btn-ghost{
+  font-family:var(--mono);font-size:0.72rem;letter-spacing:0.07em;
+  color:var(--text);background:transparent;
+  border:1px solid var(--border-hi);
+  padding:0.78rem 1.9rem;border-radius:2px;
+  text-decoration:none;cursor:pointer;
+  transition:border-color 0.2s,color 0.2s;
+}
+.btn-ghost:hover{border-color:var(--faint);color:var(--text-hi)}
+
+.hero-verify{
+  display:flex;align-items:center;justify-content:center;
+  gap:1.8rem;flex-wrap:wrap;
+}
+.verify-badge{
+  display:flex;align-items:center;gap:0.4rem;
+  font-family:var(--mono);font-size:0.59rem;
+  color:var(--muted);letter-spacing:0.05em;
+}
+.verify-badge svg{width:12px;height:12px;flex-shrink:0}
+.vb-check{color:rgba(53,212,122,0.8)}
+.vb-check svg path{stroke:rgba(53,212,122,0.8)}
+
+/* ── SIGNAL BAND ── */
+.signal-band{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:0.9rem 4rem;
+  display:flex;gap:2.5rem;align-items:center;
+  overflow-x:auto;background:var(--surface);
+  position:relative;
+}
+.signal-band::before{
+  content:'LIVE FINANCE SECTOR SIGNALS';
+  font-family:var(--mono);font-size:0.56rem;
+  letter-spacing:0.18em;color:var(--muted);
+  white-space:nowrap;padding-right:2rem;
+  border-right:1px solid var(--border-hi);
+  margin-right:0.5rem;
+}
+.sig{
+  display:flex;align-items:center;gap:0.5rem;
+  white-space:nowrap;font-family:var(--mono);
+  font-size:0.64rem;color:var(--muted);letter-spacing:0.04em;
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+  animation:pulse 2s infinite;
+}
+.dot.g{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot.a{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+.dot.r{background:var(--red);box-shadow:0 0 6px var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* ── SECTION / LAYOUT ── */
+.section{
+  padding:6rem 4rem;
+  max-width:1320px;margin:0 auto;
+  position:relative;z-index:1;
+}
+.sec-eye{
+  font-family:var(--mono);font-size:0.65rem;
+  color:var(--cyan);letter-spacing:0.22em;
+  text-transform:uppercase;margin-bottom:0.6rem;
+}
+.sec-title{
+  font-family:var(--display);
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:700;letter-spacing:-0.025em;
+  line-height:1.25;margin-bottom:0.9rem;
+  color:var(--text-hi);
+  padding-bottom:0.25em;overflow:visible;
+}
+.sec-sub{
+  font-size:0.95rem;color:var(--muted);
+  max-width:540px;margin-bottom:3rem;line-height:1.7;
+}
+
+/* ── DOMAIN DIVIDER ── */
+.dom-div{
+  display:flex;align-items:center;gap:1.5rem;
+  padding:4.5rem 4rem 1.5rem;
+  max-width:1320px;margin:0 auto;
+}
+.dom-tag{
+  font-family:var(--mono);font-size:0.65rem;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--cyan);border:1px solid rgba(0,200,255,0.25);
+  padding:0.3rem 0.8rem;border-radius:2px;white-space:nowrap;
+}
+.dom-line{flex:1;height:1px;background:var(--border)}
+
+/* ── GRID ── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+  gap:1.5rem;
+  max-width:1320px;margin:0 auto 1rem;
+}
+
+/* ── CARD ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:2rem 2.2rem;
+  display:flex;flex-direction:column;gap:0.9rem;
+  position:relative;overflow:hidden;
+  transition:background 0.25s,box-shadow 0.25s,border-color 0.25s;
+  cursor:default;
+  border-left:2px solid transparent;
+}
+.card:hover{
+  background:var(--card-hi);
+  border-color:var(--border-hi);
+  border-left-color:var(--cyan);
+  box-shadow:0 0 0 1px rgba(0,200,255,0.12),0 8px 32px rgba(0,0,0,0.4);
+}
+.card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,rgba(0,200,255,0.5),transparent 60%);
+  opacity:0.18;transition:opacity 0.25s;
+}
+.card:hover::before{opacity:0.55}
+
+.card::after{
+  content:attr(data-class);
+  position:absolute;top:1rem;right:1rem;
+  font-family:var(--mono);font-size:0.52rem;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(102,120,160,0.5);
+  pointer-events:none;
+}
+
+.card-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.card-type{
+  font-family:var(--mono);font-size:0.6rem;
+  color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;
+}
+
+.badge{
+  display:inline-flex;align-items:center;gap:0.35rem;
+  font-family:var(--mono);font-size:0.57rem;
+  letter-spacing:0.06em;text-transform:uppercase;
+  padding:0.22rem 0.6rem;border-radius:2px;white-space:nowrap;flex-shrink:0;
+}
+.badge.rfp{background:rgba(232,166,23,0.1);color:var(--amber);border:1px solid rgba(232,166,23,0.22)}
+.badge.live{background:rgba(53,212,122,0.1);color:var(--green);border:1px solid rgba(53,212,122,0.2)}
+.badge.req{background:rgba(255,77,77,0.1);color:var(--red);border:1px solid rgba(255,77,77,0.2)}
+.badge.univ{background:rgba(0,200,255,0.06);color:var(--cyan);border:1px solid rgba(0,200,255,0.2)}
+
+.card-title{
+  font-family:var(--display);font-size:1.2rem;font-weight:600;
+  line-height:1.25;letter-spacing:-0.01em;color:var(--text-hi);
+  padding-bottom:0.2em;overflow:visible;
+}
+
+.card-body{
+  font-size:0.88rem;color:var(--muted);line-height:1.68;
+}
+.card-body strong{color:var(--text);font-weight:500}
+
+.dlv{border-top:1px solid var(--border);padding-top:0.9rem}
+.dlv-lbl{
+  font-family:var(--mono);font-size:0.58rem;
+  color:var(--muted);letter-spacing:0.14em;
+  text-transform:uppercase;margin-bottom:0.5rem;
+}
+.dlv ul{list-style:none;display:flex;flex-direction:column;gap:0.32rem}
+.dlv li{
+  font-size:0.82rem;color:var(--text);
+  padding-left:1.1rem;position:relative;line-height:1.5;
+}
+.dlv li::before{
+  content:'→';position:absolute;left:0;
+  color:var(--cyan);font-size:0.72rem;
+}
+
+.tco{
+  background:rgba(0,200,255,0.04);
+  border:1px solid rgba(0,200,255,0.14);
+  border-radius:3px;padding:1.1rem 1.2rem;
+}
+.tco-lbl{
+  font-family:var(--mono);font-size:0.58rem;
+  color:var(--cyan);letter-spacing:0.14em;
+  text-transform:uppercase;margin-bottom:0.4rem;
+}
+.tco p{font-size:0.84rem;color:var(--text);line-height:1.6}
+.tco strong{color:var(--cyan)}
+
+.opt-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:3px;padding:0.85rem 1rem;
+}
+.opt-lbl{
+  font-family:var(--mono);font-size:0.58rem;
+  color:var(--cyan);letter-spacing:0.14em;margin-bottom:0.25rem;
+}
+.opt-title{
+  font-family:var(--display);font-size:0.9rem;
+  font-weight:600;color:var(--text-hi);margin-bottom:0.2rem;
+  padding-bottom:0.15em;overflow:visible;
+}
+.opt-body{font-size:0.79rem;color:var(--muted);line-height:1.55}
+
+.card-ft{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-top:auto;border-top:1px solid var(--border);
+  padding-top:0.9rem;gap:1rem;flex-wrap:wrap;
+}
+.price{
+  font-family:var(--display);font-size:1.05rem;
+  font-weight:700;color:var(--cyan);
+}
+.price-note{
+  font-family:var(--mono);font-size:0.58rem;
+  color:var(--muted);margin-top:0.15rem;
+}
+.markets{
+  font-family:var(--mono);font-size:0.6rem;
+  color:var(--muted);text-align:right;line-height:1.55;
+}
+.tags{display:flex;flex-wrap:wrap;gap:0.35rem}
+.tag{
+  font-family:var(--mono);font-size:0.56rem;
+  color:var(--muted);border:1px solid var(--border);
+  padding:0.12rem 0.45rem;border-radius:2px;letter-spacing:0.04em;
+}
+
+/* ── FEATURED CARD ── */
+.card.feat{
+  grid-column:1/-1;
+  flex-direction:row;gap:3rem;align-items:flex-start;
+}
+.feat-l{flex:1.3}
+.feat-r{flex:1}
+.opt-stack{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.75rem}
+
+.ptable{width:100%;border-collapse:collapse;margin-top:0.5rem}
+.ptable tr{border-bottom:1px solid var(--border)}
+.ptable tr:last-child{border-bottom:none}
+.ptable td{padding:0.45rem 0;font-size:0.81rem}
+.ptable td:first-child{color:var(--muted);padding-right:1rem}
+.ptable td:last-child{color:var(--text);text-align:right;font-family:var(--mono);font-size:0.76rem}
+.ptable tr.total td{color:var(--cyan)!important;font-weight:600;font-size:0.86rem!important;padding-top:0.7rem!important}
+
+.phases{display:flex;flex-direction:column;gap:0;margin-top:0.75rem}
+.phase{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:0.8rem 0;border-bottom:1px solid var(--border);
+}
+.phase:last-child{border-bottom:none}
+.ph-num{
+  font-family:var(--mono);font-size:0.65rem;
+  color:var(--cyan);min-width:2rem;padding-top:0.1rem;
+}
+.ph-c{flex:1}
+.ph-name{
+  font-family:var(--display);font-size:0.88rem;
+  font-weight:600;color:var(--text-hi);margin-bottom:0.15rem;
+  padding-bottom:0.1em;overflow:visible;
+}
+.ph-desc{font-size:0.78rem;color:var(--muted)}
+.ph-price{
+  font-family:var(--mono);font-size:0.72rem;
+  color:var(--cyan);white-space:nowrap;padding-top:0.1rem;
+}
+
+/* ── PROCESS OVERVIEW SECTION ── */
+.process-wrap{
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:5rem 4rem;
+}
+.process-inner{max-width:1320px;margin:0 auto}
+
+.bigpic{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:1.5rem;
+  margin-bottom:4rem;
+}
+.bigpic-cell{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:3px;
+  padding:2rem 1.8rem;
+}
+.bigpic-cell:hover{background:var(--card-hi)}
+.bp-icon{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.18em;color:var(--cyan);
+  text-transform:uppercase;margin-bottom:1rem;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.bp-icon::before{
+  content:'';display:block;
+  width:16px;height:1px;background:var(--cyan);opacity:0.5;
+}
+.bp-title{
+  font-family:var(--display);font-size:1.05rem;
+  font-weight:600;color:var(--text-hi);
+  line-height:1.25;margin-bottom:0.6rem;
+  padding-bottom:0.2em;overflow:visible;
+}
+.bp-body{font-size:0.83rem;color:var(--muted);line-height:1.7}
+.bp-body strong{color:var(--text);font-weight:500}
+
+.flow-label{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.18em;color:var(--muted);
+  text-transform:uppercase;margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.flow-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.flow-steps{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1.5rem;
+  position:relative;
+}
+
+.flow-steps::before{
+  content:'';
+  position:absolute;
+  top:28px;left:10%;right:10%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border-hi) 15%,var(--border-hi) 85%,transparent);
+  z-index:0;
+}
+
+.flow-step{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0 0.75rem;
+  position:relative;z-index:1;
+}
+.fs-num{
+  width:56px;height:56px;
+  border-radius:50%;
+  border:1px solid var(--border-hi);
+  background:var(--card);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:0.7rem;font-weight:500;
+  color:var(--cyan);
+  margin-bottom:1rem;
+  position:relative;
+  flex-shrink:0;
+  transition:border-color 0.2s,background 0.2s;
+}
+.fs-num::after{
+  content:'';position:absolute;inset:-4px;
+  border-radius:50%;border:1px solid transparent;
+  transition:border-color 0.2s;
+}
+.flow-step:hover .fs-num{
+  background:var(--lift);border-color:var(--cyan);
+}
+.flow-step:hover .fs-num::after{
+  border-color:rgba(0,200,255,0.15);
+}
+.fs-title{
+  font-family:var(--display);font-size:0.82rem;
+  font-weight:600;color:var(--text-hi);
+  margin-bottom:0.4rem;line-height:1.25;
+  padding-bottom:0.15em;overflow:visible;
+}
+.fs-body{font-size:0.75rem;color:var(--muted);line-height:1.55}
+.fs-entry{
+  margin-top:0.7rem;
+  font-family:var(--mono);font-size:0.58rem;
+  color:var(--cyan);letter-spacing:0.06em;
+  border:1px solid rgba(0,200,255,0.2);
+  padding:0.2rem 0.5rem;border-radius:2px;
+  background:rgba(0,200,255,0.04);
+  white-space:nowrap;
+}
+
+.domain-summary{
+  margin-top:3.5rem;
+}
+.ds-label{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.18em;color:var(--muted);
+  text-transform:uppercase;margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.ds-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.ds-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+.ds-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:3px;
+  padding:1.5rem 1.6rem;
+  transition:background 0.2s,border-color 0.2s;
+  border-left:2px solid transparent;
+}
+.ds-card:hover{background:var(--card-hi);border-left-color:var(--cyan);border-color:var(--border-hi)}
+.ds-num{
+  font-family:var(--mono);font-size:0.58rem;
+  color:var(--cyan);letter-spacing:0.12em;margin-bottom:0.5rem;
+}
+.ds-name{
+  font-family:var(--display);font-size:0.95rem;
+  font-weight:600;color:var(--text-hi);
+  margin-bottom:0.4rem;line-height:1.25;
+  padding-bottom:0.15em;overflow:visible;
+}
+.ds-one{font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:0.75rem}
+.ds-benefits{
+  list-style:none;display:flex;flex-direction:column;gap:0.25rem;
+}
+.ds-benefits li{
+  font-size:0.75rem;color:var(--text);
+  display:flex;align-items:flex-start;gap:0.4rem;line-height:1.4;
+}
+.ds-benefits li::before{
+  content:'✓';color:var(--green);font-size:0.65rem;
+  flex-shrink:0;margin-top:0.1rem;
+}
+.ds-entry-point{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  margin-top:0.9rem;
+  font-family:var(--mono);font-size:0.58rem;
+  color:var(--amber);letter-spacing:0.06em;
+}
+.ds-entry-point::before{content:'→ Start:';opacity:0.7}
+
+/* ── MARKET MAP ── */
+.mmap{
+  padding:5rem 4rem;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.mmap-inner{max-width:1320px;margin:0 auto}
+.mmap-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.5rem;
+  margin-top:2rem;
+}
+.mcell{
+  background:var(--void);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:1.4rem;
+}
+.mreg{
+  font-family:var(--mono);font-size:0.62rem;
+  color:var(--cyan);letter-spacing:0.16em;
+  text-transform:uppercase;margin-bottom:0.7rem;
+}
+.mitems{list-style:none;display:flex;flex-direction:column;gap:0.3rem}
+.mitems li{
+  font-size:0.77rem;color:var(--muted);
+  display:flex;align-items:center;gap:0.45rem;
+}
+.md{width:4px;height:4px;border-radius:50%;flex-shrink:0;background:var(--green)}
+.md.a{background:var(--amber)}
+
+/* ── WHY SECTION ── */
+.why-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin-top:2.2rem;
+}
+.why-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:3px;padding:1.6rem;
+  transition:border-color 0.2s;
+}
+.why-card:hover{border-color:var(--border-act)}
+.why-icon{
+  font-family:var(--mono);font-size:0.65rem;
+  color:var(--cyan);letter-spacing:0.14em;
+  text-transform:uppercase;margin-bottom:0.8rem;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.why-icon::before{content:'//';opacity:0.5}
+.why-title{
+  font-family:var(--display);font-size:1rem;
+  font-weight:600;color:var(--text-hi);margin-bottom:0.4rem;
+  padding-bottom:0.15em;overflow:visible;
+}
+.why-body{font-size:0.83rem;color:var(--muted);line-height:1.65}
+
+/* ── CTA ── */
+.cta-sec{
+  padding:7rem 4rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-inner{max-width:620px;margin:0 auto;position:relative;z-index:1}
+.cta-sec::before{
+  content:'';position:absolute;
+  bottom:-240px;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(0,200,255,0.05) 0%,transparent 65%);
+  pointer-events:none;
+}
+.cta-sec h2{
+  font-family:var(--display);
+  font-size:clamp(2.2rem,4.5vw,3.5rem);
+  font-weight:800;letter-spacing:-0.03em;
+  line-height:1.25;color:var(--text-hi);
+  margin:1.5rem 0 1.2rem;
+  padding-bottom:0.25em;overflow:visible;
+}
+.cta-sub{color:var(--muted);font-size:1rem;line-height:1.7;margin-bottom:2.5rem}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:1.8rem 4rem;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+}
+.foot-brand{
+  font-family:var(--mono);font-size:0.72rem;
+  font-weight:500;color:var(--muted);letter-spacing:0.12em;
+}
+.foot-brand span{color:var(--cyan)}
+.foot-links{display:flex;gap:1.5rem;list-style:none}
+.foot-links a{
+  font-family:var(--mono);font-size:0.62rem;
+  color:var(--muted);text-decoration:none;
+  letter-spacing:0.06em;transition:color 0.2s;
+}
+.foot-links a:hover{color:var(--cyan)}
+.foot-r{font-family:var(--mono);font-size:0.6rem;color:rgba(102,120,160,0.5);letter-spacing:0.08em}
+
+/* ── SCROLL FADE ── */
+.fade{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease}
+.fade.vis{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;transition:none}}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:0 1.25rem}
+  .nav-links{display:none}
+  .hero{padding:7rem 1.25rem 4rem}
+  .hero-proof{flex-wrap:wrap}
+  .proof-cell{min-width:120px}
+  .signal-band{padding:0.9rem 1.25rem}
+  .signal-band::before{display:none}
+  .section{padding:4rem 1.25rem}
+  .dom-div{padding:3rem 1.25rem 1rem}
+  .grid{grid-template-columns:1fr;gap:1.5rem}
+  .card.feat{flex-direction:column}
+  .process-wrap{padding:4rem 1.25rem}
+  .bigpic{grid-template-columns:1fr;gap:1.5rem}
+  .flow-steps{grid-template-columns:1fr;gap:2rem}
+  .flow-steps::before{display:none}
+  .ds-grid{grid-template-columns:1fr;gap:1.5rem}
+  .mmap{padding:4rem 1.25rem}
+  .mmap-grid{gap:1.5rem}
+  .why-grid{gap:1.5rem}
+  .cta-sec{padding:5rem 1.25rem}
+  footer{padding:1.8rem 1.25rem;flex-direction:column;align-items:flex-start}
+}
+</style><body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">INTELLICA</a>
+  <ul class="nav-links">
+    <li><a href="government.html">Government <span class="nav-pill">Live</span></a></li>
+    <li><a href="energy.html">Energy <span class="nav-pill">Live</span></a></li>
+    <li><a href="finance.html" style="color:var(--cyan)">Finance <span class="nav-pill">Live</span></a></li>
+    <li><a href="smb.html">SMB <span class="nav-pill soon">Soon</span></a></li>
+    <li><a href="enterprise.html">Enterprise <span class="nav-pill soon">Soon</span></a></li>
+    <li>
+      <span>Platforms</span>
+       <div class="nav-drop">
+        <a href="https://intellecta-cortex.pages.dev/">Cortex — Control Plane <span class="drop-badge live">Live</span></a>
+        <a href="https://verity-core-banking.pages.dev/">Verity — Core Banking <span class="drop-badge live">Live</span></a>
+        <a href="https://vericrypt-7qp.pages.dev/">VeriCrypt — PQC Compliance <span class="drop-badge live">Live</span></a>
+        <a href="https://verichain-5pt.pages.dev/">VeriCrypt — PQC Compliance <span class="drop-badge live">Live</span></a>
+        <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing/">VeriCrypt — PQC Compliance <span class="drop-badge live">Live</span></a>
+      </div>
+    </li>
+    <li>
+      <span>Partners</span>
+      <div class="nav-drop">
+        <a href="partners.html#technology">Technology Partners <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#reseller">Reseller Programme <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#apply">Become a Partner <span class="drop-badge rfp">Apply</span></a>
+      </div>
+    </li>
+  </ul>
+  <a href="mailto:dpramsajan@meeting-mind.com" class="nav-cta">Request briefing →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas class="hero-canvas" id="grid-canvas"></canvas>
+  <div class="hero-inner">
+
+    <div class="hero-class">
+      Intellica AI &nbsp;·&nbsp; Finance &amp; Banking Capability Register &nbsp;·&nbsp; 2026
+    </div>
+
+    <h1>
+      Banking infrastructure that proves<br>its own correctness.
+      <span class="line-accent">Sovereign. Agent-Native. Quantum-Ready.</span>
+    </h1>
+
+    <p class="hero-sub">
+      We deploy <strong>Verity, the world's first formally verified core banking platform</strong>, and <strong>VeriCrypt, the first machine-verified post-quantum compliance engine</strong> — on your infrastructure, air-gapped, with every transaction Merkle-proofed and every compliance decision Lean 4 verified. From legacy core migration to agentic fraud detection, every engagement delivers a regulator-ready artifact, not a slide deck.
+    </p>
+
+    <div class="hero-rule"></div>
+
+    <div class="hero-proof">
+      <div class="proof-cell">
+        <div class="proof-num">10⁻¹⁸</div>
+        <div class="proof-label">Attack probability<br>(Verity ledger)</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-num">4hrs</div>
+        <div class="proof-label">50K-account bank<br>to shadow-mode live</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-num">&lt;60s</div>
+        <div class="proof-label">10K-cert PQC scan<br>(VeriCrypt)</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-num">42.6%</div>
+        <div class="proof-label">multi-agent trajectories<br>hide a dangerous dependency</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-num">Aug '26</div>
+        <div class="proof-label">EU AI Act high-risk<br>enforcement</div>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Send us your problem</a>
+      <a href="https://wa.me/18687195236" class="btn-ghost">WhatsApp Damian</a>
+    </div>
+
+    <div class="hero-verify">
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        TLA+ ledger verified
+      </div>
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Lean 4 compliance proofs
+      </div>
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        DORA Art. 5–14
+      </div>
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        BIAN v14.0 · ISO 20022
+      </div>
+      <div class="verify-badge vb-check">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        NIST FIPS 203/204/205
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SIGNAL BAND -->
+<div class="signal-band">
+  <div class="sig"><span class="dot a"></span>EU AI Act — high-risk credit scoring, Aug 2026</div>
+  <div class="sig"><span class="dot g"></span>DORA — AI as critical ICT risk, in force</div>
+  <div class="sig"><span class="dot a"></span>ECB SREP priorities 2026–2028 published</div>
+  <div class="sig"><span class="dot g"></span>EBA 2026 work programme — active</div>
+  <div class="sig"><span class="dot r"></span>OCC/FDIC — BaaS sponsor-bank oversight crackdown</div>
+  <div class="sig"><span class="dot g"></span>CFPB §1033 / FDX API v6.5 — open banking</div>
+  <div class="sig"><span class="dot a"></span>NERC-style PQC migration — DORA crypto-agility 2026/2030/2035</div>
+  <div class="sig"><span class="dot g"></span>Citi — 175,000 staff AI training mandate</div>
+  <div class="sig"><span class="dot g"></span>OWASP Agentic Top 10 — ASI01–ASI10 baseline</div>
+</div>
+
+
+<!-- ══ PROCESS OVERVIEW ══ -->
+<div class="process-wrap">
+  <div class="process-inner">
+
+    <p class="sec-eye">Where to start</p>
+    <h2 class="sec-title" style="margin-bottom:0.5rem">The big picture in 60 seconds</h2>
+    <p class="sec-sub">Not sure where AI fits in your bank, fintech, or treasury function? Here is how every successful agent-native banking programme is structured — and where Intellica enters.</p>
+
+    <!-- Problem / Solution / Outcome -->
+    <div class="bigpic">
+      <div class="bigpic-cell">
+        <div class="bp-icon">The problem</div>
+        <div class="bp-title">Your core can't host agents, and your crypto can't survive 2030</div>
+        <p class="bp-body">2026 marks the shift from chatbots to autonomous agents that reconcile ledgers, pre-underwrite loans, and detect fraud without continuous oversight — but legacy cores have no concept of an "agent" as a customer, and your certificate inventory was never built for a quantum-capable adversary. <strong>None of this is a failure of your team — it's the foundation nobody designed for either problem.</strong></p>
+      </div>
+      <div class="bigpic-cell">
+        <div class="bp-icon">What we do</div>
+        <div class="bp-title">We deploy platforms that prove correctness, not claim it</div>
+        <p class="bp-body">Verity and VeriCrypt are not chatbot wrappers around your existing core. <strong>Verity is a formally verified, agent-native banking operating system; VeriCrypt is a machine-verified PQC compliance engine</strong> — both single-binary, air-gap capable, and designed so the regulator's evidence comes from the platform, not from your compliance team's spreadsheets.</p>
+      </div>
+      <div class="bigpic-cell">
+        <div class="bp-icon">The outcome</div>
+        <div class="bp-title">Audits become verification, not trust</div>
+        <p class="bp-body">Every transaction carries a Merkle proof. Every compliance decision is Lean 4 verified in under 1ms. Every certificate's quantum exposure is SLH-DSA signed and independently checkable offline. <strong>Your regulator doesn't need access to your systems, trust in Intellica, or a network connection to verify any of it.</strong></p>
+      </div>
+    </div>
+
+    <!-- Five-step flow -->
+    <div class="flow-label">How a typical engagement unfolds</div>
+    <div class="flow-steps">
+
+      <div class="flow-step">
+        <div class="fs-num">01</div>
+        <div class="fs-title">Assess &amp; Orient</div>
+        <p class="fs-body">We map your core banking architecture, agentic AI exposure, and cryptographic inventory — and run a free first VeriCrypt scan.</p>
+        <div class="fs-entry">2–4 weeks</div>
+      </div>
+
+      <div class="flow-step">
+        <div class="fs-num">02</div>
+        <div class="fs-title">Design the Architecture</div>
+        <p class="fs-body">Verity deployment plan, Agent Integrity Engine governance design, DORA/EU AI Act evidence mapping, and a PQC migration roadmap — before a line of code touches production.</p>
+        <div class="fs-entry">3–6 weeks</div>
+      </div>
+
+      <div class="flow-step">
+        <div class="fs-num">03</div>
+        <div class="fs-title">Build the Pilot</div>
+        <p class="fs-body">One agentic banking use case — fraud/AML, loan pre-underwriting, or onboarding — running on Verity's Agent Integrity Engine, in shadow mode against your existing core.</p>
+        <div class="fs-entry">4–8 weeks</div>
+      </div>
+
+      <div class="flow-step">
+        <div class="fs-num">04</div>
+        <div class="fs-title">Train Your People</div>
+        <p class="fs-body">Executive briefings for IT/risk leadership, engineering bootcamps for agent-native development, and HITL oversight training for compliance and operations staff.</p>
+        <div class="fs-entry">Parallel track</div>
+      </div>
+
+      <div class="flow-step">
+        <div class="fs-num">05</div>
+        <div class="fs-title">Scale with Confidence</div>
+        <p class="fs-body">Full core migration via the 90-day parallel-run simulator, agency-wide PQC migration, and continuous Theorem Validation Pipeline in production.</p>
+        <div class="fs-entry">Month 3 onward</div>
+      </div>
+
+    </div>
+
+    <!-- Domain quick-reference summary -->
+    <div class="domain-summary">
+      <div class="ds-label">What we build — by domain</div>
+      <div class="ds-grid">
+
+        <div class="ds-card">
+          <div class="ds-num">01 // Sovereign Core &amp; Migration</div>
+          <div class="ds-name">Verity, deployed on your infrastructure.</div>
+          <p class="ds-one">Single-binary, air-gap capable core banking platform with a legacy migration toolkit that auto-detects COBOL/DB2/CSV and runs a 90-day parallel-run simulator before cutover.</p>
+          <ul class="ds-benefits">
+            <li>4-hour shadow-mode deployment for a 50,000-account bank</li>
+            <li>TLA+ verified ledger — Conservation of Value (Σ entries = 0)</li>
+            <li>BIAN v14.0, ISO 20022 / CBPR+ native</li>
+          </ul>
+          <div class="ds-entry-point">Core migration assessment ($9,720)</div>
+        </div>
+
+        <div class="ds-card">
+          <div class="ds-num">02 // Agentic Banking Operations</div>
+          <div class="ds-name">Agents as banking participants, not bolt-ons.</div>
+          <p class="ds-one">GNN fraud detection at 1.12ms/transaction, AI-native onboarding with 85%+ automated decisions, and loan pre-underwriting agents — all governed by the Agent Integrity Engine.</p>
+          <ul class="ds-benefits">
+            <li>One Agent One Account — capability-governed smart accounts</li>
+            <li>No agent can create money, approve its own transfer, or change a fee schedule</li>
+            <li>Every action requires an unforgeable PASETO v4 capability token</li>
+          </ul>
+          <div class="ds-entry-point">Agentic banking pilot ($32,400)</div>
+        </div>
+
+        <div class="ds-card">
+          <div class="ds-num">03 // Post-Quantum Compliance</div>
+          <div class="ds-name">VeriCrypt — proof, not a report.</div>
+          <p class="ds-one">Ingests your certificate inventory and outputs a SLH-DSA signed, Merkle-proofed .pqc compliance artifact any regulator can verify offline in under one second.</p>
+          <ul class="ds-benefits">
+            <li>10,000-certificate scan in under 60 seconds</li>
+            <li>CycloneDX 1.7 CBOM output, ECMA-424 compliant</li>
+            <li>Multiplicative HNDL exposure model with Shapley-ranked migration roadmap</li>
+          </ul>
+          <div class="ds-entry-point">PQC compliance readiness ($5,400)</div>
+        </div>
+
+        <div class="ds-card">
+          <div class="ds-num">04 // AI Governance &amp; Compliance</div>
+          <div class="ds-name">DORA and EU AI Act, designed in.</div>
+          <p class="ds-one">Agent Integrity Engine governance framework mapping every agent action to OWASP Agentic Top 10, EU AI Act Art. 9–11/50, and DORA Art. 5–14 — with Lean 4 proof artifacts as the evidence.</p>
+          <ul class="ds-benefits">
+            <li>Compliance verification in under 1ms per agent decision</li>
+            <li>Auto-generated regulatory packages: LaTeX tables, Lean 4 certificates</li>
+            <li>Closes the 42.6% multi-agent dependency risk class entirely</li>
+          </ul>
+          <div class="ds-entry-point">Agent Integrity governance ($18,360)</div>
+        </div>
+
+        <div class="ds-card">
+          <div class="ds-num">05 // Workforce Training</div>
+          <div class="ds-name">Your bank runs it. Not us.</div>
+          <p class="ds-one">Executive briefings for IT and risk leadership, engineering bootcamps for agent-native banking development, and HITL oversight training for compliance teams.</p>
+          <ul class="ds-benefits">
+            <li>Leadership reads agentic-AI vendor claims critically before procuring</li>
+            <li>Engineers extend Verity's capability-based microkernel in-house</li>
+            <li>Compliance staff interpret Lean 4 proof traces and SAR narratives</li>
+          </ul>
+          <div class="ds-entry-point">Executive briefing — bank IT/risk ($6,480)</div>
+        </div>
+
+        <div class="ds-card">
+          <div class="ds-num">06 // Sector Programmes</div>
+          <div class="ds-name">Community banks to central banks.</div>
+          <p class="ds-one">From a 50,000-account community bank shadow-mode pilot in 4 hours, to sovereign HPC sizing for central banks and sovereign wealth funds running fully air-gapped.</p>
+          <ul class="ds-benefits">
+            <li>USB-installable, air-gapped bootstrap for disconnected environments</li>
+            <li>Cortex connects Verity/VeriCrypt to existing core, GL, and risk systems</li>
+            <li>Sovereign LLMOps: 3,600 req/hr on self-hosted GPU</li>
+          </ul>
+          <div class="ds-entry-point">Sovereign HPC for finance ($10,800)</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div><!-- /process-wrap -->
+
+
+<!-- ══ DOMAIN 01: SOVEREIGN CORE & MIGRATION ══ -->
+<div class="dom-div" id="sovereign">
+  <span class="dom-tag">01 // Sovereign Core &amp; Migration</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+
+  <div class="card" data-class="// foundation">
+    <div class="card-hd">
+      <span class="card-type">Software · Core Banking Platform</span>
+      <span class="badge live">Verity core</span>
+    </div>
+    <h3 class="card-title">Verity Deployment — Sovereign Core Banking</h3>
+    <p class="card-body">Fiserv agentOS, Thought Machine, Oracle, and IBM Sovereign Core each solve one slice — AI workflow, smart contracts, cloud AI suites, or air-gapped infrastructure — but none combine formal ledger verification with agent-native identity. <strong>Verity is a single Rust binary: TLA+ verified double-entry ledger, capability-based microkernel, and AI agents as first-class banking participants</strong>, deployable bare-metal or air-gapped.</p>
+    <div class="tco">
+      <div class="tco-lbl">Performance benchmark</div>
+      <p>P99 ledger append latency <strong>&lt;50ms</strong>; GNN fraud detection <strong>&lt;2ms</strong>; 328 BIAN service domains; <strong>99.999% availability SLA</strong>; attack probability on the ledger invariant: <strong>10⁻¹⁸</strong>.</p>
+    </div>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Verity single-binary deployment — bare metal, Kubernetes, or air-gapped USB bootstrap</li>
+        <li>Conservation of Value invariant (Σ entries = 0) — TLA+ verified at compile time, runtime model-checked</li>
+        <li>Payment rails: ISO 20022 native, FedNow, RTP, ACH, FedWire, SWIFT, Canton Network</li>
+        <li>Intel TDX / AMD SEV-SNP confidential computing configured at boot</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">Pilot tier — Contact us</div><div class="price-note">Shadow-mode deployment against existing core</div></div>
+      <div class="markets">Community banks · regional banks<br>central banks · sovereign wealth funds</div>
+    </div>
+    <div class="tags"><span class="tag">Verity</span><span class="tag">TLA+</span><span class="tag">BIAN v14.0</span><span class="tag">air-gap</span></div>
+  </div>
+
+  <div class="card" data-class="// migration">
+    <div class="card-hd">
+      <span class="card-type">Software · Migration</span>
+      <span class="badge univ">90-day parallel run</span>
+    </div>
+    <h3 class="card-title">Legacy Core Migration Assessment &amp; Roadmap</h3>
+    <p class="card-body">Core banking modernisation depends on a clean, integrated, real-time data foundation — and the gap between transformations that succeed and those that fail is almost always governance and testing rigour, not technology. <strong>Verity's Legacy Core Migration Toolkit auto-detects COBOL, DB2, CSV, and fixed-width formats and maps them to BIAN v14.0 with confidence scoring</strong>; this engagement scopes that migration before any cutover commitment.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Current-core data and schema inventory with BIAN v14.0 mapping confidence scores</li>
+        <li>90-day parallel-run simulator plan validating behavioural equivalence before cutover authorisation</li>
+        <li>Cutover decision framework — technical readiness drives timing, not a fixed deadline</li>
+        <li>DORA / SOX ITGC / FFIEC IT Handbook evidence mapping for the migration programme</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$9,720 – $15,180</div><div class="price-note">9-11 day discovery + roadmap</div></div>
+      <div class="markets">Banks on COBOL/DB2 legacy cores<br>considering BaaS or agentic expansion</div>
+    </div>
+    <div class="tags"><span class="tag">migration</span><span class="tag">BIAN</span><span class="tag">parallel-run</span></div>
+  </div>
+
+  <div class="card" data-class="// connectivity">
+    <div class="card-hd">
+      <span class="card-type">Software · Integration</span>
+      <span class="badge univ">Cortex layer</span>
+    </div>
+    <h3 class="card-title">Cortex Connectors — Core, GL, and Risk Systems</h3>
+    <p class="card-body">A new core or compliance engine is only as useful as what it can see. <strong>Cortex's connector framework mirrors data from existing core banking, general ledger, risk, and treasury systems into Verity's TraceDB</strong> via the Absorption Pipeline — Strangler Fig migration with instant rollback, no rip-and-replace.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Connector design for existing core (Temenos, FIS, Finastra, Jack Henry, or in-house)</li>
+        <li>General ledger and risk-system mirroring into Verity's event-sourced ledger</li>
+        <li>Strangler Fig façade with instant rollback at any workflow step</li>
+        <li>Cortex Finance Knowledge Snap: dashboards, query templates, connector configs</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">Custom scoped</div><div class="price-note">Scoped per core platform</div></div>
+      <div class="markets">Universal — any bank running<br>a named core platform</div>
+    </div>
+    <div class="tags"><span class="tag">Cortex</span><span class="tag">connectors</span><span class="tag">Strangler Fig</span></div>
+  </div>
+
+</div>
+
+
+<!-- ══ DOMAIN 02: AGENTIC BANKING OPERATIONS ══ -->
+<div class="dom-div" id="agentic">
+  <span class="dom-tag">02 // Agentic Banking Operations</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+
+  <!-- Featured: Agentic Banking Pilot -->
+  <div class="card feat" data-class="// phase-1">
+    <div class="feat-l">
+      <div class="card-hd">
+        <span class="card-type">Software · Build</span>
+        <span class="badge live">Phase 1 of 3</span>
+      </div>
+      <h3 class="card-title" style="font-size:1.45rem;margin-top:0.5rem">Agentic Banking Pilot — Single Use Case, Shadow Mode</h3>
+      <p class="card-body" style="margin-top:0.5rem">2026 marks the shift from chatbots and summarisation to autonomous agents executing complex multi-step workflows — reconciling ledgers, pre-underwriting loans, detecting fraud in instant payment flows. McKinsey estimates banks leveraging AI at scale achieve 30–50% faster development cycles. <strong>This pilot deploys one agent skill in shadow mode against your existing core, governed end-to-end by Verity's Agent Integrity Engine</strong> — no agent action touches production funds during the pilot.</p>
+      <div class="opt-stack">
+        <div class="opt-block">
+          <div class="opt-lbl">Option A</div>
+          <div class="opt-title">GNN Fraud &amp; AML Detection Agent</div>
+          <div class="opt-body">Multi-model GNN stack processes the transaction graph at ~1.12ms per-transaction inference latency, with automated SAR narrative generation and forensic traceability — aligned to AMLD6, BSA/AML, FinCEN SAR/CTR.</div>
+        </div>
+        <div class="opt-block">
+          <div class="opt-lbl">Option B</div>
+          <div class="opt-title">Loan Pre-Underwriting Agent</div>
+          <div class="opt-body">Reads financial statements and supporting documents in real time to produce a pre-underwriting recommendation with full provenance — proposal only, credit committee retains decision authority.</div>
+        </div>
+        <div class="opt-block">
+          <div class="opt-lbl">Option C</div>
+          <div class="opt-title">AI-Native Onboarding &amp; KYC Agent</div>
+          <div class="opt-body">Selfie liveness, instant ID verification, and zero-document upload for standard-risk applicants — targeting the 85%+ automated decision rate and 70% of post-signup interactions Verity's Companion handles in production.</div>
+        </div>
+      </div>
+      <div class="tags" style="margin-top:1rem">
+        <span class="tag">Verity</span><span class="tag">Agent Integrity Engine</span><span class="tag">PASETO v4</span><span class="tag">GNN</span><span class="tag">shadow mode</span>
+      </div>
+    </div>
+    <div class="feat-r">
+      <div class="dlv-lbl">Engagement breakdown</div>
+      <table class="ptable">
+        <tr><td>Discovery &amp; use-case scoping (3 days)</td><td>$3,240 – $4,140</td></tr>
+        <tr><td>Cortex connector to existing core (10 days)</td><td>$10,800 – $13,800</td></tr>
+        <tr><td>Agent skill build — one option (10 days)</td><td>$10,800 – $13,800</td></tr>
+        <tr><td>Shadow-mode validation &amp; testing (5 days)</td><td>$5,400 – $6,900</td></tr>
+        <tr><td>Documentation &amp; handover (2 days)</td><td>$2,160 – $2,760</td></tr>
+        <tr class="total"><td>Phase 1 pilot total</td><td>$32,400 – $41,400</td></tr>
+      </table>
+      <div style="margin-top:1.4rem">
+        <div class="dlv-lbl">Scale-up trajectory</div>
+        <div class="phases">
+          <div class="phase">
+            <div class="ph-num">P1</div>
+            <div class="ph-c"><div class="ph-name">Pilot (this engagement)</div><div class="ph-desc">One agent skill, shadow mode, reference deployment</div></div>
+            <div class="ph-price">$32–41K</div>
+          </div>
+          <div class="phase">
+            <div class="ph-num">P2</div>
+            <div class="ph-c"><div class="ph-name">Multi-agent expansion</div><div class="ph-desc">Additional agent skills, production cutover for select workflows</div></div>
+            <div class="ph-price">$150–300K</div>
+          </div>
+          <div class="phase">
+            <div class="ph-num">P3</div>
+            <div class="ph-c"><div class="ph-name">Full core migration &amp; rollout</div><div class="ph-desc">90-day parallel-run cutover, agency-wide deployment</div></div>
+            <div class="ph-price">Enterprise</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-class="// production">
+    <div class="card-hd">
+      <span class="card-type">Software · Agentic · Fraud</span>
+      <span class="badge live">1.12ms inference</span>
+    </div>
+    <h3 class="card-title">Real-Time Fraud &amp; AML Operations Suite</h3>
+    <p class="card-body">AML, KYC, and KYB are moving from basic automation to adaptive, real-time intelligence — but agentic AI's continuous learning demands massive data storage and strict governance, or it becomes a new class of risk. <strong>Verity's multi-model GNN stack (SCAFDS, AGNAE, GCRMF) runs against the live Merkle transaction graph</strong>, producing automated SAR narratives with forensic traceability back to source transactions.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">Capabilities delivered</div>
+      <ul>
+        <li>Multi-model GNN fraud detection at ~1.12ms per-transaction latency</li>
+        <li>Automated SAR narrative generation with forensic traceability</li>
+        <li>AMLD6, BSA/AML, FinCEN SAR/CTR alignment</li>
+        <li>Every flagged transaction provenance-linked for investigator review</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">See Agentic Banking Pilot</div></div>
+      <div class="markets">Universal — highest-ROI agentic<br>use case per 2026 CTO surveys</div>
+    </div>
+    <div class="tags"><span class="tag">agentic</span><span class="tag">GNN</span><span class="tag">AML</span><span class="tag">fraud</span></div>
+  </div>
+
+  <div class="card" data-class="// onboarding">
+    <div class="card-hd">
+      <span class="card-type">Software · Agentic · CX</span>
+      <span class="badge live">85%+ automated</span>
+    </div>
+    <h3 class="card-title">AI-Native Account Opening &amp; Onboarding</h3>
+    <p class="card-body">Form-based onboarding generates drop-off and call-centre overflow at exactly the moment a bank is trying to win a new customer. <strong>Verity's two-minute instant account opening uses AI-native KYC with selfie liveness and zero document upload for standard-risk applicants</strong>, with over 85% of decisions fully automated and Verity Companion handling 70% of post-signup interactions.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">Capabilities delivered</div>
+      <ul>
+        <li>Selfie liveness and instant identity verification, zero document upload for standard risk</li>
+        <li>85%+ fully automated account-opening decisions</li>
+        <li>Verity Companion handles 70% of post-signup customer interactions</li>
+        <li>CIP 31 CFR §1020.220, eIDAS 2.0, WCAG 2.2 AA, ECOA aligned</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">See Agentic Banking Pilot</div></div>
+      <div class="markets">Community banks, fintechs, and<br>BaaS programmes under OCC/FDIC scrutiny</div>
+    </div>
+    <div class="tags"><span class="tag">agentic</span><span class="tag">onboarding</span><span class="tag">KYC</span></div>
+  </div>
+
+  <div class="card" data-class="// underwriting">
+    <div class="card-hd">
+      <span class="card-type">Software · Agentic · Credit</span>
+      <span class="badge req">EU AI Act high-risk</span>
+    </div>
+    <h3 class="card-title">Loan Pre-Underwriting &amp; Reconciliation Agents</h3>
+    <p class="card-body">The EU AI Act classifies credit scoring and risk assessment as high-risk AI, requiring a conformity assessment and extensive documentation before launch. <strong>Verity's agent-native architecture builds the documentation in as a byproduct of operation</strong> — every pre-underwriting recommendation and ledger reconciliation produces a Lean 4 proof trace usable directly in the conformity assessment.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">Capabilities delivered</div>
+      <ul>
+        <li>Real-time financial-statement reading for loan pre-underwriting recommendations</li>
+        <li>Autonomous ledger reconciliation with Lean 4 proof traces per decision</li>
+        <li>EU AI Act Art. 9–11 conformity documentation generated from production telemetry</li>
+        <li>Credit committee retains final decision authority — agent output is advisory</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">See Agentic Banking Pilot</div></div>
+      <div class="markets">EU-regulated lenders preparing<br>for Aug 2026 high-risk AI enforcement</div>
+    </div>
+    <div class="tags"><span class="tag">agentic</span><span class="tag">credit</span><span class="tag">EU AI Act</span></div>
+  </div>
+
+</div>
+
+
+<!-- ══ DOMAIN 03: POST-QUANTUM COMPLIANCE ══ -->
+<div class="dom-div" id="compliance">
+  <span class="dom-tag">03 // Post-Quantum Cryptographic Compliance</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+
+  <!-- Featured: VeriCrypt -->
+  <div class="card feat" data-class="// dora-crypto-agility">
+    <div class="feat-l">
+      <div class="card-hd">
+        <span class="card-type">Software · Compliance Engine</span>
+        <span class="badge req">DORA crypto-agility 2026/2030/2035</span>
+      </div>
+      <h3 class="card-title" style="font-size:1.45rem;margin-top:0.5rem">VeriCrypt — Post-Quantum Compliance, Proven</h3>
+      <p class="card-body" style="margin-top:0.5rem">Existing PQC tools scan and report; cloud-based scanners require uploading your certificate inventory and produce no formal proofs. <strong>VeriCrypt ingests your certificate inventory and outputs a SLH-DSA (FIPS 205) signed, Merkle-proofed .pqc compliance artifact</strong> that any regulator can independently verify offline, in under one second — with zero network egress during the scan.</p>
+      <div class="dlv" style="margin-top:0.75rem">
+        <div class="dlv-lbl">What you receive</div>
+        <ul>
+          <li>Multi-source certificate discovery: PEM/DER/PKCS#12, CMDB imports, TLS endpoint probing, repo scanning</li>
+          <li>Multiplicative HNDL exposure model (Rufino et al. 2026) with Shapley-ranked Phase 1/2/3 migration roadmap</li>
+          <li>CycloneDX 1.7 CBOM output (ECMA-424) with PQC algorithm naming</li>
+          <li>Signed .pqc artifact: Merkle root, ASL VM execution trace, TEE attestation (Intel TDX / AMD SEV-SNP), PKI chain</li>
+          <li>Freely-distributable offline verifier binary for your regulator</li>
+        </ul>
+      </div>
+      <div class="tco" style="margin-top:0.75rem">
+        <div class="tco-lbl">Why this matters for DORA</div>
+        <p>DORA Art. 5–14 treats AI and cryptographic posture as critical ICT risk, with crypto-agility milestones at 2026/2030/2035 (PQCMM v1.0). <strong>VeriCrypt's .pqc report is the evidence artifact — your regulator needs no access to your systems, no trust in Intellica, and no network connection to verify it.</strong></p>
+      </div>
+    </div>
+    <div class="feat-r">
+      <div class="dlv-lbl">PQC compliance readiness engagement</div>
+      <table class="ptable" style="margin-top:0.6rem">
+        <tr><td>First scan — free (10K certs, &lt;60s)</td><td>$0</td></tr>
+        <tr><td>Licence activation &amp; signed .pqc setup (2 days)</td><td>$2,160 – $2,760</td></tr>
+        <tr><td>HNDL exposure review &amp; Shapley roadmap (3 days)</td><td>$3,240 – $4,140</td></tr>
+        <tr><td>DORA Art. 5–14 evidence packaging (2 days)</td><td>$2,160 – $2,760</td></tr>
+        <tr class="total"><td>Readiness engagement total</td><td>$5,400 – $9,660</td></tr>
+      </table>
+      <div style="margin-top:1.3rem">
+        <div class="dlv-lbl">Capability comparison</div>
+        <p style="font-size:0.83rem;color:var(--muted);margin-top:0.4rem;line-height:1.65">IBM Quantum-Safe Explorer and Arqit Enterprise Inhibitor are cloud-based, require data upload, and produce no formal compliance proofs, CBOM output, or air-gap capability. Manual consultancy audits produce no machine-verifiable evidence at all. VeriCrypt is the only option with all of the above in one air-gapped binary.</p>
+      </div>
+      <div class="tags" style="margin-top:1.3rem">
+        <span class="tag">VeriCrypt</span><span class="tag">FIPS 205</span><span class="tag">CBOM 1.7</span><span class="tag">air-gap</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-class="// agent-integrity">
+    <div class="card-hd">
+      <span class="card-type">Consulting + Software · Governance</span>
+      <span class="badge req">42.6% multi-agent risk class</span>
+    </div>
+    <h3 class="card-title">Agent Integrity Engine Governance Framework</h3>
+    <p class="card-body">42.6% of real multi-agent trajectories hide a dangerous dependency — two individually safe agents that can collectively reach a forbidden goal. <strong>Verity's Agent Integrity Engine is a capability-based microkernel that eliminates this entire risk class</strong> at the VM level: this engagement designs the governance framework, risk-tier classification, and Lean 4 theorem mapping for every agent deployed.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Agent risk-tier classification (EU AI Act Art. 9–11/50, OWASP ASI01–ASI10)</li>
+        <li>PASETO v4 capability-token scoping per agent role, dual-control thresholds (≥$10,000)</li>
+        <li>Live production theorem set: capital conservation, delegation closure safety, session-typed deadlock freedom</li>
+        <li>Auto-generated DORA audit packages: LaTeX tables, Lean 4 proof files, regulatory evidence on demand</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$18,360 – $23,460</div><div class="price-note">17-day governance engagement</div></div>
+      <div class="markets">Any bank deploying more than<br>one agent skill in production</div>
+    </div>
+    <div class="tags"><span class="tag">Agent Integrity Engine</span><span class="tag">Lean 4</span><span class="tag">OWASP ASI</span></div>
+  </div>
+
+  <div class="card" data-class="// available">
+    <div class="card-hd">
+      <span class="card-type">Consulting · Strategy</span>
+      <span class="badge univ">Universal</span>
+    </div>
+    <h3 class="card-title">AI &amp; PQC Strategic Roadmap for Banking IT</h3>
+    <p class="card-body">Fragmented AI regulation is expected to drive $1 billion in compliance spend across financial services, and you can't govern AI when your data lives in disconnected silos. <strong>We scope, prioritise, and sequence your agentic AI and PQC migration initiatives</strong> against DORA, EU AI Act, Section 1033, Basel III, and UK PRA guidance — drawing on Verity and VeriCrypt's live benchmarks as reference points.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>AI use-case inventory prioritised by ROI and regulatory risk tier</li>
+        <li>PQC migration roadmap aligned to 2026/2030/2035 PQCMM milestones</li>
+        <li>Vendor risk and lock-in mitigation strategy for core and AI platforms</li>
+        <li>Sequenced 18-month roadmap with investment estimates</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$9,720 – $15,180</div><div class="price-note">9-11 day discovery + roadmap</div></div>
+      <div class="markets">Banks, fintechs, and central banks<br>beginning agentic AI or PQC programmes</div>
+    </div>
+    <div class="tags"><span class="tag">strategy</span><span class="tag">DORA</span><span class="tag">PQC roadmap</span></div>
+  </div>
+
+</div>
+
+
+<!-- ══ DOMAIN 04: WORKFORCE TRAINING ══ -->
+<div class="dom-div" id="training">
+  <span class="dom-tag">04 // Workforce AI Training</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+
+  <div class="card" data-class="// fastest-entry">
+    <div class="card-hd">
+      <span class="card-type">Training · Executive</span>
+      <span class="badge univ">Fastest entry point</span>
+    </div>
+    <h3 class="card-title">AI &amp; Agentic Banking Strategy for IT &amp; Risk Leadership</h3>
+    <p class="card-body">Citi now requires 175,000 employees to complete AI training — a signal that agentic AI is about to touch every corner of every banking organisation. <strong>This 2-day executive workshop covers what "formally verified" and "agent-native" actually mean, how to read DORA/EU AI Act requirements against vendor claims, and where Verity and VeriCrypt's benchmarks set the bar.</strong></p>
+    <div class="dlv">
+      <div class="dlv-lbl">Programme — up to 20 participants</div>
+      <ul>
+        <li>Day 1 Frameworks: agent-native banking vs AI-enhanced legacy, formal verification basics, DORA/EU AI Act/PQC timelines</li>
+        <li>Day 2 Applied: Verity and VeriCrypt benchmarks translated to your bank's core platform and risk profile</li>
+        <li>Deliverables: bank-customised deck, AI/PQC readiness scorecard, vendor evaluation cheat sheet, post-workshop gap report</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$6,480 – $9,660</div><div class="price-note">Prep + delivery + report + travel</div></div>
+      <div class="markets">Universal — highest-leverage<br>engagement for bank entry</div>
+    </div>
+    <div class="tags"><span class="tag">executive</span><span class="tag">C-suite</span><span class="tag">DORA</span></div>
+  </div>
+
+  <div class="card" data-class="// available">
+    <div class="card-hd">
+      <span class="card-type">Training · Technical</span>
+      <span class="badge live">70% repeat margin</span>
+    </div>
+    <h3 class="card-title">Agent-Native Banking Engineering Bootcamp</h3>
+    <p class="card-body">Vendor dependency on agentic AI is the long-term risk for banks — especially when the vendor's agent can't prove it didn't move money it shouldn't have. <strong>This 5-day hands-on programme builds in-house capability to extend Verity's capability-based microkernel, design PASETO v4 token scopes, and write Lean 4 theorem checks</strong> for new agent skills.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">Programme — up to 12 engineers</div>
+      <ul>
+        <li>Module 1: Verity architecture — capability microkernel, event-sourced Merkle ledger</li>
+        <li>Module 2: PASETO v4 capability-token design and dual-control thresholds</li>
+        <li>Module 3: Agent skill development against the Agent Integrity Engine</li>
+        <li>Module 4: Lean 4 theorem authoring for new compliance invariants</li>
+        <li>Module 5: Capstone — build and shadow-test one agent skill against a sandbox ledger</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$10,800 – $17,940</div><div class="price-note">Curriculum + delivery + lab setup</div></div>
+      <div class="markets">Banks and fintechs building<br>in-house Verity capability</div>
+    </div>
+    <div class="tags"><span class="tag">Verity</span><span class="tag">Lean 4</span><span class="tag">agent dev</span></div>
+  </div>
+
+  <div class="card" data-class="// oversight">
+    <div class="card-hd">
+      <span class="card-type">Training · Operations</span>
+      <span class="badge req">Required under EU AI Act / DORA</span>
+    </div>
+    <h3 class="card-title">Compliance &amp; Operations HITL Oversight</h3>
+    <p class="card-body">Deploying agentic AI in fraud, underwriting, or onboarding without training compliance and operations staff to interpret its proof traces and SAR narratives creates automation liability with none of the productivity benefit. <strong>This programme trains compliance and operations teams on exactly how to read Verity's Lean 4 proof traces, GNN fraud flags, and provenance ledger</strong> — and when to escalate.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Lean 4 proof trace interpretation for non-technical compliance staff</li>
+        <li>GNN fraud-flag review and SAR narrative validation workflow</li>
+        <li>Override and escalation protocols with documented decision trees</li>
+        <li>CortexGuard / kill-switch drills — when and how to halt agent operations</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">Custom scoped</div></div>
+      <div class="markets">Any bank with EU AI Act<br>high-risk AI in production</div>
+    </div>
+    <div class="tags"><span class="tag">HITL</span><span class="tag">compliance ops</span><span class="tag">EU AI Act</span></div>
+  </div>
+
+</div>
+
+
+<!-- ══ DOMAIN 05: SECTOR PROGRAMMES ══ -->
+<div class="dom-div" id="sector">
+  <span class="dom-tag">05 // Sector Programmes — Community Banks to Sovereign Wealth Funds</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+
+  <div class="card" data-class="// flagship">
+    <div class="card-hd">
+      <span class="card-type">Software · Build</span>
+      <span class="badge live">4-hour shadow-mode benchmark</span>
+    </div>
+    <h3 class="card-title">Community Bank Shadow-Mode Deployment</h3>
+    <p class="card-body">Verity's reference benchmark: a 50,000-account community bank reaches shadow-mode live in 4 hours via air-gapped USB installation. <strong>This is the fastest, lowest-risk way for a community or regional bank to see Verity running against a copy of its own data</strong> — no production cutover, no disruption, full Theorem Validation Pipeline output from hour one.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Air-gapped USB-installable Verity deployment against a data mirror</li>
+        <li>Shadow-mode operation alongside existing core — zero production risk</li>
+        <li>Theorem Validation Pipeline output from hour one: Lean 4 certificates, TLA+ traces</li>
+        <li>Go/no-go report for Phase 2 migration planning</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">Custom scoped</div><div class="price-note">Benchmark: 4 hours to shadow-mode live</div></div>
+      <div class="markets">Community and regional banks<br>evaluating core replacement</div>
+    </div>
+    <div class="tags"><span class="tag">Verity</span><span class="tag">shadow mode</span><span class="tag">air-gap</span></div>
+  </div>
+
+  <div class="card" data-class="// available">
+    <div class="card-hd">
+      <span class="card-type">Software · Infrastructure · HPC</span>
+      <span class="badge univ">Sovereign LLMOps</span>
+    </div>
+    <h3 class="card-title">Sovereign HPC for Central Banks &amp; Sovereign Wealth Funds</h3>
+    <p class="card-body">Central banks, defence finance, and sovereign wealth funds cannot run core financial infrastructure on hyperscaler clouds. <strong>We design and size sovereign HPC infrastructure for Verity and VeriCrypt workloads</strong> — Verity benchmarks 3,600 req/hr sovereign LLMOps throughput on self-hosted GPU, with utilisation climbing from 12% to 78% via PagedAttention.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Workload sizing for GNN fraud detection, Lean 4 verification, and LLMOps inference</li>
+        <li>Hardware specification: GPU type, VRAM, storage, network for sovereign deployment</li>
+        <li>Air-gapped operations plan: offline theorem validation, offline compliance export</li>
+        <li>3-year TCO model vs commercial cloud, RFQ-ready procurement specification</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">$10,800 – $17,940</div><div class="price-note">Design engagement · Build contract: $200K+</div></div>
+      <div class="markets">Central banks · sovereign wealth funds<br>defence-adjacent financial institutions</div>
+    </div>
+    <div class="tags"><span class="tag">HPC</span><span class="tag">sovereign compute</span><span class="tag">air-gap</span></div>
+  </div>
+
+  <div class="card" data-class="// baas">
+    <div class="card-hd">
+      <span class="card-type">Software + Consulting · BaaS Governance</span>
+      <span class="badge req">OCC/FDIC oversight crackdown</span>
+    </div>
+    <h3 class="card-title">Banking-as-a-Service Governance &amp; Third-Party Risk</h3>
+    <p class="card-body">Federal agencies have issued consent orders forcing banks to substantially increase oversight of fintech partners under the sponsor-bank model — compliance is now a competitive product feature, not a back-office burden. <strong>Verity's capability-based microkernel makes fintech-partner access scopable and auditable at the token level</strong>, with every partner action provenance-chained for regulator review.</p>
+    <div class="dlv">
+      <div class="dlv-lbl">What you receive</div>
+      <ul>
+        <li>Fintech-partner access scoped via PASETO v4 capability tokens — no ambient authority</li>
+        <li>Real-time third-party transaction monitoring with provenance chain</li>
+        <li>OCC/FDIC consent-order evidence reporting from the Theorem Validation Pipeline</li>
+        <li>Sponsor-bank oversight dashboard via Cortex</li>
+      </ul>
+    </div>
+    <div class="card-ft">
+      <div><div class="price">Custom scoped</div></div>
+      <div class="markets">Sponsor banks operating<br>BaaS / fintech partnership programmes</div>
+    </div>
+    <div class="tags"><span class="tag">BaaS</span><span class="tag">third-party risk</span><span class="tag">OCC/FDIC</span></div>
+  </div>
+
+</div>
+
+
+<!-- MARKET MAP -->
+<div class="mmap">
+  <div class="mmap-inner">
+    <p class="sec-eye">Global procurement signal</p>
+    <h2 class="sec-title" style="margin-bottom:0.5rem">Where finance-sector demand is live right now</h2>
+    <p class="sec-sub" style="margin-bottom:0">Active regulatory deadlines, supervisory priorities, and AI adoption mandates shaping banking and fintech procurement.</p>
+    <div class="mmap-grid">
+      <div class="mcell">
+        <div class="mreg">Europe</div>
+        <ul class="mitems">
+          <li><span class="md a"></span>EU AI Act — high-risk credit scoring, Aug 2026</li>
+          <li><span class="md"></span>DORA Art. 5–14 — AI as critical ICT risk</li>
+          <li><span class="md"></span>ECB SREP supervisory priorities 2026–2028</li>
+          <li><span class="md"></span>EBA 2026 work programme</li>
+          <li><span class="md a"></span>DORA crypto-agility — 2026/2030/2035 milestones</li>
+        </ul>
+      </div>
+      <div class="mcell">
+        <div class="mreg">North America</div>
+        <ul class="mitems">
+          <li><span class="md a"></span>OCC/FDIC — BaaS sponsor-bank consent orders</li>
+          <li><span class="md"></span>CFPB §1033 / FDX API v6.5 — open banking</li>
+          <li><span class="md"></span>Citi — 175,000-employee AI training mandate</li>
+          <li><span class="md"></span>FinCEN SAR/CTR — GNN-based AML adoption</li>
+        </ul>
+      </div>
+      <div class="mcell">
+        <div class="mreg">Global Standards</div>
+        <ul class="mitems">
+          <li><span class="md"></span>BIAN v14.0 — 328 service domains</li>
+          <li><span class="md"></span>ISO 20022 / CBPR+ — payment rail standard</li>
+          <li><span class="md"></span>OWASP Agentic Top 10 — ASI01–ASI10</li>
+          <li><span class="md"></span>NIST FIPS 203/204/205 — PQC migration</li>
+        </ul>
+      </div>
+      <div class="mcell">
+        <div class="mreg">Caribbean &amp; Emerging Markets</div>
+        <ul class="mitems">
+          <li><span class="md a"></span>Community/regional banks — core modernisation</li>
+          <li><span class="md a"></span>Sovereign wealth funds — air-gapped infrastructure</li>
+          <li><span class="md a"></span>Central banks — PQC migration planning</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- WHY INTELLICA -->
+<div class="section fade">
+  <p class="sec-eye">Why Intellica</p>
+  <h2 class="sec-title">We don't claim correctness.<br>We prove it — and so can your regulator.</h2>
+  <p class="sec-sub">Fiserv agentOS, Thought Machine, Oracle, and IBM Sovereign Core each address one slice of the agent-native banking problem. Verity and VeriCrypt are designed from first principles to make audits a verification exercise, not a trust exercise.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">Formally verified</div>
+      <h3 class="why-title">Conservation of Value is a theorem, not a policy.</h3>
+      <p class="why-body">TLA+ verified at compile time, runtime model-checked continuously. Lean 4 proves every compliance decision in under 1ms. Regulators can replay the schedule trace bit-for-bit.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Agent-native by design</div>
+      <h3 class="why-title">No agent can create money. Mathematically.</h3>
+      <p class="why-body">One Agent One Account, PASETO v4 capability tokens, dual-control thresholds at ≥$10,000 enforced by the microkernel. These are invariants, not policies — your regulator can verify them independently.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Post-quantum, in production</div>
+      <h3 class="why-title">ML-DSA-44, SLH-DSA, ML-KEM-768 — today, not 2030.</h3>
+      <p class="why-body">Hybrid dual-signature tokens carry both classical Ed25519 and ML-DSA-44 during migration. VeriCrypt's HNDL exposure model is mathematically proven, not heuristic — additive models are provably inadequate for this problem.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Sovereign by construction</div>
+      <h3 class="why-title">Single binary, zero cloud dependency.</h3>
+      <p class="why-body">Bare metal, USB-installable, offline bootstrap. Central banks, defence finance, and sovereign wealth funds run Verity and VeriCrypt fully air-gapped — updates delivered on physical media.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Continuous proof, not annual audit</div>
+      <h3 class="why-title">The Theorem Validation Pipeline runs in production, always.</h3>
+      <p class="why-body">Six-stage pipeline extracts live telemetry, routes to theorem-specific validators, and exports Lean 4 certificates and DORA audit packages on demand — turning your compliance function from retrospective to real-time.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Vendor-independent</div>
+      <h3 class="why-title">No referral fees. No platform lock-in.</h3>
+      <p class="why-body">We don't resell core banking platforms or take referral fees from AI vendors. Every recommendation — including whether Verity is the right fit at all — is determined by your requirements and regulatory exposure alone.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- CTA -->
+<div class="cta-sec">
+  <div class="cta-inner">
+    <p class="sec-eye" style="display:inline-block">Start the conversation</p>
+    <h2>Tell us your hardest<br>core banking or compliance problem.</h2>
+    <p class="cta-sub">We will send you a complete Verity/VeriCrypt architecture assessment within 48 hours — including a free first VeriCrypt scan of your certificate inventory. If it solves your problem — and it will — we discuss what engagement looks like from there.</p>
+    <div class="cta-btns">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Email Damian directly</a>
+      <a href="https://wa.me/18687195236" class="btn-ghost">WhatsApp →</a>
+      <a href="tel:+18687195236" class="btn-ghost">Call →</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">INTELLICA<span>.</span>AI LLC</div>
+  <ul class="foot-links">
+    <li><a href="https://vericrypt-7qp.pages.dev/dpr">Damian Ramsajan</a></li>
+    <li><a href="mailto:dpramsajan@meeting-mind.com">dpramsajan@meeting-mind.com</a></li>
+    <li><a href="tel:+18687195236">+1 868 719 5236</a></li>
+    <li><a href="https://wa.me/18687195236">WhatsApp</a></li>
+  </ul>
+  <div class="foot-r">Trinidad & Tobago · Remote · 2026</div>
+</footer>
+
+
+<script>
+/* ── HERO GRID ANIMATION ── */
+(function(){
+  const canvas=document.getElementById('grid-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,cols,rows,dots=[],sweep=0;
+
+  function resize(){
+    W=canvas.width=canvas.offsetWidth;
+    H=canvas.height=canvas.offsetHeight;
+    cols=Math.ceil(W/52)+1;
+    rows=Math.ceil(H/52)+1;
+    dots=[];
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      dots.push({x:c*52,y:r*52,pulse:Math.random()*Math.PI*2});
+    }
+  }
+
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    sweep=(sweep+0.004)%(Math.PI*2);
+
+    ctx.strokeStyle='rgba(148,163,210,0.045)';
+    ctx.lineWidth=0.5;
+    for(let c=0;c<cols;c++){
+      ctx.beginPath();ctx.moveTo(c*52,0);ctx.lineTo(c*52,H);ctx.stroke();
+    }
+    for(let r=0;r<rows;r++){
+      ctx.beginPath();ctx.moveTo(0,r*52);ctx.lineTo(W,r*52);ctx.stroke();
+    }
+
+    const sx=W*0.5+Math.cos(sweep-Math.PI*0.5)*W*0.9;
+    const gradient=ctx.createLinearGradient(sx-160,0,sx+30,0);
+    gradient.addColorStop(0,'rgba(0,200,255,0)');
+    gradient.addColorStop(0.7,'rgba(0,200,255,0.04)');
+    gradient.addColorStop(1,'rgba(0,200,255,0.09)');
+    ctx.fillStyle=gradient;
+    ctx.fillRect(sx-160,0,190,H);
+
+    for(let d of dots){
+      const dist=Math.abs(d.x-sx);
+      const base=0.06+0.18*Math.max(0,1-dist/120);
+      d.pulse+=0.015;
+      const alpha=base*(0.7+0.3*Math.sin(d.pulse));
+      ctx.beginPath();
+      ctx.arc(d.x,d.y,1.2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,200,255,${alpha})`;
+      ctx.fill();
+    }
+
+    const op=0.15+0.08*Math.sin(t*0.001);
+    ctx.beginPath();
+    ctx.arc(W*0.5,H*0.5,4,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,200,255,${op})`;
+    ctx.fill();
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize',resize);
+  resize();
+  requestAnimationFrame(draw);
+
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+    canvas.style.display='none';
+  }
+})();
+
+/* ── SCROLL FADE ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}});
+},{threshold:0.06});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+</script>
+
+</body>
