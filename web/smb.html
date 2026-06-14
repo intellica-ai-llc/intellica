@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intellica AI — SMB Capability Register 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --void:       #050810;
+  --deep:       #080C16;
+  --surface:    #0C1220;
+  --card:       #0F1628;
+  --card-hi:    #131D35;
+  --lift:       #192236;
+  --border:     rgba(148,163,210,0.10);
+  --border-hi:  rgba(148,163,210,0.22);
+  --border-act: rgba(148,163,210,0.40);
+  --cyan:       #00C8FF;
+  --amber:      #E8A617;
+  --green:      #35D47A;
+  --red:        #FF4D4D;
+  --text:       #C8D4F0;
+  --text-hi:    #E8EEFF;
+  --muted:      #6678A0;
+  --faint:      rgba(148,163,210,0.35);
+  --mono:       'IBM Plex Mono',monospace;
+  --display:    'Syne',sans-serif;
+  --body:       'IBM Plex Sans',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+h1,h2,h3,h4,.sec-title,.cta-sec h2,.card-title,.bp-title,.ds-name,.fs-title,.ph-name,.why-title,.opt-title{
+  overflow:visible;padding-bottom:0.25em;line-height:1.25;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4rem;height:60px;
+  background:rgba(5,8,16,0.88);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.nav-brand{
+  font-family:var(--display);font-size:1rem;font-weight:700;
+  letter-spacing:0.12em;color:var(--text-hi);text-decoration:none;
+  display:flex;align-items:center;gap:0.5rem;padding-bottom:0.25em;overflow:visible;
+}
+.nav-brand::before{
+  content:'';display:block;width:6px;height:6px;
+  background:var(--cyan);border-radius:50%;box-shadow:0 0 10px var(--cyan);
+}
+.nav-links{display:flex;gap:0;list-style:none;align-items:stretch}
+.nav-links>li{position:relative;display:flex;align-items:center}
+.nav-links>li>a,.nav-links>li>span{
+  font-family:var(--mono);font-size:0.67rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.06em;transition:color 0.2s;
+  padding:0 0.9rem;height:60px;display:flex;align-items:center;gap:0.4rem;
+  cursor:pointer;white-space:nowrap;
+}
+.nav-links>li>a:hover,.nav-links>li>span:hover,
+.nav-links>li:hover>a,.nav-links>li:hover>span{color:var(--cyan)}
+.nav-links>li>span::after{content:'▾';margin-left:0.3rem;font-size:0.5rem;opacity:0.6}
+.nav-drop{
+  display:none;position:absolute;top:60px;left:0;
+  background:rgba(5,8,16,0.98);backdrop-filter:blur(24px);
+  border:1px solid var(--border-hi);border-top:1px solid var(--cyan);
+  border-radius:0 0 3px 3px;min-width:210px;z-index:200;padding:0.4rem 0;
+}
+.nav-links>li:hover .nav-drop{display:block}
+.nav-drop a{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  font-family:var(--mono);font-size:0.64rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.05em;
+  padding:0.6rem 1.1rem;transition:background 0.15s,color 0.15s;white-space:nowrap;
+}
+.nav-drop a:hover{background:rgba(0,200,255,0.06);color:var(--cyan)}
+.nav-pill{
+  font-size:0.5rem;letter-spacing:0.1em;
+  color:var(--green);background:rgba(53,212,122,0.06);
+  border:1px solid rgba(53,212,122,0.25);padding:0.08rem 0.35rem;border-radius:2px;
+}
+.nav-pill.soon{color:var(--muted);border-color:var(--border-hi);background:transparent}
+.drop-badge{
+  font-size:0.52rem;letter-spacing:0.1em;
+  color:var(--muted);background:var(--surface);
+  border:1px solid var(--border);padding:0.1rem 0.4rem;border-radius:2px;
+}
+.drop-badge.live{color:var(--green);border-color:rgba(53,212,122,0.25);background:rgba(53,212,122,0.06)}
+.drop-badge.soon{color:var(--muted)}
+.drop-badge.rfp{color:var(--amber);border-color:rgba(232,166,23,0.25);background:rgba(232,166,23,0.06)}
+.nav-cta{
+  font-family:var(--mono);font-size:0.68rem;color:var(--void);
+  background:var(--cyan);padding:0.4rem 1.1rem;
+  border-radius:2px;text-decoration:none;font-weight:500;
+  letter-spacing:0.06em;transition:opacity 0.2s;margin-left:1rem;
+}
+.nav-cta:hover{opacity:0.85}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:7rem 2rem 4.5rem;position:relative;overflow:hidden;
+}
+.hero-canvas{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:780px}
+
+.hero-class{
+  display:inline-flex;align-items:center;gap:1rem;
+  font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2.2rem;
+}
+.hero-class::before,.hero-class::after{content:'';display:block;width:32px;height:1px;background:var(--border-hi)}
+
+.hero h1{
+  font-family:var(--display);font-size:clamp(2rem,4vw,3.4rem);font-weight:600;
+  line-height:1.25;letter-spacing:-0.025em;color:var(--text-hi);
+  margin-bottom:0;padding-bottom:0.25em;overflow:visible;
+}
+.hero h1 .line-accent{
+  display:block;color:transparent;-webkit-text-stroke:1px var(--cyan);
+  font-weight:700;padding-bottom:0.2em;
+}
+.hero-sub{
+  margin-top:1.1rem;font-family:var(--body);font-size:1rem;font-weight:300;
+  color:var(--muted);letter-spacing:0.01em;line-height:1.7;
+  max-width:580px;margin-left:auto;margin-right:auto;
+}
+.hero-sub strong{color:var(--text);font-weight:400}
+.hero-rule{width:1px;height:40px;background:var(--border-hi);margin:2rem auto}
+
+.hero-proof{
+  display:flex;align-items:stretch;justify-content:center;gap:0;
+  border:1px solid var(--border-hi);border-radius:2px;overflow:hidden;
+  max-width:640px;margin:0 auto 2.2rem;
+}
+.proof-cell{
+  flex:1;padding:0.85rem 1rem;border-right:1px solid var(--border);
+  text-align:center;background:rgba(12,18,32,0.7);
+}
+.proof-cell:last-child{border-right:none}
+.proof-num{font-family:var(--display);font-size:1.35rem;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:0.2rem}
+.proof-label{font-family:var(--mono);font-size:0.56rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;line-height:1.4}
+
+.hero-cta{display:flex;align-items:center;justify-content:center;gap:0.85rem;margin-bottom:2.2rem;flex-wrap:wrap}
+.btn-primary{
+  font-family:var(--mono);font-size:0.72rem;letter-spacing:0.07em;color:var(--void);
+  background:var(--cyan);border:none;padding:0.78rem 1.9rem;border-radius:2px;
+  text-decoration:none;font-weight:500;cursor:pointer;transition:opacity 0.2s;
+}
+.btn-primary:hover{opacity:0.85}
+.btn-ghost{
+  font-family:var(--mono);font-size:0.72rem;letter-spacing:0.07em;color:var(--text);
+  background:transparent;border:1px solid var(--border-hi);padding:0.78rem 1.9rem;
+  border-radius:2px;text-decoration:none;cursor:pointer;transition:border-color 0.2s,color 0.2s;
+}
+.btn-ghost:hover{border-color:var(--faint);color:var(--text-hi)}
+
+.hero-verify{display:flex;align-items:center;justify-content:center;gap:1.8rem;flex-wrap:wrap}
+.verify-badge{display:flex;align-items:center;gap:0.4rem;font-family:var(--mono);font-size:0.59rem;color:var(--muted);letter-spacing:0.05em}
+.verify-badge svg{width:12px;height:12px;flex-shrink:0}
+.vb-check{color:rgba(53,212,122,0.8)}
+.vb-check svg path{stroke:rgba(53,212,122,0.8)}
+
+/* ── SIGNAL BAND ── */
+.signal-band{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:0.9rem 4rem;display:flex;gap:2.5rem;align-items:center;
+  overflow-x:auto;background:var(--surface);position:relative;
+}
+.signal-band::before{
+  content:'LIVE SMB SIGNALS';font-family:var(--mono);font-size:0.56rem;
+  letter-spacing:0.18em;color:var(--muted);white-space:nowrap;
+  padding-right:2rem;border-right:1px solid var(--border-hi);margin-right:0.5rem;
+}
+.sig{display:flex;align-items:center;gap:0.5rem;white-space:nowrap;font-family:var(--mono);font-size:0.64rem;color:var(--muted);letter-spacing:0.04em}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;animation:pulse 2s infinite}
+.dot.g{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot.a{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+.dot.r{background:var(--red);box-shadow:0 0 6px var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* ── LAYOUT ── */
+.section{padding:6rem 4rem;max-width:1320px;margin:0 auto;position:relative;z-index:1}
+.sec-eye{font-family:var(--mono);font-size:0.65rem;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:0.6rem}
+.sec-title{
+  font-family:var(--display);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;
+  letter-spacing:-0.025em;line-height:1.25;margin-bottom:0.9rem;color:var(--text-hi);
+  padding-bottom:0.25em;overflow:visible;
+}
+.sec-sub{font-size:0.95rem;color:var(--muted);max-width:540px;margin-bottom:3rem;line-height:1.7}
+
+.dom-div{display:flex;align-items:center;gap:1.5rem;padding:4.5rem 4rem 1.5rem;max-width:1320px;margin:0 auto}
+.dom-tag{
+  font-family:var(--mono);font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--cyan);border:1px solid rgba(0,200,255,0.25);padding:0.3rem 0.8rem;border-radius:2px;white-space:nowrap;
+}
+.dom-line{flex:1;height:1px;background:var(--border)}
+
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+  gap:1.5rem;max-width:1320px;margin:0 auto 1rem;padding:0 4rem;
+}
+
+/* ── CARD ── */
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:4px;
+  padding:2rem 2.2rem;display:flex;flex-direction:column;gap:0.9rem;
+  position:relative;overflow:hidden;
+  transition:background 0.25s,box-shadow 0.25s,border-color 0.25s;
+  cursor:default;border-left:2px solid transparent;
+}
+.card:hover{
+  background:var(--card-hi);border-color:var(--border-hi);border-left-color:var(--cyan);
+  box-shadow:0 0 0 1px rgba(0,200,255,0.12),0 8px 32px rgba(0,0,0,0.4);
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,rgba(0,200,255,0.5),transparent 60%);
+  opacity:0.18;transition:opacity 0.25s;
+}
+.card:hover::before{opacity:0.55}
+.card::after{
+  content:attr(data-class);position:absolute;top:1rem;right:1rem;
+  font-family:var(--mono);font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(102,120,160,0.5);pointer-events:none;
+}
+.card-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.card-type{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase}
+
+.badge{
+  display:inline-flex;align-items:center;gap:0.35rem;font-family:var(--mono);font-size:0.57rem;
+  letter-spacing:0.06em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:2px;white-space:nowrap;flex-shrink:0;
+}
+.badge.rfp{background:rgba(232,166,23,0.1);color:var(--amber);border:1px solid rgba(232,166,23,0.22)}
+.badge.live{background:rgba(53,212,122,0.1);color:var(--green);border:1px solid rgba(53,212,122,0.2)}
+.badge.req{background:rgba(255,77,77,0.1);color:var(--red);border:1px solid rgba(255,77,77,0.2)}
+.badge.univ{background:rgba(0,200,255,0.06);color:var(--cyan);border:1px solid rgba(0,200,255,0.2)}
+
+.card-title{font-family:var(--display);font-size:1.2rem;font-weight:600;line-height:1.25;letter-spacing:-0.01em;color:var(--text-hi);padding-bottom:0.2em;overflow:visible}
+.card-body{font-size:0.88rem;color:var(--muted);line-height:1.68}
+.card-body strong{color:var(--text);font-weight:500}
+
+.dlv{border-top:1px solid var(--border);padding-top:0.9rem}
+.dlv-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.5rem}
+.dlv ul{list-style:none;display:flex;flex-direction:column;gap:0.32rem}
+.dlv li{font-size:0.82rem;color:var(--text);padding-left:1.1rem;position:relative;line-height:1.5}
+.dlv li::before{content:'→';position:absolute;left:0;color:var(--cyan);font-size:0.72rem}
+
+.tco{background:rgba(0,200,255,0.04);border:1px solid rgba(0,200,255,0.14);border-radius:3px;padding:1.1rem 1.2rem}
+.tco-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--cyan);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.4rem}
+.tco p{font-size:0.84rem;color:var(--text);line-height:1.6}
+.tco strong{color:var(--cyan)}
+
+.opt-block{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0.85rem 1rem}
+.opt-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--cyan);letter-spacing:0.14em;margin-bottom:0.25rem}
+.opt-title{font-family:var(--display);font-size:0.9rem;font-weight:600;color:var(--text-hi);margin-bottom:0.2rem;padding-bottom:0.15em;overflow:visible}
+.opt-body{font-size:0.79rem;color:var(--muted);line-height:1.55}
+
+.card-ft{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-top:auto;border-top:1px solid var(--border);padding-top:0.9rem;gap:1rem;flex-wrap:wrap;
+}
+.price{font-family:var(--display);font-size:1.05rem;font-weight:700;color:var(--cyan)}
+.price-note{font-family:var(--mono);font-size:0.58rem;color:var(--muted);margin-top:0.15rem}
+.markets{font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-align:right;line-height:1.55}
+.tags{display:flex;flex-wrap:wrap;gap:0.35rem}
+.tag{font-family:var(--mono);font-size:0.56rem;color:var(--muted);border:1px solid var(--border);padding:0.12rem 0.45rem;border-radius:2px;letter-spacing:0.04em}
+
+/* ── FEATURED CARD ── */
+.card.feat{grid-column:1/-1;flex-direction:row;gap:3rem;align-items:flex-start}
+.feat-l{flex:1.3}
+.feat-r{flex:1}
+.opt-stack{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.75rem}
+
+.ptable{width:100%;border-collapse:collapse;margin-top:0.5rem}
+.ptable tr{border-bottom:1px solid var(--border)}
+.ptable tr:last-child{border-bottom:none}
+.ptable td{padding:0.45rem 0;font-size:0.81rem}
+.ptable td:first-child{color:var(--muted);padding-right:1rem}
+.ptable td:last-child{color:var(--text);text-align:right;font-family:var(--mono);font-size:0.76rem}
+.ptable tr.total td{color:var(--cyan)!important;font-weight:600;font-size:0.86rem!important;padding-top:0.7rem!important}
+
+.phases{display:flex;flex-direction:column;gap:0;margin-top:0.75rem}
+.phase{display:flex;align-items:flex-start;gap:1rem;padding:0.8rem 0;border-bottom:1px solid var(--border)}
+.phase:last-child{border-bottom:none}
+.ph-num{font-family:var(--mono);font-size:0.65rem;color:var(--cyan);min-width:2rem;padding-top:0.1rem}
+.ph-c{flex:1}
+.ph-name{font-family:var(--display);font-size:0.88rem;font-weight:600;color:var(--text-hi);margin-bottom:0.15rem;padding-bottom:0.1em;overflow:visible}
+.ph-desc{font-size:0.78rem;color:var(--muted)}
+.ph-price{font-family:var(--mono);font-size:0.72rem;color:var(--cyan);white-space:nowrap;padding-top:0.1rem}
+
+/* ── PROCESS OVERVIEW ── */
+.process-wrap{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 4rem}
+.process-inner{max-width:1320px;margin:0 auto}
+.bigpic{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-bottom:4rem}
+.bigpic-cell{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:2rem 1.8rem}
+.bigpic-cell:hover{background:var(--card-hi)}
+.bp-icon{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--cyan);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+.bp-icon::before{content:'';display:block;width:16px;height:1px;background:var(--cyan);opacity:0.5}
+.bp-title{font-family:var(--display);font-size:1.05rem;font-weight:600;color:var(--text-hi);line-height:1.25;margin-bottom:0.6rem;padding-bottom:0.2em;overflow:visible}
+.bp-body{font-size:0.83rem;color:var(--muted);line-height:1.7}
+.bp-body strong{color:var(--text);font-weight:500}
+
+.flow-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.flow-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.flow-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem;position:relative}
+.flow-steps::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border-hi) 15%,var(--border-hi) 85%,transparent);z-index:0}
+.flow-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 0.75rem;position:relative;z-index:1}
+.fs-num{
+  width:56px;height:56px;border-radius:50%;border:1px solid var(--border-hi);background:var(--card);
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.7rem;
+  font-weight:500;color:var(--cyan);margin-bottom:1rem;position:relative;flex-shrink:0;transition:border-color 0.2s,background 0.2s;
+}
+.fs-num::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid transparent;transition:border-color 0.2s}
+.flow-step:hover .fs-num{background:var(--lift);border-color:var(--cyan)}
+.flow-step:hover .fs-num::after{border-color:rgba(0,200,255,0.15)}
+.fs-title{font-family:var(--display);font-size:0.82rem;font-weight:600;color:var(--text-hi);margin-bottom:0.4rem;line-height:1.25;padding-bottom:0.15em;overflow:visible}
+.fs-body{font-size:0.75rem;color:var(--muted);line-height:1.55}
+.fs-entry{margin-top:0.7rem;font-family:var(--mono);font-size:0.58rem;color:var(--cyan);letter-spacing:0.06em;border:1px solid rgba(0,200,255,0.2);padding:0.2rem 0.5rem;border-radius:2px;background:rgba(0,200,255,0.04);white-space:nowrap}
+
+.domain-summary{margin-top:3.5rem}
+.ds-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.ds-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.ds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.ds-card{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:1.5rem 1.6rem;transition:background 0.2s,border-color 0.2s;border-left:2px solid transparent}
+.ds-card:hover{background:var(--card-hi);border-left-color:var(--cyan);border-color:var(--border-hi)}
+.ds-num{font-family:var(--mono);font-size:0.58rem;color:var(--cyan);letter-spacing:0.12em;margin-bottom:0.5rem}
+.ds-name{font-family:var(--display);font-size:0.95rem;font-weight:600;color:var(--text-hi);margin-bottom:0.4rem;line-height:1.25;padding-bottom:0.15em;overflow:visible}
+.ds-one{font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:0.75rem}
+.ds-benefits{list-style:none;display:flex;flex-direction:column;gap:0.25rem}
+.ds-benefits li{font-size:0.75rem;color:var(--text);display:flex;align-items:flex-start;gap:0.4rem;line-height:1.4}
+.ds-benefits li::before{content:'✓';color:var(--green);font-size:0.65rem;flex-shrink:0;margin-top:0.1rem}
+.ds-entry-point{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.9rem;font-family:var(--mono);font-size:0.58rem;color:var(--amber);letter-spacing:0.06em}
+.ds-entry-point::before{content:'→ Start:';opacity:0.7}
+
+/* ── WHY ── */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2.2rem}
+.why-card{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:1.6rem;transition:border-color 0.2s}
+.why-card:hover{border-color:var(--border-act)}
+.why-icon{font-family:var(--mono);font-size:0.65rem;color:var(--cyan);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem}
+.why-icon::before{content:'//';opacity:0.5}
+.why-title{font-family:var(--display);font-size:1rem;font-weight:600;color:var(--text-hi);margin-bottom:0.4rem;padding-bottom:0.15em;overflow:visible}
+.why-body{font-size:0.83rem;color:var(--muted);line-height:1.65}
+
+/* ── CTA ── */
+.cta-sec{padding:7rem 4rem;text-align:center;position:relative;overflow:hidden}
+.cta-inner{max-width:620px;margin:0 auto;position:relative;z-index:1}
+.cta-sec::before{content:'';position:absolute;bottom:-240px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,255,0.05) 0%,transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--display);font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:800;letter-spacing:-0.03em;line-height:1.25;color:var(--text-hi);margin:1.5rem 0 1.2rem;padding-bottom:0.25em;overflow:visible}
+.cta-sub{color:var(--muted);font-size:1rem;line-height:1.7;margin-bottom:2.5rem}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:1.8rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.foot-brand{font-family:var(--mono);font-size:0.72rem;font-weight:500;color:var(--muted);letter-spacing:0.12em}
+.foot-brand span{color:var(--cyan)}
+.foot-links{display:flex;gap:1.5rem;list-style:none}
+.foot-links a{font-family:var(--mono);font-size:0.62rem;color:var(--muted);text-decoration:none;letter-spacing:0.06em;transition:color 0.2s}
+.foot-links a:hover{color:var(--cyan)}
+.foot-r{font-family:var(--mono);font-size:0.6rem;color:rgba(102,120,160,0.5);letter-spacing:0.08em}
+
+/* ── FADE — visible by default, JS enhances ── */
+.fade{opacity:1;transform:none}
+.fade-ready{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease}
+.fade-ready.vis{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.fade-ready{opacity:1;transform:none;transition:none}}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:0 1.25rem}
+  .nav-links{display:none}
+  .hero{padding:7rem 1.25rem 4rem}
+  .hero-proof{flex-wrap:wrap}
+  .proof-cell{min-width:120px}
+  .signal-band{padding:0.9rem 1.25rem}
+  .signal-band::before{display:none}
+  .section{padding:4rem 1.25rem}
+  .dom-div{padding:3rem 1.25rem 1rem}
+  .grid{grid-template-columns:1fr;gap:1.5rem;padding:0 1.25rem}
+  .card.feat{flex-direction:column}
+  .process-wrap{padding:4rem 1.25rem}
+  .bigpic{grid-template-columns:1fr;gap:1.5rem}
+  .flow-steps{grid-template-columns:1fr;gap:2rem}
+  .flow-steps::before{display:none}
+  .ds-grid{grid-template-columns:1fr;gap:1.5rem}
+  .cta-sec{padding:5rem 1.25rem}
+  footer{padding:1.8rem 1.25rem;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">INTELLICA</a>
+  <ul class="nav-links">
+    <li><a href="government.html">Government <span class="nav-pill">Live</span></a></li>
+    <li><a href="energy.html">Energy <span class="nav-pill">Live</span></a></li>
+    <li><a href="finance.html">Finance <span class="nav-pill">Live</span></a></li>
+    <li><a href="smb.html" style="color:var(--cyan)">SMB <span class="nav-pill">Live</span></a></li>
+    <li><a href="enterprise.html">Enterprise <span class="nav-pill soon">Soon</span></a></li>
+    <li>
+      <span>Platforms</span>
+     <div class="nav-drop">
+        <a href="https://intellecta-cortex.pages.dev/">Cortex — Control Plane <span class="drop-badge live">Live</span></a>
+        <a href="https://verity-core-banking.pages.dev/">Verity — Core Banking <span class="drop-badge live">Live</span></a>
+        <a href="https://vericrypt-7qp.pages.dev/">VeriCrypt — PQC Compliance <span class="drop-badge live">Live</span></a>
+        <a href="https://verichain-5pt.pages.dev/">VeriChain — The Verifiable Agent Economy <span class="drop-badge live">Live</span></a>
+        <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing/">ASL — Autonomous Systems Language <span class="drop-badge live">Live</span></a>
+      </div>
+    </li>
+    <li>
+      <span>Partners</span>
+      <div class="nav-drop">
+        <a href="partners.html#technology">Technology Partners <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#reseller">Reseller Programme <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#apply">Become a Partner <span class="drop-badge rfp">Apply</span></a>
+      </div>
+    </li>
+  </ul>
+  <a href="https://calendly.com/peterdramsajan/30min" class="btn-primary" target="_blank">Book a briefing →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas class="hero-canvas" id="grid-canvas"></canvas>
+  <div class="hero-inner">
+    <div class="hero-class">
+      Intellica AI &nbsp;·&nbsp; SMB Capability Register &nbsp;·&nbsp; 2026
+    </div>
+    <h1>
+      Enterprise-grade AI,<br>without the enterprise price tag.
+      <span class="line-accent">Practical. Sovereign. Yours to own.</span>
+    </h1>
+    <p class="hero-sub">
+      <strong>83% of growing SMBs have adopted AI — only 55% of declining ones have.</strong> The gap is widening monthly. We help small and mid-sized businesses move from the 51% who are "AI explorers" to the 8% with a real strategy, real automation, and a real return in 90 days.
+    </p>
+    <div class="hero-rule"></div>
+    <div class="hero-proof">
+      <div class="proof-cell"><div class="proof-num">90</div><div class="proof-label">Days to<br>production ROI</div></div>
+      <div class="proof-cell"><div class="proof-num">6.1h</div><div class="proof-label">Saved per person<br>per week with AI</div></div>
+      <div class="proof-cell"><div class="proof-num">5</div><div class="proof-label">Median AI tools<br>per SMB in 2026</div></div>
+      <div class="proof-cell"><div class="proof-num">$0</div><div class="proof-label">First AI<br>readiness review</div></div>
+      <div class="proof-cell"><div class="proof-num">48h</div><div class="proof-label">Architecture<br>turnaround</div></div>
+    </div>
+    <div class="hero-cta">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Send us your problem</a>
+      <a href="https://wa.me/18687195236" class="btn-ghost">WhatsApp Damian</a>
+    </div>
+    <div class="hero-verify">
+      <div class="verify-badge vb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>No vendor lock-in</div>
+      <div class="verify-badge vb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Fixed-price milestones</div>
+      <div class="verify-badge vb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Ships in weeks, not months</div>
+      <div class="verify-badge vb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Your team runs it, not ours</div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNAL BAND -->
+<div class="signal-band">
+  <div class="sig"><span class="dot g"></span>83% of growing SMBs use AI — 55% of declining ones don't</div>
+  <div class="sig"><span class="dot g"></span>Goldman Sachs 10K SMBs — productivity &amp; automation top priority 2026</div>
+  <div class="sig"><span class="dot a"></span>Only 8% of SMBs reach advanced AI adoption — the gap is the opportunity</div>
+  <div class="sig"><span class="dot g"></span>73% of SMBs that adopted agents in 2025 saw ROI within 90 days</div>
+  <div class="sig"><span class="dot a"></span>Avg SMB now runs 5 AI tools — fragmented stacks waste 40% of that value</div>
+  <div class="sig"><span class="dot g"></span>US Chamber: 96% of SMBs plan to adopt emerging tech in 2026</div>
+  <div class="sig"><span class="dot r"></span>17% cite lack of in-house expertise as #1 AI barrier — that's exactly what we fix</div>
+</div>
+
+
+<!-- ══ PROCESS OVERVIEW ══ -->
+<div class="process-wrap">
+  <div class="process-inner">
+    <p class="sec-eye">Where to start</p>
+    <h2 class="sec-title" style="margin-bottom:0.5rem">The big picture in 60 seconds</h2>
+    <p class="sec-sub">Not sure where AI fits in your business? Here is how the SMBs seeing the fastest returns in 2026 are structuring their AI — and where Intellica enters.</p>
+
+    <div class="bigpic">
+      <div class="bigpic-cell">
+        <div class="bp-icon">The problem</div>
+        <div class="bp-title">You're paying for 5 AI tools and getting a fraction of their value</div>
+        <p class="bp-body">The average SMB runs five AI tools with no coherent strategy connecting them. Each solves one slice. None of them talk to your data, your processes, or each other. <strong>The result is five monthly bills and a team that still does the same manual work — just with more tabs open.</strong></p>
+      </div>
+      <div class="bigpic-cell">
+        <div class="bp-icon">What we do</div>
+        <div class="bp-title">We build the AI that runs your operations, not just assists them</div>
+        <p class="bp-body">We are not here to sell you another tool. We design the system underneath your tools — <strong>the automation layer that connects your CRM, inbox, documents, and operations into a coherent workflow</strong> a lean team can run without technical staff on payroll.</p>
+      </div>
+      <div class="bigpic-cell">
+        <div class="bp-icon">The outcome</div>
+        <div class="bp-title">The "one-person army" that used to take a team of ten</div>
+        <p class="bp-body">Lead generation, customer communication, invoicing, scheduling, content, and reporting — handled by agents running in the background while you focus on the work only you can do. <strong>ROI in 90 days. System you own. No ongoing dependency on us.</strong></p>
+      </div>
+    </div>
+
+    <div class="flow-label">How a typical SMB engagement unfolds</div>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="fs-num">01</div><div class="fs-title">Workflow Audit</div><p class="fs-body">We map the 5–10 highest-cost manual tasks in your operation. Every hour saved multiplies across a small team faster than in any enterprise.</p><div class="fs-entry">1–2 weeks</div></div>
+      <div class="flow-step"><div class="fs-num">02</div><div class="fs-title">Stack Assessment</div><p class="fs-body">We audit your existing tools. Most SMBs are paying for capabilities they're not using — and missing the integrations that would make everything else work.</p><div class="fs-entry">1 week</div></div>
+      <div class="flow-step"><div class="fs-num">03</div><div class="fs-title">Build the Pilot</div><p class="fs-body">One workflow automated end-to-end. Not a demo — a production system running against your real data, with measurable time savings from week one.</p><div class="fs-entry">2–4 weeks</div></div>
+      <div class="flow-step"><div class="fs-num">04</div><div class="fs-title">Train Your Team</div><p class="fs-body">Half-day practical training so your team operates the system confidently without needing us on retainer. You own the knowledge, not just the software.</p><div class="fs-entry">Parallel</div></div>
+      <div class="flow-step"><div class="fs-num">05</div><div class="fs-title">Expand &amp; Compound</div><p class="fs-body">Each workflow automated creates capacity for the next one. Most SMBs add two to three more within 90 days once the first delivers visible results.</p><div class="fs-entry">Month 2 onward</div></div>
+    </div>
+
+    <div class="domain-summary">
+      <div class="ds-label">What we build — by domain</div>
+      <div class="ds-grid">
+        <div class="ds-card">
+          <div class="ds-num">01 // AI Readiness &amp; Strategy</div>
+          <div class="ds-name">Know before you build.</div>
+          <p class="ds-one">Workflow audit, tool stack assessment, and a sequenced AI roadmap — so you invest in the automations with the highest return first, not the shiniest tools.</p>
+          <ul class="ds-benefits"><li>Identifies the 3 workflows where AI pays back fastest</li><li>Tool consolidation analysis — often saves $500–$2K/month</li><li>Honest build vs buy recommendation per use case</li></ul>
+          <div class="ds-entry-point">AI readiness assessment ($2,700)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">02 // Agentic Workflow Automation</div>
+          <div class="ds-name">Your repetitive 80%, handled.</div>
+          <p class="ds-one">Customer service, lead qualification, invoice processing, scheduling, content drafting — automated agents running 24/7 on your behalf, in your voice, with your data.</p>
+          <ul class="ds-benefits"><li>73% of SMB agent adopters saw ROI within 90 days</li><li>Replaces 2–3 hours of manual work per team member daily</li><li>Human approval gates on anything customer-facing</li></ul>
+          <div class="ds-entry-point">Automation pilot — 1 workflow ($5,400)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">03 // AI-Powered Customer Operations</div>
+          <div class="ds-name">Enterprise CX on an SMB budget.</div>
+          <p class="ds-one">AI chat, email triage, lead nurturing, and customer onboarding — the systems that let a 5-person team respond to 500 enquiries with the consistency of a 50-person team.</p>
+          <ul class="ds-benefits"><li>62% of SMBs have partially adopted AI customer service</li><li>Eliminates after-hours drop-off on high-intent leads</li><li>Every response grounded in your actual product/service data</li></ul>
+          <div class="ds-entry-point">Customer ops pilot ($5,400)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">04 // Data, Analytics &amp; Pricing</div>
+          <div class="ds-name">Decisions from data, not instinct.</div>
+          <p class="ds-one">AI-powered dashboards, competitive pricing intelligence, and operational analytics that surface what's driving revenue — and what's quietly draining it.</p>
+          <ul class="ds-benefits"><li>Pricing tools are the fastest-growing AI category for SMBs (2026)</li><li>Real-time BI without a data analyst headcount</li><li>Connects your existing tools — no data migration required</li></ul>
+          <div class="ds-entry-point">Analytics audit &amp; dashboard ($3,240)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">05 // Fractional AI Leadership</div>
+          <div class="ds-name">A Chief AI Officer you can actually afford.</div>
+          <p class="ds-one">Monthly retainer providing AI strategy, vendor management, tool evaluation, and ongoing system oversight — enterprise-grade AI leadership at 20–30% of a full-time hire.</p>
+          <ul class="ds-benefits"><li>Fractional CAIO: 8–20 hrs/month, $2K–$5K/month</li><li>Keeps your stack current without internal expertise</li><li>Direct access to Damian — no account manager middleman</li></ul>
+          <div class="ds-entry-point">Fractional CAIO retainer ($2,160/month)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">06 // Team AI Training</div>
+          <div class="ds-name">Your team runs it. Not us.</div>
+          <p class="ds-one">Practical half-day and full-day workshops that take your team from hesitant AI experimenters to confident operators — covering the tools, the prompts, and the limits.</p>
+          <ul class="ds-benefits"><li>Covers the 5-tool SMB stack your team is already paying for</li><li>AI literacy as competitive edge — LinkedIn 2026</li><li>Custom to your industry and specific workflows</li></ul>
+          <div class="ds-entry-point">Team AI workshop ($2,160)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 01: AI READINESS & STRATEGY ══ -->
+<div class="dom-div" id="readiness">
+  <span class="dom-tag">01 // AI Readiness &amp; Strategy</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card" data-class="// start here">
+    <div class="card-hd"><span class="card-type">Consulting · Strategy</span><span class="badge univ">Start here</span></div>
+    <h3 class="card-title">AI Readiness Assessment &amp; Roadmap</h3>
+    <p class="card-body">Most SMBs don't have an AI problem — they have a prioritisation problem. They start with the shiniest tool rather than the highest-return workflow. <strong>We map your operations, audit your existing tool stack, and produce a sequenced roadmap of the 3–5 automations that will free the most time and generate the most revenue.</strong> The right starting move per current consulting practice is a readiness assessment followed by a single pilot — total under $10K for the first shipped AI feature.</p>
+    <div class="tco">
+      <div class="tco-lbl">Tool consolidation dividend</div>
+      <p>Average SMB runs 5 AI tools at median ~$80–$150/month each. Audit typically finds <strong>1–2 tools can be eliminated</strong> and 2 more can be configured to do what the others were purchased for — saving <strong>$500–$2,000/month</strong> before we build anything new.</p>
+    </div>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Workflow inventory: time-cost map of your 10 highest-volume manual tasks</li><li>AI tool audit: what you're paying for, what you're using, what to cut</li><li>Automation opportunity scorecard: ROI estimate per workflow</li><li>Build vs buy recommendation per use case with rationale</li><li>Sequenced 90-day roadmap with effort and cost estimates</li></ul></div>
+    <div class="card-ft"><div><div class="price">$2,700 – $5,400</div><div class="price-note">3–5 day engagement · deductible from any pilot</div></div><div class="markets">Any SMB 5–250 employees<br>Universal entry point</div></div>
+    <div class="tags"><span class="tag">strategy</span><span class="tag">audit</span><span class="tag">roadmap</span></div>
+  </div>
+
+  <div class="card" data-class="// monthly">
+    <div class="card-hd"><span class="card-type">Consulting · Fractional Leadership</span><span class="badge live">Most cost-effective</span></div>
+    <h3 class="card-title">Fractional Chief AI Officer (CAIO)</h3>
+    <p class="card-body">A full-time AI executive costs $200K–$350K annually. Most SMBs need 8–20 hours per month of senior AI guidance — not a full-time hire. <strong>The fractional CAIO model delivers enterprise-grade AI strategy, vendor evaluation, tool management, and implementation oversight at 20–30% of the full-time cost.</strong> This is Damian embedded in your business: direct access, no account manager, no project manager between you.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive monthly</div><ul><li>AI strategy sessions: monthly priority review and sequencing</li><li>Vendor evaluation: honest assessment of new tools before you pay for them</li><li>Implementation oversight: quality check on anything being built in your stack</li><li>Team capability development: ongoing guidance for your team</li><li>Direct async access for urgent questions and decisions</li></ul></div>
+    <div class="card-ft"><div><div class="price">$2,160 – $5,400/month</div><div class="price-note">8–20 hrs/month · cancel anytime</div></div><div class="markets">Growing SMBs wanting senior<br>AI guidance without a full-time hire</div></div>
+    <div class="tags"><span class="tag">fractional CAIO</span><span class="tag">retainer</span><span class="tag">strategy</span></div>
+  </div>
+
+  <div class="card" data-class="// advisory">
+    <div class="card-hd"><span class="card-type">Consulting · Advisory</span><span class="badge univ">On-demand</span></div>
+    <h3 class="card-title">AI Advisory &amp; Vendor Decision Support</h3>
+    <p class="card-body">You're about to sign a $30K/year AI platform contract. Or a vendor just pitched you "agentic AI" and you want to know if it's real. <strong>We provide targeted advisory for specific high-stakes decisions — vendor evaluation, contract review, architecture critique, or a second opinion before you commit.</strong> No retainer, no project — targeted expertise for critical moments.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Vendor capability evaluation — separating real AI from chatbot wrappers</li><li>Contract and pricing sanity check against market benchmarks</li><li>Architecture review of any AI system being proposed or built for you</li><li>Honest recommendation with no commercial alignment to any vendor</li></ul></div>
+    <div class="card-ft"><div><div class="price">$270 – $350/hr</div><div class="price-note">2hr minimum · same-week availability</div></div><div class="markets">Pre-procurement decisions<br>Any SMB with a specific question</div></div>
+    <div class="tags"><span class="tag">advisory</span><span class="tag">vendor eval</span><span class="tag">on-demand</span></div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 02: AGENTIC WORKFLOW AUTOMATION ══ -->
+<div class="dom-div" id="agentic">
+  <span class="dom-tag">02 // Agentic Workflow Automation</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card feat" data-class="// phase-1">
+    <div class="feat-l">
+      <div class="card-hd"><span class="card-type">Software · Build</span><span class="badge live">Phase 1 of 3</span></div>
+      <h3 class="card-title" style="font-size:1.45rem;margin-top:0.5rem">Automation Pilot — Single Workflow, Production-Ready</h3>
+      <p class="card-body" style="margin-top:0.5rem"><strong>73% of SMBs that adopted AI agents in 2025 saw measurable productivity gains within 90 days.</strong> This is the correct entry point — one workflow automated end-to-end, in production against your real data, with a documented time saving from week one. Not a demo. Not a chatbot. A system that does the work. Most SMBs expand to two or three more workflows within 90 days once the first delivers visible results.</p>
+      <div class="opt-stack">
+        <div class="opt-block"><div class="opt-lbl">Option A</div><div class="opt-title">Lead Qualification &amp; Nurture Agent</div><div class="opt-body">Reads incoming enquiries, scores lead quality, drafts personalised responses, books discovery calls, and routes hot leads to your calendar — all before you've opened your inbox. Eliminates after-hours drop-off on high-intent prospects.</div></div>
+        <div class="opt-block"><div class="opt-lbl">Option B</div><div class="opt-title">Document Processing &amp; Invoice Agent</div><div class="opt-body">Ingests incoming documents — contracts, purchase orders, invoices, onboarding forms — extracts structured data, routes for approval, and pushes to your accounting or CRM system. Eliminates data entry entirely for standard document types.</div></div>
+        <div class="opt-block"><div class="opt-lbl">Option C</div><div class="opt-title">Customer Service &amp; Scheduling Agent</div><div class="opt-body">Handles tier-1 customer enquiries grounded in your product/service knowledge base, books appointments, answers FAQs, escalates edge cases to a human with full context — 24/7, in your brand voice, with no SLA breach.</div></div>
+      </div>
+      <div class="tags" style="margin-top:1rem"><span class="tag">Python</span><span class="tag">LangGraph</span><span class="tag">RAG</span><span class="tag">n8n / Make</span><span class="tag">REST APIs</span><span class="tag">Docker</span></div>
+    </div>
+    <div class="feat-r">
+      <div class="dlv-lbl">Engagement breakdown</div>
+      <table class="ptable">
+        <tr><td>Discovery &amp; workflow mapping (1 day)</td><td>$1,080 – $1,380</td></tr>
+        <tr><td>Integration &amp; data pipeline setup (3 days)</td><td>$3,240 – $4,140</td></tr>
+        <tr><td>Agent build &amp; tool integration (5 days)</td><td>$5,400 – $6,900</td></tr>
+        <tr><td>Testing, hardening &amp; handover (2 days)</td><td>$2,160 – $2,760</td></tr>
+        <tr class="total"><td>Pilot total</td><td>$10,800 – $15,180</td></tr>
+      </table>
+      <div style="margin-top:1.4rem">
+        <div class="dlv-lbl">Scale-up trajectory</div>
+        <div class="phases">
+          <div class="phase"><div class="ph-num">P1</div><div class="ph-c"><div class="ph-name">Pilot (this engagement)</div><div class="ph-desc">One workflow, production system, measurable time saving</div></div><div class="ph-price">$11–15K</div></div>
+          <div class="phase"><div class="ph-num">P2</div><div class="ph-c"><div class="ph-name">Stack expansion</div><div class="ph-desc">2–3 additional workflows, cross-tool integration</div></div><div class="ph-price">$20–40K</div></div>
+          <div class="phase"><div class="ph-num">P3</div><div class="ph-c"><div class="ph-name">Full operations layer</div><div class="ph-desc">Cohesive agent stack running your operational backbone</div></div><div class="ph-price">Custom</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-class="// high-roi">
+    <div class="card-hd"><span class="card-type">Software · Agentic</span><span class="badge live">Highest SMB ROI</span></div>
+    <h3 class="card-title">Sales &amp; Marketing Automation Stack</h3>
+    <p class="card-body">The single highest-ROI AI investment for most SMBs is the top of funnel — because every hour saved on prospecting, outreach, and follow-up directly multiplies revenue capacity. <strong>We build the end-to-end system: AI-powered prospecting, personalised outreach sequences, lead scoring, follow-up cadences, and proposal drafting</strong> — all grounded in your actual offering, not generic templates.</p>
+    <div class="dlv"><div class="dlv-lbl">Capabilities delivered</div><ul><li>AI prospecting: ICP-matched lead lists built and refreshed automatically</li><li>Personalised outreach sequences — researched, drafted, sent via your inbox</li><li>Lead scoring and routing based on engagement signals</li><li>Proposal and quote drafting from discovery call notes</li><li>Pipeline reporting dashboard connected to your CRM</li></ul></div>
+    <div class="card-ft"><div><div class="price">See Automation Pilot</div></div><div class="markets">B2B service businesses<br>consultancies, agencies, trades</div></div>
+    <div class="tags"><span class="tag">sales</span><span class="tag">outreach</span><span class="tag">CRM</span><span class="tag">agentic</span></div>
+  </div>
+
+  <div class="card" data-class="// ops">
+    <div class="card-hd"><span class="card-type">Software · Operations</span><span class="badge univ">Universal</span></div>
+    <h3 class="card-title">Operations &amp; Back-Office Automation</h3>
+    <p class="card-body">Scheduling, invoicing, onboarding, reporting, and compliance tracking — the tasks that consume 3–5 hours per team member per week, require no creativity, and are perfectly suited to automation. <strong>We map and automate your highest-volume back-office workflows using a combination of AI agents and no-code orchestration tools</strong> that connect without replacing your existing stack.</p>
+    <div class="dlv"><div class="dlv-lbl">Capabilities delivered</div><ul><li>Scheduling and calendar management automation</li><li>Invoice processing, approval routing, and payment follow-up</li><li>Client onboarding workflow with document collection and verification</li><li>Recurring reporting automated from existing data sources</li><li>Compliance task tracking and deadline alerting</li></ul></div>
+    <div class="card-ft"><div><div class="price">See Automation Pilot</div></div><div class="markets">Service businesses · professional services<br>Any SMB with recurring back-office load</div></div>
+    <div class="tags"><span class="tag">operations</span><span class="tag">back-office</span><span class="tag">scheduling</span></div>
+  </div>
+
+  <div class="card" data-class="// content">
+    <div class="card-hd"><span class="card-type">Software · Content</span><span class="badge univ">Universal</span></div>
+    <h3 class="card-title">AI Content &amp; Communication System</h3>
+    <p class="card-body">Content creation, social media, email campaigns, and proposal writing consume disproportionate time in lean teams. <strong>We build a content system grounded in your brand voice, product knowledge, and customer data</strong> — producing first drafts of emails, proposals, social posts, and blog content that require editing, not writing from scratch.</p>
+    <div class="dlv"><div class="dlv-lbl">Capabilities delivered</div><ul><li>Brand voice documentation and AI training on your style and tone</li><li>Email campaign drafting connected to your CRM segments</li><li>Social media content calendar generation and scheduling</li><li>Proposal and case study drafting from brief or notes</li><li>Internal knowledge base that powers all other content outputs</li></ul></div>
+    <div class="card-ft"><div><div class="price">See Automation Pilot</div></div><div class="markets">Agencies · consultancies · retail<br>Any business producing regular content</div></div>
+    <div class="tags"><span class="tag">content</span><span class="tag">brand voice</span><span class="tag">marketing</span></div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 03: CUSTOMER OPERATIONS ══ -->
+<div class="dom-div" id="customer">
+  <span class="dom-tag">03 // AI-Powered Customer Operations</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card" data-class="// 24-7">
+    <div class="card-hd"><span class="card-type">Software · Customer Service</span><span class="badge live">62% SMB adoption</span></div>
+    <h3 class="card-title">AI Customer Service &amp; Chat System</h3>
+    <p class="card-body">62% of SMBs have at least partially adopted AI for customer service — the question is whether yours is a generic chatbot or a system actually trained on your products, policies, and tone. <strong>We build the latter: an AI customer service layer grounded in your knowledge base, integrated with your support stack, and escalating to humans only when genuinely needed.</strong></p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Knowledge base construction from your existing documentation, FAQs, and policies</li><li>Customer-facing chat agent integrated into your website or messaging platform</li><li>Email triage and response drafting for support inbox</li><li>Escalation routing to human agents with full conversation context</li><li>Weekly summary report of common issues and unresolved queries</li></ul></div>
+    <div class="card-ft"><div><div class="price">$10,800 – $15,180</div><div class="price-note">Production system · not a chatbot template</div></div><div class="markets">E-commerce · service businesses<br>Any SMB with recurring customer enquiries</div></div>
+    <div class="tags"><span class="tag">customer service</span><span class="tag">chat</span><span class="tag">RAG</span><span class="tag">knowledge base</span></div>
+  </div>
+
+  <div class="card" data-class="// pricing">
+    <div class="card-hd"><span class="card-type">Software · Analytics</span><span class="badge req">Fastest-growing category</span></div>
+    <h3 class="card-title">AI Pricing Intelligence &amp; Revenue Analytics</h3>
+    <p class="card-body">Pricing is the most powerful and historically most underutilised lever in SMB profitability. AI is making a complex process simple. <strong>We build the pricing intelligence layer that monitors competitor pricing, analyses your margin data, and surfaces recommendations</strong> — the enterprise-grade pricing discipline that previously required a data analyst to maintain.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Competitor price monitoring with automated alert on material changes</li><li>Margin analysis dashboard connected to your sales and cost data</li><li>AI pricing recommendations with supporting rationale</li><li>Revenue cohort analysis: which customers, products, and channels drive profit</li><li>Quarterly pricing review report with suggested adjustments</li></ul></div>
+    <div class="card-ft"><div><div class="price">$8,100 – $12,960</div><div class="price-note">Build + 3-month monitoring setup</div></div><div class="markets">Retail · e-commerce · service pricing<br>Any SMB with variable margins</div></div>
+    <div class="tags"><span class="tag">pricing</span><span class="tag">analytics</span><span class="tag">revenue</span></div>
+  </div>
+
+  <div class="card" data-class="// onboarding">
+    <div class="card-hd"><span class="card-type">Software · Operations</span><span class="badge univ">Universal</span></div>
+    <h3 class="card-title">AI Client Onboarding &amp; Document Workflow</h3>
+    <p class="card-body">Onboarding a new client manually — gathering documents, chasing signatures, extracting data, updating your CRM — takes 2–4 hours per client. <strong>We build the automated onboarding system that handles document collection, extraction, verification, CRM update, and welcome communication</strong> from a single trigger, reducing that to under 10 minutes of human time.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Automated document collection workflow (contracts, ID, forms)</li><li>AI extraction of key data fields into your CRM or project management tool</li><li>Welcome and next-steps communication sequence, personalised per client type</li><li>Exception flagging for documents that need human review</li><li>Onboarding status dashboard for your team</li></ul></div>
+    <div class="card-ft"><div><div class="price">$8,100 – $12,960</div><div class="price-note">Includes CRM and document tool integration</div></div><div class="markets">Professional services · legal · finance<br>Any business with formal client intake</div></div>
+    <div class="tags"><span class="tag">onboarding</span><span class="tag">documents</span><span class="tag">CRM</span></div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 04: DATA & ANALYTICS ══ -->
+<div class="dom-div" id="data">
+  <span class="dom-tag">04 // Data, Analytics &amp; Business Intelligence</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card" data-class="// dashboards">
+    <div class="card-hd"><span class="card-type">Software · Analytics</span><span class="badge univ">No data analyst needed</span></div>
+    <h3 class="card-title">AI Business Intelligence Dashboard</h3>
+    <p class="card-body">SMBs are sitting on data — CRM records, sales history, support tickets, website analytics, financial reports — that they look at in isolation and never connect. <strong>We build the unified BI layer that pulls your operational data into one dashboard and surfaces the three numbers that actually drive decisions</strong>, updated in real time without a data analyst on payroll.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Multi-source data connector (CRM, accounting, website, ads, email)</li><li>Unified dashboard with KPIs most relevant to your business model</li><li>Automated weekly summary email to leadership: what changed and why</li><li>Anomaly alerting — when a number moves outside expected range</li><li>Natural language query interface: ask your data a question in plain English</li></ul></div>
+    <div class="card-ft"><div><div class="price">$5,400 – $10,800</div><div class="price-note">Build + data connection setup</div></div><div class="markets">Any SMB with 3+ data sources<br>Universal — industry agnostic</div></div>
+    <div class="tags"><span class="tag">BI</span><span class="tag">dashboard</span><span class="tag">analytics</span><span class="tag">NLQ</span></div>
+  </div>
+
+  <div class="card" data-class="// hr">
+    <div class="card-hd"><span class="card-type">Software · HR &amp; Operations</span><span class="badge live">47% SMB adoption</span></div>
+    <h3 class="card-title">AI HR &amp; Workforce Operations</h3>
+    <p class="card-body">47% of SMBs now use AI for HR functions. Intelligent scheduling, payroll anomaly detection, and onboarding automation are delivering the fastest, most measurable returns. <strong>We build the workforce operations layer: AI scheduling that predicts peak periods, automated onboarding sequences, and compliance alerting that flags risks before they become problems.</strong></p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>AI scheduling: historical demand analysis and automatic staff alignment</li><li>Employee onboarding automation with document collection and training tracking</li><li>Payroll anomaly detection and compliance flag alerting</li><li>Leave and capacity planning dashboard</li><li>HR knowledge base for policy and procedure queries</li></ul></div>
+    <div class="card-ft"><div><div class="price">$8,100 – $12,960</div><div class="price-note">Integrates with existing HR/payroll platform</div></div><div class="markets">Service businesses with shift workers<br>Any SMB scaling headcount</div></div>
+    <div class="tags"><span class="tag">HR</span><span class="tag">scheduling</span><span class="tag">compliance</span></div>
+  </div>
+
+  <div class="card" data-class="// cybersecurity">
+    <div class="card-hd"><span class="card-type">Software · Security</span><span class="badge live">50% SMB adoption</span></div>
+    <h3 class="card-title">SMB AI Cybersecurity Baseline</h3>
+    <p class="card-body">50% of SMBs now use AI for cybersecurity. The threat surface for a 20-person business in 2026 is not materially smaller than an enterprise — the attacks are the same, just less targeted. <strong>We deploy the AI security baseline that monitors your endpoints, email, and access patterns — alerting on anomalies that signature-based tools miss.</strong></p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Email threat detection: phishing, BEC, and impersonation pattern analysis</li><li>Endpoint behavioural monitoring with anomaly alerting</li><li>Access pattern analysis: flag unusual login times, locations, and data access</li><li>Monthly security posture report in plain language</li><li>Incident response runbook tailored to your stack</li></ul></div>
+    <div class="card-ft"><div><div class="price">$5,400 – $8,100</div><div class="price-note">Setup + 90-day monitoring configuration</div></div><div class="markets">Any SMB with customer data<br>Financial and professional services priority</div></div>
+    <div class="tags"><span class="tag">cybersecurity</span><span class="tag">monitoring</span><span class="tag">email security</span></div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 05: TRAINING ══ -->
+<div class="dom-div" id="training">
+  <span class="dom-tag">05 // Team AI Training</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card" data-class="// quickest-win">
+    <div class="card-hd"><span class="card-type">Training · Team</span><span class="badge univ">Quickest win</span></div>
+    <h3 class="card-title">Practical AI Workshop for SMB Teams</h3>
+    <p class="card-body">AI literacy is the new competitive edge for small businesses — LinkedIn identifies it as the defining skill differentiator heading into 2026. <strong>This half-day practical workshop covers the tools your team is already paying for, the prompts that actually save time, and the limits that prevent embarrassing mistakes.</strong> Custom to your industry, your tools, and your team's current skill level.</p>
+    <div class="dlv"><div class="dlv-lbl">Programme — up to 15 participants</div><ul><li>Morning: AI fundamentals in plain English — what it is, what it isn't, what to trust</li><li>Hands-on: live practice with your actual tools on your actual workflows</li><li>Prompt library: 30 ready-to-use prompts for your specific business context</li><li>Limits and red lines: when not to use AI and why</li><li>Follow-up: 30-day Q&amp;A access via WhatsApp for questions as they arise</li></ul></div>
+    <div class="card-ft"><div><div class="price">$2,160 – $3,240</div><div class="price-note">Half day · up to 15 people · custom to your tools</div></div><div class="markets">Universal — any SMB team<br>Highest immediate return on smallest investment</div></div>
+    <div class="tags"><span class="tag">AI literacy</span><span class="tag">team training</span><span class="tag">practical</span></div>
+  </div>
+
+  <div class="card" data-class="// deep-dive">
+    <div class="card-hd"><span class="card-type">Training · Technical</span><span class="badge live">For in-house builders</span></div>
+    <h3 class="card-title">AI Builder Workshop for Technical SMB Staff</h3>
+    <p class="card-body">If your business has a developer, ops manager, or technically-minded operator who wants to extend your AI stack in-house — this is for them. <strong>Full-day hands-on programme covering LLM API integration, no-code automation (n8n, Make), RAG pipeline basics, and how to connect AI agents to your existing tools</strong> without needing a data scientist.</p>
+    <div class="dlv"><div class="dlv-lbl">Programme — up to 8 participants</div><ul><li>LLM API integration: calling AI from Python or no-code tools</li><li>RAG basics: connecting an AI agent to your own documents and data</li><li>n8n/Make automation: building multi-step agent workflows without code</li><li>Integration patterns: connecting CRM, email, calendar, and accounting via API</li><li>Capstone: build one live automation against your own data in the session</li></ul></div>
+    <div class="card-ft"><div><div class="price">$4,320 – $6,480</div><div class="price-note">Full day · up to 8 people · includes lab materials</div></div><div class="markets">SMBs with internal technical staff<br>wanting to build and maintain AI in-house</div></div>
+    <div class="tags"><span class="tag">builder</span><span class="tag">n8n</span><span class="tag">RAG</span><span class="tag">API integration</span></div>
+  </div>
+
+  <div class="card" data-class="// leader">
+    <div class="card-hd"><span class="card-type">Training · Leadership</span><span class="badge univ">Decision makers</span></div>
+    <h3 class="card-title">AI Strategy Briefing for SMB Founders &amp; Leaders</h3>
+    <p class="card-body">You don't need to understand how AI works. You need to understand which investments will pay off, which vendor claims are real, and what your competitors are doing that you're not. <strong>This 2-hour focused briefing gives founders and ops leaders the framework to make confident AI decisions</strong> — without needing a technical background or a consultant on speed dial.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>The 3 AI investments with fastest payback for businesses like yours</li><li>How to evaluate an AI vendor claim in 5 minutes</li><li>What your sector's leading SMBs are doing in 2026 — with specifics</li><li>The red lines: what AI should never do unsupervised in your business</li><li>A prioritised action list for the next 30 days</li></ul></div>
+    <div class="card-ft"><div><div class="price">$810 – $1,620</div><div class="price-note">2 hours · 1–3 leaders · remote or in-person</div></div><div class="markets">Founders · operations directors<br>Anyone making AI investment decisions</div></div>
+    <div class="tags"><span class="tag">leadership</span><span class="tag">strategy</span><span class="tag">founder</span></div>
+  </div>
+</div>
+
+
+<!-- WHY INTELLICA FOR SMBs -->
+<div class="section fade">
+  <p class="sec-eye">Why Intellica</p>
+  <h2 class="sec-title">We build what you actually need.<br>Not what's easiest to sell.</h2>
+  <p class="sec-sub">Big 4 consultancies require $250K+ minimum engagements. Generic AI tool vendors sell you templates. We price for SMB, ship in weeks, and leave you with a system your team owns — not a subscription to ours.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">SMB-priced, enterprise-grade</div>
+      <h3 class="why-title">$10K–$50K projects that ship in 4–12 weeks.</h3>
+      <p class="why-body">Boutique specialists and solo practitioners are the right fit for SMBs — they price for $10K–$80K projects and ship in 4–12 weeks. Big 4 firms require $250K+ and don't take SMB work. We are the former, with 30 years of enterprise systems experience behind the output.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">No template selling</div>
+      <h3 class="why-title">Built for your workflows, not a generic use case.</h3>
+      <p class="why-body">The challenge for SMBs isn't whether to adopt AI — it's choosing tools that deliver genuine value without overwhelming your team. We start with your workflows and build backward to the technology, not the other way around.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">You own the system</div>
+      <h3 class="why-title">No ongoing dependency on us by design.</h3>
+      <p class="why-body">Everything we build is documented, handed over, and trained to your team. We want you to be able to extend and maintain it without us — because that's how you compound the value, and because it's the only honest model for a lean business.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Vendor-independent</div>
+      <h3 class="why-title">No referral fees. No platform commissions.</h3>
+      <p class="why-body">We don't resell AI tools and hold no commercial agreements with any platform vendor. When we recommend a tool, it's because it's the right fit — not because someone is paying us to recommend it.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Damian directly</div>
+      <h3 class="why-title">No account manager. No project manager. Just us.</h3>
+      <p class="why-body">You talk to Damian. Damian builds it. For an SMB, this means decisions are faster, context is never lost in handoffs, and you get 30 years of enterprise AI systems experience in every session — not a junior consultant reading a playbook.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Right-sized entry</div>
+      <h3 class="why-title">Start with a $2,700 assessment. Prove ROI. Then scale.</h3>
+      <p class="why-body">The right starting move per current consulting practice is a readiness assessment followed by a single pilot — total under $10K for the first shipped AI feature. Anything more elaborate at the start usually means paying for slideware. We don't sell slideware.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- CTA -->
+<div class="cta-sec">
+  <div class="cta-inner">
+    <p class="sec-eye" style="display:inline-block">Start the conversation</p>
+    <h2>Tell us your most<br>painful manual workflow.</h2>
+    <p class="cta-sub">We'll send you a free assessment of whether and how AI can eliminate it — within 48 hours. No cost for the first review. No obligation. If it solves your problem, we talk about what a pilot looks like from there.</p>
+    <div class="cta-btns">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Email Damian directly</a>
+      <a href="https://wa.me/18687195236" class="btn-ghost">WhatsApp →</a>
+      <a href="tel:+18687195236" class="btn-ghost">Call →</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">INTELLICA<span>.</span>AI LLC</div>
+  <ul class="foot-links">
+    <li><a href="https://vericrypt-7qp.pages.dev/dpr">Damain Ramsajan</a></li>
+    <li><a href="mailto:dpramsajan@meeting-mind.com">Email Sales</a></li>
+    <li><a href="tel:+18687195236">+1 868 719 5236</a></li>
+    <li><a href="https://wa.me/18687195236">WhatsApp Sales</a></li>
+  </ul>
+  <div class="foot-r">901 N Market St, Suite 100, Wilmington, DE 19801 · 2026</div>
+</footer>
+
+
+<script>
+/* ── HERO GRID ANIMATION ── */
+(function(){
+  const canvas=document.getElementById('grid-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,cols,rows,dots=[],sweep=0;
+  function resize(){
+    W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;
+    cols=Math.ceil(W/52)+1;rows=Math.ceil(H/52)+1;dots=[];
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)
+      dots.push({x:c*52,y:r*52,pulse:Math.random()*Math.PI*2});
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);sweep=(sweep+0.004)%(Math.PI*2);
+    ctx.strokeStyle='rgba(148,163,210,0.045)';ctx.lineWidth=0.5;
+    for(let c=0;c<cols;c++){ctx.beginPath();ctx.moveTo(c*52,0);ctx.lineTo(c*52,H);ctx.stroke()}
+    for(let r=0;r<rows;r++){ctx.beginPath();ctx.moveTo(0,r*52);ctx.lineTo(W,r*52);ctx.stroke()}
+    const sx=W*0.5+Math.cos(sweep-Math.PI*0.5)*W*0.9;
+    const g=ctx.createLinearGradient(sx-160,0,sx+30,0);
+    g.addColorStop(0,'rgba(0,200,255,0)');g.addColorStop(0.7,'rgba(0,200,255,0.04)');g.addColorStop(1,'rgba(0,200,255,0.09)');
+    ctx.fillStyle=g;ctx.fillRect(sx-160,0,190,H);
+    for(let d of dots){
+      const dist=Math.abs(d.x-sx);const base=0.06+0.18*Math.max(0,1-dist/120);
+      d.pulse+=0.015;const alpha=base*(0.7+0.3*Math.sin(d.pulse));
+      ctx.beginPath();ctx.arc(d.x,d.y,1.2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,200,255,${alpha})`;ctx.fill();
+    }
+    const op=0.15+0.08*Math.sin(t*0.001);
+    ctx.beginPath();ctx.arc(W*0.5,H*0.5,4,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,200,255,${op})`;ctx.fill();
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);resize();requestAnimationFrame(draw);
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)canvas.style.display='none';
+})();
+
+/* ── SCROLL FADE — progressive enhancement ── */
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  document.querySelectorAll('.fade').forEach(el=>el.classList.add('fade-ready'));
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}});
+  },{threshold:0.06});
+  document.querySelectorAll('.fade-ready').forEach(el=>obs.observe(el));
+})();
+</script>
+</body>
+</html>
