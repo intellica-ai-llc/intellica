@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intellica AI — Enterprise Capability Register 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --void:       #050810;
+  --deep:       #080C16;
+  --surface:    #0C1220;
+  --card:       #0F1628;
+  --card-hi:    #131D35;
+  --lift:       #192236;
+  --border:     rgba(148,163,210,0.10);
+  --border-hi:  rgba(148,163,210,0.22);
+  --border-act: rgba(148,163,210,0.40);
+  --cyan:       #00C8FF;
+  --amber:      #E8A617;
+  --green:      #35D47A;
+  --red:        #FF4D4D;
+  --text:       #C8D4F0;
+  --text-hi:    #E8EEFF;
+  --muted:      #6678A0;
+  --faint:      rgba(148,163,210,0.35);
+  --mono:       'IBM Plex Mono',monospace;
+  --display:    'Syne',sans-serif;
+  --body:       'IBM Plex Sans',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+h1,h2,h3,h4,.sec-title,.cta-sec h2,.card-title,.bp-title,.ds-name,.fs-title,.ph-name,.why-title,.opt-title{
+  overflow:visible;padding-bottom:0.25em;line-height:1.25;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4rem;height:60px;
+  background:rgba(5,8,16,0.88);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.nav-brand{
+  font-family:var(--display);font-size:1rem;font-weight:700;
+  letter-spacing:0.12em;color:var(--text-hi);text-decoration:none;
+  display:flex;align-items:center;gap:0.5rem;padding-bottom:0.25em;overflow:visible;
+}
+.nav-brand::before{content:'';display:block;width:6px;height:6px;background:var(--cyan);border-radius:50%;box-shadow:0 0 10px var(--cyan)}
+.nav-links{display:flex;gap:0;list-style:none;align-items:stretch}
+.nav-links>li{position:relative;display:flex;align-items:center}
+.nav-links>li>a,.nav-links>li>span{
+  font-family:var(--mono);font-size:0.67rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.06em;transition:color 0.2s;
+  padding:0 0.9rem;height:60px;display:flex;align-items:center;gap:0.4rem;
+  cursor:pointer;white-space:nowrap;
+}
+.nav-links>li>a:hover,.nav-links>li>span:hover,
+.nav-links>li:hover>a,.nav-links>li:hover>span{color:var(--cyan)}
+.nav-links>li>span::after{content:'▾';margin-left:0.3rem;font-size:0.5rem;opacity:0.6}
+.nav-drop{
+  display:none;position:absolute;top:60px;left:0;
+  background:rgba(5,8,16,0.98);backdrop-filter:blur(24px);
+  border:1px solid var(--border-hi);border-top:1px solid var(--cyan);
+  border-radius:0 0 3px 3px;min-width:210px;z-index:200;padding:0.4rem 0;
+}
+.nav-links>li:hover .nav-drop{display:block}
+.nav-drop a{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  font-family:var(--mono);font-size:0.64rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.05em;
+  padding:0.6rem 1.1rem;transition:background 0.15s,color 0.15s;white-space:nowrap;
+}
+.nav-drop a:hover{background:rgba(0,200,255,0.06);color:var(--cyan)}
+.nav-pill{font-size:0.5rem;letter-spacing:0.1em;color:var(--green);background:rgba(53,212,122,0.06);border:1px solid rgba(53,212,122,0.25);padding:0.08rem 0.35rem;border-radius:2px}
+.nav-pill.soon{color:var(--muted);border-color:var(--border-hi);background:transparent}
+.drop-badge{font-size:0.52rem;letter-spacing:0.1em;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:0.1rem 0.4rem;border-radius:2px}
+.drop-badge.live{color:var(--green);border-color:rgba(53,212,122,0.25);background:rgba(53,212,122,0.06)}
+.drop-badge.soon{color:var(--muted)}
+.drop-badge.rfp{color:var(--amber);border-color:rgba(232,166,23,0.25);background:rgba(232,166,23,0.06)}
+.nav-cta{font-family:var(--mono);font-size:0.68rem;color:var(--void);background:var(--cyan);padding:0.4rem 1.1rem;border-radius:2px;text-decoration:none;font-weight:500;letter-spacing:0.06em;transition:opacity 0.2s;margin-left:1rem}
+.nav-cta:hover{opacity:0.85}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 2rem 4.5rem;position:relative;overflow:hidden}
+.hero-canvas{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:780px}
+.hero-class{display:inline-flex;align-items:center;gap:1rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:2.2rem}
+.hero-class::before,.hero-class::after{content:'';display:block;width:32px;height:1px;background:var(--border-hi)}
+.hero h1{font-family:var(--display);font-size:clamp(2rem,4vw,3.4rem);font-weight:600;line-height:1.25;letter-spacing:-0.025em;color:var(--text-hi);margin-bottom:0;padding-bottom:0.25em;overflow:visible}
+.hero h1 .line-accent{display:block;color:transparent;-webkit-text-stroke:1px var(--cyan);font-weight:700;padding-bottom:0.2em}
+.hero-sub{margin-top:1.1rem;font-family:var(--body);font-size:1rem;font-weight:300;color:var(--muted);letter-spacing:0.01em;line-height:1.7;max-width:580px;margin-left:auto;margin-right:auto}
+.hero-sub strong{color:var(--text);font-weight:400}
+.hero-rule{width:1px;height:40px;background:var(--border-hi);margin:2rem auto}
+.hero-proof{display:flex;align-items:stretch;justify-content:center;gap:0;border:1px solid var(--border-hi);border-radius:2px;overflow:hidden;max-width:640px;margin:0 auto 2.2rem}
+.proof-cell{flex:1;padding:0.85rem 1rem;border-right:1px solid var(--border);text-align:center;background:rgba(12,18,32,0.7)}
+.proof-cell:last-child{border-right:none}
+.proof-num{font-family:var(--display);font-size:1.35rem;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:0.2rem}
+.proof-label{font-family:var(--mono);font-size:0.56rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;line-height:1.4}
+.hero-cta{display:flex;align-items:center;justify-content:center;gap:0.85rem;margin-bottom:2.2rem;flex-wrap:wrap}
+.btn-primary{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.07em;color:var(--void);background:var(--cyan);border:none;padding:0.78rem 1.9rem;border-radius:2px;text-decoration:none;font-weight:500;cursor:pointer;transition:opacity 0.2s}
+.btn-primary:hover{opacity:0.85}
+.btn-ghost{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.07em;color:var(--text);background:transparent;border:1px solid var(--border-hi);padding:0.78rem 1.9rem;border-radius:2px;text-decoration:none;cursor:pointer;transition:border-color 0.2s,color 0.2s}
+.btn-ghost:hover{border-color:var(--faint);color:var(--text-hi)}
+.hero-verify{display:flex;align-items:center;justify-content:center;gap:1.8rem;flex-wrap:wrap}
+.verify-badge{display:flex;align-items:center;gap:0.4rem;font-family:var(--mono);font-size:0.59rem;color:var(--muted);letter-spacing:0.05em}
+.verify-badge svg{width:12px;height:12px;flex-shrink:0}
+.vb-check{color:rgba(53,212,122,0.8)}
+.vb-check svg path{stroke:rgba(53,212,122,0.8)}
+
+/* ── SIGNAL BAND ── */
+.signal-band{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0.9rem 4rem;display:flex;gap:2.5rem;align-items:center;overflow-x:auto;background:var(--surface);position:relative}
+.signal-band::before{content:'LIVE ENTERPRISE SIGNALS';font-family:var(--mono);font-size:0.56rem;letter-spacing:0.18em;color:var(--muted);white-space:nowrap;padding-right:2rem;border-right:1px solid var(--border-hi);margin-right:0.5rem}
+.sig{display:flex;align-items:center;gap:0.5rem;white-space:nowrap;font-family:var(--mono);font-size:0.64rem;color:var(--muted);letter-spacing:0.04em}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;animation:pulse 2s infinite}
+.dot.g{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot.a{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+.dot.r{background:var(--red);box-shadow:0 0 6px var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* ── LAYOUT ── */
+.section{padding:6rem 4rem;max-width:1320px;margin:0 auto;position:relative;z-index:1}
+.sec-eye{font-family:var(--mono);font-size:0.65rem;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:0.6rem}
+.sec-title{font-family:var(--display);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;letter-spacing:-0.025em;line-height:1.25;margin-bottom:0.9rem;color:var(--text-hi);padding-bottom:0.25em;overflow:visible}
+.sec-sub{font-size:0.95rem;color:var(--muted);max-width:540px;margin-bottom:3rem;line-height:1.7}
+.dom-div{display:flex;align-items:center;gap:1.5rem;padding:4.5rem 4rem 1.5rem;max-width:1320px;margin:0 auto}
+.dom-tag{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,200,255,0.25);padding:0.3rem 0.8rem;border-radius:2px;white-space:nowrap}
+.dom-line{flex:1;height:1px;background:var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:1.5rem;max-width:1320px;margin:0 auto 1rem;padding:0 4rem}
+
+/* ── CARD ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem 2.2rem;display:flex;flex-direction:column;gap:0.9rem;position:relative;overflow:hidden;transition:background 0.25s,box-shadow 0.25s,border-color 0.25s;cursor:default;border-left:2px solid transparent}
+.card:hover{background:var(--card-hi);border-color:var(--border-hi);border-left-color:var(--cyan);box-shadow:0 0 0 1px rgba(0,200,255,0.12),0 8px 32px rgba(0,0,0,0.4)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,rgba(0,200,255,0.5),transparent 60%);opacity:0.18;transition:opacity 0.25s}
+.card:hover::before{opacity:0.55}
+.card::after{content:attr(data-class);position:absolute;top:1rem;right:1rem;font-family:var(--mono);font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(102,120,160,0.5);pointer-events:none}
+.card-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.card-type{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase}
+.badge{display:inline-flex;align-items:center;gap:0.35rem;font-family:var(--mono);font-size:0.57rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.badge.rfp{background:rgba(232,166,23,0.1);color:var(--amber);border:1px solid rgba(232,166,23,0.22)}
+.badge.live{background:rgba(53,212,122,0.1);color:var(--green);border:1px solid rgba(53,212,122,0.2)}
+.badge.req{background:rgba(255,77,77,0.1);color:var(--red);border:1px solid rgba(255,77,77,0.2)}
+.badge.univ{background:rgba(0,200,255,0.06);color:var(--cyan);border:1px solid rgba(0,200,255,0.2)}
+.card-title{font-family:var(--display);font-size:1.2rem;font-weight:600;line-height:1.25;letter-spacing:-0.01em;color:var(--text-hi);padding-bottom:0.2em;overflow:visible}
+.card-body{font-size:0.88rem;color:var(--muted);line-height:1.68}
+.card-body strong{color:var(--text);font-weight:500}
+.dlv{border-top:1px solid var(--border);padding-top:0.9rem}
+.dlv-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.5rem}
+.dlv ul{list-style:none;display:flex;flex-direction:column;gap:0.32rem}
+.dlv li{font-size:0.82rem;color:var(--text);padding-left:1.1rem;position:relative;line-height:1.5}
+.dlv li::before{content:'→';position:absolute;left:0;color:var(--cyan);font-size:0.72rem}
+.tco{background:rgba(0,200,255,0.04);border:1px solid rgba(0,200,255,0.14);border-radius:3px;padding:1.1rem 1.2rem}
+.tco-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--cyan);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.4rem}
+.tco p{font-size:0.84rem;color:var(--text);line-height:1.6}
+.tco strong{color:var(--cyan)}
+.opt-block{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0.85rem 1rem}
+.opt-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--cyan);letter-spacing:0.14em;margin-bottom:0.25rem}
+.opt-title{font-family:var(--display);font-size:0.9rem;font-weight:600;color:var(--text-hi);margin-bottom:0.2rem;padding-bottom:0.15em;overflow:visible}
+.opt-body{font-size:0.79rem;color:var(--muted);line-height:1.55}
+.card-ft{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;border-top:1px solid var(--border);padding-top:0.9rem;gap:1rem;flex-wrap:wrap}
+.price{font-family:var(--display);font-size:1.05rem;font-weight:700;color:var(--cyan)}
+.price-note{font-family:var(--mono);font-size:0.58rem;color:var(--muted);margin-top:0.15rem}
+.markets{font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-align:right;line-height:1.55}
+.tags{display:flex;flex-wrap:wrap;gap:0.35rem}
+.tag{font-family:var(--mono);font-size:0.56rem;color:var(--muted);border:1px solid var(--border);padding:0.12rem 0.45rem;border-radius:2px;letter-spacing:0.04em}
+
+/* ── FEATURED CARD ── */
+.card.feat{grid-column:1/-1;flex-direction:row;gap:3rem;align-items:flex-start}
+.feat-l{flex:1.3}
+.feat-r{flex:1}
+.opt-stack{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.75rem}
+.ptable{width:100%;border-collapse:collapse;margin-top:0.5rem}
+.ptable tr{border-bottom:1px solid var(--border)}
+.ptable tr:last-child{border-bottom:none}
+.ptable td{padding:0.45rem 0;font-size:0.81rem}
+.ptable td:first-child{color:var(--muted);padding-right:1rem}
+.ptable td:last-child{color:var(--text);text-align:right;font-family:var(--mono);font-size:0.76rem}
+.ptable tr.total td{color:var(--cyan)!important;font-weight:600;font-size:0.86rem!important;padding-top:0.7rem!important}
+.phases{display:flex;flex-direction:column;gap:0;margin-top:0.75rem}
+.phase{display:flex;align-items:flex-start;gap:1rem;padding:0.8rem 0;border-bottom:1px solid var(--border)}
+.phase:last-child{border-bottom:none}
+.ph-num{font-family:var(--mono);font-size:0.65rem;color:var(--cyan);min-width:2rem;padding-top:0.1rem}
+.ph-c{flex:1}
+.ph-name{font-family:var(--display);font-size:0.88rem;font-weight:600;color:var(--text-hi);margin-bottom:0.15rem;padding-bottom:0.1em;overflow:visible}
+.ph-desc{font-size:0.78rem;color:var(--muted)}
+.ph-price{font-family:var(--mono);font-size:0.72rem;color:var(--cyan);white-space:nowrap;padding-top:0.1rem}
+
+/* ── PROCESS OVERVIEW ── */
+.process-wrap{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 4rem}
+.process-inner{max-width:1320px;margin:0 auto}
+.bigpic{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-bottom:4rem}
+.bigpic-cell{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:2rem 1.8rem}
+.bigpic-cell:hover{background:var(--card-hi)}
+.bp-icon{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--cyan);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+.bp-icon::before{content:'';display:block;width:16px;height:1px;background:var(--cyan);opacity:0.5}
+.bp-title{font-family:var(--display);font-size:1.05rem;font-weight:600;color:var(--text-hi);line-height:1.25;margin-bottom:0.6rem;padding-bottom:0.2em;overflow:visible}
+.bp-body{font-size:0.83rem;color:var(--muted);line-height:1.7}
+.bp-body strong{color:var(--text);font-weight:500}
+.flow-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.flow-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.flow-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem;position:relative}
+.flow-steps::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border-hi) 15%,var(--border-hi) 85%,transparent);z-index:0}
+.flow-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 0.75rem;position:relative;z-index:1}
+.fs-num{width:56px;height:56px;border-radius:50%;border:1px solid var(--border-hi);background:var(--card);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.7rem;font-weight:500;color:var(--cyan);margin-bottom:1rem;position:relative;flex-shrink:0;transition:border-color 0.2s,background 0.2s}
+.fs-num::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid transparent;transition:border-color 0.2s}
+.flow-step:hover .fs-num{background:var(--lift);border-color:var(--cyan)}
+.flow-step:hover .fs-num::after{border-color:rgba(0,200,255,0.15)}
+.fs-title{font-family:var(--display);font-size:0.82rem;font-weight:600;color:var(--text-hi);margin-bottom:0.4rem;line-height:1.25;padding-bottom:0.15em;overflow:visible}
+.fs-body{font-size:0.75rem;color:var(--muted);line-height:1.55}
+.fs-entry{margin-top:0.7rem;font-family:var(--mono);font-size:0.58rem;color:var(--cyan);letter-spacing:0.06em;border:1px solid rgba(0,200,255,0.2);padding:0.2rem 0.5rem;border-radius:2px;background:rgba(0,200,255,0.04);white-space:nowrap}
+.domain-summary{margin-top:3.5rem}
+.ds-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.ds-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.ds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.ds-card{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:1.5rem 1.6rem;transition:background 0.2s,border-color 0.2s;border-left:2px solid transparent}
+.ds-card:hover{background:var(--card-hi);border-left-color:var(--cyan);border-color:var(--border-hi)}
+.ds-num{font-family:var(--mono);font-size:0.58rem;color:var(--cyan);letter-spacing:0.12em;margin-bottom:0.5rem}
+.ds-name{font-family:var(--display);font-size:0.95rem;font-weight:600;color:var(--text-hi);margin-bottom:0.4rem;line-height:1.25;padding-bottom:0.15em;overflow:visible}
+.ds-one{font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:0.75rem}
+.ds-benefits{list-style:none;display:flex;flex-direction:column;gap:0.25rem}
+.ds-benefits li{font-size:0.75rem;color:var(--text);display:flex;align-items:flex-start;gap:0.4rem;line-height:1.4}
+.ds-benefits li::before{content:'✓';color:var(--green);font-size:0.65rem;flex-shrink:0;margin-top:0.1rem}
+.ds-entry-point{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.9rem;font-family:var(--mono);font-size:0.58rem;color:var(--amber);letter-spacing:0.06em}
+.ds-entry-point::before{content:'→ Start:';opacity:0.7}
+
+/* ── WHY ── */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2.2rem}
+.why-card{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:1.6rem;transition:border-color 0.2s}
+.why-card:hover{border-color:var(--border-act)}
+.why-icon{font-family:var(--mono);font-size:0.65rem;color:var(--cyan);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem}
+.why-icon::before{content:'//';opacity:0.5}
+.why-title{font-family:var(--display);font-size:1rem;font-weight:600;color:var(--text-hi);margin-bottom:0.4rem;padding-bottom:0.15em;overflow:visible}
+.why-body{font-size:0.83rem;color:var(--muted);line-height:1.65}
+
+/* ── CTA ── */
+.cta-sec{padding:7rem 4rem;text-align:center;position:relative;overflow:hidden}
+.cta-inner{max-width:620px;margin:0 auto;position:relative;z-index:1}
+.cta-sec::before{content:'';position:absolute;bottom:-240px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,255,0.05) 0%,transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--display);font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:800;letter-spacing:-0.03em;line-height:1.25;color:var(--text-hi);margin:1.5rem 0 1.2rem;padding-bottom:0.25em;overflow:visible}
+.cta-sub{color:var(--muted);font-size:1rem;line-height:1.7;margin-bottom:2.5rem}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:1.8rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.foot-brand{font-family:var(--mono);font-size:0.72rem;font-weight:500;color:var(--muted);letter-spacing:0.12em}
+.foot-brand span{color:var(--cyan)}
+.foot-links{display:flex;gap:1.5rem;list-style:none}
+.foot-links a{font-family:var(--mono);font-size:0.62rem;color:var(--muted);text-decoration:none;letter-spacing:0.06em;transition:color 0.2s}
+.foot-links a:hover{color:var(--cyan)}
+.foot-r{font-family:var(--mono);font-size:0.6rem;color:rgba(102,120,160,0.5);letter-spacing:0.08em}
+
+/* ── FADE — visible by default, JS enhances ── */
+.fade{opacity:1;transform:none}
+.fade-ready{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease}
+.fade-ready.vis{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.fade-ready{opacity:1;transform:none;transition:none}}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:0 1.25rem}
+  .nav-links{display:none}
+  .hero{padding:7rem 1.25rem 4rem}
+  .hero-proof{flex-wrap:wrap}
+  .proof-cell{min-width:120px}
+  .signal-band{padding:0.9rem 1.25rem}
+  .signal-band::before{display:none}
+  .section{padding:4rem 1.25rem}
+  .dom-div{padding:3rem 1.25rem 1rem}
+  .grid{grid-template-columns:1fr;gap:1.5rem;padding:0 1.25rem}
+  .card.feat{flex-direction:column}
+  .process-wrap{padding:4rem 1.25rem}
+  .bigpic{grid-template-columns:1fr;gap:1.5rem}
+  .flow-steps{grid-template-columns:1fr;gap:2rem}
+  .flow-steps::before{display:none}
+  .ds-grid{grid-template-columns:1fr;gap:1.5rem}
+  .cta-sec{padding:5rem 1.25rem}
+  footer{padding:1.8rem 1.25rem;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">INTELLICA</a>
+  <ul class="nav-links">
+    <li><a href="government.html">Government <span class="nav-pill">Live</span></a></li>
+    <li><a href="energy.html">Energy <span class="nav-pill">Live</span></a></li>
+    <li><a href="finance.html">Finance <span class="nav-pill">Live</span></a></li>
+    <li><a href="smb.html">SMB <span class="nav-pill">Live</span></a></li>
+    <li><a href="enterprise.html" style="color:var(--cyan)">Enterprise <span class="nav-pill">Live</span></a></li>
+    <li>
+      <span>Platforms</span>
+      <div class="nav-drop">
+        <a href="https://intellecta-cortex.pages.dev/">Cortex — Control Plane <span class="drop-badge live">Live</span></a>
+        <a href="https://verity-core-banking.pages.dev/">Verity — Core Banking <span class="drop-badge live">Live</span></a>
+        <a href="https://vericrypt-7qp.pages.dev/">VeriCrypt — PQC Compliance <span class="drop-badge live">Live</span></a>
+        <a href="https://verichain-5pt.pages.dev/">VeriChain — The Verifiable Agent Economy <span class="drop-badge live">Live</span></a>
+        <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing/">ASL — Autonomous Systems Language <span class="drop-badge live">Live</span></a>
+      </div>
+    </li>
+    <li>
+      <span>Partners</span>
+      <div class="nav-drop">
+        <a href="partners.html#technology">Technology Partners <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#reseller">Reseller Programme <span class="drop-badge soon">Soon</span></a>
+        <a href="partners.html#apply">Become a Partner <span class="drop-badge rfp">Apply</span></a>
+      </div>
+    </li>
+  </ul>
+  <a href="https://calendly.com/peterdramsajan/30min" class="nav-cta" target="_blank">Book a briefing</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas class="hero-canvas" id="grid-canvas"></canvas>
+  <div class="hero-inner">
+    <div class="hero-class">
+      Intellica AI &nbsp;·&nbsp; Enterprise Capability Register &nbsp;·&nbsp; 2026
+    </div>
+    <h1>
+      97% of enterprises are exploring AGENTS.<br>Only 12% control them.
+      <span class="line-accent">Cortex is the MISSING layer.</span>
+    </h1>
+    <p class="hero-sub">
+      <strong>The 2026 enterprise AI crisis is not adoption — it is governance.</strong> 97% of organisations are already exploring agentic AI strategies. Only 12% have a centralised platform to maintain control over AI sprawl. Traditional IAM and RBAC tools can't keep pace with short-lived, dynamic agents acting across hundreds of services. Cortex was built specifically for this gap.
+    </p>
+    <div class="hero-rule"></div>
+    <div class="hero-proof">
+      <div class="proof-cell"><div class="proof-num">97%</div><div class="proof-label">Enterprises exploring<br>agentic AI strategies</div></div>
+      <div class="proof-cell"><div class="proof-num">12%</div><div class="proof-label">Have centralised<br>agent control</div></div>
+      <div class="proof-cell"><div class="proof-num">60%</div><div class="proof-label">Agentic projects fail<br>from bad data (Gartner)</div></div>
+      <div class="proof-cell"><div class="proof-num">≤10MB</div><div class="proof-label">Cortex single<br>Rust binary</div></div>
+      <div class="proof-cell"><div class="proof-num">48h</div><div class="proof-label">Architecture<br>turnaround</div></div>
+    </div>
+    <div class="hero-cta">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Send us your problem</a>
+      <a href="https://calendly.com/peterdramsajan/30min" class="nav-cta" target="_blank">Book a briefing</a>
+    </div>
+    <div class="hero-verify">
+      <div class="verify-badge vb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>EU AI Act Art. 12</div>
+      <div class="verify-badge vb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>IETF SCITT provenance</div>
+      <div class="verify-badge vb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Zero vendor lock-in</div>
+      <div class="verify-badge vb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Air-gap capable</div>
+      <div class="verify-badge vb-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Dell AI Factory validated</div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNAL BAND -->
+<div class="signal-band">
+  <div class="sig"><span class="dot r"></span>97% enterprises exploring agents — 82-point governance gap (OutSystems 2026)</div>
+  <div class="sig"><span class="dot r"></span>60% agentic projects fail — lack of AI-ready data infrastructure (Gartner)</div>
+  <div class="sig"><span class="dot a"></span>EU AI Act — high-risk enforcement Aug 2026</div>
+  <div class="sig"><span class="dot g"></span>DORA Art. 5–14 — AI as critical ICT risk, in force</div>
+  <div class="sig"><span class="dot a"></span>48% CIOs: legacy integration = #1 agentic AI blocker</div>
+  <div class="sig"><span class="dot a"></span>Agent lock-in accumulates at 4 layers — model, orchestration, runtime, patterns</div>
+  <div class="sig"><span class="dot g"></span>Dell AI Factory — Cortex validated reference architecture</div>
+  <div class="sig"><span class="dot g"></span>AWS European Sovereign Cloud GA — sovereignty now board-level</div>
+</div>
+
+
+<!-- ══ PROCESS OVERVIEW ══ -->
+<div class="process-wrap">
+  <div class="process-inner">
+    <p class="sec-eye">Where to start</p>
+    <h2 class="sec-title" style="margin-bottom:0.5rem">The big picture in 60 seconds</h2>
+    <p class="sec-sub">Not sure where Cortex fits in your enterprise AI strategy? Here is how the 12% of enterprises that actually control their agents are structured — and where Intellica enters.</p>
+
+    <div class="bigpic">
+      <div class="bigpic-cell">
+        <div class="bp-icon">The problem</div>
+        <div class="bp-title">You have an AI adoption problem disguised as a technology problem</div>
+        <p class="bp-body">97% of organisations are exploring agents. 12% have a centralised governance platform. The other 85% are accumulating "agent sprawl" — isolated AI systems built by different teams with no shared provenance, no shared kill switch, and no shared governance layer. <strong>CTOs are discovering that traditional IAM and RBAC tools can't keep pace with short-lived, dynamic agents acting across hundreds of services.</strong></p>
+      </div>
+      <div class="bigpic-cell">
+        <div class="bp-icon">What we do</div>
+        <div class="bp-title">Cortex is the control plane that goes underneath all of it</div>
+        <p class="bp-body">We are not an AI tool. Cortex is the sovereign layer underneath every AI tool your teams build or buy — connecting to SAP, Maximo, Salesforce, Snowflake, and your databases via MCP connectors, with every agent action BLAKE3-hashed, Ed25519-signed, and Merkle-chained. <strong>One provenance ledger. One kill switch. One audit trail. No outbound data.</strong></p>
+      </div>
+      <div class="bigpic-cell">
+        <div class="bp-icon">The outcome</div>
+        <div class="bp-title">From "AI sprawl" to a governed agentlake in 90 days</div>
+        <p class="bp-body">Forrester projects most enterprises will be forced to compose "agentlakes" — shared architectures to orchestrate fragmented AI built without coordination. <strong>Cortex is designed to be that layer from day one</strong>, not retrofitted after the fragmentation has already cost you compliance violations, audit failures, and data egress incidents.</p>
+      </div>
+    </div>
+
+    <div class="flow-label">How a typical enterprise engagement unfolds</div>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="fs-num">01</div><div class="fs-title">AI Portfolio Audit</div><p class="fs-body">We map every agent, LLM tool, and AI workflow across your organisation — source, owner, data access, and governance posture. Most enterprises discover 3× more AI deployments than IT is aware of.</p><div class="fs-entry">2–4 weeks</div></div>
+      <div class="flow-step"><div class="fs-num">02</div><div class="fs-title">Cortex Architecture</div><p class="fs-body">Connector roadmap, deployment tier selection, ERP/core system integration design, provenance and governance mapping — before a line of code runs against production.</p><div class="fs-entry">3–6 weeks</div></div>
+      <div class="flow-step"><div class="fs-num">03</div><div class="fs-title">Pilot Deployment</div><p class="fs-body">Cortex deployed on one department, one workload, against one production system — fully reversible, fully audited, with validated Strangler Fig migration path.</p><div class="fs-entry">4–8 weeks</div></div>
+      <div class="flow-step"><div class="fs-num">04</div><div class="fs-title">Workforce Enablement</div><p class="fs-body">Executive and board AI governance briefings, engineering bootcamps for agent development on Cortex, and HITL operations training for every team interacting with agent outputs.</p><div class="fs-entry">Parallel track</div></div>
+      <div class="flow-step"><div class="fs-num">05</div><div class="fs-title">Enterprise Rollout</div><p class="fs-body">Department-by-department expansion through the Absorption Pipeline — each legacy system progressively replaced with instant rollback capability, zero downtime, and cryptographic decommission certificates.</p><div class="fs-entry">Month 3 onward</div></div>
+    </div>
+
+    <div class="domain-summary">
+      <div class="ds-label">What we build — by domain</div>
+      <div class="ds-grid">
+        <div class="ds-card">
+          <div class="ds-num">01 // Cortex Deployment &amp; ERP Integration</div>
+          <div class="ds-name">One control plane. Every system you already run.</div>
+          <p class="ds-one">Cortex on your infrastructure, connected to SAP, Maximo, Oracle, Salesforce, Snowflake, and your databases via MCP — with no rip-and-replace, instant rollback, and cryptographic decommission.</p>
+          <ul class="ds-benefits"><li>≤10MB single Rust binary, 4GB / 2vCPU minimum footprint</li><li>SAP, Maximo, Oracle, Salesforce, Snowflake, Jira, GitHub Enterprise, ServiceNow</li><li>Dell AI Factory validated reference architecture</li></ul>
+          <div class="ds-entry-point">Cortex enterprise pilot ($32,400)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">02 // Agent Sprawl Governance</div>
+          <div class="ds-name">The 82-point governance gap, closed.</div>
+          <p class="ds-one">AI portfolio audit, centralised governance framework, OWASP Agentic Top 10 compliance, agent identity and capability scoping, and the CortexGuard kill switch over every deployed agent.</p>
+          <ul class="ds-benefits"><li>Only 12% of enterprises have a centralised agent platform</li><li>Single kill switch halts all agents — online or air-gapped</li><li>7-layer Security Fortress with per-tool RBAC and Crypto HITL</li></ul>
+          <div class="ds-entry-point">AI portfolio audit ($18,360)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">03 // Multi-Agent Orchestration</div>
+          <div class="ds-name">Agents that coordinate, not just execute.</div>
+          <p class="ds-one">Multi-agent workflow design across finance, procurement, supply chain, and IT operations — with conflict resolution, output aggregation, and HITL gates on every cross-agent decision boundary.</p>
+          <ul class="ds-benefits"><li>40% of realised enterprise AI ROI comes from IT + productivity agents</li><li>Provenance-chained across every agent in a workflow</li><li>Formally verified capability boundaries prevent agent-to-agent overreach</li></ul>
+          <div class="ds-entry-point">Multi-agent architecture ($32,400)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">04 // Sovereign LLMOps &amp; AI Factory</div>
+          <div class="ds-name">Inference on your iron. Not theirs.</div>
+          <p class="ds-one">Dell AI Factory validated sovereign inference stack, model registry, MLOps pipeline, observability layer, and AI FinOps — the foundation that Gartner says 60% of agentic projects fail without.</p>
+          <ul class="ds-benefits"><li>3,600 req/hr LLMOps throughput on self-hosted GPU via PagedAttention</li><li>Model registry, retraining pipeline, drift monitoring</li><li>AI FinOps: inference cost, retraining cost, governance cost tracked together</li></ul>
+          <div class="ds-entry-point">Sovereign AI factory design ($21,600)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">05 // Legacy Modernisation</div>
+          <div class="ds-name">Replace without disrupting. Retire with proof.</div>
+          <p class="ds-one">Cortex's six-phase Absorption Pipeline — Observe, Mirror, Absorb, Genesis, Replace, Retire — migrates legacy ERP and enterprise software zero-downtime, with instant rollback and cryptographic decommission certificates.</p>
+          <ul class="ds-benefits"><li>48% of CIOs cite legacy integration as #1 agentic AI blocker</li><li>Sub-100ms p95 CDC mirroring at 250M+ events/week</li><li>Each phase independently reversible with its own cryptographic record</li></ul>
+          <div class="ds-entry-point">Legacy modernisation roadmap ($18,360)</div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-num">06 // Enterprise AI Training</div>
+          <div class="ds-name">Board to engineer — capability at every layer.</div>
+          <p class="ds-one">Board and CXO AI governance briefings, CTO/CIO technology leadership workshops, engineering bootcamps for Cortex and agentic system development, and HITL operations training for every team that interacts with agent outputs.</p>
+          <ul class="ds-benefits"><li>Board-level governance framing aligned to EU AI Act and DORA</li><li>Engineering bootcamp: Cortex connectors, agent skill development, RBAC design</li><li>Operations HITL: when to override, when to escalate, how to audit</li></ul>
+          <div class="ds-entry-point">Board AI governance briefing ($6,480)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 01: CORTEX DEPLOYMENT & ERP INTEGRATION ══ -->
+<div class="dom-div" id="cortex">
+  <span class="dom-tag">01 // Cortex Deployment &amp; ERP Integration</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card feat" data-class="// phase-1">
+    <div class="feat-l">
+      <div class="card-hd"><span class="card-type">Software · Sovereign Control Plane</span><span class="badge live">Phase 1 of 3</span></div>
+      <h3 class="card-title" style="font-size:1.45rem;margin-top:0.5rem">Cortex Enterprise Pilot — One Workload, One Department</h3>
+      <p class="card-body" style="margin-top:0.5rem">The right enterprise entry point is one scoped workload as a de-risked entry point — then expanding into additional processes. <strong>This pilot deploys Cortex on your infrastructure, connects to one production system (SAP, Maximo, Salesforce, or your database), and runs one workload through the full Absorption Pipeline</strong> — fully reversible, fully audited, and contained within your own infrastructure perimeter from day one.</p>
+      <div class="opt-stack">
+        <div class="opt-block"><div class="opt-lbl">Option A</div><div class="opt-title">SAP / Oracle ERP Intelligence Layer</div><div class="opt-body">Cortex observes SAP S/4HANA or Oracle interactions, mirrors the underlying data in real time via CDC, and surfaces natural-language access to procurement, finance, and operations data — without touching the ERP schema or disrupting any existing workflows.</div></div>
+        <div class="opt-block"><div class="opt-lbl">Option B</div><div class="opt-title">Maximo / ServiceNow Asset &amp; Operations Layer</div><div class="opt-body">Connects Cortex to Maximo EAM or ServiceNow, enabling natural-language work order creation, asset health queries, and predictive maintenance recommendations — with write-back gated through Crypto HITL.</div></div>
+        <div class="opt-block"><div class="opt-lbl">Option C</div><div class="opt-title">Salesforce / CRM Revenue Intelligence Layer</div><div class="opt-body">Mirrors CRM data into Cortex's TraceDB, enabling AI-powered pipeline analysis, account intelligence, and revenue forecasting — grounded in your actual deal data with full provenance on every output.</div></div>
+      </div>
+      <div class="tags" style="margin-top:1rem"><span class="tag">Cortex</span><span class="tag">MCP connectors</span><span class="tag">Absorption Pipeline</span><span class="tag">TraceCaps</span><span class="tag">Strangler Fig</span><span class="tag">Ed25519</span></div>
+    </div>
+    <div class="feat-r">
+      <div class="dlv-lbl">Engagement breakdown</div>
+      <table class="ptable">
+        <tr><td>Discovery &amp; connector scoping (3 days)</td><td>$3,240 – $4,140</td></tr>
+        <tr><td>Cortex deployment &amp; security config (5 days)</td><td>$5,400 – $6,900</td></tr>
+        <tr><td>Connector build &amp; CDC pipeline (10 days)</td><td>$10,800 – $13,800</td></tr>
+        <tr><td>Absorption Pipeline + Genesis UI (8 days)</td><td>$8,640 – $11,040</td></tr>
+        <tr><td>Validation suite &amp; handover (4 days)</td><td>$4,320 – $5,520</td></tr>
+        <tr class="total"><td>Phase 1 pilot total</td><td>$32,400 – $41,400</td></tr>
+      </table>
+      <div style="margin-top:1.4rem">
+        <div class="dlv-lbl">Scale-up trajectory</div>
+        <div class="phases">
+          <div class="phase"><div class="ph-num">P1</div><div class="ph-c"><div class="ph-name">Pilot (this engagement)</div><div class="ph-desc">One system, one workload, full Absorption Pipeline, validated</div></div><div class="ph-price">$32–41K</div></div>
+          <div class="phase"><div class="ph-num">P2</div><div class="ph-c"><div class="ph-name">Multi-system expansion</div><div class="ph-desc">Additional connectors, multi-agent workflows, department rollout</div></div><div class="ph-price">$150–350K</div></div>
+          <div class="phase"><div class="ph-num">P3</div><div class="ph-c"><div class="ph-name">Enterprise-wide deployment</div><div class="ph-desc">Full Sovereign Enterprise tier, legacy retirement programme</div></div><div class="ph-price">Site licence</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-class="// connectors">
+    <div class="card-hd"><span class="card-type">Software · Integration</span><span class="badge univ">14+ connectors live</span></div>
+    <h3 class="card-title">Enterprise Connector Library &amp; Custom Connector Build</h3>
+    <p class="card-body">Cortex ships with MCP connectors for IBM Maximo, Oracle E-Business Suite, Oracle Fusion Cloud, SAP S/4HANA, Salesforce, Workday, Snowflake, Jira, GitHub Enterprise, Slack, ServiceNow, PostgreSQL, SQL Server, and IBM DB2. <strong>We scope and build any connector not yet in the library</strong> — following the same CDC-mirror, BLAKE3-provenance, and Crypto HITL pattern as the production connector set.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Gap analysis against current connector library for your specific stack</li><li>Custom connector built to the Cortex MCP connector specification</li><li>Field-level CDC pipeline with sub-100ms p95 latency</li><li>Write-back implementation gated through Crypto HITL</li><li>Connector SDK handover so your team can extend it independently</li></ul></div>
+    <div class="card-ft"><div><div class="price">$10,800 – $21,600</div><div class="price-note">Per custom connector · 10–20 days</div></div><div class="markets">Any enterprise on a system<br>not yet in the connector library</div></div>
+    <div class="tags"><span class="tag">MCP</span><span class="tag">CDC</span><span class="tag">connectors</span><span class="tag">custom build</span></div>
+  </div>
+
+  <div class="card" data-class="// legacy">
+    <div class="card-hd"><span class="card-type">Consulting · Architecture</span><span class="badge req">#1 CIO blocker in 2026</span></div>
+    <h3 class="card-title">Legacy ERP Modernisation Roadmap</h3>
+    <p class="card-body">48% of CIOs identify integration with legacy systems as the single most important capability they need to expand agentic AI. <strong>We design the Cortex-based migration path for your legacy ERP estate</strong> — mapping each system to the Absorption Pipeline phase it's ready for, with TCO modelling against traditional rip-and-replace programmes.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Legacy estate inventory: system, data quality, integration dependency, migration risk</li><li>Absorption Pipeline phase mapping per system (Observe → Mirror → Absorb → Genesis → Replace → Retire)</li><li>TCO comparison: Cortex Strangler Fig migration vs traditional rip-and-replace</li><li>Risk register per phase with instant-rollback architecture documented</li><li>18-month phased migration roadmap with investment estimates</li></ul></div>
+    <div class="card-ft"><div><div class="price">$18,360 – $23,460</div><div class="price-note">17-day architecture engagement</div></div><div class="markets">Enterprises on SAP, Oracle, legacy ERP<br>or COBOL-based core systems</div></div>
+    <div class="tags"><span class="tag">ERP</span><span class="tag">legacy</span><span class="tag">Strangler Fig</span><span class="tag">migration</span></div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 02: AGENT SPRAWL GOVERNANCE ══ -->
+<div class="dom-div" id="governance">
+  <span class="dom-tag">02 // Agent Sprawl Governance &amp; AI Portfolio Control</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card" data-class="// urgent">
+    <div class="card-hd"><span class="card-type">Consulting · Governance</span><span class="badge req">The 82-point gap — urgent</span></div>
+    <h3 class="card-title">Enterprise AI Portfolio Audit &amp; Governance Framework</h3>
+    <p class="card-body">97% of organisations are exploring agentic AI. 36% have a centralised governance approach. 12% have a centralised platform. <strong>This audit maps every AI deployment across your organisation, classifies it by risk tier, and designs the governance framework</strong> — agent identity, capability scoping, HITL protocols, and the CortexGuard kill switch architecture — that brings every existing agent under a single auditable canopy.</p>
+    <div class="tco">
+      <div class="tco-lbl">What most enterprises discover in audit</div>
+      <p>IT is typically aware of <strong>30–40% of the AI tools and agents</strong> deployed across the business. The rest are team-level SaaS subscriptions, LLM API calls, and no-code automation with direct access to production data and no governance layer. Every one of these is an unaudited write path into your systems.</p>
+    </div>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>AI deployment inventory: tool, owner, data access, write capability, governance status</li><li>Risk tier classification (EU AI Act, OWASP Agentic Top 10, DORA)</li><li>Agent identity and capability scoping framework for Cortex</li><li>HITL protocol design per risk tier</li><li>Centralised governance architecture: one provenance ledger, one kill switch, one audit trail</li></ul></div>
+    <div class="card-ft"><div><div class="price">$18,360 – $27,000</div><div class="price-note">17-22 day engagement</div></div><div class="markets">Universal enterprise priority —<br>especially regulated industries</div></div>
+    <div class="tags"><span class="tag">governance</span><span class="tag">agent sprawl</span><span class="tag">OWASP ASI</span><span class="tag">EU AI Act</span></div>
+  </div>
+
+  <div class="card" data-class="// security">
+    <div class="card-hd"><span class="card-type">Software · Security</span><span class="badge live">7-layer Security Fortress</span></div>
+    <h3 class="card-title">Cortex Security Fortress Configuration &amp; Validation</h3>
+    <p class="card-body">Agents have identity, privileges, and access to systems and data across the business and supply chain — making them a new, non-deterministic attack surface. <strong>Cortex's 7-layer Security Fortress covers the full OWASP MCP Top 10 and CABP identity pipeline</strong>: we configure and validate every layer for your specific deployment, producing a signed validation report your CISO can submit to audit.</p>
+    <div class="dlv"><div class="dlv-lbl">Seven layers configured and validated</div><ul><li>L1 Semantic Firewall — blocks OWASP MCP Top 10 prompt-injection patterns</li><li>L2 Tool-Level RBAC — per-tool, per-role authorisation on every connector</li><li>L3 Crypto HITL — Ed25519 manifest signing for high-risk operations</li><li>L4 CABP Identity Pipeline — 6-stage token, scope, entitlement, rate-limit checks</li><li>L5 MCPShield — constrained execution + post-invocation reflection</li><li>L6 MCIP Contextual Integrity — sender identity, context, and consent validation</li><li>L7 Greybox Semantic Fuzzer — continuous probing for unauthorised state transitions</li></ul></div>
+    <div class="card-ft"><div><div class="price">$12,960 – $18,360</div><div class="price-note">Includes signed validation report</div></div><div class="markets">Every Cortex deployment<br>regulated industries mandatory</div></div>
+    <div class="tags"><span class="tag">security</span><span class="tag">OWASP MCP</span><span class="tag">RBAC</span><span class="tag">Crypto HITL</span></div>
+  </div>
+
+  <div class="card" data-class="// procurement">
+    <div class="card-hd"><span class="card-type">Consulting · Procurement</span><span class="badge req">CIO priority 2026</span></div>
+    <h3 class="card-title">Enterprise AI Vendor Lock-In Risk Advisory</h3>
+    <p class="card-body">Agentic AI lock-in is more durable than API lock-in because it accumulates simultaneously at the foundation model, orchestration framework, runtime environment, and developer patterns. <strong>We provide the independent lock-in risk assessment and RFP design that ensures your enterprise retains model portability, data ownership, and exit rights</strong> — before you sign a contract that surrenders them.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Lock-in layer mapping: model, orchestration, runtime, developer pattern, and data egress risk</li><li>Vendor-neutral evaluation rubric for enterprise AI platform procurement</li><li>Contract clause checklist: IP indemnity, data export, model portability, SLA exit</li><li>AI FinOps TCO model: inference, retraining, governance, integration maintenance (3-year)</li><li>RFP template engineered to surface real agentic capability vs marketing claims</li></ul></div>
+    <div class="card-ft"><div><div class="price">$9,720 – $18,360</div><div class="price-note">9-17 day engagement</div></div><div class="markets">Enterprises pre-procurement<br>or reviewing existing AI contracts</div></div>
+    <div class="tags"><span class="tag">vendor lock-in</span><span class="tag">procurement</span><span class="tag">AI FinOps</span><span class="tag">TCO</span></div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 03: MULTI-AGENT ORCHESTRATION ══ -->
+<div class="dom-div" id="orchestration">
+  <span class="dom-tag">03 // Multi-Agent Orchestration &amp; Enterprise Workflows</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card" data-class="// architecture">
+    <div class="card-hd"><span class="card-type">Software + Consulting · Architecture</span><span class="badge univ">Cross-functional</span></div>
+    <h3 class="card-title">Multi-Agent Orchestration Architecture &amp; Build</h3>
+    <p class="card-body">A single pilot is easy. Running production-grade AI solutions across teams, systems, and geographies is where things break. <strong>We design and build the multi-agent orchestration layer that sequences tasks, resolves conflicts, aggregates outputs, and gates every cross-agent decision boundary with a human-in-the-loop control</strong> — across finance, procurement, supply chain, and IT operations.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Multi-agent topology design: roles, capabilities, coordination patterns, failure modes</li><li>Inter-agent provenance chaining — every agent-to-agent handoff is auditable</li><li>Conflict resolution and output aggregation protocols</li><li>HITL gate design at every cross-agent decision boundary</li><li>Observability layer: every agent action monitored, alerting on anomalous patterns</li></ul></div>
+    <div class="card-ft"><div><div class="price">$32,400 – $54,000</div><div class="price-note">30-50 day architecture + build</div></div><div class="markets">Enterprises with 3+ agent deployments<br>targeting cross-functional automation</div></div>
+    <div class="tags"><span class="tag">multi-agent</span><span class="tag">orchestration</span><span class="tag">HITL</span><span class="tag">observability</span></div>
+  </div>
+
+  <div class="card" data-class="// supply-chain">
+    <div class="card-hd"><span class="card-type">Software · Supply Chain</span><span class="badge live">20–50% efficiency gains</span></div>
+    <h3 class="card-title">AI Supply Chain &amp; Procurement Intelligence</h3>
+    <p class="card-body">Finance, procurement, and supply chain teams running SAP represent the largest population of enterprise AI agent deployments in 2026 — and the highest reported efficiency gains at 20–50% per McKinsey. <strong>We deploy the Cortex supply chain agent layer: procurement workflow automation, supplier risk monitoring, demand forecasting, and inventory intelligence</strong> — all grounded in your ERP data via the CDC mirror, no schema changes required.</p>
+    <div class="dlv"><div class="dlv-lbl">Capabilities delivered</div><ul><li>Procurement workflow automation: PO creation, approval routing, supplier communication</li><li>Supplier risk monitoring with AI anomaly detection and alerting</li><li>Demand forecasting agent connected to ERP sales and inventory data</li><li>Inventory optimisation recommendations with full provenance</li><li>Every recommendation advisory — approval workflows gate any ERP write-back</li></ul></div>
+    <div class="card-ft"><div><div class="price">See Cortex Enterprise Pilot</div></div><div class="markets">Manufacturing · retail · logistics<br>Any enterprise running SAP supply chain</div></div>
+    <div class="tags"><span class="tag">supply chain</span><span class="tag">procurement</span><span class="tag">SAP</span><span class="tag">agentic</span></div>
+  </div>
+
+  <div class="card" data-class="// it-operations">
+    <div class="card-hd"><span class="card-type">Software · IT Operations</span><span class="badge live">40% of enterprise AI ROI</span></div>
+    <h3 class="card-title">AI-Native IT Operations &amp; Incident Response</h3>
+    <p class="card-body">40% of realised enterprise AI ROI is coming from IT development and productivity — agents assisting with code generation, workflow automation, and incident response. <strong>We deploy the Cortex IT operations agent: intelligent incident triage, automated root-cause analysis, change request routing, and self-healing process orchestration</strong> — connected to ServiceNow, Jira, and your monitoring stack via MCP.</p>
+    <div class="dlv"><div class="dlv-lbl">Capabilities delivered</div><ul><li>Intelligent incident triage: classify, prioritise, and route before a human sees it</li><li>Automated root-cause analysis connected to logs, metrics, and change history</li><li>Change request drafting and impact analysis from natural language</li><li>Self-healing process orchestration for known failure patterns</li><li>Full audit trail on every action — human override gates on production changes</li></ul></div>
+    <div class="card-ft"><div><div class="price">See Cortex Enterprise Pilot</div></div><div class="markets">IT operations teams running<br>ServiceNow · Jira · GitHub Enterprise</div></div>
+    <div class="tags"><span class="tag">IT ops</span><span class="tag">incident response</span><span class="tag">ServiceNow</span><span class="tag">agentic</span></div>
+  </div>
+
+  <div class="card" data-class="// hr-talent">
+    <div class="card-hd"><span class="card-type">Software · HR &amp; People</span><span class="badge univ">Workday connector live</span></div>
+    <h3 class="card-title">AI-Powered HR &amp; Talent Operations</h3>
+    <p class="card-body">Workday is in Cortex's live connector library. <strong>We deploy the HR intelligence layer: AI-powered headcount planning, talent pipeline analysis, onboarding automation, and workforce analytics</strong> — grounded in your Workday data via CDC mirror, with sensitive HR data classified and access-controlled at the field level via Cortex's Tool-Level RBAC.</p>
+    <div class="dlv"><div class="dlv-lbl">Capabilities delivered</div><ul><li>Headcount planning agent: model scenarios against budget and pipeline data</li><li>Talent pipeline analysis: identify skill gaps and succession risks</li><li>Onboarding automation: document collection, system provisioning, training routing</li><li>Workforce analytics dashboard with natural-language query interface</li><li>Field-level RBAC ensuring HR data visible only to authorised roles</li></ul></div>
+    <div class="card-ft"><div><div class="price">See Cortex Enterprise Pilot</div></div><div class="markets">Enterprises running Workday<br>or any HCM platform with API access</div></div>
+    <div class="tags"><span class="tag">HR</span><span class="tag">Workday</span><span class="tag">talent</span><span class="tag">workforce analytics</span></div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 04: SOVEREIGN LLMOPS & AI FACTORY ══ -->
+<div class="dom-div" id="llmops">
+  <span class="dom-tag">04 // Sovereign LLMOps &amp; AI Factory</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card feat" data-class="// foundation">
+    <div class="feat-l">
+      <div class="card-hd"><span class="card-type">Software · Infrastructure</span><span class="badge req">60% of projects fail without this</span></div>
+      <h3 class="card-title" style="font-size:1.45rem;margin-top:0.5rem">Sovereign AI Factory — Design &amp; Deployment</h3>
+      <p class="card-body" style="margin-top:0.5rem">Gartner predicts 60% of agentic AI projects will fail in 2026 due to lack of AI-ready data and infrastructure. Enterprises over-focus on models and under-focus on architecture. <strong>We design and deploy the sovereign AI factory</strong> — the compute, storage, MLOps pipeline, model registry, observability, and AI FinOps layer that the 60% are missing — validated against Dell AI Factory's reference architecture and sized for your specific Cortex agent workloads.</p>
+      <div class="opt-stack">
+        <div class="opt-block"><div class="opt-lbl">Tier B — Sovereign Enterprise</div><div class="opt-title">On-Prem Sovereign AI Factory</div><div class="opt-body">Dell PowerEdge + NVIDIA GPU infrastructure, vLLM inference with PagedAttention (3,600 req/hr throughput), MLflow model registry, Prometheus/Grafana observability, Keycloak RBAC. Full Cortex Sovereign Enterprise tier. Data never leaves your perimeter.</div></div>
+        <div class="opt-block"><div class="opt-lbl">Tier C — Air-Gapped</div><div class="opt-title">Air-Gapped AI Factory</div><div class="opt-body">No connectivity to Cortex infrastructure, ever. Offline Ed25519 licence validation. Updates via signed physical-media bundles. DORA, PQFIF, NCSC, and NIST PQ compliance agents included. On-site implementation with dedicated runbook support.</div></div>
+      </div>
+      <div class="tags" style="margin-top:1rem"><span class="tag">vLLM</span><span class="tag">MLflow</span><span class="tag">Prometheus</span><span class="tag">Dell AI Factory</span><span class="tag">Keycloak</span><span class="tag">PagedAttention</span></div>
+    </div>
+    <div class="feat-r">
+      <div class="dlv-lbl">AI Factory design engagement</div>
+      <table class="ptable">
+        <tr><td>Workload analysis &amp; inference sizing (3 days)</td><td>$3,240 – $4,140</td></tr>
+        <tr><td>Infrastructure architecture (5 days)</td><td>$5,400 – $6,900</td></tr>
+        <tr><td>MLOps pipeline &amp; model registry design (5 days)</td><td>$5,400 – $6,900</td></tr>
+        <tr><td>Observability &amp; AI FinOps layer (4 days)</td><td>$4,320 – $5,520</td></tr>
+        <tr><td>TCO model &amp; procurement spec (3 days)</td><td>$3,240 – $4,140</td></tr>
+        <tr class="total"><td>Design engagement total</td><td>$21,600 – $27,600</td></tr>
+      </table>
+      <div style="margin-top:1.3rem">
+        <div class="dlv-lbl">TCO argument</div>
+        <p style="font-size:0.83rem;color:var(--muted);margin-top:0.4rem;line-height:1.65">The real TCO of an enterprise AI programme over 3 years includes inference cost, retraining, observability, integration maintenance, model swaps, and governance. Many teams discover ongoing cost dwarfs initial development inside 18 months on commercial cloud. Sovereign AI factory typically reaches TCO parity in 12–24 months and produces a capital asset — not a perpetual liability.</p>
+      </div>
+      <div class="tags" style="margin-top:1.3rem"><span class="tag">sovereign compute</span><span class="tag">AI FinOps</span><span class="tag">TCO</span><span class="tag">MLOps</span></div>
+    </div>
+  </div>
+
+  <div class="card" data-class="// mlops">
+    <div class="card-hd"><span class="card-type">Software · MLOps</span><span class="badge univ">Universal prerequisite</span></div>
+    <h3 class="card-title">MLOps Pipeline, Model Registry &amp; Observability</h3>
+    <p class="card-body">Enterprises over-invest in models and under-invest in the operational infrastructure that keeps them reliable in production. <strong>We build the MLOps layer that Gartner says over 50% of enterprise AI initiatives are missing</strong> — model versioning, A/B testing, drift monitoring, retraining pipelines, and the observability stack that surfaces model degradation before it becomes a customer or compliance event.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>MLflow model registry: versioning, lineage, experiment tracking</li><li>Automated retraining pipeline with data quality gates</li><li>Model drift monitoring and alerting (statistical and semantic)</li><li>A/B testing framework for controlled model rollouts</li><li>Prometheus + Grafana observability with AI-specific dashboards</li></ul></div>
+    <div class="card-ft"><div><div class="price">$16,200 – $27,000</div><div class="price-note">15-25 day build</div></div><div class="markets">Enterprises with 2+ models<br>in production or heading there</div></div>
+    <div class="tags"><span class="tag">MLOps</span><span class="tag">MLflow</span><span class="tag">drift monitoring</span><span class="tag">observability</span></div>
+  </div>
+
+  <div class="card" data-class="// data-foundation">
+    <div class="card-hd"><span class="card-type">Software · Data Engineering</span><span class="badge req">60% agentic failure root cause</span></div>
+    <h3 class="card-title">Enterprise AI Data Foundation &amp; Readiness</h3>
+    <p class="card-body">Gartner's 60% agentic failure prediction is not about models — it is about data. <strong>We build the AI-ready data foundation</strong>: data inventory and quality scoring, metadata and lineage layer, semantic data catalogue, vector store for RAG, and the governance layer that ensures data quality doesn't degrade the moment agents start writing back to production systems.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Enterprise data inventory: source, quality score, lineage, sensitivity classification</li><li>Metadata and lineage layer (the 2026 battleground for data leadership)</li><li>Semantic data catalogue enabling natural-language data discovery</li><li>pgvector RAG store, embedding pipelines, retrieval evaluation harness</li><li>Data governance policies preventing agent write-back from degrading source quality</li></ul></div>
+    <div class="card-ft"><div><div class="price">$21,600 – $37,800</div><div class="price-note">20-35 day build</div></div><div class="markets">Universal prerequisite —<br>especially before any agentic expansion</div></div>
+    <div class="tags"><span class="tag">data foundation</span><span class="tag">metadata</span><span class="tag">RAG</span><span class="tag">lineage</span></div>
+  </div>
+</div>
+
+
+<!-- ══ DOMAIN 05: WORKFORCE AI TRAINING ══ -->
+<div class="dom-div" id="training">
+  <span class="dom-tag">05 // Enterprise Workforce AI Training</span>
+  <div class="dom-line"></div>
+</div>
+
+<div class="grid fade">
+  <div class="card" data-class="// board">
+    <div class="card-hd"><span class="card-type">Training · Board &amp; CXO</span><span class="badge req">EU AI Act / DORA obligation</span></div>
+    <h3 class="card-title">Board &amp; CXO AI Governance Briefing</h3>
+    <p class="card-body">EU AI Act and DORA both impose board-level accountability obligations on enterprises deploying high-risk AI — and most boards are receiving AI briefings from vendors with a commercial interest in the answer. <strong>This independent 2-hour briefing gives boards and executive teams the governance framework, regulatory obligation map, and competitive landscape context</strong> they need to exercise meaningful oversight — from a source with no platform to sell.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>EU AI Act board obligations: what the board must be able to attest to</li><li>DORA AI risk framework: how AI is now a critical ICT risk requiring board visibility</li><li>Agent sprawl risk brief: what 88% of boards don't know about their AI footprint</li><li>Vendor lock-in risk overview: the 4-layer accumulation problem in plain language</li><li>Questions every board should ask their CTO before approving an AI programme</li></ul></div>
+    <div class="card-ft"><div><div class="price">$6,480 – $10,800</div><div class="price-note">2 hours · board or CXO team · remote or in-person</div></div><div class="markets">Any enterprise with EU AI Act or<br>DORA regulatory obligations</div></div>
+    <div class="tags"><span class="tag">board</span><span class="tag">governance</span><span class="tag">EU AI Act</span><span class="tag">DORA</span></div>
+  </div>
+
+  <div class="card" data-class="// cto-cio">
+    <div class="card-hd"><span class="card-type">Training · Technology Leadership</span><span class="badge univ">Fastest entry point</span></div>
+    <h3 class="card-title">CTO / CIO AI Architecture &amp; Governance Workshop</h3>
+    <p class="card-body">CIOs are operating in a market where every vendor claims "agentic AI" and every demo looks the same. <strong>This 2-day workshop gives CTOs and CIOs the framework to evaluate real agentic capability vs marketing claims, design an enterprise governance architecture that survives regulatory scrutiny, and build the internal case for a sovereign AI control plane.</strong></p>
+    <div class="dlv"><div class="dlv-lbl">Programme — CTO/CIO + direct reports</div><ul><li>Day 1 Architecture: Cortex control plane design, connector strategy, Absorption Pipeline mechanics</li><li>Day 2 Governance: agent sprawl audit methodology, EU AI Act/DORA compliance design, TCO modelling, vendor lock-in risk framework</li><li>Deliverables: organisation-specific AI architecture recommendation, 90-day action plan, vendor evaluation scorecard</li></ul></div>
+    <div class="card-ft"><div><div class="price">$10,800 – $17,940</div><div class="price-note">Prep + 2-day delivery + post-workshop report</div></div><div class="markets">Enterprise technology leadership<br>making AI platform decisions</div></div>
+    <div class="tags"><span class="tag">CTO</span><span class="tag">CIO</span><span class="tag">architecture</span><span class="tag">governance</span></div>
+  </div>
+
+  <div class="card" data-class="// engineering">
+    <div class="card-hd"><span class="card-type">Training · Engineering</span><span class="badge live">70% repeat margin</span></div>
+    <h3 class="card-title">Cortex Engineering Bootcamp — Agent Development at Enterprise Scale</h3>
+    <p class="card-body">The teams building agents inside enterprises are discovering that single-agent pilots don't generalise to multi-agent production systems. <strong>This 5-day intensive builds the in-house capability to design, build, test, and operate Cortex-native agent skills at enterprise scale</strong> — covering connector development, RBAC design, multi-agent orchestration patterns, and the provenance and observability requirements of a governed production deployment.</p>
+    <div class="dlv"><div class="dlv-lbl">Programme — up to 12 engineers</div><ul><li>Module 1: Cortex architecture deep dive — binary, TraceDB, Absorption Pipeline internals</li><li>Module 2: Connector SDK — building and testing MCP connectors against live sandboxes</li><li>Module 3: Agent skill development — tool schemas, HITL design, capability scoping</li><li>Module 4: Multi-agent orchestration patterns and failure mode handling</li><li>Module 5: Capstone — build, test, and deploy one production agent skill per team</li></ul></div>
+    <div class="card-ft"><div><div class="price">$10,800 – $17,940</div><div class="price-note">Curriculum + delivery + Cortex sandbox access</div></div><div class="markets">Enterprise engineering teams<br>building on Cortex in production</div></div>
+    <div class="tags"><span class="tag">Cortex</span><span class="tag">engineering</span><span class="tag">agent dev</span><span class="tag">MCP SDK</span></div>
+  </div>
+
+  <div class="card" data-class="// operations">
+    <div class="card-hd"><span class="card-type">Training · Operations</span><span class="badge req">EU AI Act / DORA required</span></div>
+    <h3 class="card-title">Enterprise HITL Oversight &amp; AI Operations Training</h3>
+    <p class="card-body">Deploying agentic AI in enterprise operations without trained human-in-the-loop operators creates a new category of liability — not automation risk, but governance failure. <strong>We train operations teams across finance, procurement, supply chain, IT, and HR to supervise, audit, override, and escalate decisions from Cortex-governed agents</strong>, covering provenance ledger interpretation, CortexGuard kill-switch drills, and DORA incident response procedures.</p>
+    <div class="dlv"><div class="dlv-lbl">What you receive</div><ul><li>Provenance ledger interpretation: tracing any agent action to its source data</li><li>Override and escalation protocols per business function</li><li>CortexGuard kill-switch drills: when and how to halt all agents instantly</li><li>DORA incident response: what to document, who to notify, how fast</li><li>Compliance audit preparation: what regulators will ask and where the evidence lives</li></ul></div>
+    <div class="card-ft"><div><div class="price">Custom scoped</div><div class="price-note">Per business function · parallel to Cortex deployment</div></div><div class="markets">Every enterprise deploying Cortex<br>in a regulated or customer-facing context</div></div>
+    <div class="tags"><span class="tag">HITL</span><span class="tag">operations</span><span class="tag">DORA</span><span class="tag">EU AI Act</span></div>
+  </div>
+</div>
+
+
+<!-- WHY INTELLICA FOR ENTERPRISE -->
+<div class="section fade">
+  <p class="sec-eye">Why Intellica</p>
+  <h2 class="sec-title">We don't sell the next AI tool.<br>We sell the layer that makes all of them governable.</h2>
+  <p class="sec-sub">Microsoft Copilot, AWS Bedrock, Google Vertex, and IBM watsonx each solve one slice and deepen lock-in at multiple simultaneous layers. Cortex is designed from first principles to sit underneath all of them — sovereign, replaceable, and auditable by any regulator who asks.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">Sovereign by construction</div>
+      <h3 class="why-title">One binary. Your infrastructure. No outbound calls. Ever.</h3>
+      <p class="why-body">Cortex is a single Rust binary plus PostgreSQL/pgvector. It runs on your servers, validates its licence offline via Ed25519-signed JWT, and never makes an outbound call. Data sovereignty is not a configuration option — it is the only architecture.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Provenance at every layer</div>
+      <h3 class="why-title">Every agent action — signed, chained, and replayable.</h3>
+      <p class="why-body">Every action produces a BLAKE3-hashed, Ed25519-signed TraceCaps capsule, chained into a Merkle tree and anchored to IETF SCITT. Zero Merkle failures across 1M capsules in validation. Your regulator can verify any action without access to your systems.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">The 82-point gap, closed</div>
+      <h3 class="why-title">One kill switch. One audit trail. All agents.</h3>
+      <p class="why-body">A single POST /admin/kill halts every agent in the system instantly — online or fully air-gapped. Most enterprises have agents they can't halt, can't audit, and can't trace. Cortex closes that gap with architecture, not policy.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">No rip-and-replace</div>
+      <h3 class="why-title">Strangler Fig migration with instant rollback at every step.</h3>
+      <p class="why-body">The Absorption Pipeline observes, mirrors, absorbs, generates, replaces, and retires legacy systems in six independent, reversible phases. Each produces its own cryptographic record. Zero downtime. Zero detection by end users until the replacement is faster than the original.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Dell AI Factory validated</div>
+      <h3 class="why-title">A reference architecture your procurement team can submit.</h3>
+      <p class="why-body">Cortex's deployment model is validated against Dell PowerEdge XE with NVIDIA NemoClaw — producing a due-diligence report and deployment blueprint for direct submission through the Dell AI Ecosystem Program. Not a whitepaper. An artifact.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">Vendor-independent</div>
+      <h3 class="why-title">No referral fees. No platform commissions. No alignment.</h3>
+      <p class="why-body">We don't resell Microsoft, AWS, Google, or IBM products and hold no commercial agreements with any of them. When we recommend a technology, it is because it is the right fit for your sovereignty, governance, and lock-in constraints — not ours.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- CTA -->
+<div class="cta-sec">
+  <div class="cta-inner">
+    <p class="sec-eye" style="display:inline-block">Start the conversation</p>
+    <h2>Tell us your hardest<br>enterprise AI governance problem.</h2>
+    <p class="cta-sub">We will send you a complete Cortex architecture assessment within 48 hours — including a free AI portfolio audit scope for your specific stack. No cost for the first assessment. If it identifies the gaps you suspected, we discuss what a 90-day pilot looks like from there.</p>
+    <div class="cta-btns">
+      <a href="mailto:dpramsajan@meeting-mind.com" class="btn-primary">Email Sales</a>
+      <a href="https://wa.me/18687195236" class="btn-ghost">WhatsApp →</a>
+      <a href="tel:+18687195236" class="btn-ghost">Call →</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">INTELLICA<span>.</span>AI LLC</div>
+  <ul class="foot-links">
+    <li><a href="mailto:dpramsajan@meeting-mind.com">Email Sales</a></li>
+    <li><a href="tel:+18687195236">+1 868 719 5236</a></li>
+    <li><a href="https://wa.me/18687195236">WhatsApp</a></li>
+  </ul>
+  <div class="foot-tag">901 N Market St, Suite 100, Wilmington, DE 19801 · 2026</div>
+</footer>
+
+
+<script>
+/* ── HERO GRID ANIMATION ── */
+(function(){
+  const canvas=document.getElementById('grid-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,cols,rows,dots=[],sweep=0;
+  function resize(){
+    W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;
+    cols=Math.ceil(W/52)+1;rows=Math.ceil(H/52)+1;dots=[];
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)
+      dots.push({x:c*52,y:r*52,pulse:Math.random()*Math.PI*2});
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);sweep=(sweep+0.004)%(Math.PI*2);
+    ctx.strokeStyle='rgba(148,163,210,0.045)';ctx.lineWidth=0.5;
+    for(let c=0;c<cols;c++){ctx.beginPath();ctx.moveTo(c*52,0);ctx.lineTo(c*52,H);ctx.stroke()}
+    for(let r=0;r<rows;r++){ctx.beginPath();ctx.moveTo(0,r*52);ctx.lineTo(W,r*52);ctx.stroke()}
+    const sx=W*0.5+Math.cos(sweep-Math.PI*0.5)*W*0.9;
+    const g=ctx.createLinearGradient(sx-160,0,sx+30,0);
+    g.addColorStop(0,'rgba(0,200,255,0)');g.addColorStop(0.7,'rgba(0,200,255,0.04)');g.addColorStop(1,'rgba(0,200,255,0.09)');
+    ctx.fillStyle=g;ctx.fillRect(sx-160,0,190,H);
+    for(let d of dots){
+      const dist=Math.abs(d.x-sx);const base=0.06+0.18*Math.max(0,1-dist/120);
+      d.pulse+=0.015;const alpha=base*(0.7+0.3*Math.sin(d.pulse));
+      ctx.beginPath();ctx.arc(d.x,d.y,1.2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,200,255,${alpha})`;ctx.fill();
+    }
+    const op=0.15+0.08*Math.sin(t*0.001);
+    ctx.beginPath();ctx.arc(W*0.5,H*0.5,4,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,200,255,${op})`;ctx.fill();
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);resize();requestAnimationFrame(draw);
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)canvas.style.display='none';
+})();
+
+/* ── SCROLL FADE — progressive enhancement ── */
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  document.querySelectorAll('.fade').forEach(el=>el.classList.add('fade-ready'));
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}});
+  },{threshold:0.06});
+  document.querySelectorAll('.fade-ready').forEach(el=>obs.observe(el));
+})();
+</script>
+</body>
+</html>
