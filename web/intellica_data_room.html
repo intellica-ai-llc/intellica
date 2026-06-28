@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Intellica AI — Investor Data Room — Confidential — June 2026</title>
-<meta name="description" content="Confidential investor data room for Intellica AI, Inc., a Delaware corporation. Five formally-specified AI systems on one founder-owned platform. By invitation only.">
+<meta name="description" content="Confidential investor data room for Intellica AI, Inc., a Delaware corporation. Five sovereign, air-gapped AI systems on one founder-owned platform. By invitation only.">
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:title" content="Intellica AI — Investor Data Room">
-<meta property="og:description" content="Confidential materials for vetted investors. Five systems. One platform. Delaware C-Corp.">
+<meta property="og:description" content="Confidential materials for vetted investors. Five sovereign systems. One platform. Delaware C-Corp.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><rect fill='%23080A0E' width='1200' height='630'/><text x='60' y='120' font-family='monospace' font-size='32' fill='%23F0F6FF' font-weight='bold'>INTELLICA·AI</text><text x='60' y='200' font-family='monospace' font-size='18' fill='%236B7FA3'>Investor Data Room · Confidential · June 2026</text><text x='60' y='280' font-family='sans-serif' font-size='28' fill='%2300D4FF'>Five systems. One platform. Delaware C-Corp.</text></svg>">
+<meta property="og:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><rect fill='%23080A0E' width='1200' height='630'/><text x='60' y='120' font-family='monospace' font-size='32' fill='%23F0F6FF' font-weight='bold'>INTELLICA·AI</text><text x='60' y='200' font-family='monospace' font-size='18' fill='%236B7FA3'>Investor Data Room · Confidential · June 2026</text><text x='60' y='280' font-family='sans-serif' font-size='28' fill='%2300D4FF'>Sovereign. Air-Gapped. Five Systems. One Platform.</text></svg>">
 <meta name="theme-color" content="#080A0E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,7 +68,7 @@ body.unlocked{overflow:auto}
 .form-error.show{display:block}
 .signed-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.2);border-radius:20px;font-size:11px;color:var(--green);font-weight:600;margin-bottom:1rem}
 
-/* ===== MAIN CONTENT (blurred until unlocked) ===== */
+/* ===== MAIN CONTENT ===== */
 #main{filter:blur(8px);pointer-events:none;user-select:none;transition:filter .5s ease}
 #main.clear{filter:none;pointer-events:all;user-select:auto}
 
@@ -86,23 +86,92 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96
 .nc-wa{background:rgba(0,255,136,0.1);color:var(--green);border:1px solid rgba(0,255,136,0.25)}
 .nc-wa:hover{background:rgba(0,255,136,0.18)}
 
-/* HERO */
+/* ===== HERO ===== */
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:100px 2rem 60px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:700px;background:radial-gradient(ellipse,rgba(0,212,255,0.05) 0%,transparent 70%);pointer-events:none}
-.hero-inner{max-width:1160px;margin:0 auto;width:100%}
-.eyebrow{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:12px}
-.eyebrow::before{content:'';display:block;width:36px;height:1px;background:var(--cyan)}
-.hero h1{font-size:clamp(2.4rem,4.5vw,4.2rem);font-weight:800;line-height:1.06;color:var(--white);letter-spacing:-.03em;margin-bottom:1.25rem}
-.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:17px;color:var(--body);line-height:1.75;max-width:660px;margin-bottom:1.5rem}
-.hero-founder{font-size:14px;color:var(--muted);margin-bottom:2.5rem;display:flex;align-items:center;gap:.5rem}
-.hero-founder strong{color:var(--amber)}
-.hero-founder::before{content:'';display:block;width:24px;height:1px;background:var(--amber)}
-.hero-btns{display:flex;gap:.875rem;flex-wrap:wrap}
+
+/* Grid overlay — feels like a secure terminal environment */
+.hero::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(0,212,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.018) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none;z-index:0}
+
+/* Asymmetric dual glow — cyan top-centre, green far right */
+.hero-glow-a{position:absolute;top:-180px;left:28%;width:700px;height:560px;
+  background:radial-gradient(ellipse,rgba(0,212,255,0.055) 0%,transparent 65%);
+  pointer-events:none;z-index:0}
+.hero-glow-b{position:absolute;top:80px;right:-100px;width:440px;height:440px;
+  background:radial-gradient(ellipse,rgba(0,255,136,0.03) 0%,transparent 65%);
+  pointer-events:none;z-index:0}
+
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;position:relative;z-index:1}
+
+/* Eyebrow */
+.eyebrow{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.14em;color:var(--cyan);text-transform:uppercase;margin-bottom:1.75rem;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:'';display:block;width:32px;height:1px;background:rgba(0,212,255,0.45)}
+.eyebrow-dot{color:rgba(0,212,255,0.3);margin:0 3px}
+
+/* SOVEREIGN BADGE — the signature element */
+.sov-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 18px 8px 12px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.18);border-radius:4px;margin-bottom:1.4rem;width:fit-content}
+.sov-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px rgba(0,212,255,0.8);animation:sovpulse 2.4s ease-in-out infinite;flex-shrink:0}
+@keyframes sovpulse{0%,100%{box-shadow:0 0 8px rgba(0,212,255,0.7)}50%{box-shadow:0 0 20px rgba(0,212,255,1),0 0 8px rgba(0,212,255,0.4)}}
+.sov-text{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--cyan);text-transform:uppercase}
+.sov-pipe{color:rgba(0,212,255,0.22);margin:0 4px}
+.sov-sub{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em}
+
+/* Main headline */
+.hero h1{font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;line-height:1.04;color:var(--white);letter-spacing:-.03em;margin-bottom:.6rem}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-h1b{font-size:clamp(1.4rem,2.6vw,2.2rem);font-weight:700;color:var(--muted);letter-spacing:-.02em;line-height:1.1;margin-bottom:1rem;display:block}
+
+/* NOT SaaS clarifier — explicit, visible, addresses the first investor assumption */
+.not-saas{display:inline-flex;align-items:center;gap:8px;margin-bottom:1.4rem;font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--body);padding:7px 12px;background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.12);border-radius:3px}
+.not-saas .strike{text-decoration:line-through;color:var(--dim);margin-right:2px}
+.not-saas .arrow{color:var(--green);font-size:13px;font-weight:700}
+.not-saas .affirm{color:var(--green);font-weight:700}
+
+/* Sub */
+.hero-sub{font-size:16px;color:var(--body);line-height:1.74;max-width:640px;margin-bottom:1.6rem}
+.hero-sub strong{color:var(--white);font-weight:500}
+.hero-sub em{color:var(--green);font-style:normal}
+
+/* Three-column proof strip */
+.proof-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden;max-width:520px;margin-bottom:1.6rem}
+.pi{background:var(--card);padding:14px 16px}
+.pi-n{font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--cyan);margin-bottom:3px;line-height:1}
+.pi-n.g{color:var(--green)}
+.pi-n.a{color:var(--amber)}
+.pi-l{font-size:10.5px;color:var(--muted);line-height:1.4}
+
+/* Sovereign use-case pills */
+.use-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.75rem;max-width:680px;align-items:center}
+.use-label{font-size:10.5px;color:var(--dim);font-family:var(--font-mono);margin-right:2px}
+.up{font-size:11px;font-weight:500;padding:4px 10px;border-radius:3px;border:1px solid var(--border);color:var(--muted);background:var(--surface)}
+.up.lit{border-color:rgba(0,212,255,0.18);color:var(--body)}
+
+/* Regulatory callout */
+.reg-callout{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-left:3px solid var(--cyan);border-radius:0 4px 4px 0;max-width:640px;margin-bottom:2rem}
+.reg-icon{font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--cyan);background:rgba(0,212,255,0.1);padding:3px 7px;border-radius:3px;white-space:nowrap;margin-top:1px;flex-shrink:0;letter-spacing:.05em}
+.reg-text{font-size:12.5px;color:var(--body);line-height:1.65}
+.reg-text strong{color:var(--head);font-weight:500}
+
+/* CTA row */
+.hero-btns{display:flex;gap:.875rem;flex-wrap:wrap;align-items:center}
 .btn-p{background:var(--cyan);color:var(--black);font-weight:700;font-size:13px;padding:12px 26px;border:none;border-radius:4px;text-decoration:none;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px;letter-spacing:.01em}
 .btn-p:hover{background:#33DDFF;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,212,255,0.2)}
 .btn-s{border:1px solid var(--border2);color:var(--head);font-weight:500;font-size:13px;padding:12px 22px;border-radius:4px;text-decoration:none;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
 .btn-s:hover{border-color:var(--cyan);color:var(--cyan)}
+.hero-contact-meta{font-size:11.5px;color:var(--dim);display:flex;align-items:center;gap:6px}
+.hero-contact-meta a{color:var(--muted);text-decoration:none;font-family:var(--font-mono);font-size:10.5px;transition:color .15s}
+.hero-contact-meta a:hover{color:var(--cyan)}
+
+/* System pills strip */
+.sys-strip{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.sys-lbl{font-size:10px;color:var(--dim);font-family:var(--font-mono);margin-right:2px}
+.sp{font-family:var(--font-mono);font-size:10px;font-weight:600;padding:3px 9px;border-radius:2px;letter-spacing:.04em}
+.s1{background:rgba(255,68,68,0.08);color:#FF6B6B;border:1px solid rgba(255,68,68,0.15)}
+.s2{background:rgba(168,85,247,0.08);color:#B87FFF;border:1px solid rgba(168,85,247,0.15)}
+.s3{background:rgba(0,212,255,0.08);color:var(--cyan);border:1px solid rgba(0,212,255,0.15)}
+.s4{background:rgba(0,255,136,0.08);color:var(--green);border:1px solid rgba(0,255,136,0.15)}
+.s5{background:rgba(245,158,11,0.08);color:var(--amber);border:1px solid rgba(245,158,11,0.15)}
 
 /* VAL STRIP */
 .val-strip{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2.25rem 2rem}
@@ -128,6 +197,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96
 .meth-detail strong{color:var(--head)}
 .meth-detail em{color:var(--cyan);font-style:normal}
 
+/* SOVEREIGN THESIS BAND */
+.sov-band{background:rgba(0,212,255,0.03);border-top:1px solid rgba(0,212,255,0.08);border-bottom:1px solid rgba(0,212,255,0.08);padding:3.5rem 2rem}
+.sov-band-inner{max-width:900px;margin:0 auto}
+.sov-band-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+.sov-band-left .sec-eye{margin-bottom:.65rem}
+.sov-band-h{font-size:clamp(1.4rem,2.4vw,2rem);font-weight:700;color:var(--white);letter-spacing:-.02em;line-height:1.2;margin-bottom:1rem}
+.sov-band-p{font-size:14.5px;color:var(--body);line-height:1.8;margin-bottom:1rem}
+.sov-band-p strong{color:var(--white)}
+.sov-band-p em{color:var(--cyan);font-style:normal}
+.sov-pillars{display:flex;flex-direction:column;gap:.6rem}
+.sov-pillar{display:flex;align-items:flex-start;gap:.75rem;padding:.875rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:5px}
+.sov-pillar-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.sov-pillar-title{font-size:12.5px;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.sov-pillar-desc{font-size:11.5px;color:var(--muted);line-height:1.5}
+
 /* TRUST STRIP */
 .trust-strip{padding:2rem;border-bottom:1px solid var(--border)}
 .trust-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
@@ -135,16 +219,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96
 .trust-num{font-family:var(--font-mono);font-size:1.6rem;font-weight:700;color:var(--cyan);margin-bottom:.2rem}
 .trust-lbl{font-size:11px;color:var(--muted)}
 
-/* THESIS BAND */
-.thesis-band{background:rgba(0,212,255,0.03);border-top:1px solid rgba(0,212,255,0.08);border-bottom:1px solid rgba(0,212,255,0.08);padding:3rem 2rem}
-.thesis-inner{max-width:860px;margin:0 auto;text-align:center}
-.thesis-eye{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:.875rem}
-.thesis-h{font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:700;color:var(--white);letter-spacing:-.02em;line-height:1.25;margin-bottom:1.1rem}
-.thesis-p{font-size:14.5px;color:var(--body);line-height:1.8;max-width:740px;margin:0 auto}
-.thesis-p strong{color:var(--white)}
-.thesis-p em{color:var(--cyan);font-style:normal}
-
-/* SECTION */
+/* SECTIONS */
 .sec{padding:4.5rem 2rem;max-width:1160px;margin:0 auto}
 .sec-eye{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase;margin-bottom:.65rem}
 .sec-h{font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:800;color:var(--white);letter-spacing:-.02em;line-height:1.15;margin-bottom:.875rem}
@@ -208,6 +283,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96
 .tc-wa:hover{background:rgba(0,255,136,0.18)}
 .tc-cal{background:rgba(168,85,247,0.1);color:var(--purple);border:1px solid rgba(168,85,247,0.25)}
 .tc-cal:hover{background:rgba(168,85,247,0.18)}
+.tc-li{background:rgba(0,119,181,0.1);color:#0A66C2;border:1px solid rgba(0,119,181,0.25)}
+.tc-li:hover{background:rgba(0,119,181,0.18)}
 
 /* REPO SECTION */
 .repo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:.875rem;margin-bottom:2rem}
@@ -265,26 +342,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96
 .access-contact a:hover{text-decoration:underline}
 .dl-nda-btn{display:inline-flex;align-items:center;gap:6px;margin-top:.75rem;font-size:12px;color:var(--cyan);background:none;border:1px solid rgba(0,212,255,0.2);padding:8px 16px;border-radius:4px;cursor:pointer;transition:all .15s}
 .dl-nda-btn:hover{background:rgba(0,212,255,0.08)}
+.signed-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.2);border-radius:20px;font-size:11px;color:var(--green);font-weight:600;margin-bottom:1rem}
 
 /* FOOTER */
-footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;font-size:11px}
+footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;font-size:11px}
 .ft-brand{font-family:var(--font-mono);font-size:11.5px;color:var(--muted)}
 .ft-brand span{color:var(--cyan)}
 .ft-legal{color:var(--dim);max-width:520px;line-height:1.55}
 .ft-legal strong{color:var(--muted);font-weight:500}
 
-/* ===== PRINT STYLES ===== */
+/* ===== PRINT ===== */
 @media print{
-  #gate, nav, .cta-btns, .contact-grid, .team-contact, .skip-link{display:none!important}
+  #gate,nav,.cta-btns,.contact-grid,.team-contact,.skip-link{display:none!important}
   #main{filter:none!important;pointer-events:all!important;user-select:auto!important}
   body{overflow:auto!important;font-size:11pt;color:#000;background:#fff}
   .hero{min-height:auto;padding:1.5cm 1cm 1cm}
   .hero h1{font-size:22pt;color:#000}
   .hero h1 em{color:#0066cc;-webkit-text-fill-color:#0066cc}
-  .hero-sub,.hero-founder{font-size:10pt;color:#333}
+  .hero-sub,.hero-contact-meta{font-size:10pt;color:#333}
   .eyebrow{font-size:9pt;color:#666}
   .eyebrow::before{background:#666}
-  .val-strip,.trust-strip,.thesis-band,.cta-sec{background:#f5f5f5;border:1px solid #ddd}
+  .sov-badge,.not-saas,.reg-callout{border:1px solid #ddd;background:#f5f5f5;color:#000}
+  .sov-dot{display:none}
+  .val-strip,.trust-strip,.sov-band,.cta-sec{background:#f5f5f5;border:1px solid #ddd}
   .val-grid,.trust-inner{grid-template-columns:repeat(5,1fr);gap:1px;background:#ddd}
   .vi,.trust-item{background:#fff;color:#000;padding:.8rem .5rem}
   .vi-base,.vi-base.g{color:#000;font-size:1rem}
@@ -297,9 +377,7 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
   .jc,.pc,.rc,.arc-link,.team-card{background:#fff;border:1px solid #ddd;break-inside:avoid}
   .jc-title,.pc-name,.rc-name,.team-name{color:#000}
   .jc-desc,.pc-desc,.rc-desc,.team-bio{color:#333;font-size:9pt}
-  .prod-grid{grid-template-columns:1fr 1fr}
-  .repo-grid{grid-template-columns:1fr 1fr}
-  .arc-grid{grid-template-columns:1fr 1fr}
+  .prod-grid,.repo-grid,.arc-grid{grid-template-columns:1fr 1fr}
   footer{border-top:1px solid #ddd;font-size:8pt;color:#666}
   .ft-legal{max-width:100%}
   a{color:#0066cc;text-decoration:underline}
@@ -320,16 +398,17 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
   .access-grid{grid-template-columns:1fr}
   .nav-links{display:none}
   .form-row{grid-template-columns:1fr}
+  .sov-band-grid{grid-template-columns:1fr}
+  .proof-strip{max-width:100%}
 }
 @media(max-width:600px){
   .val-grid{grid-template-columns:1fr 1fr}
-  .prod-grid{grid-template-columns:1fr}
-  .repo-grid{grid-template-columns:1fr}
-  .arc-grid{grid-template-columns:1fr}
+  .prod-grid,.repo-grid,.arc-grid{grid-template-columns:1fr}
   .cta-btns{flex-direction:column;align-items:center}
   .hero{padding:80px 1rem 40px}
   .gate-box{max-width:100%;border-radius:0;max-height:100vh}
   .gate-header,.gate-body{padding:1.25rem}
+  .use-row{max-width:100%}
 }
 </style>
 </head>
@@ -380,6 +459,7 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
               <option>Venture Capital Fund</option>
               <option>Angel / Family Office</option>
               <option>Sovereign Wealth Fund</option>
+              <option>Government / Ministry</option>
               <option>Potential Pilot Customer</option>
               <option>Technology Partner</option>
               <option>Press / Research (Limited Access)</option>
@@ -387,23 +467,17 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
             </select>
           </div>
         </div>
-        <div class="check-row">
-          <input type="checkbox" id="g-agree" aria-describedby="agree-label">
-          <label id="agree-label" for="g-agree">I have read and agree to the <strong>Non-Disclosure Agreement</strong> above. I understand all Intellica AI technical documentation, valuation analyses, and source code references are confidential and proprietary. I agree to keep this information strictly confidential for a minimum of <strong>three (3) years</strong>.</label>
+        <div class="check-row" style="background:rgba(255,184,0,0.03);border:1px solid rgba(255,184,0,0.08);margin-top:-.5rem">
+          <input type="checkbox" id="g-remember">
+          <label for="g-remember">Remember me on this device. Skip the NDA gate on future visits. Your reference and first name are stored locally — nothing is sent to any server for this purpose.</label>
         </div>
-        <div class="form-error" id="formError" role="alert"></div>
-        <button class="sign-btn" id="signBtn" disabled>
-          &#9997; Sign NDA &amp; Access Investor Data Room
-        </button>
-        <p class="gate-legal">Questions before signing? Contact Peter Ramsajan: dpramsajan@meeting-mind.com &middot; +1 868 719 5236</p>
-      </div>
 
       <!-- ACCESS GRANTED PANEL -->
       <div class="access-panel" id="accessGranted" role="region" aria-label="Access granted">
         <div class="access-head">
           <span class="access-tick" aria-hidden="true">&#10003;</span>
           <div class="access-h">NDA Signed &mdash; Full Access Granted</div>
-          <p class="access-p">Welcome. A copy of your signed NDA is available below. All data room materials are now accessible. Peter will follow up within 24 hours.</p>
+          <p class="access-p">Welcome. A copy of your signed NDA is available below. All data room materials are now accessible. Damain will follow up within 24 hours.</p>
           <div class="signed-badge" id="signedBadge" style="display:none">
             <span aria-hidden="true">&#128274;</span> <span id="signedRef"></span>
           </div>
@@ -426,7 +500,7 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
           <a class="ag-link" href="https://intellica-15c.pages.dev/" target="_blank" rel="noopener"><strong>Intellica Company Landing</strong><span>Public-facing overview site</span></a>
         </div>
         <div class="access-contact">
-          Ready to discuss? Reach Peter directly:<br>
+          Ready to discuss? Reach Damain directly:<br>
           <a href="mailto:dpramsajan@meeting-mind.com">dpramsajan@meeting-mind.com</a> &nbsp;&middot;&nbsp;
           <a href="https://wa.me/18687195236" target="_blank" rel="noopener">WhatsApp: +1 868 719 5236</a> &nbsp;&middot;&nbsp;
           <a href="https://calendly.com/peterdramsajan/30min" target="_blank" rel="noopener">Book 30-min briefing</a>
@@ -458,18 +532,117 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ===== HERO ===== -->
 <section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-glow-a" aria-hidden="true"></div>
+  <div class="hero-glow-b" aria-hidden="true"></div>
+
   <div class="hero-inner">
-    <div class="eyebrow">Intellica AI, Inc. — Investor Data Room — Confidential — June 2026</div>
-    <h1 id="hero-heading">One founder.<br>Five systems.<br><em>- All Soverign. - Air-Gapped.</em></h1>
-    <p class="hero-sub">Every line of code across all five Intellica systems — Cortex, VeriCrypt, VeriChain, Verity Core Banking, and ASL — is authored and owned by a single founder on a single proven, formally-specified platform. No platform risk. No dependency risk. Zero.</p>
-    <p class="hero-founder"><strong>Combined portfolio valuation: &euro;6.5B – &euro;10.2B</strong> across four independently-valued product systems, all on the same founder-owned ASL/seedc/seedvm substrate.</p>
+
+    <!-- Eyebrow -->
+    <div class="eyebrow">
+      Intellica AI, Inc.
+      <span class="eyebrow-dot">&middot;</span>
+      Investor Data Room
+      <span class="eyebrow-dot">&middot;</span>
+      Confidential
+      <span class="eyebrow-dot">&middot;</span>
+      June 2026
+    </div>
+
+    <!-- SOVEREIGN BADGE — the signature positioning element -->
+    <div class="sov-badge" aria-label="Sovereign and air-gapped deployment, cloud optional">
+      <div class="sov-dot" aria-hidden="true"></div>
+      <span class="sov-text">Sovereign</span>
+      <span class="sov-pipe" aria-hidden="true">|</span>
+      <span class="sov-text">Air-Gapped</span>
+      <span class="sov-pipe" aria-hidden="true">|</span>
+      <span class="sov-sub">Cloud-optional</span>
+    </div>
+
+    <!-- Main headline: sovereign is the noun, not an adjective -->
+    <h1 id="hero-heading">
+      Five sovereign AI systems.<br>
+      <em>One founder. One proven platform.</em>
+    </h1>
+    <span class="hero-h1b">Not SaaS. Not cloud-dependent. Sovereign by design.</span>
+
+    <!-- NOT SaaS — explicit, visible, preempts the first investor misread -->
+    <div class="not-saas" role="note">
+      <span class="arrow">&#8594;</span>
+      This is <span class="strike">not SaaS</span> &mdash; every system runs <span class="affirm">inside your perimeter</span>, air-gapped, with cloud as an option you control.
+    </div>
+
+    <!-- Sub: what sovereign actually means in practice, and why now -->
+    <p class="hero-sub">
+      Every line of code across ASL, Cortex, VeriCrypt, VeriChain, and Verity Core Banking
+      is authored and owned by a single founder on a <strong>formally-specified, air-gapped substrate.</strong>
+      No vendor dependency. No data egress. No external inference calls.
+      Built as the world pivots to <em>sovereign everything</em> &mdash; driven by DORA data residency,
+      EU AI Act, NIS2, and the collapse of trust in shared infrastructure.
+    </p>
+
+    <!-- Proof strip: undeniable, verifiable numbers -->
+    <div class="proof-strip" aria-label="Key technical metrics">
+      <div class="pi">
+        <div class="pi-n">97/100</div>
+        <div class="pi-l">Highest arc42 score<br>(Verity, 22 versions)</div>
+      </div>
+      <div class="pi">
+        <div class="pi-n g">9/9</div>
+        <div class="pi-l">Master Build complete<br>VeriCrypt</div>
+      </div>
+      <div class="pi">
+        <div class="pi-n a">5</div>
+        <div class="pi-l">Formally-specified<br>sovereign systems</div>
+      </div>
+    </div>
+
+    <!-- Sovereign use-case pills: who is buying sovereign AI right now -->
+    <div class="use-row" aria-label="Target sovereign AI customers">
+      <span class="use-label">Sovereign for &#8594;</span>
+      <span class="up lit">EU financial regulators (DORA)</span>
+      <span class="up lit">Government ministries</span>
+      <span class="up lit">Defence &amp; intelligence</span>
+      <span class="up lit">Central banks</span>
+      <span class="up lit">Critical infrastructure</span>
+      <span class="up lit">Caribbean &amp; emerging sovereigns</span>
+    </div>
+
+    <!-- Regulatory callout: the burning platform, specific and factual -->
+    <div class="reg-callout" role="note">
+      <span class="reg-icon">DORA</span>
+      <div class="reg-text">
+        <strong>EU DORA Article 9 crypto-agility mandate — live January 2025.</strong>
+        NIST ML-KEM / ML-DSA / SLH-DSA finalised August 2024. NIS2 explicit PQC requirement published January 2026. CNSA 2.0 enforcement begins January 2027.
+        McKinsey (March 2026): sovereign AI is now an economic and strategic imperative for enterprises globally.
+        VeriCrypt is the only machine-provable, regulator-ready PQC compliance engine on the market.
+      </div>
+    </div>
+
+    <!-- CTA row -->
     <div class="hero-btns">
       <a href="#journey" class="btn-p">Find Your Investor Path &#8594;</a>
       <a href="#systems" class="btn-s">View Five Systems</a>
       <a href="https://intellica-15c.pages.dev/" target="_blank" rel="noopener" class="btn-s">Company Landing &#8599;</a>
+      <span class="hero-contact-meta">
+        Damain Peter Ramsajan &nbsp;&middot;&nbsp;
+        <a href="mailto:dpramsajan@meeting-mind.com">dpramsajan@meeting-mind.com</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://wa.me/18687195236">+1 868 719 5236</a>
+      </span>
     </div>
+
+    <!-- System strip -->
+    <div class="sys-strip" aria-label="Five Intellica systems">
+      <span class="sys-lbl">Systems &#8594;</span>
+      <span class="sp s1">ASL &middot; Platform Foundation</span>
+      <span class="sp s2">Cortex &middot; Sovereign AI OS</span>
+      <span class="sp s3">VeriCrypt &middot; PQC Compliance</span>
+      <span class="sp s4">VeriChain &middot; AgentFi L1</span>
+      <span class="sp s5">Verity &middot; Core Banking OS</span>
+    </div>
+
   </div>
 </section>
 
@@ -477,41 +650,81 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
 <div class="val-strip" aria-label="Portfolio valuation summary">
   <div class="val-inner">
     <div class="strip-label">Portfolio Valuation Summary — Independent Three-Method Triangulation Per System — June 2026</div>
-    <p class="strip-method">Methodology: Comparable Company Analysis · Precedent Transactions · Discounted Cash Flow. <button onclick="document.getElementById('methDetail').classList.toggle('open')" style="background:none;border:none;color:var(--cyan);cursor:pointer;font-size:10.5px;text-decoration:underline;font-style:italic">Toggle methodology detail</button></p>
+    <p class="strip-method">Methodology: Comparable Company Analysis &middot; Precedent Transactions &middot; Discounted Cash Flow. <button onclick="document.getElementById('methDetail').classList.toggle('open')" style="background:none;border:none;color:var(--cyan);cursor:pointer;font-size:10.5px;text-decoration:underline;font-style:italic">Toggle methodology detail</button></p>
     <div class="val-grid">
-      <div class="vi"><div class="vi-lbl">Cortex</div><div class="vi-range">&euro;5.5B – &euro;8.2B</div><div class="vi-base">&euro;6.8B</div><div class="vi-sub">Sovereign AI OS · Palantir tier</div></div>
-      <div class="vi"><div class="vi-lbl">VeriCrypt</div><div class="vi-range">&euro;380M – &euro;620M</div><div class="vi-base">&euro;480M</div><div class="vi-sub">PQC compliance engine · DORA</div></div>
-      <div class="vi"><div class="vi-lbl">VeriChain</div><div class="vi-range">&euro;280M – &euro;780M</div><div class="vi-base">&euro;420M</div><div class="vi-sub">AgentFi L1 · Lighter comparable</div></div>
-      <div class="vi"><div class="vi-lbl">Verity Banking</div><div class="vi-range">&euro;380M – &euro;620M</div><div class="vi-base">&euro;480M</div><div class="vi-sub">Verified bank OS · TM comparable</div></div>
-      <div class="vi tot"><div class="vi-lbl">Portfolio Total</div><div class="vi-range">&euro;6.5B – &euro;10.2B</div><div class="vi-base g">&euro;8.2B</div><div class="vi-sub">Base case · One proven platform</div></div>
+      <div class="vi"><div class="vi-lbl">Cortex</div><div class="vi-range">&euro;5.5B &ndash; &euro;8.2B</div><div class="vi-base">&euro;6.8B</div><div class="vi-sub">Sovereign AI OS &middot; Palantir tier</div></div>
+      <div class="vi"><div class="vi-lbl">VeriCrypt</div><div class="vi-range">&euro;380M &ndash; &euro;620M</div><div class="vi-base">&euro;480M</div><div class="vi-sub">PQC compliance engine &middot; DORA</div></div>
+      <div class="vi"><div class="vi-lbl">VeriChain</div><div class="vi-range">&euro;280M &ndash; &euro;780M</div><div class="vi-base">&euro;420M</div><div class="vi-sub">AgentFi L1 &middot; Lighter comparable</div></div>
+      <div class="vi"><div class="vi-lbl">Verity Banking</div><div class="vi-range">&euro;380M &ndash; &euro;620M</div><div class="vi-base">&euro;480M</div><div class="vi-sub">Verified bank OS &middot; TM comparable</div></div>
+      <div class="vi tot"><div class="vi-lbl">Portfolio Total</div><div class="vi-range">&euro;6.5B &ndash; &euro;10.2B</div><div class="vi-base g">&euro;8.2B</div><div class="vi-sub">Base case &middot; One proven platform</div></div>
     </div>
     <div class="meth-detail" id="methDetail" role="region" aria-label="Valuation methodology detail">
-      <p><strong>Valuation Methodology & Forward-Looking Statements</strong></p>
-      <p>Each of the four product systems (Cortex, VeriCrypt, VeriChain, Verity) has been independently valued using <em>three-method triangulation</em>: (1) Comparable Company Analysis against publicly-traded and recently-transacted peers in each product's market segment; (2) Precedent Transaction Analysis drawing on disclosed M&A multiples in AI infrastructure, cybersecurity, Layer-1 blockchain, and core banking technology; (3) Discounted Cash Flow projections based on addressable market sizing and conservative penetration assumptions over a 7-year horizon. The Agent Seed Language (ASL) is not independently valued; its intellectual property value is subsumed within all four product valuations as the common platform substrate.</p>
-      <p><strong>Comparable selection rationale per system:</strong> Cortex — Palantir AIP, ServiceNow, Cohere; VeriCrypt — Thales cybersecurity division, Wiz acquisition ($32B), CrowdStrike; VeriChain — Lighter capital opinion ($3B), EigenLayer, Celestia; Verity Banking — Thought Machine ($2.7B valuation), Fiserv, Temenos. Full comparable analysis and DCF models are contained within each system's individual valuation report linked below.</p>
-      <p><strong>Disclaimer:</strong> These valuations represent the founder's assessment based on independently-published valuation methodologies and comparable public market data as of June 2026. They are forward-looking statements subject to risks, uncertainties, and assumptions. Actual outcomes may differ materially. This document does not constitute an offer to sell securities. Intellica AI, Inc. is a Delaware corporation in formation. All intellectual property is held by the founder and will be assigned to the corporation upon formation.</p>
+      <p><strong>Valuation Methodology &amp; Forward-Looking Statements</strong></p>
+      <p>Each of the four product systems (Cortex, VeriCrypt, VeriChain, Verity) has been independently valued using <em>three-method triangulation</em>: (1) Comparable Company Analysis against publicly-traded and recently-transacted peers in each product's market segment; (2) Precedent Transaction Analysis drawing on disclosed M&amp;A multiples in AI infrastructure, cybersecurity, Layer-1 blockchain, and core banking technology; (3) Discounted Cash Flow projections based on addressable market sizing and conservative penetration assumptions over a 7-year horizon. The Agent Seed Language (ASL) is not independently valued; its IP value is subsumed within all four product valuations as the common platform substrate.</p>
+      <p><strong>Comparable selection rationale per system:</strong> Cortex &mdash; Palantir AIP, ServiceNow, Cohere; VeriCrypt &mdash; Thales cybersecurity division, Wiz acquisition ($32B), CrowdStrike; VeriChain &mdash; Lighter capital opinion ($3B), EigenLayer, Celestia; Verity Banking &mdash; Thought Machine ($2.7B valuation), Fiserv, Temenos. Full comparable analysis and DCF models are contained within each system's individual valuation report linked below.</p>
+      <p><strong>Disclaimer:</strong> These valuations represent the founder's assessment based on independently-published valuation methodologies and comparable public market data as of June 2026. They are forward-looking statements subject to risks, uncertainties, and assumptions. Actual outcomes may differ materially. This document does not constitute an offer to sell securities. Intellica AI, Inc. is a Delaware C-Corp. All intellectual property is held by the founder and will be assigned to the corporation upon closing.</p>
     </div>
   </div>
 </div>
 
 <!-- TRUST METRICS -->
-<div class="trust-strip" aria-label="Trust metrics">
+<div class="trust-strip" aria-label="Technical trust metrics">
   <div class="trust-inner">
-    <div class="trust-item"><div class="trust-num">5</div><div class="trust-lbl">Formally specified systems on one platform</div></div>
-    <div class="trust-item"><div class="trust-num">162</div><div class="trust-lbl">Architecture gaps identified and closed (Verity alone)</div></div>
-    <div class="trust-item"><div class="trust-num">49</div><div class="trust-lbl">Active conformance checks passing (VeriCrypt)</div></div>
-    <div class="trust-item"><div class="trust-num">97/100</div><div class="trust-lbl">Highest arc42 score (Verity — 22 versions)</div></div>
+    <div class="trust-item"><div class="trust-num">5</div><div class="trust-lbl">Formally-specified sovereign systems on one platform</div></div>
+    <div class="trust-item"><div class="trust-num">162</div><div class="trust-lbl">Architecture gaps identified &amp; closed — Verity alone</div></div>
+    <div class="trust-item"><div class="trust-num">49</div><div class="trust-lbl">Active conformance checks passing — VeriCrypt</div></div>
+    <div class="trust-item"><div class="trust-num">97/100</div><div class="trust-lbl">Highest arc42 score — Verity, across 22 versions</div></div>
   </div>
 </div>
 
-<!-- PLATFORM THESIS -->
-<div class="thesis-band">
-  <div class="thesis-inner">
-    <div class="thesis-eye">The Platform Thesis</div>
-    <h2 class="thesis-h">ASL is the fifth system — and the proven foundation underneath the other four</h2>
-    <p class="thesis-p">
-      Most software companies build one product on third-party infrastructure. Intellica built <strong>its own infrastructure first</strong> — ASL (Agent Seed Language), a formally-specified language for autonomous agents with compile-time safety invariants, plus seedc (compiler) and seedvm (runtime). <em>Every product system is an application of that same founder-owned, already-proven platform.</em> VeriCrypt has cleared Master Build 9 of 9 and 49 active conformance checks. Cortex has a conformance-tested binary. VeriChain and Verity inherit the same proven foundation. The result: four multi-hundred-million-euro systems, each entering a different billion-dollar market, with <strong>zero platform risk</strong> — because the platform has already shipped.
-    </p>
+<!-- SOVEREIGN THESIS BAND -->
+<div class="sov-band" id="sovereign-thesis">
+  <div class="sov-band-inner">
+    <div class="sov-band-grid">
+      <div class="sov-band-left">
+        <div class="sec-eye">The Sovereign Thesis</div>
+        <h2 class="sov-band-h">The world is pivoting to sovereign AI. Intellica built it that way from day one.</h2>
+        <p class="sov-band-p">
+          Most AI companies are <strong>retrofitting sovereignty onto cloud-native architectures</strong> — bolting on air-gap modes, regional data centres, and compliance wrappers after the fact. That is expensive, brittle, and unconvincing to regulators who can see through it.
+        </p>
+        <p class="sov-band-p">
+          Intellica is different: <em>every system was built sovereign-first</em>, on a formally-specified compiler (seedc) and runtime (seedvm) that were designed to operate without external dependencies from the first line of code. There is no cloud mode to disable. Sovereignty is architectural, not operational policy.
+        </p>
+        <p class="sov-band-p">
+          McKinsey's March 2026 global survey confirms enterprise demand for sovereign AI has crossed from boardroom aspiration to procurement mandate. IDC forecasts 60% of organisations with digital sovereignty requirements will migrate sensitive workloads by 2028. The window for first-mover positioning closes within 12&ndash;24 months.
+        </p>
+      </div>
+      <div class="sov-pillars">
+        <div class="sov-pillar">
+          <div class="sov-pillar-icon" aria-hidden="true">&#127968;</div>
+          <div>
+            <div class="sov-pillar-title">Infrastructure sovereignty</div>
+            <div class="sov-pillar-desc">Compute, storage, and inference run inside the customer's controlled environment. The system can physically point to where inference is happening and verify it matches regulatory obligations.</div>
+          </div>
+        </div>
+        <div class="sov-pillar">
+          <div class="sov-pillar-icon" aria-hidden="true">&#128274;</div>
+          <div>
+            <div class="sov-pillar-title">Data sovereignty</div>
+            <div class="sov-pillar-desc">Data is processed and retained within jurisdictions that meet legal and regulatory requirements. No metadata exhaust escapes the perimeter. Zero-persistence is architecturally enforced and auditable, not a vendor promise.</div>
+          </div>
+        </div>
+        <div class="sov-pillar">
+          <div class="sov-pillar-icon" aria-hidden="true">&#128736;</div>
+          <div>
+            <div class="sov-pillar-title">Technological sovereignty</div>
+            <div class="sov-pillar-desc">Intellica owns the full stack — compiler, runtime, all five systems. No proprietary API lock-in. No dependency on a foreign model provider who can change terms or go offline. ASL is the IP, not a layer on top of someone else's.</div>
+          </div>
+        </div>
+        <div class="sov-pillar">
+          <div class="sov-pillar-icon" aria-hidden="true">&#127757;</div>
+          <div>
+            <div class="sov-pillar-title">Operational sovereignty</div>
+            <div class="sov-pillar-desc">Policies, audit trails, and controls travel with the workload. If the customer needs to move from cloud to on-prem to air-gap, the system moves with them — no re-engineering, no vendor negotiation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -524,39 +737,39 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
     <div class="jc strat">
       <div class="jc-icon" aria-hidden="true">&#128279;</div>
       <div class="jc-type">Strategic Acquirer</div>
-      <div class="jc-title">Thales, IBM, SWIFT, Fiserv, Anthropic, Check Point, Dell</div>
-      <div class="jc-desc">You need IP defensibility, architecture depth, integration surface, and competitive gap analysis. Start with individual system valuations, then the arc42 documents for the system most relevant to your portfolio.</div>
+      <div class="jc-title">Thales, IBM, SWIFT, Fiserv, Anthropic, Check Point, Dell, Palantir</div>
+      <div class="jc-desc">You need IP defensibility, architecture depth, integration surface, and competitive gap analysis. Start with individual system valuations, then the arc42 documents for the system most relevant to your portfolio. Sovereign-first architecture means zero integration conflict with your existing air-gap requirements.</div>
       <div class="jc-links">
-        <a href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">Cortex — Strategic Valuation (&euro;6.8B base)</a>
-        <a href="https://intellica-15c.pages.dev/vcv" target="_blank" rel="noopener">VeriCrypt — IP &amp; Acquisition Rationale</a>
-        <a href="https://intellica-15c.pages.dev/verichain_val" target="_blank" rel="noopener">VeriChain — ZK/AgentFi IP Depth</a>
-        <a href="https://intellica-15c.pages.dev/verity_val" target="_blank" rel="noopener">Verity — Competitive Gap vs Fiserv agentOS</a>
-        <a href="https://github.com/agentseedlanguage-cpu/agentseed/blob/main/ASL_V_0_2_0_ARC42.md" target="_blank" rel="noopener">ASL arc42 v0.2.0 — Platform Architecture</a>
+        <a href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">Cortex &mdash; Strategic Valuation (&euro;6.8B base)</a>
+        <a href="https://intellica-15c.pages.dev/vcv" target="_blank" rel="noopener">VeriCrypt &mdash; IP &amp; Acquisition Rationale</a>
+        <a href="https://intellica-15c.pages.dev/verichain_val" target="_blank" rel="noopener">VeriChain &mdash; ZK/AgentFi IP Depth</a>
+        <a href="https://intellica-15c.pages.dev/verity_val" target="_blank" rel="noopener">Verity &mdash; Competitive Gap vs Fiserv agentOS</a>
+        <a href="https://github.com/agentseedlanguage-cpu/agentseed/blob/main/ASL_V_0_2_0_ARC42.md" target="_blank" rel="noopener">ASL arc42 v0.2.0 &mdash; Platform Architecture</a>
       </div>
     </div>
     <div class="jc vc">
       <div class="jc-icon" aria-hidden="true">&#128200;</div>
       <div class="jc-type">VC / Financial Investor</div>
       <div class="jc-title">Seed, Series A, deep-tech fund, sovereign wealth, family office</div>
-      <div class="jc-desc">You need market size, revenue model, comparables, risk register, and the team story. Start with the full investor business plan, then the specific valuation reports which contain all three-method triangulations.</div>
+      <div class="jc-desc">You need market size, revenue model, comparables, risk register, and the team story. The sovereign AI market is moving from boardroom policy to procurement mandate in 2026 — the timing is rare. Start with the full investor business plan, then the specific valuation reports.</div>
       <div class="jc-links">
-        <a href="https://intellica-15c.pages.dev/investors" target="_blank" rel="noopener">VeriCrypt — Full Investor Business Plan</a>
-        <a href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">Cortex — Palantir AIP comparable pitch</a>
-        <a href="https://intellica-15c.pages.dev/verichain_val" target="_blank" rel="noopener">VeriChain — Lighter/$3B Opinion comparable</a>
-        <a href="https://intellica-15c.pages.dev/verity_val" target="_blank" rel="noopener">Verity — Thought Machine comparable</a>
-        <a href="https://intellica-15c.pages.dev/" target="_blank" rel="noopener">Intellica — Company Overview</a>
+        <a href="https://intellica-15c.pages.dev/investors" target="_blank" rel="noopener">VeriCrypt &mdash; Full Investor Business Plan</a>
+        <a href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">Cortex &mdash; Palantir AIP comparable pitch</a>
+        <a href="https://intellica-15c.pages.dev/verichain_val" target="_blank" rel="noopener">VeriChain &mdash; Lighter/$3B Opinion comparable</a>
+        <a href="https://intellica-15c.pages.dev/verity_val" target="_blank" rel="noopener">Verity &mdash; Thought Machine comparable</a>
+        <a href="https://intellica-15c.pages.dev/" target="_blank" rel="noopener">Intellica &mdash; Company Overview</a>
       </div>
     </div>
     <div class="jc cust">
       <div class="jc-icon" aria-hidden="true">&#127959;</div>
       <div class="jc-type">Pilot Customer / Partner</div>
-      <div class="jc-title">EU banks, governments, enterprises, agent developers, regulators</div>
-      <div class="jc-desc">You want to understand what Intellica can do for your organisation. Start with the product most relevant to your domain, then review the 7-day migration claim for banking or the DORA compliance proof for regulators.</div>
+      <div class="jc-title">EU banks, governments, ministries, enterprises, agent developers, regulators</div>
+      <div class="jc-desc">You want to understand what Intellica can do for your organisation. Every system ships sovereign by default — no cloud dependency to disable, no data residency negotiation required. Start with the product most relevant to your domain.</div>
       <div class="jc-links">
-        <a href="https://intellica-15c.pages.dev/investors" target="_blank" rel="noopener">VeriCrypt — DORA compliance proof</a>
-        <a href="https://intellica-15c.pages.dev/verity_val" target="_blank" rel="noopener">Verity — 7-day bank migration claim</a>
-        <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing/" target="_blank" rel="noopener">ASL — Agent developer documentation</a>
-        <a href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">Cortex — Enterprise AI deployment</a>
+        <a href="https://intellica-15c.pages.dev/investors" target="_blank" rel="noopener">VeriCrypt &mdash; DORA compliance proof</a>
+        <a href="https://intellica-15c.pages.dev/verity_val" target="_blank" rel="noopener">Verity &mdash; 7-day bank migration claim</a>
+        <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing/" target="_blank" rel="noopener">ASL &mdash; Agent developer documentation</a>
+        <a href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">Cortex &mdash; Enterprise AI deployment</a>
         <a href="https://calendly.com/peterdramsajan/30min" target="_blank" rel="noopener">&#128197; Book a 30-minute briefing</a>
       </div>
     </div>
@@ -568,17 +781,17 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
 <!-- FIVE SYSTEMS -->
 <div id="systems" class="sec" aria-labelledby="systems-heading">
   <div class="sec-eye">The Five Systems</div>
-  <h2 class="sec-h" id="systems-heading">One platform. Five markets. <em>&euro;6.5B–&euro;10.2B combined.</em></h2>
-  <p class="sec-lead">Each system is independently valued against its own comparable class. All five share the same founder-owned ASL/seedc/seedvm foundation — eliminating platform risk across the entire portfolio.</p>
+  <h2 class="sec-h" id="systems-heading">One sovereign platform. Five markets. <em>&euro;6.5B&ndash;&euro;10.2B combined.</em></h2>
+  <p class="sec-lead">Each system is independently valued against its own comparable class. All five share the same founder-owned, air-gapped ASL/seedc/seedvm foundation &mdash; sovereign by architecture, not by policy.</p>
   <div class="prod-grid">
 
     <div class="pc">
-      <div class="pc-head"><div class="pc-name">ASL — Agent Seed Language</div><span class="ptag t-as">Platform Foundation</span></div>
-      <div class="pc-desc">The compiler (seedc) and runtime (seedvm) that power all four products. Formally-specified language for autonomous AI agents with P1-P8 compile-time safety invariants. v15.2 released May 2026. Wholly founder-authored and owned. Not independently valued — its value is subsumed within all four product systems.</div>
-      <div class="pc-val">Foundation IP — value subsumed across all four product systems</div>
+      <div class="pc-head"><div class="pc-name">ASL &mdash; Agent Seed Language</div><span class="ptag t-as">Platform Foundation</span></div>
+      <div class="pc-desc">The compiler (seedc) and runtime (seedvm) that power all four products. Formally-specified language for autonomous AI agents with P1&ndash;P8 compile-time safety invariants. Designed from the ground up to operate without external network dependencies &mdash; the architectural basis of sovereignty across the entire portfolio. v15.2 released May 2026. Wholly founder-authored and owned.</div>
+      <div class="pc-val">Foundation IP &mdash; value subsumed across all four product systems</div>
       <div class="pc-links">
         <a href="https://agentseedlanguage-cpu.github.io/agentseed/landing/" target="_blank" rel="noopener">&#127758; Official Documentation &amp; Landing</a>
-        <a href="https://github.com/agentseedlanguage-cpu/agentseed" target="_blank" rel="noopener">&#128196; GitHub — agentseedlanguage-cpu/agentseed</a>
+        <a href="https://github.com/agentseedlanguage-cpu/agentseed" target="_blank" rel="noopener">&#128196; GitHub &mdash; agentseedlanguage-cpu/agentseed</a>
         <a href="https://github.com/agentseedlanguage-cpu/agentseed/blob/main/ASL_V_0_2_0_ARC42.md" target="_blank" rel="noopener">&#128196; arc42 v0.2.0 Architecture Document</a>
       </div>
       <div class="pc-ask">Seeking: Agent developers and enterprise integrators to build on ASL. Contact: dpramsajan@meeting-mind.com</div>
@@ -586,47 +799,47 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
 
     <div class="pc">
       <div class="pc-head"><div class="pc-name">Intellecta Cortex</div><span class="ptag t-pl">Sovereign AI OS</span></div>
-      <div class="pc-desc">The sovereign AI execution substrate and enterprise obsolescence platform. VESSEL-governed agentic control plane that invisibly absorbs SAP, Oracle, Salesforce, and Maximo through a zero-detection Strangler Fig pipeline. arc42 92/100. Comparable: Palantir AIP, ServiceNow, Cohere.</div>
-      <div class="pc-val">&euro;5.5B – &euro;8.2B · Base &euro;6.8B · arc42 92/100</div>
+      <div class="pc-desc">The sovereign AI execution substrate and enterprise obsolescence platform. VESSEL-governed agentic control plane that invisibly absorbs SAP, Oracle, Salesforce, and Maximo through a zero-detection Strangler Fig pipeline. Runs entirely air-gapped &mdash; no model API calls, no external inference, no data egress. arc42 92/100. Comparable: Palantir AIP, ServiceNow, Cohere.</div>
+      <div class="pc-val">&euro;5.5B &ndash; &euro;8.2B &middot; Base &euro;6.8B &middot; arc42 92/100</div>
       <div class="pc-links">
         <a href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">&#128200; Full Valuation Report</a>
-        <a href="https://github.com/intellica-ai-llc/cortex" target="_blank" rel="noopener">&#128196; GitHub — intellica-ai-llc/cortex</a>
+        <a href="https://github.com/intellica-ai-llc/cortex" target="_blank" rel="noopener">&#128196; GitHub &mdash; intellica-ai-llc/cortex</a>
       </div>
-      <div class="pc-ask">Seeking: Dell AI Factory validation · Anthropic co-sell conversation · First Maximo/EAM sovereign customer at &euro;180K/yr</div>
+      <div class="pc-ask">Seeking: Dell AI Factory validation &middot; Anthropic co-sell conversation &middot; First Maximo/EAM sovereign customer at &euro;180K/yr</div>
     </div>
 
     <div class="pc">
       <div class="pc-head"><div class="pc-name">VeriCrypt</div><span class="ptag t-pq">PQC Compliance</span></div>
-      <div class="pc-desc">The world's only machine-provable, air-gapped, regulator-ready cryptographic posture engine. Produces .pqc compliance artefacts that financial regulators can independently verify without accessing bank systems. DORA + NIST PQC mandatory spend. Master Build 9 of 9 complete. 49 active conformance checks. arc42 96/100.</div>
-      <div class="pc-val">&euro;380M – &euro;620M · Base &euro;480M · arc42 96/100</div>
+      <div class="pc-desc">The world's only machine-provable, air-gapped, regulator-ready cryptographic posture engine. Produces .pqc compliance artefacts that financial regulators can independently verify without accessing bank systems. Runs fully sovereign &mdash; no external calls required during compliance generation or audit. DORA + NIST PQC mandatory spend. Master Build 9 of 9 complete. 49 active conformance checks. arc42 96/100.</div>
+      <div class="pc-val">&euro;380M &ndash; &euro;620M &middot; Base &euro;480M &middot; arc42 96/100</div>
       <div class="pc-links">
         <a href="https://intellica-15c.pages.dev/investors" target="_blank" rel="noopener">&#128200; Full Investor Business Plan</a>
         <a href="https://intellica-15c.pages.dev/vcv" target="_blank" rel="noopener">&#128200; Investment Valuation Report</a>
-        <a href="https://github.com/intellica-ai-llc/intellica" target="_blank" rel="noopener">&#128196; GitHub — intellica-ai-llc/intellica</a>
+        <a href="https://github.com/intellica-ai-llc/intellica" target="_blank" rel="noopener">&#128196; GitHub &mdash; intellica-ai-llc/intellica</a>
       </div>
-      <div class="pc-ask">Seeking: First DORA pilot at &euro;125K engagement · Strategic acquirer (Thales highest fit) · Provisional patent cluster</div>
+      <div class="pc-ask">Seeking: First DORA pilot at &euro;125K engagement &middot; Strategic acquirer (Thales highest fit) &middot; Provisional patent cluster</div>
     </div>
 
     <div class="pc">
       <div class="pc-head"><div class="pc-name">VeriChain (DPD)</div><span class="ptag t-af">AgentFi L1</span></div>
-      <div class="pc-desc">Web4 agentic economy infrastructure. Trustless decision marketplace where AI agents earn and spend Bitcoin over Lightning. ORCHID bio-inspired consensus, NANOZK layerwise proofs (5.5KB, 24ms, soundness &lt;1e-37), constitutional governance with formally-proven Sigma-R Legitimate Envelope Theorem.</div>
-      <div class="pc-val">&euro;280M – &euro;780M · Base &euro;420M · arc42 91/100</div>
+      <div class="pc-desc">Web4 agentic economy infrastructure. Trustless decision marketplace where AI agents earn and spend Bitcoin over Lightning. ORCHID bio-inspired consensus, NANOZK layerwise proofs (5.5KB, 24ms, soundness &lt;1e&minus;37), constitutional governance with formally-proven Sigma-R Legitimate Envelope Theorem. Sovereign-native: validator nodes operate fully air-gapped.</div>
+      <div class="pc-val">&euro;280M &ndash; &euro;780M &middot; Base &euro;420M &middot; arc42 91/100</div>
       <div class="pc-links">
         <a href="https://intellica-15c.pages.dev/verichain_val" target="_blank" rel="noopener">&#128200; Investment Valuation Report</a>
-        <a href="https://github.com/intellica-ai-llc/verichain" target="_blank" rel="noopener">&#128196; GitHub — intellica-ai-llc/verichain</a>
+        <a href="https://github.com/intellica-ai-llc/verichain" target="_blank" rel="noopener">&#128196; GitHub &mdash; intellica-ai-llc/verichain</a>
       </div>
-      <div class="pc-ask">Seeking: First agent-loop demo partner · 9-validator mainnet launch · Smart contract security audit</div>
+      <div class="pc-ask">Seeking: First agent-loop demo partner &middot; 9-validator mainnet launch &middot; Smart contract security audit</div>
     </div>
 
     <div class="pc">
       <div class="pc-head"><div class="pc-name">Verity Core Banking Platform</div><span class="ptag t-bk">Verified Bank OS</span></div>
-      <div class="pc-desc">The world's first formally verified, agent-native, quantum-ready, sovereign core banking OS. TLA+ verified ledger, Lean 4 microsecond compliance, concurrent Intel TDX + AMD SEV-SNP, 7-day migration with cryptographic equivalence proof, 328 BIAN v14.0 service domains. 22 arc42 versions, 162 gaps closed.</div>
-      <div class="pc-val">&euro;380M – &euro;620M · Base &euro;480M · arc42 97/100</div>
+      <div class="pc-desc">The world's first formally verified, agent-native, quantum-ready, sovereign core banking OS. TLA+ verified ledger, Lean 4 microsecond compliance, concurrent Intel TDX + AMD SEV-SNP, 7-day migration with cryptographic equivalence proof, 328 BIAN v14.0 service domains. Runs entirely within the bank's sovereign perimeter &mdash; no external API calls in steady-state operation. 22 arc42 versions, 162 gaps closed.</div>
+      <div class="pc-val">&euro;380M &ndash; &euro;620M &middot; Base &euro;480M &middot; arc42 97/100</div>
       <div class="pc-links">
         <a href="https://intellica-15c.pages.dev/verity_val" target="_blank" rel="noopener">&#128200; Investment Valuation Report</a>
-        <a href="https://github.com/intellica-ai-llc/intellica" target="_blank" rel="noopener">&#128196; GitHub — intellica-ai-llc/intellica</a>
+        <a href="https://github.com/intellica-ai-llc/intellica" target="_blank" rel="noopener">&#128196; GitHub &mdash; intellica-ai-llc/intellica</a>
       </div>
-      <div class="pc-ask">Seeking: First EU bank pilot at &euro;45K Starter tier · VTVP theorem proof publication · Fiserv agentOS positioning</div>
+      <div class="pc-ask">Seeking: First EU bank pilot at &euro;45K Starter tier &middot; VTVP theorem proof publication &middot; Fiserv agentOS positioning</div>
     </div>
 
   </div>
@@ -638,23 +851,25 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
 <div id="team" class="sec" aria-labelledby="team-heading">
   <div class="sec-eye">The Founder</div>
   <h2 class="sec-h" id="team-heading">Investors invest in <em>people first.</em></h2>
-  <p class="sec-lead">One founder. Every line of code. Thirty years of enterprise software experience. Two graduate degrees. The entire Intellecta portfolio is the product of a single technical mind with a clear regional voice.</p>
+  <p class="sec-lead">One founder. Every line of code. Thirty years of enterprise software experience. Two graduate degrees. The entire Intellica portfolio is the product of a single technical mind with a clear regional voice &mdash; and a conviction that sovereignty in AI is not a feature, it is the architecture.</p>
   <div class="team-card">
     <div class="team-avatar" aria-hidden="true">&#128104;&#8205;&#128187;</div>
     <div>
-      <div class="team-name">Peter (Damain) Ramsajan</div>
-      <div class="team-title">Founder &amp; Sole Author — Intellica AI, Inc.</div>
-      <div class="team-bio">Peter is the sole author of every line of code across all five Intellica systems — ASL, Cortex, VeriCrypt, VeriChain, and Verity Core Banking Platform. With approximately 30 years of enterprise software deployment experience including Fortune 500 asset management systems, and a master's degree in software engineering, Peter builds from architecture documents to working systems rapidly and iteratively. His foundational technical identity is as a multi-agent systems architect who learns by implementing complex, formally-specified systems from scratch. He identifies strongly as a builder motivated by a desire to create technology that represents a perspective and moral voice from Trinidad and Tobago — a region he sees as underrepresented in the current global AI landscape. The Intellecta portfolio is not incidental to that mission; it is its expression.</div>
+      <div class="team-name">Damain Peter Ramsajan</div>
+      <div class="team-title">Founder &amp; Sole Author &mdash; Intellica AI, Inc.</div>
+      <div class="team-bio">Damain Peter Ramsajan is the sole author of every line of code across all five Intellica systems &mdash; ASL, Cortex, VeriCrypt, VeriChain, and Verity Core Banking Platform. With approximately 30 years of enterprise software deployment experience including Fortune 500 asset management systems, and a master's degree in software engineering, Damain builds from architecture documents to working systems rapidly and iteratively. His foundational technical identity is as a multi-agent systems architect who learns by implementing complex, formally-specified systems from scratch. He identifies strongly as a builder motivated by a desire to create technology that represents a perspective and moral voice from Trinidad and Tobago &mdash; a region he sees as underrepresented in the current global AI landscape. The Intellecta portfolio is not incidental to that mission; it is its sovereign expression. Formerly a UWI enterprise systems collaborator with deep Caribbean institutional roots.</div>
       <div class="team-stats">
         <div class="ts-item"><div class="ts-num">~30yr</div><div class="ts-lbl">Enterprise software experience</div></div>
         <div class="ts-item"><div class="ts-num">2</div><div class="ts-lbl">Graduate degrees incl. MSc SE</div></div>
-        <div class="ts-item"><div class="ts-num">5</div><div class="ts-lbl">Formally-specified systems authored solo</div></div>
-        <div class="ts-item"><div class="ts-num">TT</div><div class="ts-lbl">Trinidad &amp; Tobago — Caribbean voice in AI</div></div>
+        <div class="ts-item"><div class="ts-num">5</div><div class="ts-lbl">Formally-specified sovereign systems authored solo</div></div>
+        <div class="ts-item"><div class="ts-num">TT</div><div class="ts-lbl">Trinidad &amp; Tobago &mdash; Caribbean sovereign voice in AI</div></div>
       </div>
       <div class="team-contact">
         <a href="https://calendly.com/peterdramsajan/30min" target="_blank" rel="noopener" class="tc-btn tc-cal">&#128197; Book 30-min Briefing</a>
-        <a href="mailto:dpramsajan@meeting-mind.com" class="tc-btn tc-email">&#9993; Email Peter</a>
+        <a href="mailto:dpramsajan@meeting-mind.com" class="tc-btn tc-email">&#9993; Email Damain</a>
         <a href="https://wa.me/18687195236" target="_blank" rel="noopener" class="tc-btn tc-wa">&#128172; WhatsApp</a>
+        <a href="https://www.linkedin.com/in/damainramsajan" target="_blank" rel="noopener" class="tc-btn tc-li">&#128101; LinkedIn</a>
+        <a href="https://vericrypt-7qp.pages.dev/dpr" target="_blank" rel="noopener" class="tc-btn tc-email">&#128196; Profile Page</a>
       </div>
     </div>
   </div>
@@ -666,31 +881,31 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
 <div id="repos" class="sec" aria-labelledby="repos-heading">
   <div class="sec-eye">Source Code &amp; Documentation</div>
   <h2 class="sec-h" id="repos-heading">All repositories. <em>All arc42 documents.</em></h2>
-  <p class="sec-lead">Public repositories and published architecture documents are accessible below. For private branch walkthroughs or live code demos, contact Peter directly.</p>
+  <p class="sec-lead">Public repositories and published architecture documents are accessible below. For private branch walkthroughs or live code demos, contact Damain directly.</p>
   <div class="repo-grid">
     <div class="rc">
       <div class="rc-org">agentseedlanguage-cpu</div>
       <div class="rc-name">agentseed</div>
-      <div class="rc-desc">The full ASL platform — seedc compiler, seedvm runtime, examples, documentation, conformance tests. v15.2.</div>
-      <div class="rc-foot"><span class="rc-lang">Rust · v15.2</span><a href="https://github.com/agentseedlanguage-cpu/agentseed" target="_blank" rel="noopener" class="rc-link">View &#8599;</a></div>
+      <div class="rc-desc">The full ASL platform &mdash; seedc compiler, seedvm runtime, examples, documentation, conformance tests. v15.2. Sovereign-native: no runtime external dependencies.</div>
+      <div class="rc-foot"><span class="rc-lang">Rust &middot; v15.2</span><a href="https://github.com/agentseedlanguage-cpu/agentseed" target="_blank" rel="noopener" class="rc-link">View &#8599;</a></div>
     </div>
     <div class="rc">
       <div class="rc-org">intellica-ai-llc</div>
       <div class="rc-name">cortex</div>
-      <div class="rc-desc">Sovereign AI execution substrate. VESSEL-governed agentic control plane. Enterprise absorption pipeline.</div>
-      <div class="rc-foot"><span class="rc-lang">Makefile · Rust</span><a href="https://github.com/intellica-ai-llc/cortex" target="_blank" rel="noopener" class="rc-link">View &#8599;</a></div>
+      <div class="rc-desc">Sovereign AI execution substrate. VESSEL-governed agentic control plane. Enterprise absorption pipeline. Air-gapped by design.</div>
+      <div class="rc-foot"><span class="rc-lang">Makefile &middot; Rust</span><a href="https://github.com/intellica-ai-llc/cortex" target="_blank" rel="noopener" class="rc-link">View &#8599;</a></div>
     </div>
     <div class="rc">
       <div class="rc-org">intellica-ai-llc</div>
       <div class="rc-name">verichain</div>
-      <div class="rc-desc">Web4 agent economy L1. ORCHID consensus, NANOZK proofs, Lightning settlement, DPD 15-crate workspace.</div>
-      <div class="rc-foot"><span class="rc-lang">Rust · DPD workspace</span><a href="https://github.com/intellica-ai-llc/verichain" target="_blank" rel="noopener" class="rc-link">View &#8599;</a></div>
+      <div class="rc-desc">Web4 agent economy L1. ORCHID consensus, NANOZK proofs, Lightning settlement, DPD 15-crate workspace. Sovereign validator nodes.</div>
+      <div class="rc-foot"><span class="rc-lang">Rust &middot; DPD workspace</span><a href="https://github.com/intellica-ai-llc/verichain" target="_blank" rel="noopener" class="rc-link">View &#8599;</a></div>
     </div>
     <div class="rc">
       <div class="rc-org">intellica-ai-llc</div>
       <div class="rc-name">intellica</div>
-      <div class="rc-desc">Main Intellica organisation repo. Web assets, investor pages, VeriCrypt arc42 Base + Addenda 1-5.</div>
-      <div class="rc-foot"><span class="rc-lang">HTML · Rust</span><a href="https://github.com/intellica-ai-llc/intellica" target="_blank" rel="noopener" class="rc-link">View &#8599;</a></div>
+      <div class="rc-desc">Main Intellica organisation repo. Web assets, investor pages, VeriCrypt arc42 Base + Addenda 1&ndash;5.</div>
+      <div class="rc-foot"><span class="rc-lang">HTML &middot; Rust</span><a href="https://github.com/intellica-ai-llc/intellica" target="_blank" rel="noopener" class="rc-link">View &#8599;</a></div>
     </div>
     <div class="rc">
       <div class="rc-org">intellica-ai-llc</div>
@@ -701,57 +916,48 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
     <div class="rc">
       <div class="rc-org">DamainRamsajan (personal)</div>
       <div class="rc-name">All personal repositories</div>
-      <div class="rc-desc">Founder's personal GitHub — early prototypes, VeriCrypt and Verity research, additional experiments.</div>
+      <div class="rc-desc">Founder's personal GitHub &mdash; early prototypes, VeriCrypt and Verity research, additional experiments.</div>
       <div class="rc-foot"><span class="rc-lang">Multiple</span><a href="https://github.com/DamainRamsajan?tab=repositories" target="_blank" rel="noopener" class="rc-link">View all &#8599;</a></div>
     </div>
   </div>
 
-  <!-- ARC42 INDEX -->
-  <div style="margin-bottom:1.5rem">
-    <div class="sec-eye" style="margin-bottom:1rem">arc42 Architecture Documents</div>
-    <div class="arc-grid">
-      <a class="arc-link" href="https://github.com/agentseedlanguage-cpu/agentseed/blob/main/ASL_V_0_2_0_ARC42.md" target="_blank" rel="noopener">
-        <span class="arc-tag" style="background:rgba(255,68,68,0.12);color:var(--red)">ASL</span>
-        <span class="arc-text">Agent Seed Language arc42 v0.2.0<span class="arc-sub">Language spec · P1-P8 invariants · seedc/seedvm design</span></span>
-        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-      </a>
-      <a class="arc-link" href="https://github.com/agentseedlanguage-cpu/agentseed/blob/main/ASL_0_1_0_ABARICHITECTURE.md" target="_blank" rel="noopener">
-        <span class="arc-tag" style="background:rgba(255,68,68,0.12);color:var(--red)">ASL</span>
-        <span class="arc-text">ASL v0.1.0 Architecture Document<span class="arc-sub">Original platform architecture blueprint</span></span>
-        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-      </a>
-      <a class="arc-link" href="https://intellica-15c.pages.dev/investors" target="_blank" rel="noopener">
-        <span class="arc-tag" style="background:rgba(0,212,255,0.12);color:var(--cyan)">VC</span>
-        <span class="arc-text">VeriCrypt Investor Business Plan<span class="arc-sub">arc42 Base + Addenda 1-5 + Consolidation Report</span></span>
-        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-      </a>
-      <a class="arc-link" href="https://intellica-15c.pages.dev/vcv" target="_blank" rel="noopener">
-        <span class="arc-tag" style="background:rgba(0,212,255,0.12);color:var(--cyan)">VC</span>
-        <span class="arc-text">VeriCrypt Valuation Report<span class="arc-sub">arc42 96/100 · &euro;480M base · 8 novel firsts · 49 checks</span></span>
-        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-      </a>
-      <a class="arc-link" href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">
-        <span class="arc-tag" style="background:rgba(168,85,247,0.13);color:var(--purple)">CX</span>
-        <span class="arc-text">Cortex Valuation Report<span class="arc-sub">arc42 92/100 · &euro;6.8B base · Palantir comparable</span></span>
-        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-      </a>
-      <a class="arc-link" href="https://intellica-15c.pages.dev/verichain_val" target="_blank" rel="noopener">
-        <span class="arc-tag" style="background:rgba(0,255,136,0.11);color:var(--green)">CH</span>
-        <span class="arc-text">VeriChain Valuation Report<span class="arc-sub">arc42 91/100 · &euro;420M base · Lighter/Opinion comparable</span></span>
-        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-      </a>
-      <a class="arc-link" href="https://intellica-15c.pages.dev/verity_val" target="_blank" rel="noopener">
-        <span class="arc-tag" style="background:rgba(245,158,11,0.12);color:var(--gold)">VB</span>
-        <span class="arc-text">Verity Banking Valuation Report<span class="arc-sub">arc42 97/100 · &euro;480M base · 162 gaps closed · 22 versions</span></span>
-        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-      </a>
-      <a class="arc-link" href="https://intellica-15c.pages.dev/" target="_blank" rel="noopener">
-        <span class="arc-tag" style="background:rgba(0,212,255,0.12);color:var(--cyan)">IA</span>
-        <span class="arc-text">Intellica AI — Company Overview<span class="arc-sub">Public-facing landing page · Sovereign AI Systems</span></span>
-        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-      </a>
-    </div>
+ <!-- ARC42 INDEX -->
+<div style="margin-bottom:1.5rem">
+  <div class="sec-eye" style="margin-bottom:1rem">arc42 Architecture Documents</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;max-width:640px">Complete arc42 architecture documentation for all six Intellica systems. Each document follows the arc42 template for software architecture communication and is independently maintained in its respective repository.</p>
+  <div class="arc-grid">
+    <a class="arc-link" href="https://github.com/agentseedlanguage-cpu/agentseed/blob/main/ASL_V_0_2_0_ARC42.md" target="_blank" rel="noopener">
+      <span class="arc-tag" style="background:rgba(255,68,68,0.12);color:var(--red)">ASL</span>
+      <span class="arc-text">Agent Seed Language — arc42 v0.2.0<span class="arc-sub">Language specification · P1–P8 compile-time safety invariants · seedc compiler &amp; seedvm runtime architecture</span></span>
+      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+    </a>
+    <a class="arc-link" href="https://github.com/intellica-ai-llc/cortex/blob/main/CORTEX_ARC42.md" target="_blank" rel="noopener">
+      <span class="arc-tag" style="background:rgba(168,85,247,0.13);color:var(--purple)">CX</span>
+      <span class="arc-text">Intellecta Cortex — arc42<span class="arc-sub">Sovereign AI execution substrate · VESSEL-governed agentic control plane · Strangler Fig enterprise absorption architecture</span></span>
+      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+    </a>
+    <a class="arc-link" href="https://github.com/DamainRamsajan/vericrypt/blob/main/VERICRYPT_ARC42.md?plain=1" target="_blank" rel="noopener">
+      <span class="arc-tag" style="background:rgba(0,212,255,0.12);color:var(--cyan)">VC</span>
+      <span class="arc-text">VeriCrypt — arc42<span class="arc-sub">Post-quantum cryptographic posture engine · Air-gapped compliance artefact generation · DORA &amp; NIST PQC architecture</span></span>
+      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+    </a>
+    <a class="arc-link" href="https://github.com/intellica-ai-llc/verichain/blob/main/VERICHAIN_ARC42.md" target="_blank" rel="noopener">
+      <span class="arc-tag" style="background:rgba(0,255,136,0.11);color:var(--green)">CH</span>
+      <span class="arc-text">VeriChain (DPD) — arc42<span class="arc-sub">Web4 AgentFi Layer-1 · ORCHID bio-inspired consensus · NANOZK layerwise proofs · Lightning settlement architecture</span></span>
+      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+    </a>
+    <a class="arc-link" href="https://github.com/intellica-ai-llc/verichain/blob/main/MAS_ARC42_ARCHITECTURE.md" target="_blank" rel="noopener">
+      <span class="arc-tag" style="background:rgba(245,158,11,0.12);color:var(--gold)">MAS</span>
+      <span class="arc-text">Multi-Agent System — arc42 (VeriChain Agents)<span class="arc-sub">Autonomous agent architecture for agents that earn and spend on VeriChain · Trustless decision marketplace · Agent-loop specification</span></span>
+      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+    </a>
+    <a class="arc-link" href="https://github.com/DamainRamsajan/verity-core-banking/blob/main/VERITY_ARC42.md" target="_blank" rel="noopener">
+      <span class="arc-tag" style="background:rgba(255,184,0,0.13);color:var(--amber)">VB</span>
+      <span class="arc-text">Verity Core Banking Platform — arc42<span class="arc-sub">Formally verified banking OS · TLA+ verified ledger · 7-day cryptographic migration · 328 BIAN v14.0 service domains</span></span>
+      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+    </a>
   </div>
+</div>
 </div>
 
 <hr class="divider">
@@ -760,8 +966,8 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
 <div id="cta" class="cta-sec" aria-labelledby="cta-heading">
   <div class="cta-inner">
     <div class="cta-lbl">Ready to move forward?</div>
-    <h2 class="cta-h" id="cta-heading">Let's talk. Peter responds within 24 hours.</h2>
-    <p class="cta-p">Whether you're evaluating one system or the entire portfolio, the fastest path forward is a 30-minute live briefing. Peter will walk through the architecture, the valuation, and your specific area of interest — no slides, just the architecture and the numbers.</p>
+    <h2 class="cta-h" id="cta-heading">Let's talk. Damain responds within 24 hours.</h2>
+    <p class="cta-p">Whether you're evaluating one system or the entire sovereign portfolio, the fastest path forward is a 30-minute live briefing. Damain will walk through the architecture, the valuation, and your specific area of interest &mdash; no slides, just the systems and the numbers.</p>
     <div class="cta-btns">
       <a href="https://calendly.com/peterdramsajan/30min" target="_blank" rel="noopener" class="btn-p">&#128197; Book 30-Minute Briefing</a>
       <a href="mailto:dpramsajan@meeting-mind.com" class="btn-s">&#9993; Send Email</a>
@@ -787,182 +993,273 @@ footer{padding:2rem 2rem;border-top:1px solid var(--border);display:flex;justify
 </div>
 
 <footer role="contentinfo">
-  <div class="ft-brand">INTELLICA<span>·AI</span>, Inc. · Confidential · June 2026</div>
+  <div class="ft-brand">INTELLICA<span>·AI</span>, Inc. &middot; Confidential &middot; June 2026</div>
   <div class="ft-legal">
-    <strong>Intellica AI, Inc.</strong> — 901 N Market St, Suite 100, Wilmington, DE 19801, United States. A Delaware corporation in formation. This data room contains proprietary and confidential information. All technical documentation, architecture specifications, and valuation analyses are the exclusive intellectual property of Intellica AI, Inc. Unauthorised disclosure is strictly prohibited. Access governed by the Non-Disclosure Agreement executed at entry. <strong>Forward-Looking Statements:</strong> This document contains forward-looking statements based on current expectations and assumptions. Actual results may differ materially. This does not constitute an offer to sell securities. Contact: dpramsajan@meeting-mind.com
+    <strong>Intellica AI, Inc.</strong> &mdash; 901 N Market St, Suite 100, Wilmington, DE 19801, United States. Delaware C-Corp. This data room contains proprietary and confidential information. All technical documentation, architecture specifications, and valuation analyses are the exclusive intellectual property of Intellica AI, Inc. Unauthorised disclosure is strictly prohibited. Access governed by the Non-Disclosure Agreement executed at entry. <strong>Forward-Looking Statements:</strong> This document contains forward-looking statements based on current expectations and assumptions. Actual results may differ materially. This does not constitute an offer to sell securities. Founder: Damain Peter Ramsajan &middot; dpramsajan@meeting-mind.com
   </div>
 </footer>
 
 </div><!-- /main -->
 
 <script>
-// ===== GOOGLE FORM CONFIGURATION =====
-// Replace with your Google Form ID and field entry IDs
+// =====================================================
+// GOOGLE FORM CONFIGURATION
+// =====================================================
+// SETUP INSTRUCTIONS:
+// 1. Go to docs.google.com/forms and create a new form
+// 2. Add fields: Full Name, Title, Organisation, Email, Investor Type, Timestamp
+// 3. Click the three-dot menu → "Get pre-filled link"
+// 4. Fill in dummy values and click "Get Link"
+// 5. From the URL, extract each entry.XXXXXXXXXX number
+// 6. Replace the values below with your actual entry IDs
+// 7. Replace YOUR_FORM_ID with the ID from your form's URL
+// Example form URL: docs.google.com/forms/d/e/1FAIpQLSe.../viewform
+// Your GOOGLE_FORM_ID is the long string between /d/e/ and /viewform
+
 const GOOGLE_FORM_ID = 'YOUR_GOOGLE_FORM_ID_HERE';
 const FORM_FIELDS = {
-  name:  'entry.1234567890',  // Replace with your form's entry ID for name
-  email: 'entry.1234567891',  // Replace with your form's entry ID for email
-  org:   'entry.1234567892',  // Replace with your form's entry ID for organisation
-  title: 'entry.1234567893',  // Replace with your form's entry ID for title/role
-  type:  'entry.1234567894',  // Replace with your form's entry ID for investor type
-  ts:    'entry.1234567895'   // Replace with your form's entry ID for timestamp
+  name:  'entry.YOUR_NAME_FIELD_ID',
+  email: 'entry.YOUR_EMAIL_FIELD_ID',
+  org:   'entry.YOUR_ORG_FIELD_ID',
+  title: 'entry.YOUR_TITLE_FIELD_ID',
+  type:  'entry.YOUR_TYPE_FIELD_ID',
+  ts:    'entry.YOUR_TIMESTAMP_FIELD_ID'
 };
+// =====================================================
 
-// ===== STATE =====
+// Also send to a backup email via mailto (no server required)
+// Set this to your receiving email — submissions will auto-compose
+const BACKUP_EMAIL = 'dpramsajan@meeting-mind.com';
+
+// =====================================================
+// SESSION PERSISTENCE
+// =====================================================
+const STORAGE_KEY = 'intellica_nda_signed';
+const REMEMBER_DAYS = 30;
 let signedNDAData = null;
 
-// ===== TOGGLE SIGN BUTTON =====
+// Check for existing session on page load
+(function checkExistingSession(){
+  let stored = sessionStorage.getItem(STORAGE_KEY);
+  let storageType = 'session';
+
+  if(!stored){
+    stored = localStorage.getItem(STORAGE_KEY);
+    storageType = 'local';
+  }
+
+  if(stored){
+    try {
+      const data = JSON.parse(stored);
+      if(storageType === 'local' && data.expires && new Date(data.expires) < new Date()){
+        localStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+      signedNDAData = data;
+      document.getElementById('gate').classList.add('gone');
+      document.getElementById('main').classList.add('clear');
+      document.body.classList.add('unlocked');
+      showWelcomeBanner(data);
+    } catch(e){
+      sessionStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }
+})();
+
+function showWelcomeBanner(data){
+  const banner = document.createElement('div');
+  banner.id = 'welcomeBanner';
+  banner.setAttribute('role','status');
+  banner.setAttribute('aria-live','polite');
+  banner.style.cssText = 'position:fixed;bottom:1rem;right:1rem;z-index:300;background:var(--card);border:1px solid var(--border2);border-radius:8px;padding:.875rem 1.25rem;font-size:12px;color:var(--muted);box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:360px;animation:gateIn .3s ease-out;display:flex;align-items:flex-start;gap:.75rem';
+  const firstName = data.name ? data.name.split(' ')[0] : 'Investor';
+  banner.innerHTML = '<span style="font-size:1.2rem;flex-shrink:0" aria-hidden="true">&#128274;</span><div style="flex:1"><strong style="color:var(--head);display:block;margin-bottom:.15rem">Welcome back, ' + escapeHTML(firstName) + '</strong>NDA signed ' + new Date(data.ts).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) + '. Ref: ' + escapeHTML(data.ref || 'N/A') + '<div style="margin-top:.5rem;display:flex;gap:.75rem"><button onclick="forgetSession()" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:11px;padding:0;text-decoration:underline">Forget me</button><button onclick="document.getElementById(\'welcomeBanner\').remove()" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:11px;padding:0;text-decoration:underline">Dismiss</button></div></div>';
+  document.body.appendChild(banner);
+  setTimeout(function(){
+    var b = document.getElementById('welcomeBanner');
+    if(b) b.remove();
+  }, 8000);
+}
+
+function forgetSession(){
+  sessionStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(STORAGE_KEY);
+  signedNDAData = null;
+  var b = document.getElementById('welcomeBanner');
+  if(b) b.remove();
+  location.reload();
+}
+
+function escapeHTML(str){
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+// =====================================================
+
+// Toggle sign button on checkbox change
 document.getElementById('g-agree').addEventListener('change', function(){
   document.getElementById('signBtn').disabled = !this.checked;
 });
 
-// ===== VALIDATE & SIGN NDA =====
 function signNDA(){
   const name  = document.getElementById('g-name').value.trim();
   const email = document.getElementById('g-email').value.trim();
   const org   = document.getElementById('g-org').value.trim();
   const title = document.getElementById('g-title').value.trim();
   const type  = document.getElementById('g-type').value;
+  const remember = document.getElementById('g-remember').checked;
   const errorEl = document.getElementById('formError');
-  
-  // Validation
+
   const errors = [];
-  if(!name) errors.push('Full legal name is required');
+  if(!name)  errors.push('Full legal name is required');
   if(!email) errors.push('Email address is required');
-  if(!org) errors.push('Organisation name is required');
-  if(!title) errors.push('Title/role is required');
+  if(!org)   errors.push('Organisation name is required');
+  if(!title) errors.push('Title / role is required');
   if(!document.getElementById('g-agree').checked) errors.push('You must agree to the NDA terms');
-  
-  // Basic email validation
-  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    errors.push('Please enter a valid email address');
-  }
-  
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('Please enter a valid email address');
+
   if(errors.length > 0){
     errorEl.textContent = errors.join('. ') + '.';
     errorEl.classList.add('show');
-    document.getElementById(errors[0].includes('name') ? 'g-name' : errors[0].includes('email') ? 'g-email' : errors[0].includes('Organisation') ? 'g-org' : 'g-title').focus();
     return;
   }
   errorEl.classList.remove('show');
-  
-  const ts = new Date().toISOString();
+
+  const ts  = new Date().toISOString();
   const ref = 'NDA-' + Date.now().toString(36).toUpperCase();
-  
-  // Store signed data
   signedNDAData = { name, email, org, title, type, ts, ref };
-  
-  // Save to localStorage for admin recovery
+
+  // Session persistence
+  const storageData = { name, ref, ts };
+  if(remember){
+    storageData.expires = new Date(Date.now() + REMEMBER_DAYS * 24 * 60 * 60 * 1000).toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storageData));
+  } else {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(storageData));
+  }
+
+  // 1 — Save to localStorage for admin recovery (always)
   try {
     const existing = JSON.parse(localStorage.getItem('intellica_nda_signings') || '[]');
     existing.push(signedNDAData);
     localStorage.setItem('intellica_nda_signings', JSON.stringify(existing));
   } catch(e){}
-  
-  // Post to Google Form (silent, non-blocking)
+
+  // 2 — Post to Google Form (silent, replace form ID & entry IDs above to activate)
   if(GOOGLE_FORM_ID !== 'YOUR_GOOGLE_FORM_ID_HERE'){
-    const formData = new URLSearchParams();
-    formData.append(FORM_FIELDS.name, name);
-    formData.append(FORM_FIELDS.email, email);
-    formData.append(FORM_FIELDS.org, org);
-    formData.append(FORM_FIELDS.title, title);
-    formData.append(FORM_FIELDS.type, type);
-    formData.append(FORM_FIELDS.ts, ts);
-    
+    const fd = new URLSearchParams();
+    fd.append(FORM_FIELDS.name,  name);
+    fd.append(FORM_FIELDS.email, email);
+    fd.append(FORM_FIELDS.org,   org);
+    fd.append(FORM_FIELDS.title, title);
+    fd.append(FORM_FIELDS.type,  type || 'Not specified');
+    fd.append(FORM_FIELDS.ts,    ts);
     fetch('https://docs.google.com/forms/d/e/' + GOOGLE_FORM_ID + '/formResponse', {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: formData.toString()
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: fd.toString()
     }).catch(function(){});
   }
-  
+
+  // 3 — Fallback: open mailto draft with NDA data (no server needed)
+  try {
+    const subject = encodeURIComponent('Intellica AI NDA Signed — ' + ref);
+    const body = encodeURIComponent(
+      'NDA SIGNING NOTIFICATION\n\n' +
+      'Reference: ' + ref + '\n' +
+      'Timestamp: ' + new Date(ts).toUTCString() + '\n\n' +
+      'Signee: ' + name + '\n' +
+      'Title:  ' + title + '\n' +
+      'Org:    ' + org + '\n' +
+      'Email:  ' + email + '\n' +
+      'Type:   ' + (type || 'Not specified') + '\n\n' +
+      'This is an automated notification from the Intellica AI Investor Data Room.'
+    );
+    if(document.hasFocus()){
+      window.open('mailto:' + BACKUP_EMAIL + '?subject=' + subject + '&body=' + body, '_blank');
+    }
+  } catch(e){}
+
   // Show access granted
   document.getElementById('ndaForm').style.display = 'none';
   document.getElementById('accessGranted').classList.add('show');
   document.getElementById('signedBadge').style.display = 'inline-flex';
-  document.getElementById('signedRef').textContent = ref + ' — Signed ' + new Date(ts).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
-  
-  // Focus management for accessibility
-  document.getElementById('accessGranted').querySelector('.access-h').setAttribute('tabindex','-1');
-  document.getElementById('accessGranted').querySelector('.access-h').focus();
+  document.getElementById('signedRef').textContent =
+    ref + ' — Signed ' + new Date(ts).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
+
+  const h = document.getElementById('accessGranted').querySelector('.access-h');
+  if(h){ h.setAttribute('tabindex','-1'); h.focus(); }
 }
 
-// ===== DOWNLOAD SIGNED NDA =====
 function downloadSignedNDA(){
   if(!signedNDAData) return;
-  
   const d = signedNDAData;
-  const content = `
-INTELLICA AI, INC. — NON-DISCLOSURE AGREEMENT
-Signed Electronic Copy
-============================================
-Reference:  ${d.ref}
-Signed:     ${new Date(d.ts).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'})}
-============================================
-
-Parties:
-  Disclosing Party: Intellica AI, Inc., a Delaware corporation
-                     901 N Market St, Suite 100, Wilmington, DE 19801
-  Receiving Party:  ${d.name}
-                     ${d.title}
-                     ${d.org}
-                     ${d.email}
-
-Investor Type: ${d.type || 'Not specified'}
-
-Terms:
-  This Non-Disclosure Agreement is governed by the laws of the State of
-  Delaware, United States of America. Term: Three (3) years from the date
-  of electronic signature. Electronic signature valid under ESIGN Act and
-  UETA. Full NDA text available in the Intellica AI Investor Data Room.
-
-Signed electronically by ${d.name} on ${new Date(d.ts).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'})}.
-`.trim();
-
-  const blob = new Blob([content], {type:'text/plain;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = d.ref + '_Signed_NDA.txt';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  const content = [
+    'INTELLICA AI, INC. — NON-DISCLOSURE AGREEMENT',
+    'Signed Electronic Copy',
+    '============================================',
+    'Reference:  ' + d.ref,
+    'Signed:     ' + new Date(d.ts).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'}),
+    '============================================',
+    '',
+    'Parties:',
+    '  Disclosing Party: Intellica AI, Inc., a Delaware C-Corp',
+    '                     901 N Market St, Suite 100, Wilmington, DE 19801',
+    '  Receiving Party:  ' + d.name,
+    '                     ' + d.title,
+    '                     ' + d.org,
+    '                     ' + d.email,
+    '',
+    'Investor Type: ' + (d.type || 'Not specified'),
+    '',
+    'Terms:',
+    '  Governing law: State of Delaware, USA. Term: Three (3) years.',
+    '  Electronic signature valid under ESIGN Act and UETA.',
+    '  Full NDA text: Intellica AI Investor Data Room.',
+    '',
+    'Signed electronically by ' + d.name + ' on ' + new Date(d.ts).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) + '.',
+    '',
+    'Founder Contact: Damain Peter Ramsajan',
+    'Email: dpramsajan@meeting-mind.com',
+    'WhatsApp: +1 868 719 5236'
+  ].join('\n');
+  const blob = new Blob([content],{type:'text/plain;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = d.ref + '_Signed_NDA.txt';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
-// ===== CLOSE GATE & REVEAL MAIN CONTENT =====
 function closeGate(){
   document.getElementById('gate').classList.add('gone');
   document.getElementById('main').classList.add('clear');
   document.body.classList.add('unlocked');
-  
-  // Focus management
   setTimeout(function(){
-    var skipLink = document.querySelector('.skip-link');
-    if(skipLink) skipLink.focus();
+    var s = document.querySelector('.skip-link');
+    if(s) s.focus();
   }, 100);
 }
 
-// ===== EVENT LISTENERS =====
 document.getElementById('signBtn').addEventListener('click', signNDA);
-
-// Enter key on checkbox
 document.getElementById('g-agree').addEventListener('keydown', function(e){
   if(e.key === 'Enter'){ e.preventDefault(); this.click(); }
 });
 
-// ===== ADMIN VIEW (?admin in URL) =====
+// Admin recovery: open browser console then visit ?admin to see all signings
 if(window.location.search.includes('admin')){
   try {
     const signings = JSON.parse(localStorage.getItem('intellica_nda_signings') || '[]');
-    if(signings.length > 0){
-      console.log('=== INTELLICA NDA SIGNINGS (localStorage) ===');
+    console.log('%c=== INTELLICA AI NDA SIGNINGS ===','color:#00D4FF;font-weight:bold;font-size:14px');
+    if(signings.length === 0){
+      console.log('No signings recorded in this browser session.');
+    } else {
       console.table(signings);
-      console.log('Total signings:', signings.length);
-      console.log('Most recent:', signings[signings.length-1]);
+      console.log('Total:', signings.length, '| Most recent:', signings[signings.length-1]);
     }
-  } catch(e){}
+  } catch(e){ console.error('Could not read signings:', e); }
 }
 </script>
 </body>
