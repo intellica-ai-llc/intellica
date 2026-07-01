@@ -9,13 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ============================
-   DESIGN TOKENS
-   Palette: near-black / deep navy / electric cyan / verified green / caution amber
-   Type: Space Grotesk (display/body) + JetBrains Mono (data/code/labels)
-   Signature: The vertical "slide rail" — a glowing cyan left-spine that 
-   anchors every slide and signals both sovereign architecture and formal specification
-============================ */
 :root {
   --black:    #070B12;
   --deep:     #0C111A;
@@ -37,7 +30,6 @@
   --font-m:   'JetBrains Mono', monospace;
   --ease:     cubic-bezier(0.22,1,0.36,1);
 }
-
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html { height:100%; overflow:hidden; }
 body {
@@ -49,201 +41,110 @@ body {
 ::selection{ background:rgba(0,207,255,0.25); color:var(--white); }
 :focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; border-radius:2px; }
 
-/* ============================
-   DECK SHELL
-============================ */
-.deck {
-  width:100vw; height:100vh;
-  display:grid;
-  grid-template-rows:1fr auto;
-  grid-template-columns:1fr;
-}
+.deck { width:100vw; height:100vh; display:grid; grid-template-rows:1fr auto; }
+.slides-vp { position:relative; overflow:hidden; height:100%; }
 
-/* ============================
-   SLIDES VIEWPORT
-============================ */
-.slides-vp {
-  position:relative;
-  overflow:hidden;
-  height:100%;
-}
-
-/* Individual slide */
 .slide {
   position:absolute; inset:0;
-  display:grid;
-  grid-template-columns:var(--rail-w) 1fr;
+  display:grid; grid-template-columns:var(--rail-w) 1fr;
   opacity:0; pointer-events:none;
   transform:translateX(60px);
   transition:opacity 0.42s var(--ease), transform 0.42s var(--ease);
 }
-.slide.active {
-  opacity:1; pointer-events:all;
-  transform:translateX(0);
-}
-.slide.exit {
-  opacity:0;
-  transform:translateX(-60px);
-  pointer-events:none;
-}
+.slide.active { opacity:1; pointer-events:all; transform:translateX(0); }
+.slide.exit { opacity:0; transform:translateX(-60px); pointer-events:none; }
 
-/* The sovereign rail — the signature element */
+/* The sovereign rail — glowing left spine */
 .rail {
   width:var(--rail-w);
-  background:linear-gradient(180deg,
-    transparent 0%,
-    var(--cyan) 20%,
-    var(--cyan) 80%,
-    transparent 100%
-  );
+  background:linear-gradient(180deg, transparent 0%, var(--cyan) 20%, var(--cyan) 80%, transparent 100%);
   box-shadow:0 0 18px rgba(0,207,255,0.45), 0 0 48px rgba(0,207,255,0.15);
   flex-shrink:0;
 }
 
-/* Slide content area */
-.sc {
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  height:100%;
-  padding:0;
-  position:relative;
-}
-
-/* Background grid overlay */
+.sc { overflow:hidden; display:flex; flex-direction:column; height:100%; position:relative; }
 .sc::before {
   content:''; position:absolute; inset:0;
   background-image:
     linear-gradient(rgba(0,207,255,0.014) 1px,transparent 1px),
     linear-gradient(90deg,rgba(0,207,255,0.014) 1px,transparent 1px);
-  background-size:56px 56px;
-  pointer-events:none; z-index:0;
+  background-size:56px 56px; pointer-events:none; z-index:0;
 }
-
-/* Slide inner — sits above grid */
 .si {
-  position:relative; z-index:1;
-  flex:1; display:flex;
-  flex-direction:column;
-  padding:48px 60px 32px 52px;
-  overflow:auto;
+  position:relative; z-index:1; flex:1; display:flex; flex-direction:column;
+  padding:48px 60px 32px 52px; overflow:auto;
 }
 
-/* ============================
-   SLIDE CHROME — eyebrow + slide number
-============================ */
-.s-eye {
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:36px;
-}
+/* Eyebrow */
+.s-eye { display:flex; align-items:center; justify-content:space-between; margin-bottom:36px; }
 .s-eye-left {
   font-family:var(--font-m); font-size:10px; font-weight:500;
   letter-spacing:.15em; text-transform:uppercase; color:var(--cyan);
   display:flex; align-items:center; gap:10px;
 }
-.s-eye-left::before {
-  content:''; display:block; width:24px; height:1px;
-  background:rgba(0,207,255,0.5);
-}
-.s-eye-right {
-  font-family:var(--font-m); font-size:10px; color:var(--dim);
-  letter-spacing:.06em;
-}
+.s-eye-left::before { content:''; display:block; width:24px; height:1px; background:rgba(0,207,255,0.5); }
+.s-eye-right { font-family:var(--font-m); font-size:10px; color:var(--dim); letter-spacing:.06em; }
 
-/* ============================
-   TYPOGRAPHY SCALE
-============================ */
+/* Typography */
 .display {
-  font-size:clamp(2.4rem,4.5vw,4rem);
-  font-weight:700; line-height:1.02;
+  font-size:clamp(2.4rem,4.5vw,4rem); font-weight:700; line-height:1.02;
   letter-spacing:-0.03em; color:var(--white);
 }
 .display em { font-style:normal; color:var(--cyan); }
-.display .g  { color:var(--green); }
-.display .a  { color:var(--amber); }
+.display .g { color:var(--green); }
+.display .a { color:var(--amber); }
 
 .h2 {
-  font-size:clamp(1.5rem,2.8vw,2.4rem);
-  font-weight:700; line-height:1.08;
-  letter-spacing:-0.025em; color:var(--white);
-  margin-bottom:6px;
+  font-size:clamp(1.5rem,2.8vw,2.4rem); font-weight:700; line-height:1.08;
+  letter-spacing:-0.025em; color:var(--white); margin-bottom:6px;
 }
 .h2 em { font-style:normal; color:var(--cyan); }
 .h2 .g { color:var(--green); }
 
-.lead {
-  font-size:16px; color:var(--body); line-height:1.72;
-  max-width:640px; margin-top:12px;
-}
+.lead { font-size:16px; color:var(--body); line-height:1.72; max-width:640px; margin-top:12px; }
 .lead strong { color:var(--head); font-weight:500; }
 .lead em { color:var(--green); font-style:normal; }
 
-/* ============================
-   UTILITY COMPONENTS
-============================ */
-
 /* Stat grid */
-.stat-grid {
-  display:grid; gap:1px;
-  background:var(--border); border:1px solid var(--border);
-  border-radius:6px; overflow:hidden;
-}
+.stat-grid { display:grid; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
 .stat-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
 .stat-grid.cols-4 { grid-template-columns:repeat(4,1fr); }
 .stat-grid.cols-2 { grid-template-columns:repeat(2,1fr); }
-.si-stat {
-  background:var(--card); padding:20px 24px;
-}
+.si-stat { background:var(--card); padding:20px 24px; }
 .si-stat.hi { background:linear-gradient(135deg,rgba(0,207,255,0.07),rgba(0,240,120,0.04)); }
-.ss-n {
-  font-family:var(--font-m); font-size:2rem; font-weight:700;
-  color:var(--cyan); line-height:1; margin-bottom:4px;
-}
+.ss-n { font-family:var(--font-m); font-size:2rem; font-weight:700; color:var(--cyan); line-height:1; margin-bottom:4px; }
 .ss-n.g { color:var(--green); }
 .ss-n.a { color:var(--amber); }
 .ss-n.p { color:var(--purple); }
 .ss-l { font-size:11px; color:var(--muted); line-height:1.45; }
 .ss-sub { font-size:10px; color:var(--dim); margin-top:2px; }
 
-/* Card grid */
+/* Cards */
 .card-grid { display:grid; gap:12px; }
 .card-grid.cols-2 { grid-template-columns:1fr 1fr; }
 .card-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
-.vc {
-  background:var(--card); border:1px solid var(--border);
-  border-radius:6px; padding:20px 22px;
-}
+.vc { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:20px 22px; }
 .vc.cyan  { border-left:3px solid var(--cyan); }
 .vc.green { border-left:3px solid var(--green); }
 .vc.amber { border-left:3px solid var(--amber); }
 .vc.purple{ border-left:3px solid var(--purple); }
-.vc-t {
-  font-size:13px; font-weight:700; color:var(--white);
-  margin-bottom:6px; display:flex; align-items:center; gap:8px;
-}
+.vc.red   { border-left:3px solid var(--red); }
+.vc-t { font-size:13px; font-weight:700; color:var(--white); margin-bottom:6px; display:flex; align-items:center; gap:8px; }
 .vc-b { font-size:12.5px; color:var(--muted); line-height:1.6; }
 .vc-b strong { color:var(--head); font-weight:500; }
 
 /* Mono badge */
-.mbadge {
-  display:inline-flex; align-items:center; gap:7px;
-  font-family:var(--font-m); font-size:10.5px; font-weight:700;
-  padding:5px 12px; border-radius:3px;
-  letter-spacing:.07em; text-transform:uppercase;
-}
+.mbadge { display:inline-flex; align-items:center; gap:7px; font-family:var(--font-m); font-size:10.5px; font-weight:700; padding:5px 12px; border-radius:3px; letter-spacing:.07em; text-transform:uppercase; }
 .mbadge.cyan  { background:rgba(0,207,255,0.1);  color:var(--cyan);   border:1px solid rgba(0,207,255,0.2); }
 .mbadge.green { background:rgba(0,240,120,0.09); color:var(--green);  border:1px solid rgba(0,240,120,0.2); }
 .mbadge.amber { background:rgba(255,184,0,0.09); color:var(--amber);  border:1px solid rgba(255,184,0,0.2); }
-.mbadge.red   { background:rgba(255,61,61,0.09); color:var(--red);    border:1px solid rgba(255,61,61,0.2); }
-.mbadge.purple{ background:rgba(157,110,255,0.1);color:var(--purple); border:1px solid rgba(157,110,255,0.2); }
-.mbadge .dot  { width:6px; height:6px; border-radius:50%; background:currentColor;
-  box-shadow:0 0 6px currentColor; }
+.mbadge .dot  { width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 6px currentColor; }
 
-/* Two-column layout */
-.two-col { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; }
+/* Layouts */
+.two-col    { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; }
 .two-col-61 { display:grid; grid-template-columns:1.3fr 1fr; gap:32px; align-items:start; }
 
-/* Timeline row */
+/* Timeline */
 .tl { display:flex; flex-direction:column; gap:0; }
 .tl-item { display:flex; gap:16px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--border); }
 .tl-item:last-child { border-bottom:none; }
@@ -254,15 +155,8 @@ body {
 
 /* Competitive matrix */
 .matrix { width:100%; border-collapse:collapse; }
-.matrix th {
-  font-family:var(--font-m); font-size:10px; font-weight:700; letter-spacing:.08em;
-  text-transform:uppercase; color:var(--muted); padding:10px 14px;
-  text-align:left; border-bottom:1px solid var(--border);
-}
-.matrix td {
-  padding:10px 14px; font-size:12.5px; color:var(--body);
-  border-bottom:1px solid var(--border);
-}
+.matrix th { font-family:var(--font-m); font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
+.matrix td { padding:10px 14px; font-size:12.5px; color:var(--body); border-bottom:1px solid var(--border); }
 .matrix tr.hi-row td { background:rgba(0,207,255,0.04); }
 .matrix tr.hi-row td:first-child { color:var(--cyan); font-weight:700; }
 .matrix .ck { color:var(--green); font-weight:700; }
@@ -278,113 +172,90 @@ body {
 .uof-bar { height:100%; border-radius:4px; }
 .uof-pct { font-family:var(--font-m); font-size:11px; color:var(--muted); min-width:36px; text-align:right; }
 
-/* Milestone row */
+/* Milestone */
 .ml-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-.ml-card {
-  background:var(--card); border:1px solid var(--border); border-radius:6px;
-  padding:18px 20px; display:flex; flex-direction:column; gap:8px;
-}
+.ml-card { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:18px 20px; display:flex; flex-direction:column; gap:8px; }
 .ml-month { font-family:var(--font-m); font-size:10px; color:var(--cyan); letter-spacing:.08em; text-transform:uppercase; }
 .ml-title { font-size:13px; font-weight:700; color:var(--white); line-height:1.3; }
 .ml-desc  { font-size:11.5px; color:var(--muted); line-height:1.5; }
 
-/* Title slide special */
+/* Title slide */
 .slide-title .sc {
   background:radial-gradient(ellipse at 30% -10%, rgba(0,207,255,0.07) 0%, transparent 55%),
              radial-gradient(ellipse at 90% 80%, rgba(0,240,120,0.04) 0%, transparent 50%),
              var(--deep);
 }
 
-/* Team slide avatar */
-.founder-card {
-  display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:start;
-  background:var(--card); border:1px solid var(--border); border-radius:6px;
-  padding:28px 28px;
-}
-.f-avatar {
-  width:72px; height:72px; border-radius:50%;
-  background:linear-gradient(135deg,rgba(0,207,255,0.25),rgba(0,240,120,0.12));
-  border:2px solid rgba(0,207,255,0.3); display:flex;
-  align-items:center; justify-content:center; font-size:2rem; flex-shrink:0;
-}
-.f-name  { font-size:18px; font-weight:700; color:var(--white); margin-bottom:3px; }
-.f-title { font-family:var(--font-m); font-size:10.5px; color:var(--cyan); letter-spacing:.07em; margin-bottom:12px; }
-.f-bio   { font-size:13px; color:var(--body); line-height:1.68; margin-bottom:14px; }
-.f-stats { display:flex; gap:20px; flex-wrap:wrap; }
-.fs-item { text-align:center; }
-.fs-n { font-family:var(--font-m); font-size:1.1rem; font-weight:700; color:var(--cyan); }
-.fs-l { font-size:10px; color:var(--dim); margin-top:1px; }
-
-/* Glow system pill */
-.sys-pill {
-  font-family:var(--font-m); font-size:9.5px; font-weight:700;
-  padding:3px 8px; border-radius:2px; letter-spacing:.05em; text-transform:uppercase;
-}
+/* System pill */
+.sys-pill { font-family:var(--font-m); font-size:9.5px; font-weight:700; padding:3px 8px; border-radius:2px; letter-spacing:.05em; text-transform:uppercase; }
 .sp-asl  { background:rgba(255,61,61,0.1);   color:#FF6B6B; border:1px solid rgba(255,61,61,0.2); }
 .sp-cx   { background:rgba(157,110,255,0.1); color:var(--purple); border:1px solid rgba(157,110,255,0.2); }
 .sp-vc   { background:rgba(0,207,255,0.1);   color:var(--cyan); border:1px solid rgba(0,207,255,0.2); }
 .sp-ch   { background:rgba(0,240,120,0.09);  color:var(--green); border:1px solid rgba(0,240,120,0.2); }
 .sp-vb   { background:rgba(255,184,0,0.09);  color:var(--amber); border:1px solid rgba(255,184,0,0.2); }
 
-/* Divider */
 .div { border:none; border-top:1px solid var(--border); margin:20px 0; }
-
-/* Section label */
-.sec-lbl {
-  font-family:var(--font-m); font-size:10px; font-weight:700;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--cyan);
-  margin-bottom:14px;
-}
+.sec-lbl { font-family:var(--font-m); font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--cyan); margin-bottom:14px; }
 
 /* Not SaaS strip */
-.not-saas-strip {
-  display:inline-flex; align-items:center; gap:8px;
-  background:rgba(0,240,120,0.05); border:1px solid rgba(0,240,120,0.15);
-  border-radius:3px; padding:6px 14px; margin-bottom:16px;
-  font-family:var(--font-m); font-size:11.5px; color:var(--body);
-}
+.not-saas-strip { display:inline-flex; align-items:center; gap:8px; background:rgba(0,240,120,0.05); border:1px solid rgba(0,240,120,0.15); border-radius:3px; padding:6px 14px; margin-bottom:16px; font-family:var(--font-m); font-size:11.5px; color:var(--body); }
 .not-saas-strip .s { text-decoration:line-through; color:var(--dim); }
 .not-saas-strip .affirm { color:var(--green); font-weight:700; }
 
-/* Pulsing sovereign dot */
-.sov-dot { width:7px; height:7px; border-radius:50%; background:var(--cyan);
-  box-shadow:0 0 8px var(--cyan); display:inline-block;
-  animation:sovp 2.4s ease-in-out infinite; }
-@keyframes sovp {
-  0%,100%{box-shadow:0 0 8px rgba(0,207,255,0.7)}
-  50%{box-shadow:0 0 20px rgba(0,207,255,1),0 0 8px rgba(0,207,255,0.4)}
+.sov-dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan); display:inline-block; animation:sovp 2.4s ease-in-out infinite; }
+@keyframes sovp { 0%,100%{box-shadow:0 0 8px rgba(0,207,255,0.7)} 50%{box-shadow:0 0 20px rgba(0,207,255,1),0 0 8px rgba(0,207,255,0.4)} }
+
+/* ============================
+   SLIDE 10 — FOUNDER SPECIFIC
+   TAM thread visualised as a
+   career arc, not a list of roles
+============================ */
+.tam-arc {
+  display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;
 }
+.tam-left { display:flex; flex-direction:column; gap:0; }
+.tam-item {
+  display:flex; gap:16px; padding:14px 0;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.tam-item:last-child { border-bottom:none; }
+.tam-year {
+  font-family:var(--font-m); font-size:10px; font-weight:700;
+  color:var(--cyan); min-width:48px; margin-top:2px; flex-shrink:0;
+}
+.tam-body { flex:1; }
+.tam-title { font-size:12.5px; font-weight:700; color:var(--white); margin-bottom:3px; }
+.tam-desc  { font-size:11.5px; color:var(--muted); line-height:1.5; }
+.tam-right { display:flex; flex-direction:column; gap:10px; }
+.tam-insight {
+  background:var(--card); border:1px solid var(--border); border-radius:6px;
+  padding:16px 18px;
+}
+.tam-insight.hi { border-left:3px solid var(--cyan); }
+.tam-insight.g  { border-left:3px solid var(--green); }
+.tam-insight.a  { border-left:3px solid var(--amber); }
+.tam-insight-t { font-size:12px; font-weight:700; color:var(--white); margin-bottom:5px; }
+.tam-insight-b { font-size:11.5px; color:var(--muted); line-height:1.55; }
+.tam-insight-b strong { color:var(--head); font-weight:500; }
 
 /* ============================
    CONTROLS BAR
 ============================ */
 .controls {
-  height:54px; background:rgba(7,11,18,0.97);
-  border-top:1px solid var(--border);
-  display:flex; align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
+  height:54px; background:rgba(7,11,18,0.97); border-top:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; padding:0 20px;
   -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
 }
-.ctrl-left { display:flex; align-items:center; gap:8px; }
-.ctrl-center { display:flex; align-items:center; gap:6px; }
+.ctrl-left  { display:flex; align-items:center; gap:8px; }
+.ctrl-center{ display:flex; align-items:center; gap:6px; }
 .ctrl-right { display:flex; align-items:center; gap:12px; }
 
-.pip {
-  width:7px; height:7px; border-radius:50%;
-  background:var(--border2); cursor:pointer;
-  transition:background 0.2s, transform 0.2s;
-  border:none; padding:0;
-}
+.pip { width:7px; height:7px; border-radius:50%; background:var(--border2); cursor:pointer; transition:background 0.2s, transform 0.2s; border:none; padding:0; }
 .pip.active { background:var(--cyan); transform:scale(1.35); box-shadow:0 0 8px var(--cyan); }
 .pip:hover:not(.active) { background:var(--muted); }
 
-.cb { /* control button */
-  background:var(--card); border:1px solid var(--border);
-  color:var(--body); font-size:13px; font-family:var(--font-d);
-  padding:6px 16px; border-radius:4px; cursor:pointer;
-  transition:all .15s; display:flex; align-items:center; gap:6px;
-}
+.cb { background:var(--card); border:1px solid var(--border); color:var(--body); font-size:13px; font-family:var(--font-d); padding:6px 16px; border-radius:4px; cursor:pointer; transition:all .15s; display:flex; align-items:center; gap:6px; }
 .cb:hover { border-color:var(--cyan); color:var(--cyan); }
 .cb:disabled { opacity:.35; cursor:not-allowed; }
 .cb.p { background:var(--cyan); color:var(--black); border-color:var(--cyan); font-weight:700; }
@@ -392,25 +263,18 @@ body {
 
 .ctrl-brand { font-family:var(--font-m); font-size:10px; color:var(--dim); letter-spacing:.08em; }
 .slide-counter { font-family:var(--font-m); font-size:11px; color:var(--muted); }
-
-/* Fullscreen hint */
 .fs-hint { font-family:var(--font-m); font-size:10px; color:var(--dim); letter-spacing:.06em; cursor:pointer; }
 .fs-hint:hover { color:var(--muted); }
 
-/* ============================
-   RESPONSIVE
-============================ */
+/* Responsive */
 @media(max-width:900px){
   .si { padding:28px 24px 20px 20px; }
-  .two-col,.two-col-61 { grid-template-columns:1fr; gap:20px; }
+  .two-col,.two-col-61,.tam-arc { grid-template-columns:1fr; gap:20px; }
   .stat-grid.cols-4 { grid-template-columns:repeat(2,1fr); }
   .stat-grid.cols-3 { grid-template-columns:repeat(2,1fr); }
   .ml-grid { grid-template-columns:1fr; }
   .card-grid.cols-3 { grid-template-columns:1fr; }
-  .matrix { font-size:11px; }
   .display { font-size:clamp(1.8rem,6vw,2.8rem); }
-  .founder-card { grid-template-columns:1fr; }
-  .f-avatar { display:none; }
 }
 @media(max-width:600px){
   .si { padding:20px 16px 16px; }
@@ -424,17 +288,10 @@ body {
 <body>
 
 <div class="deck" id="deck">
-
-  <!-- ===================================================
-       SLIDES VIEWPORT
-  =================================================== -->
   <div class="slides-vp" id="slidesVp">
 
     <!-- =============================================
-         SLIDE 01 — TITLE / UNFAIR ADVANTAGE LEAD
-         Research: Lead With Your Unfair Advantage.
-         Sovereign + air-gapped is the unfair advantage.
-         First 4 slides get 60% of all investor attention.
+         SLIDE 01 — TITLE
     ============================================= -->
     <div class="slide slide-title active" data-slide="1">
       <div class="rail"></div>
@@ -500,9 +357,7 @@ body {
     </div>
 
     <!-- =============================================
-         SLIDE 02 — THE PROBLEM (PAS STRUCTURE)
-         Specific pain, specific cost, regulatory mandate.
-         Investors must believe the problem before the solution.
+         SLIDE 02 — THE PROBLEM
     ============================================= -->
     <div class="slide" data-slide="2">
       <div class="rail"></div>
@@ -545,9 +400,7 @@ body {
     </div>
 
     <!-- =============================================
-         SLIDE 03 — WHY NOW (the timing moat)
-         Specific technical + regulatory shifts.
-         Investors want surgical "why now", not general trends.
+         SLIDE 03 — WHY NOW
     ============================================= -->
     <div class="slide" data-slide="3">
       <div class="rail"></div>
@@ -575,7 +428,7 @@ body {
             <div class="tl-item">
               <div class="tl-date">MAR 2025</div>
               <div class="tl-dot"></div>
-              <div class="tl-text"><strong>NIST selects HQC as 5th PQC algorithm</strong> (non-lattice backup, final standard 2027). Compliance surface expands. VeriCrypt's conformance engine is designed for algorithm-agility.</div>
+              <div class="tl-text"><strong>NIST selects HQC as 5th PQC algorithm</strong> (non-lattice backup, final standard 2027). VeriCrypt's conformance engine is designed for algorithm-agility and already tracks HQC.</div>
             </div>
             <div class="tl-item">
               <div class="tl-date">JAN 2026</div>
@@ -590,12 +443,12 @@ body {
             <div class="tl-item">
               <div class="tl-date">2030</div>
               <div class="tl-dot"></div>
-              <div class="tl-text"><strong>EU deadline:</strong> All high-risk cryptographic systems migrated. IDC: 60% of orgs with digital sovereignty requirements will have migrated sensitive workloads. <strong>Enterprises that begin in 2026 finish in time. Those that begin in 2028 do not.</strong></div>
+              <div class="tl-text"><strong>EU hard deadline:</strong> All high-risk cryptographic systems migrated. IDC: 60% of orgs with digital sovereignty requirements will have migrated. <strong>Enterprises that begin in 2026 finish in time. Those that begin in 2028 do not.</strong></div>
             </div>
           </div>
           <div class="vc cyan" style="max-width:640px;">
             <div class="vc-t">McKinsey March 2026 global survey confirms:</div>
-            <div class="vc-b">"Sovereign AI has crossed from boardroom aspiration to procurement mandate. Enterprise interest is now widespread. The two biggest winners will be companies <strong>building sovereign solutions by design</strong> — not those retrofitting." The window for first-mover positioning closes within 12–24 months.</div>
+            <div class="vc-b">"Sovereign AI has crossed from boardroom aspiration to procurement mandate. The two biggest winners will be companies <strong>building sovereign solutions by design</strong> — not those retrofitting." The window for first-mover positioning closes within 12–24 months.</div>
           </div>
         </div>
       </div>
@@ -603,7 +456,6 @@ body {
 
     <!-- =============================================
          SLIDE 04 — THE SOLUTION
-         One diagram's worth of clarity. What it does mechanically.
     ============================================= -->
     <div class="slide" data-slide="4">
       <div class="rail"></div>
@@ -639,31 +491,19 @@ body {
               <div class="sec-lbl">Five sovereign systems, one platform</div>
               <div style="display:flex;flex-direction:column;gap:8px;">
                 <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:14px 16px;">
-                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                    <span style="font-size:13px;font-weight:700;color:var(--white);">Cortex</span>
-                    <span class="sys-pill sp-cx">Sovereign AI OS</span>
-                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:13px;font-weight:700;color:var(--white);">Cortex</span><span class="sys-pill sp-cx">Sovereign AI OS</span></div>
                   <div style="font-size:12px;color:var(--muted);">Replaces SAP, Oracle, Salesforce — invisibly, without vendor detection. Zero external calls.</div>
                 </div>
                 <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:14px 16px;">
-                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                    <span style="font-size:13px;font-weight:700;color:var(--white);">VeriCrypt</span>
-                    <span class="sys-pill sp-vc">PQC Compliance</span>
-                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:13px;font-weight:700;color:var(--white);">VeriCrypt</span><span class="sys-pill sp-vc">PQC Compliance</span></div>
                   <div style="font-size:12px;color:var(--muted);">Machine-provable PQC conformance artefacts for regulators. Runs fully air-gapped. 49 checks passing.</div>
                 </div>
                 <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:14px 16px;">
-                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                    <span style="font-size:13px;font-weight:700;color:var(--white);">VeriChain</span>
-                    <span class="sys-pill sp-ch">AgentFi L1</span>
-                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:13px;font-weight:700;color:var(--white);">VeriChain</span><span class="sys-pill sp-ch">AgentFi L1</span></div>
                   <div style="font-size:12px;color:var(--muted);">Sovereign-native validator nodes. Agents earn Bitcoin over Lightning. NANOZK proofs: 5.5KB, 24ms.</div>
                 </div>
                 <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:14px 16px;">
-                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                    <span style="font-size:13px;font-weight:700;color:var(--white);">Verity</span>
-                    <span class="sys-pill sp-vb">Core Banking OS</span>
-                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:13px;font-weight:700;color:var(--white);">Verity</span><span class="sys-pill sp-vb">Core Banking OS</span></div>
                   <div style="font-size:12px;color:var(--muted);">7-day bank migration. TLA+ verified ledger. 328 BIAN v14 domains. Runs inside the bank's perimeter.</div>
                 </div>
               </div>
@@ -675,9 +515,6 @@ body {
 
     <!-- =============================================
          SLIDE 05 — DEFENSIBLE MOAT
-         Research: moat slide does 30% of underwriting in 2026.
-         a16z and Lightspeed de-rate "proprietary AI" as meaningless.
-         Must be specific. Must address the wrapper risk.
     ============================================= -->
     <div class="slide" data-slide="5">
       <div class="rail"></div>
@@ -694,15 +531,15 @@ body {
           <div class="card-grid cols-2" style="margin-bottom:20px;">
             <div class="vc cyan">
               <div class="vc-t">① Architectural moat — the compiler</div>
-              <div class="vc-b">ASL (seedc + seedvm) is the only formally-specified AI agent compiler with P1–P8 compile-time safety invariants and air-gapped runtime. <strong>No competitor can ship this in 18 months</strong> — it requires formal verification expertise that takes years to build. This is the world-first.</div>
+              <div class="vc-b">ASL (seedc + seedvm) is the only formally-specified AI agent compiler with P1–P8 compile-time safety invariants and air-gapped runtime. <strong>No competitor can ship this in 18 months</strong> — it requires formal verification expertise that takes years to build.</div>
             </div>
             <div class="vc green">
               <div class="vc-t">② Standards depth — machine-provable compliance</div>
-              <div class="vc-b">VeriCrypt holds arc42 96/100 with 49 active conformance checks, Master Build 9/9, and native CBOM generation. No competitor covers <strong>DORA + NIST PQC + NIS2 + SCITT + PQFIF</strong> from a single formally-verified engine. Each is a separate contract.</div>
+              <div class="vc-b">VeriCrypt holds arc42 96/100 with 49 active conformance checks, Master Build 9/9, and native CBOM generation. No competitor covers <strong>DORA + NIST PQC + NIS2 + SCITT + PQFIF</strong> from a single formally-verified engine.</div>
             </div>
             <div class="vc amber">
               <div class="vc-t">③ Migration lock-in — structural, not contractual</div>
-              <div class="vc-b">Enterprise PQC migrations take 5–15 years. Banks that begin their migration on Verity will not switch core banking systems mid-migration. <strong>First-mover lock-in is architectural</strong> — once formally-verified proofs are anchored to a production ledger, switching costs are existential.</div>
+              <div class="vc-b">Enterprise PQC migrations take 5–15 years. Banks that begin on Verity will not switch mid-migration. <strong>First-mover lock-in is architectural</strong> — once formally-verified proofs are anchored to a production ledger, switching costs are existential.</div>
             </div>
             <div class="vc purple">
               <div class="vc-t">④ Wrapper immunity — no model dependency</div>
@@ -718,9 +555,7 @@ body {
     </div>
 
     <!-- =============================================
-         SLIDE 06 — MARKET SIZE (bottoms-up)
-         Research: investors de-rate top-down TAM immediately.
-         Show bottoms-up math: X customers × Y price = Z.
+         SLIDE 06 — MARKET SIZE
     ============================================= -->
     <div class="slide" data-slide="6">
       <div class="rail"></div>
@@ -732,24 +567,24 @@ body {
           </div>
           <div class="h2">Bottoms-up. <em>Beachhead → platform → sovereign economy.</em></div>
           <p class="lead" style="margin-bottom:22px;">
-            Not a TAM slide. A customer count × price × penetration model — the only market sizing VCs trust in 2026.
+            Not a TAM slide. A customer count × price × penetration model — the only market sizing that holds up in diligence.
           </p>
           <div class="card-grid cols-3" style="margin-bottom:20px;">
             <div class="vc cyan">
               <div class="vc-t">Beachhead — VeriCrypt</div>
               <div class="vc-b">
-                <strong>~5,000</strong> EU DORA-subject fintechs (payment institutions, e-money, investment firms)<br><br>
+                <strong>~5,000</strong> EU DORA-subject fintechs<br><br>
                 × <strong>€125K avg</strong> (Tier 1 engagement)<br><br>
-                = <strong>€625M SAM</strong> — beachhead alone, before banks<br><br>
-                Win rate needed for €3M ARR: <strong>24 customers</strong>
+                = <strong>€625M SAM</strong> — beachhead alone<br><br>
+                Win rate for €3M ARR: <strong>24 customers</strong>
               </div>
             </div>
             <div class="vc green">
               <div class="vc-t">Expand — Full DORA universe</div>
               <div class="vc-b">
-                <strong>21+</strong> DORA entity types including systemic banks<br><br>
-                Tier 2 (€200M–1B turnover): <strong>€450K/yr</strong><br>
-                Tier 3 (>€1B turnover): <strong>€1.8M–3.8M/yr</strong><br><br>
+                <strong>21+</strong> DORA entity types incl. systemic banks<br><br>
+                Tier 2 (€200M–1B): <strong>€450K/yr</strong><br>
+                Tier 3 (&gt;€1B): <strong>€1.8M–3.8M/yr</strong><br><br>
                 3 Tier-3 customers = <strong>€10M+ ARR</strong>
               </div>
             </div>
@@ -758,14 +593,14 @@ body {
               <div class="vc-b">
                 Cortex (enterprise AI OS): €180K/yr anchor<br>
                 Verity (core banking): €45K–€450K/yr<br>
-                VeriChain (AgentFi): validator fees + protocol revenue<br><br>
-                <strong>Platform play multiplies each beachhead customer 3–4×</strong>
+                VeriChain: validator fees + protocol revenue<br><br>
+                <strong>Platform multiplies each beachhead customer 3–4×</strong>
               </div>
             </div>
           </div>
           <div class="two-col-61" style="gap:24px;">
             <div>
-              <div class="sec-lbl">Why now creates urgency (demand pull, not push)</div>
+              <div class="sec-lbl">Why now creates demand pull, not push</div>
               <div class="tl">
                 <div class="tl-item">
                   <div class="tl-date">2025–27</div>
@@ -785,22 +620,10 @@ body {
               </div>
             </div>
             <div class="stat-grid cols-2">
-              <div class="si-stat hi">
-                <div class="ss-n">€18B</div>
-                <div class="ss-l">Cybersecurity VC funding 2025 (3-yr high)</div>
-              </div>
-              <div class="si-stat">
-                <div class="ss-n g">60%</div>
-                <div class="ss-l">Orgs migrating sovereign workloads by 2028 (IDC)</div>
-              </div>
-              <div class="si-stat">
-                <div class="ss-n a">3–4yr</div>
-                <div class="ss-l">Avg sovereign AI migration timeline (McKinsey)</div>
-              </div>
-              <div class="si-stat">
-                <div class="ss-n p">€37B</div>
-                <div class="ss-l">Enterprise gen-AI spend 2025 (20× in 2 years)</div>
-              </div>
+              <div class="si-stat hi"><div class="ss-n">€18B</div><div class="ss-l">Cybersecurity VC funding 2025 (3-yr high)</div></div>
+              <div class="si-stat"><div class="ss-n g">60%</div><div class="ss-l">Orgs migrating sovereign workloads by 2028 (IDC)</div></div>
+              <div class="si-stat"><div class="ss-n a">3–4yr</div><div class="ss-l">Avg sovereign AI migration timeline (McKinsey)</div></div>
+              <div class="si-stat"><div class="ss-n p">€37B</div><div class="ss-l">Enterprise gen-AI spend 2025 (20× in 2 years)</div></div>
             </div>
           </div>
         </div>
@@ -809,7 +632,6 @@ body {
 
     <!-- =============================================
          SLIDE 07 — TRACTION
-         Verifiable signals only. One number > five vague claims.
     ============================================= -->
     <div class="slide" data-slide="7">
       <div class="rail"></div>
@@ -824,65 +646,31 @@ body {
             At pre-revenue seed stage, the proof of traction is the depth and verifiability of the technical work. Here is what can be independently verified today.
           </p>
           <div class="stat-grid cols-4" style="margin-bottom:20px;">
-            <div class="si-stat hi">
-              <div class="ss-n">97/100</div>
-              <div class="ss-l">Highest arc42 score<br><span class="ss-sub">Verity, 22 versions</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n">96/100</div>
-              <div class="ss-l">VeriCrypt arc42<br><span class="ss-sub">8 world firsts documented</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n g">9/9</div>
-              <div class="ss-l">VeriCrypt master build<br><span class="ss-sub">All builds passing</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n g">49</div>
-              <div class="ss-l">Active conformance checks<br><span class="ss-sub">VeriCrypt, live</span></div>
-            </div>
+            <div class="si-stat hi"><div class="ss-n">97/100</div><div class="ss-l">Highest arc42 score<br><span class="ss-sub">Verity, 22 versions</span></div></div>
+            <div class="si-stat hi"><div class="ss-n">96/100</div><div class="ss-l">VeriCrypt arc42<br><span class="ss-sub">8 world firsts documented</span></div></div>
+            <div class="si-stat hi"><div class="ss-n g">9/9</div><div class="ss-l">VeriCrypt master build<br><span class="ss-sub">All builds passing</span></div></div>
+            <div class="si-stat hi"><div class="ss-n g">49</div><div class="ss-l">Active conformance checks<br><span class="ss-sub">VeriCrypt, live</span></div></div>
           </div>
           <div class="two-col" style="margin-bottom:20px;">
             <div>
               <div class="sec-lbl">Verifiable technical milestones</div>
               <div style="display:flex;flex-direction:column;gap:8px;">
-                <div class="vc cyan"><div class="vc-t">ASL v15.2 — public, live</div><div class="vc-b">Full compiler + runtime + conformance suite published on GitHub under agentseedlanguage-cpu. <strong>Independently auditable today.</strong></div></div>
-                <div class="vc cyan"><div class="vc-t">162 architecture gaps closed — Verity</div><div class="vc-b">22 arc42 versions, each remediating specific gaps. Full audit trail in the public repository. <strong>No other solo-founder banking platform has this depth.</strong></div></div>
+                <div class="vc cyan"><div class="vc-t">ASL v15.2 — public, live</div><div class="vc-b">Full compiler + runtime + conformance suite published on GitHub. <strong>Independently auditable today.</strong></div></div>
+                <div class="vc cyan"><div class="vc-t">162 architecture gaps closed — Verity</div><div class="vc-b">22 arc42 versions, each remediating specific gaps. Full audit trail in the public repository. No other solo-founder banking platform has this depth.</div></div>
                 <div class="vc cyan"><div class="vc-t">VeriCrypt Master Build 9/9</div><div class="vc-b">All build milestones complete. 49 active conformance checks cover DORA, NIST PQC, NIS2, SCITT, PQFIF. <strong>Ready for first pilot engagement today.</strong></div></div>
               </div>
             </div>
             <div>
               <div class="sec-lbl">World firsts (8 documented, VeriCrypt alone)</div>
               <div style="display:flex;flex-direction:column;gap:6px;">
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">01</span>
-                  <span style="font-size:12.5px;color:var(--body);">Machine-provable, air-gapped PQC compliance artefacts (.pqc files)</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">02</span>
-                  <span style="font-size:12.5px;color:var(--body);">DORA + NIST PQC + NIS2 + SCITT in a single formally-verified engine</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">03</span>
-                  <span style="font-size:12.5px;color:var(--body);">Regulator-verifiable without accessing bank systems</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">04</span>
-                  <span style="font-size:12.5px;color:var(--body);">Formally-specified agent compiler with sovereign-native runtime (ASL)</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">05</span>
-                  <span style="font-size:12.5px;color:var(--body);">TLA+-verified core banking OS with 7-day migration proof (Verity)</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">+3</span>
-                  <span style="font-size:12.5px;color:var(--body);">See VeriCrypt Valuation Report for full 8-item world-firsts analysis</span>
-                </div>
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;">01</span><span style="font-size:12.5px;color:var(--body);">Machine-provable, air-gapped PQC compliance artefacts (.pqc files)</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;">02</span><span style="font-size:12.5px;color:var(--body);">DORA + NIST PQC + NIS2 + SCITT in a single formally-verified engine</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;">03</span><span style="font-size:12.5px;color:var(--body);">Regulator-verifiable without accessing bank systems</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;">04</span><span style="font-size:12.5px;color:var(--body);">Formally-specified agent compiler with sovereign-native runtime (ASL)</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;">05</span><span style="font-size:12.5px;color:var(--body);">TLA+-verified core banking OS with 7-day migration proof (Verity)</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">+3</span><span style="font-size:12.5px;color:var(--body);">See VeriCrypt Valuation Report for full 8-item world-firsts analysis</span></div>
               </div>
             </div>
-          </div>
-          <div class="vc amber">
-            <div class="vc-t">Pipeline signals (current)</div>
-            <div class="vc-b">Warm introduction pathway to CARICOM government ministries via 30-year enterprise relationship (former UWI CIO). Targeted outreach to EU fintech pilot cohort (DORA compliance as entry point). First customer target: EU-regulated fintech at €125K Starter engagement. <strong>Contact for pipeline details: dpramsajan@meeting-mind.com</strong></div>
           </div>
         </div>
       </div>
@@ -890,8 +678,6 @@ body {
 
     <!-- =============================================
          SLIDE 08 — COMPETITIVE LANDSCAPE
-         Matrix format. Show exactly where Intellica wins.
-         Address every major competitor honestly.
     ============================================= -->
     <div class="slide" data-slide="8">
       <div class="rail"></div>
@@ -902,9 +688,7 @@ body {
             <div class="s-eye-right">08 / 13</div>
           </div>
           <div class="h2">Where we win. <em>Where we don't. Why it matters.</em></div>
-          <p class="lead" style="margin-bottom:20px;">
-            No competitor claims are exaggerated. The matrix below reflects publicly verifiable capabilities as of June 2026.
-          </p>
+          <p class="lead" style="margin-bottom:20px;">No competitor claims are exaggerated. The matrix below reflects publicly verifiable capabilities as of June 2026.</p>
           <div style="overflow-x:auto;margin-bottom:20px;">
             <table class="matrix">
               <thead>
@@ -918,62 +702,13 @@ body {
                 </tr>
               </thead>
               <tbody>
-                <tr class="hi-row">
-                  <td>Formally-verified PQC conformance</td>
-                  <td class="ck">✓ Machine-provable</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                </tr>
-                <tr>
-                  <td>Air-gapped / sovereign-native</td>
-                  <td class="ck">✓ Architectural</td>
-                  <td class="cr">✗ Cloud-native</td>
-                  <td class="pa">△ Hardware only</td>
-                  <td class="pa">△ Partial</td>
-                  <td class="pa">△ HSM only</td>
-                </tr>
-                <tr class="hi-row">
-                  <td>DORA + NIST PQC + NIS2 + SCITT</td>
-                  <td class="ck">✓ All four</td>
-                  <td class="pa">△ 1–2 standards</td>
-                  <td class="pa">△ 1–2 standards</td>
-                  <td class="pa">△ NIST only</td>
-                  <td class="pa">△ NIST only</td>
-                </tr>
-                <tr>
-                  <td>Regulator-verifiable artefacts</td>
-                  <td class="ck">✓ .pqc files</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                </tr>
-                <tr class="hi-row">
-                  <td>Owned compiler / runtime stack</td>
-                  <td class="ck">✓ ASL (seedc + seedvm)</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                </tr>
-                <tr>
-                  <td>Cross-system platform (5 products)</td>
-                  <td class="ck">✓ One substrate</td>
-                  <td class="cr">✗ Point solution</td>
-                  <td class="cr">✗ Point solution</td>
-                  <td class="cr">✗ Point solution</td>
-                  <td class="cr">✗ Point solution</td>
-                </tr>
-                <tr class="hi-row">
-                  <td>Deployment topology</td>
-                  <td class="ck">✓ On-prem, air-gap, cloud-optional</td>
-                  <td class="cr">Cloud-only</td>
-                  <td class="pa">On-prem HSM</td>
-                  <td class="pa">Cloud + on-prem</td>
-                  <td class="pa">HSM + cloud</td>
-                </tr>
+                <tr class="hi-row"><td>Formally-verified PQC conformance</td><td class="ck">✓ Machine-provable</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td></tr>
+                <tr><td>Air-gapped / sovereign-native</td><td class="ck">✓ Architectural</td><td class="cr">✗ Cloud-native</td><td class="pa">△ Hardware only</td><td class="pa">△ Partial</td><td class="pa">△ HSM only</td></tr>
+                <tr class="hi-row"><td>DORA + NIST PQC + NIS2 + SCITT</td><td class="ck">✓ All four</td><td class="pa">△ 1–2 standards</td><td class="pa">△ 1–2 standards</td><td class="pa">△ NIST only</td><td class="pa">△ NIST only</td></tr>
+                <tr><td>Regulator-verifiable artefacts</td><td class="ck">✓ .pqc files</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td></tr>
+                <tr class="hi-row"><td>Owned compiler / runtime stack</td><td class="ck">✓ ASL (seedc + seedvm)</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td></tr>
+                <tr><td>Cross-system platform (5 products)</td><td class="ck">✓ One substrate</td><td class="cr">✗ Point solution</td><td class="cr">✗ Point solution</td><td class="cr">✗ Point solution</td><td class="cr">✗ Point solution</td></tr>
+                <tr class="hi-row"><td>Deployment topology</td><td class="ck">✓ On-prem, air-gap, cloud-optional</td><td class="cr">Cloud-only</td><td class="pa">On-prem HSM</td><td class="pa">Cloud + on-prem</td><td class="pa">HSM + cloud</td></tr>
               </tbody>
             </table>
           </div>
@@ -993,8 +728,6 @@ body {
 
     <!-- =============================================
          SLIDE 09 — BUSINESS MODEL
-         DORA-anchored pricing. VCs want to see CAC, LTV direction.
-         Show the recurring revenue logic.
     ============================================= -->
     <div class="slide" data-slide="9">
       <div class="rail"></div>
@@ -1006,53 +739,35 @@ body {
           </div>
           <div class="h2">Pricing anchored to <em>DORA fine exposure,</em> not to market convention.</div>
           <p class="lead" style="margin-bottom:22px;">
-            When your customer's alternative is a fine of up to 2% of global annual turnover, the pricing conversation is not about cost — it is about risk transfer. Every tier is priced as a fraction of the avoided fine.
+            When your customer's alternative is a fine of up to 2% of global annual turnover, the pricing conversation is not about cost — it is about risk transfer.
           </p>
           <div class="card-grid cols-3" style="margin-bottom:20px;">
             <div class="vc cyan">
               <div class="vc-t">Tier 1 — Fintech Starter</div>
-              <div class="vc-b">
-                <strong style="font-size:1.2rem;color:var(--cyan);">€125K / yr</strong><br><br>
-                Target: EU fintechs with €50–200M turnover<br>
-                DORA fine exposure: €1M–4M<br>
-                Pricing = ~6% of minimum fine exposure<br><br>
-                Includes: CBOM generation, DORA conformance report, NIST PQC audit, 49 checks, annual artefact refresh
-              </div>
+              <div class="vc-b"><strong style="font-size:1.2rem;color:var(--cyan);">€125K / yr</strong><br><br>EU fintechs, €50–200M turnover<br>Fine exposure: €1M–4M<br>Pricing = ~6% of minimum fine<br><br>CBOM, DORA report, NIST PQC audit, 49 checks, annual artefact refresh</div>
             </div>
             <div class="vc green">
               <div class="vc-t">Tier 2 — Mid-Market Bank</div>
-              <div class="vc-b">
-                <strong style="font-size:1.2rem;color:var(--green);">€450K / yr</strong><br><br>
-                Target: Banks with €200M–1B turnover<br>
-                DORA fine exposure: €4M–20M<br>
-                Pricing = ~3% of minimum fine exposure<br><br>
-                Includes: Tier 1 + NIS2 alignment, SCITT supply chain evidence, migration roadmap, quarterly artefacts
-              </div>
+              <div class="vc-b"><strong style="font-size:1.2rem;color:var(--green);">€450K / yr</strong><br><br>Banks, €200M–1B turnover<br>Fine exposure: €4M–20M<br>Pricing = ~3% of minimum fine<br><br>Tier 1 + NIS2, SCITT supply chain evidence, migration roadmap, quarterly artefacts</div>
             </div>
             <div class="vc amber">
               <div class="vc-t">Tier 3 — Systemically Important</div>
-              <div class="vc-b">
-                <strong style="font-size:1.2rem;color:var(--amber);">€1.8M–3.8M / yr</strong><br><br>
-                Target: G-SIBs, CSDs, CCPs, systemic institutions<br>
-                DORA fine exposure: €20M–400M+<br>
-                Pricing = &lt;1% of minimum fine exposure<br><br>
-                Includes: Tier 2 + PQFIF, regulator liaison support, bespoke algorithm tracking, dedicated SLA
-              </div>
+              <div class="vc-b"><strong style="font-size:1.2rem;color:var(--amber);">€1.8M–3.8M / yr</strong><br><br>G-SIBs, CSDs, CCPs<br>Fine exposure: €20M–400M+<br>Pricing = &lt;1% of minimum fine<br><br>Tier 2 + PQFIF, regulator liaison, bespoke algorithm tracking, dedicated SLA</div>
             </div>
           </div>
           <div class="two-col">
             <div>
               <div class="sec-lbl">Revenue model</div>
               <div style="display:flex;flex-direction:column;gap:8px;">
-                <div class="vc cyan"><div class="vc-t">Annual SaaS-equivalent (Sovereign-as-a-Service)</div><div class="vc-b">Recurring annual licence fee for compliance engine. <strong>Churn is structurally near-zero</strong>: switching mid-migration would void regulatory artefacts already submitted.</div></div>
-                <div class="vc green"><div class="vc-t">VeriWatch — monitoring layer (pipeline)</div><div class="vc-b">Continuous PQC posture monitoring as a recurring layer on top of the base engagement. Adds €25K–200K/yr per customer on renewal.</div></div>
-                <div class="vc amber"><div class="vc-t">Partner programme — channel expansion</div><div class="vc-b">Three-tier: Silver (referral), Gold (co-sell), Platinum (OEM). Targets EU Big Four, regional system integrators, and Thales channel partners.</div></div>
+                <div class="vc cyan"><div class="vc-t">Annual recurring licence (Sovereign-as-a-Service)</div><div class="vc-b">Recurring annual licence. <strong>Churn is structurally near-zero</strong>: switching mid-migration would void regulatory artefacts already submitted.</div></div>
+                <div class="vc green"><div class="vc-t">VeriWatch — monitoring layer (pipeline)</div><div class="vc-b">Continuous PQC posture monitoring. Adds €25K–200K/yr per customer on renewal.</div></div>
+                <div class="vc amber"><div class="vc-t">Partner programme — channel expansion</div><div class="vc-b">Silver (referral) → Gold (co-sell) → Platinum (OEM). EU Big Four, regional SIs, Thales channel partners.</div></div>
               </div>
             </div>
             <div>
-              <div class="sec-lbl">Unit economics direction (pre-revenue projections)</div>
+              <div class="sec-lbl">Unit economics direction</div>
               <div class="stat-grid cols-2" style="margin-bottom:12px;">
-                <div class="si-stat"><div class="ss-n">&lt;€15K</div><div class="ss-l">Estimated CAC (warm intro + compliance mandate)</div></div>
+                <div class="si-stat"><div class="ss-n">&lt;€15K</div><div class="ss-l">Estimated CAC (compliance mandate = demand pull)</div></div>
                 <div class="si-stat"><div class="ss-n g">8×+</div><div class="ss-l">LTV/CAC at Tier 1 (5-yr contract horizon)</div></div>
                 <div class="si-stat"><div class="ss-n a">~90%</div><div class="ss-l">Gross margin target (software + artefact delivery)</div></div>
                 <div class="si-stat"><div class="ss-n p">24</div><div class="ss-l">Customers to reach €3M ARR at blended Tier 1</div></div>
@@ -1155,8 +870,6 @@ body {
 
     <!-- =============================================
          SLIDE 11 — FINANCIALS & ASK
-         18-month model, use of funds, milestones.
-         Research: specific, defensible, milestone-to-Series-A.
     ============================================= -->
     <div class="slide" data-slide="11">
       <div class="rail"></div>
@@ -1167,57 +880,39 @@ body {
             <div class="s-eye-right">11 / 13</div>
           </div>
           <div class="h2"><em>€750,000</em> seed · 18-month runway · SAFE structure.</div>
-          <p class="lead" style="margin-bottom:20px;">
-            Every dollar tied to a milestone. Every milestone tied to the Series A trigger. <strong>No vanity projections.</strong>
-          </p>
+          <p class="lead" style="margin-bottom:20px;">Every dollar tied to a milestone. Every milestone tied to the Series A trigger. <strong>No vanity projections.</strong></p>
           <div class="two-col" style="margin-bottom:22px;">
             <div>
               <div class="sec-lbl">Use of funds — 18-month deployment</div>
               <div class="uof" style="margin-bottom:16px;">
-                <div class="uof-item">
-                  <div class="uof-label">Engineering &amp; Infrastructure</div>
-                  <div class="uof-track"><div class="uof-bar" style="width:40%;background:var(--cyan);"></div></div>
-                  <div class="uof-pct">40%</div>
-                </div>
-                <div class="uof-item">
-                  <div class="uof-label">Go-to-Market / Sales</div>
-                  <div class="uof-track"><div class="uof-bar" style="width:30%;background:var(--green);"></div></div>
-                  <div class="uof-pct">30%</div>
-                </div>
-                <div class="uof-item">
-                  <div class="uof-label">Legal / IP / Compliance</div>
-                  <div class="uof-track"><div class="uof-bar" style="width:20%;background:var(--amber);"></div></div>
-                  <div class="uof-pct">20%</div>
-                </div>
-                <div class="uof-item">
-                  <div class="uof-label">Operations / Admin</div>
-                  <div class="uof-track"><div class="uof-bar" style="width:10%;background:var(--purple);"></div></div>
-                  <div class="uof-pct">10%</div>
-                </div>
+                <div class="uof-item"><div class="uof-label">Engineering &amp; Infrastructure</div><div class="uof-track"><div class="uof-bar" style="width:40%;background:var(--cyan);"></div></div><div class="uof-pct">40%</div></div>
+                <div class="uof-item"><div class="uof-label">Go-to-Market / Sales</div><div class="uof-track"><div class="uof-bar" style="width:30%;background:var(--green);"></div></div><div class="uof-pct">30%</div></div>
+                <div class="uof-item"><div class="uof-label">Legal / IP / Compliance</div><div class="uof-track"><div class="uof-bar" style="width:20%;background:var(--amber);"></div></div><div class="uof-pct">20%</div></div>
+                <div class="uof-item"><div class="uof-label">Operations / Admin</div><div class="uof-track"><div class="uof-bar" style="width:10%;background:var(--purple);"></div></div><div class="uof-pct">10%</div></div>
               </div>
               <div class="sec-lbl">Round structure</div>
               <div style="display:flex;flex-direction:column;gap:6px;">
-                <div class="vc cyan"><div class="vc-t">Instrument: Post-money SAFE</div><div class="vc-b">Valuation cap: €6.25M (implied 12% dilution at €750K). Single cap, no MFN stacking. Standard YC SAFE terms. Fast close — no priced round complexity at this stage.</div></div>
-                <div class="vc green"><div class="vc-t">Option pool: 10% pre-money</div><div class="vc-b">Reserved for first 3 hires (engineering lead, EU enterprise sales, regulatory advisor). Fully disclosed in cap table.</div></div>
+                <div class="vc cyan"><div class="vc-t">Instrument: Post-money SAFE</div><div class="vc-b">Valuation cap: €6.25M (implied 12% dilution at €750K). Single cap, no MFN stacking. Standard YC SAFE terms. Fast close.</div></div>
+                <div class="vc green"><div class="vc-t">Option pool: 10% pre-money</div><div class="vc-b">Reserved for first 3 hires: engineering lead, EU enterprise sales, regulatory advisor. Fully disclosed in cap table.</div></div>
               </div>
             </div>
             <div>
-              <div class="sec-lbl">18-month milestones (milestone-to-Series-A logic)</div>
+              <div class="sec-lbl">18-month milestones → Series A</div>
               <div class="ml-grid" style="grid-template-columns:1fr;">
                 <div class="ml-card">
                   <div class="ml-month">Months 1–3</div>
                   <div class="ml-title">First paying customer</div>
-                  <div class="ml-desc">EU DORA-subject fintech at €125K Starter engagement. VeriCrypt deployed on-prem. First .pqc artefact submitted to regulator.</div>
+                  <div class="ml-desc">EU DORA-subject fintech at €125K Starter. VeriCrypt deployed on-prem. First .pqc artefact submitted to regulator.</div>
                 </div>
                 <div class="ml-card">
                   <div class="ml-month">Months 4–9</div>
                   <div class="ml-title">Provisional patent + 5 customers</div>
-                  <div class="ml-desc">Patent cluster filed on machine-provable compliance artefact methodology. 5 customers at blended €200K = €1M ARR. VeriWatch beta launched.</div>
+                  <div class="ml-desc">Patent cluster filed on machine-provable compliance methodology. 5 customers at blended €200K = €1M ARR. VeriWatch beta launched.</div>
                 </div>
                 <div class="ml-card">
                   <div class="ml-month">Months 10–18</div>
                   <div class="ml-title">Series A trigger</div>
-                  <div class="ml-desc">€3M ARR · 3 named Tier-2 contracts · 1 Caribbean government pilot (Cortex) · VeriWatch live on 3 customers → Series A at €30–50M pre-money.</div>
+                  <div class="ml-desc">€3M ARR · 3 named Tier-2 contracts · VeriWatch live on 3 customers → Series A at €30–50M pre-money.</div>
                 </div>
               </div>
             </div>
@@ -1234,8 +929,6 @@ body {
 
     <!-- =============================================
          SLIDE 12 — RISK REGISTER
-         Research: founders who show they understand risks
-         build more conviction than those who ignore them.
     ============================================= -->
     <div class="slide" data-slide="12">
       <div class="rail"></div>
@@ -1246,29 +939,27 @@ body {
             <div class="s-eye-right">12 / 13</div>
           </div>
           <div class="h2">Honest risks. <em>Specific mitigations.</em></div>
-          <p class="lead" style="margin-bottom:20px;">
-            VCs fund founders who see around corners, not founders who pretend risks don't exist. Here are the material risks and how they are managed.
-          </p>
+          <p class="lead" style="margin-bottom:20px;">VCs fund founders who see around corners, not founders who pretend risks don't exist.</p>
           <div class="card-grid cols-2">
             <div class="vc red">
               <div class="vc-t">⚠ Solo founder concentration risk</div>
-              <div class="vc-b"><strong>Risk:</strong> All IP and execution capability concentrated in one person.<br><br><strong>Mitigation:</strong> Fully documented arc42 architecture for all five systems. ASL is formally specified — a second engineer can build on it without the founder. First hire with €750K is an engineering lead. IP assigned to Delaware C-Corp.</div>
+              <div class="vc-b"><strong>Risk:</strong> All IP and execution capability in one person.<br><br><strong>Mitigation:</strong> Fully documented arc42 architecture for all five systems. ASL is formally specified — a second engineer can build on it without the founder. First hire with €750K is an engineering lead. IP assigned to Delaware C-Corp on formation.</div>
             </div>
             <div class="vc red">
               <div class="vc-t">⚠ Pre-revenue customer acquisition</div>
-              <div class="vc-b"><strong>Risk:</strong> No signed customers at close.<br><br><strong>Mitigation:</strong> Compliance mandate creates demand-pull (DORA is law, not preference). Warm intro network via former UWI CIO. VeriCrypt is production-ready today. First customer target is a 90-day close, not a 12-month one.</div>
+              <div class="vc-b"><strong>Risk:</strong> No signed customers at close.<br><br><strong>Mitigation:</strong> DORA is law, not preference — compliance mandate creates demand-pull that does not require a sales cycle in the conventional sense. VeriCrypt is production-ready today. First customer target is a 90-day close.</div>
             </div>
             <div class="vc amber">
               <div class="vc-t">⚡ Regulatory standard evolution</div>
-              <div class="vc-b"><strong>Risk:</strong> NIST adds new PQC algorithms; compliance requirements change.<br><br><strong>Mitigation:</strong> VeriCrypt's conformance engine is algorithm-agile by design (NIST HQC already tracked). ASL's formal specification makes adding new algorithm checks a low-complexity extension.</div>
+              <div class="vc-b"><strong>Risk:</strong> NIST adds new PQC algorithms; requirements change.<br><br><strong>Mitigation:</strong> VeriCrypt's conformance engine is algorithm-agile by design. NIST HQC already tracked. ASL's formal specification makes adding new algorithm checks a low-complexity extension.</div>
             </div>
             <div class="vc amber">
-              <div class="vc-t">⚡ Large incumbent response (Thales, IBM)</div>
-              <div class="vc-b"><strong>Risk:</strong> Thales or IBM builds a competing formally-verified compliance engine.<br><br><strong>Mitigation:</strong> Formal verification expertise takes 3–5 years to build. Intellica's 18-month head start + first customer lock-in + patent cluster creates a window. Thales acquiring VeriCrypt is also a base-case exit scenario.</div>
+              <div class="vc-t">⚡ Large incumbent response</div>
+              <div class="vc-b"><strong>Risk:</strong> Thales or IBM builds a competing formally-verified engine.<br><br><strong>Mitigation:</strong> Formal verification expertise takes 3–5 years to build from scratch. Intellica's 18-month head start + first customer lock-in + patent cluster creates a durable window. Thales acquiring VeriCrypt is also a base-case exit scenario.</div>
             </div>
             <div class="vc green">
               <div class="vc-t">✓ Geography risk — managed</div>
-              <div class="vc-b">Trinidad and Tobago base creates a unique positioning advantage (Caribbean sovereign AI voice) and is not a customer access barrier. All EU customer engagement is remote. Delaware C-Corp structure satisfies investor legal requirements.</div>
+              <div class="vc-b">Trinidad and Tobago base creates a unique positioning advantage — Caribbean sovereign AI voice — and is not a customer access barrier. All EU customer engagement is remote. Delaware C-Corp structure satisfies investor legal requirements globally.</div>
             </div>
             <div class="vc green">
               <div class="vc-t">✓ AI regulation risk — managed</div>
@@ -1280,8 +971,7 @@ body {
     </div>
 
     <!-- =============================================
-         SLIDE 13 — CLOSE / CALL TO ACTION
-         Clean, memorable, one clear next step.
+         SLIDE 13 — CLOSE
     ============================================= -->
     <div class="slide" data-slide="13">
       <div class="rail"></div>
@@ -1308,18 +998,9 @@ body {
           </p>
 
           <div class="stat-grid cols-3" style="max-width:560px;margin-bottom:32px;">
-            <div class="si-stat hi">
-              <div class="ss-n">€750K</div>
-              <div class="ss-l">Raise on SAFE<br><span class="ss-sub">€6.25M cap · 12% implied</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n g">€3M</div>
-              <div class="ss-l">ARR target in 18 months<br><span class="ss-sub">24 Tier-1 customers</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n a">€30–50M</div>
-              <div class="ss-l">Series A pre-money target<br><span class="ss-sub">On €3M ARR + 3 Tier-2</span></div>
-            </div>
+            <div class="si-stat hi"><div class="ss-n">€750K</div><div class="ss-l">Raise on SAFE<br><span class="ss-sub">€6.25M cap · 12% implied</span></div></div>
+            <div class="si-stat hi"><div class="ss-n g">€3M</div><div class="ss-l">ARR target in 18 months<br><span class="ss-sub">24 Tier-1 customers</span></div></div>
+            <div class="si-stat hi"><div class="ss-n a">€30–50M</div><div class="ss-l">Series A pre-money target<br><span class="ss-sub">On €3M ARR + 3 Tier-2</span></div></div>
           </div>
 
           <div class="card-grid cols-3" style="max-width:640px;margin-bottom:24px;">
@@ -1359,18 +1040,14 @@ body {
 
   </div><!-- /slides-vp -->
 
-  <!-- ============================
-       CONTROLS BAR
-  ============================ -->
+  <!-- CONTROLS BAR -->
   <div class="controls" role="navigation" aria-label="Slide navigation">
     <div class="ctrl-left">
       <span class="ctrl-brand">INTELLICA·AI</span>
       <span class="ctrl-brand" style="color:var(--border2);">·</span>
       <span class="ctrl-brand">CONFIDENTIAL</span>
     </div>
-
     <div class="ctrl-center" id="pips" role="tablist" aria-label="Go to slide"></div>
-
     <div class="ctrl-right">
       <button class="cb" id="prevBtn" onclick="navigate(-1)" aria-label="Previous slide">← Prev</button>
       <span class="slide-counter" id="counter" aria-live="polite">1 / 13</span>
@@ -1382,20 +1059,15 @@ body {
 </div><!-- /deck -->
 
 <script>
-// ============================
-// DECK ENGINE
-// ============================
 const TOTAL = 13;
 let current = 1;
 let animating = false;
 
-const slides  = () => document.querySelectorAll('.slide');
 const pipsEl  = document.getElementById('pips');
 const counter = document.getElementById('counter');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 
-// Build pips
 for(let i = 1; i <= TOTAL; i++){
   const b = document.createElement('button');
   b.className = 'pip' + (i === 1 ? ' active' : '');
@@ -1419,46 +1091,29 @@ function updateControls(){
 function goTo(n){
   if(animating || n === current || n < 1 || n > TOTAL) return;
   animating = true;
-
   const oldSlide = document.querySelector('.slide.active');
   const newSlide = document.querySelector('[data-slide="' + n + '"]');
   if(!newSlide){ animating = false; return; }
-
-  const dir = n > current ? 1 : -1;
-
-  // Prep incoming
-  newSlide.style.transform = 'translateX(' + (dir * 60) + 'px)';
+  oldSlide.classList.add('exit');
+  oldSlide.classList.remove('active');
+  newSlide.style.transform = 'translateX(' + (n > current ? 60 : -60) + 'px)';
   newSlide.style.opacity = '0';
   newSlide.classList.remove('exit');
-  newSlide.classList.remove('active');
-
   requestAnimationFrame(() => {
-    // Exit current
-    oldSlide.classList.add('exit');
-    oldSlide.classList.remove('active');
-
-    // Enter new
-    newSlide.style.transition = 'none';
     requestAnimationFrame(() => {
       newSlide.style.transition = '';
       newSlide.style.transform = '';
       newSlide.style.opacity = '';
       newSlide.classList.add('active');
     });
-
-    current = n;
-    updateControls();
-
-    setTimeout(() => {
-      oldSlide.classList.remove('exit');
-      animating = false;
-    }, 450);
   });
+  current = n;
+  updateControls();
+  setTimeout(() => { oldSlide.classList.remove('exit'); animating = false; }, 450);
 }
 
 function navigate(d){ goTo(current + d); }
 
-// Keyboard navigation
 document.addEventListener('keydown', e => {
   if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); navigate(1); }
   if(e.key === 'ArrowLeft'  || e.key === 'PageUp')   { e.preventDefault(); navigate(-1); }
@@ -1467,7 +1122,6 @@ document.addEventListener('keydown', e => {
   if(e.key === 'f' || e.key === 'F') toggleFS();
 });
 
-// Touch / swipe
 let tx = 0;
 document.getElementById('slidesVp').addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
 document.getElementById('slidesVp').addEventListener('touchend',   e => {
@@ -1475,13 +1129,9 @@ document.getElementById('slidesVp').addEventListener('touchend',   e => {
   if(Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
 }, {passive:true});
 
-// Fullscreen
 function toggleFS(){
-  if(!document.fullscreenElement){
-    document.documentElement.requestFullscreen().catch(()=>{});
-  } else {
-    document.exitFullscreen().catch(()=>{});
-  }
+  if(!document.fullscreenElement){ document.documentElement.requestFullscreen().catch(()=>{}); }
+  else { document.exitFullscreen().catch(()=>{}); }
 }
 
 updateControls();
