@@ -29,7 +29,6 @@ body.unlocked{overflow:auto}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:2px}
 ::selection{background:rgba(0,212,255,0.25);color:var(--white)}
 
-/* ===== SKIP LINK ===== */
 .skip-link{position:absolute;top:-100px;left:1rem;z-index:10000;background:var(--cyan);color:var(--black);padding:.5rem 1rem;border-radius:4px;font-weight:700;font-size:13px;text-decoration:none}
 .skip-link:focus{top:1rem}
 
@@ -66,20 +65,24 @@ body.unlocked{overflow:auto}
 .gate-legal{font-size:10.5px;color:var(--dim);text-align:center;margin-top:1rem;line-height:1.6}
 .form-error{color:var(--red);font-size:11px;margin-top:.25rem;display:none}
 .form-error.show{display:block}
+.signed-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.2);border-radius:20px;font-size:11px;color:var(--green);font-weight:600;margin-bottom:1rem}
 
 /* ===== MAIN CONTENT ===== */
 #main{filter:blur(8px);pointer-events:none;user-select:none;transition:filter .5s ease}
 #main.clear{filter:none;pointer-events:all;user-select:auto}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:54px}
-.nav-brand{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--white);letter-spacing:.08em;text-decoration:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:54px;gap:1rem}
+.nav-brand{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--white);letter-spacing:.08em;text-decoration:none;flex-shrink:0}
 .nav-brand span{color:var(--cyan)}
 .nav-links{display:flex;gap:1.25rem;align-items:center}
-.nav-links a{font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.nav-links a{font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s;white-space:nowrap}
 .nav-links a:hover{color:var(--cyan)}
-.nav-contact{display:flex;gap:.6rem}
-.nc-btn{font-size:11px;font-weight:600;padding:6px 12px;border-radius:3px;text-decoration:none;transition:all .15s;letter-spacing:.02em}
+.nav-links a.nav-deck{color:var(--cyan)}
+.nav-contact{display:flex;gap:.6rem;flex-shrink:0}
+.nc-btn{font-size:11px;font-weight:600;padding:6px 12px;border-radius:3px;text-decoration:none;transition:all .15s;letter-spacing:.02em;white-space:nowrap}
+.nc-deck{background:rgba(0,212,255,0.14);color:var(--cyan);border:1px solid rgba(0,212,255,0.35)}
+.nc-deck:hover{background:rgba(0,212,255,0.22)}
 .nc-email{background:rgba(0,212,255,0.1);color:var(--cyan);border:1px solid rgba(0,212,255,0.25)}
 .nc-email:hover{background:rgba(0,212,255,0.18)}
 .nc-wa{background:rgba(0,255,136,0.1);color:var(--green);border:1px solid rgba(0,255,136,0.25)}
@@ -116,6 +119,43 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96
 .hero-sub{font-size:16px;color:var(--body);line-height:1.74;max-width:640px;margin-bottom:1.6rem}
 .hero-sub strong{color:var(--white);font-weight:500}
 .hero-sub em{color:var(--green);font-style:normal}
+
+/* ===== PRIMARY DECK CTA — the signature hero element ===== */
+.deck-cta{
+  position:relative;
+  display:flex; align-items:center; gap:20px;
+  max-width:680px; margin-bottom:1.8rem;
+  padding:18px 24px;
+  background:linear-gradient(120deg,rgba(0,212,255,0.09),rgba(0,255,136,0.045));
+  border:1px solid rgba(0,212,255,0.3);
+  border-radius:8px;
+  text-decoration:none;
+  overflow:hidden;
+  transition:border-color .2s, transform .2s, box-shadow .2s;
+}
+.deck-cta:hover{ border-color:rgba(0,212,255,0.55); transform:translateY(-1px); box-shadow:0 8px 28px rgba(0,212,255,0.12); }
+.deck-cta::before{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(110deg,transparent 30%,rgba(0,212,255,0.08) 50%,transparent 70%);
+  background-size:200% 100%;
+  animation:sheen 5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes sheen{0%{background-position:200% 0}55%{background-position:200% 0}100%{background-position:-50% 0}}
+.deck-cta-icon{
+  width:46px;height:46px;border-radius:8px;flex-shrink:0;
+  background:rgba(0,212,255,0.12); border:1px solid rgba(0,212,255,0.3);
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+  position:relative; z-index:1;
+}
+.deck-cta-body{ flex:1; position:relative; z-index:1; min-width:0; }
+.deck-cta-eyebrow{ font-family:var(--font-mono); font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan); margin-bottom:3px; display:flex; align-items:center; gap:8px; }
+.deck-cta-eyebrow .pulse{ width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:sovpulse 2s ease-in-out infinite; }
+.deck-cta-title{ font-size:16px; font-weight:700; color:var(--white); margin-bottom:2px; }
+.deck-cta-sub{ font-size:11.5px; color:var(--muted); }
+.deck-cta-arrow{ font-size:1.3rem; color:var(--cyan); flex-shrink:0; position:relative; z-index:1; transition:transform .2s; }
+.deck-cta:hover .deck-cta-arrow{ transform:translateX(4px); }
+
 .proof-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden;max-width:520px;margin-bottom:1.6rem}
 .pi{background:var(--card);padding:14px 16px}
 .pi-n{font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--cyan);margin-bottom:3px;line-height:1}
@@ -201,6 +241,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96
 .sec-lead{font-size:15px;color:var(--body);line-height:1.72;max-width:640px;margin-bottom:2.5rem}
 .divider{border:none;border-top:1px solid var(--border);margin:0 2rem}
 
+/* DECK SECTION (mid-page reinforcement) */
+.deck-sec{ padding:3.5rem 2rem; max-width:1160px; margin:0 auto; }
+.deck-sec-card{
+  display:grid; grid-template-columns:1.1fr 0.9fr; gap:0;
+  background:var(--card); border:1px solid var(--border2); border-radius:10px;
+  overflow:hidden;
+}
+.deck-sec-left{ padding:2.5rem 2.5rem; }
+.deck-sec-right{
+  background:linear-gradient(150deg,rgba(0,212,255,0.08),rgba(0,255,136,0.03));
+  border-left:1px solid var(--border);
+  padding:2.5rem 2.5rem;
+  display:flex; flex-direction:column; justify-content:center; gap:14px;
+}
+.deck-sec-stat{ display:flex; align-items:baseline; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
+.deck-sec-stat:last-child{ border-bottom:none; }
+.deck-sec-stat-n{ font-family:var(--font-mono); font-size:1.1rem; font-weight:700; color:var(--cyan); flex-shrink:0; min-width:64px; }
+.deck-sec-stat-l{ font-size:12px; color:var(--muted); }
+
+@media(max-width:900px){ .deck-sec-card{ grid-template-columns:1fr; } .deck-sec-right{ border-left:none; border-top:1px solid var(--border); } }
+
 /* JOURNEY CARDS */
 .journey-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem}
 .jc{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.75rem;display:flex;flex-direction:column;gap:.875rem}
@@ -219,6 +280,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96
 .jc-links a:last-child{border-bottom:none}
 .jc-links a:hover{color:var(--cyan)}
 .jc-links a::before{content:'\2192 ';color:var(--dim)}
+.jc-links a.deck-link{color:var(--cyan);font-weight:600}
 
 /* PRODUCT GRID */
 .prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1.25rem;margin-bottom:2.5rem}
@@ -311,12 +373,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,10,14,0.96
 .ag-link:hover{border-color:var(--cyan);color:var(--cyan)}
 .ag-link strong{display:block;color:var(--white);margin-bottom:.15rem;font-size:12.5px}
 .ag-link span{font-size:11px;color:var(--dim)}
+.ag-link.deck-feature{ grid-column:1 / -1; border-color:rgba(0,212,255,0.3); background:linear-gradient(120deg,rgba(0,212,255,0.07),rgba(0,255,136,0.03)); }
+.ag-link.deck-feature strong{ color:var(--cyan); font-size:13.5px; }
 .access-contact{margin-top:1.25rem;padding:1rem;background:rgba(255,184,0,0.05);border:1px solid rgba(255,184,0,0.18);border-radius:5px;text-align:center;font-size:12px;color:var(--amber);line-height:1.65}
 .access-contact a{color:var(--cyan);text-decoration:none}
 .access-contact a:hover{text-decoration:underline}
 .dl-nda-btn{display:inline-flex;align-items:center;gap:6px;margin-top:.75rem;font-size:12px;color:var(--cyan);background:none;border:1px solid rgba(0,212,255,0.2);padding:8px 16px;border-radius:4px;cursor:pointer;transition:all .15s}
 .dl-nda-btn:hover{background:rgba(0,212,255,0.08)}
-.signed-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.2);border-radius:20px;font-size:11px;color:var(--green);font-weight:600;margin-bottom:1rem}
 
 /* FOOTER */
 footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;font-size:11px}
@@ -327,7 +390,7 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
 
 /* ===== PRINT ===== */
 @media print{
-  #gate,nav,.cta-btns,.contact-grid,.team-contact,.skip-link{display:none!important}
+  #gate,nav,.cta-btns,.contact-grid,.team-contact,.skip-link,.deck-cta{display:none!important}
   #main{filter:none!important;pointer-events:all!important;user-select:auto!important}
   body{overflow:auto!important;font-size:11pt;color:#000;background:#fff}
   .hero{min-height:auto;padding:1.5cm 1cm 1cm}
@@ -374,6 +437,7 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
   .form-row{grid-template-columns:1fr}
   .sov-band-grid{grid-template-columns:1fr}
   .proof-strip{max-width:100%}
+  .deck-cta{flex-direction:column;align-items:flex-start;gap:12px}
 }
 @media(max-width:600px){
   .val-grid{grid-template-columns:1fr 1fr}
@@ -400,7 +464,6 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
     </div>
     <div class="gate-body">
 
-      <!-- NDA FORM -->
       <div id="ndaForm">
         <div class="nda-scroll" tabindex="0" aria-label="Non-Disclosure Agreement text">
           <h4>NON-DISCLOSURE AGREEMENT</h4>
@@ -456,7 +519,6 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
         <p class="gate-legal">Questions before signing? Contact Damain Peter Ramsajan: dpramsajan@meeting-mind.com &middot; +1 868 719 5236</p>
       </div>
 
-      <!-- ACCESS GRANTED PANEL -->
       <div class="access-panel" id="accessGranted" role="region" aria-label="Access granted">
         <div class="access-head">
           <span class="access-tick" aria-hidden="true">&#10003;</span>
@@ -470,7 +532,7 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
           &#128196; Download Signed NDA (PDF)
         </button>
         <div class="access-grid">
-          <a class="ag-link" href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener"><strong>Investor Pitch Deck — Interactive</strong> <span>13 slides · Sovereign thesis · Full narrative</span></a>
+          <a class="ag-link deck-feature" href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener"><strong>&#9656; Investor Pitch Deck — Interactive (Start Here)</strong><span>13 slides · Sovereign thesis · Full narrative · Arrow keys or swipe to navigate</span></a>
           <a class="ag-link" href="https://agentseedlanguage-cpu.github.io/agentseed/landing/" target="_blank" rel="noopener"><strong>ASL Platform &mdash; Official Landing</strong><span>Language docs, getting started, safety invariants</span></a>
           <a class="ag-link" href="https://github.com/agentseedlanguage-cpu/agentseed" target="_blank" rel="noopener"><strong>ASL &mdash; Full Source Repository</strong><span>seedc compiler &middot; seedvm runtime &middot; v15.2</span></a>
           <a class="ag-link" href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener"><strong>Cortex Valuation Report</strong><span>arc42 92/100 &middot; &euro;6.8B base &middot; Full analysis</span></a>
@@ -505,7 +567,7 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
 <nav role="navigation" aria-label="Main navigation">
   <a href="#" class="nav-brand" aria-label="Intellica AI home">INTELLICA<span>·AI</span></a>
   <div class="nav-links">
-    <a class="ag-link" href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener"><strong>Investor Pitch Deck — Interactive</strong> <span>13 slides · Sovereign thesis · Full narrative</span></a>
+    <a href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener" class="nav-deck">&#9656; Pitch Deck</a>
     <a href="#journey">Investor Paths</a>
     <a href="#systems">Five Systems</a>
     <a href="#team">Founder</a>
@@ -513,6 +575,7 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
     <a href="#cta">Contact</a>
   </div>
   <div class="nav-contact">
+    <a href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener" class="nc-btn nc-deck">&#9656; Deck</a>
     <a href="mailto:dpramsajan@meeting-mind.com" class="nc-btn nc-email">&#9993; Email</a>
     <a href="https://wa.me/18687195236" target="_blank" rel="noopener" class="nc-btn nc-wa">&#128172; WhatsApp</a>
   </div>
@@ -562,6 +625,17 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
       Built as the world pivots to <em>sovereign everything</em> &mdash; driven by DORA data residency,
       EU AI Act, NIS2, and the collapse of trust in shared infrastructure.
     </p>
+
+    <!-- PRIMARY DECK CTA — first thing investors should act on after the headline -->
+    <a href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener" class="deck-cta" aria-label="Open the interactive investor pitch deck, 13 slides">
+      <div class="deck-cta-icon" aria-hidden="true">&#9656;</div>
+      <div class="deck-cta-body">
+        <div class="deck-cta-eyebrow"><span class="pulse" aria-hidden="true"></span>Start Here &middot; 4-Minute Read</div>
+        <div class="deck-cta-title">Open the Interactive Investor Pitch Deck</div>
+        <div class="deck-cta-sub">13 slides &middot; The sovereign thesis, the moat, the ask &mdash; in the order investors actually read it</div>
+      </div>
+      <div class="deck-cta-arrow" aria-hidden="true">&#8594;</div>
+    </a>
 
     <div class="proof-strip" aria-label="Key technical metrics">
       <div class="pi">
@@ -653,6 +727,26 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
   </div>
 </div>
 
+<!-- DECK REINFORCEMENT SECTION -->
+<div class="deck-sec">
+  <div class="deck-sec-card">
+    <div class="deck-sec-left">
+      <div class="sec-eye">The Fastest Path In</div>
+      <h2 class="sec-h" style="margin-bottom:.75rem">Read the deck. <em>Then come back for depth.</em></h2>
+      <p style="font-size:14px;color:var(--body);line-height:1.7;margin-bottom:1.5rem;max-width:480px">
+        The interactive pitch deck covers the problem, the timing, the moat, the market, and the ask in thirteen slides &mdash; the order an investor actually evaluates a deal in. Everything below this point in the data room is supporting depth: valuations, arc42 documents, and full source repositories for anyone who wants to verify the claims.
+      </p>
+      <a href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener" class="btn-p">&#9656; Open the Pitch Deck</a>
+    </div>
+    <div class="deck-sec-right">
+      <div class="deck-sec-stat"><div class="deck-sec-stat-n">01&ndash;04</div><div class="deck-sec-stat-l">Problem, why now, the solution, the moat</div></div>
+      <div class="deck-sec-stat"><div class="deck-sec-stat-n">05&ndash;08</div><div class="deck-sec-stat-l">Market sizing, traction, honest competitive matrix</div></div>
+      <div class="deck-sec-stat"><div class="deck-sec-stat-n">09&ndash;11</div><div class="deck-sec-stat-l">Business model, the founder, financials &amp; the ask</div></div>
+      <div class="deck-sec-stat"><div class="deck-sec-stat-n">12&ndash;13</div><div class="deck-sec-stat-l">Risk register, close &amp; next steps</div></div>
+    </div>
+  </div>
+</div>
+
 <!-- SOVEREIGN THESIS BAND -->
 <div class="sov-band" id="sovereign-thesis">
   <div class="sov-band-inner">
@@ -716,6 +810,7 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
       <div class="jc-title">Thales, IBM, SWIFT, Fiserv, Anthropic, Check Point, Dell, Palantir</div>
       <div class="jc-desc">You need IP defensibility, architecture depth, integration surface, and competitive gap analysis. Start with individual system valuations, then the arc42 documents for the system most relevant to your portfolio. Sovereign-first architecture means zero integration conflict with your existing air-gap requirements.</div>
       <div class="jc-links">
+        <a class="deck-link" href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener">&#9656; Investor Pitch Deck (start here)</a>
         <a href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">Cortex &mdash; Strategic Valuation (&euro;6.8B base)</a>
         <a href="https://intellica-15c.pages.dev/vcv" target="_blank" rel="noopener">VeriCrypt &mdash; IP &amp; Acquisition Rationale</a>
         <a href="https://intellica-15c.pages.dev/verichain_val" target="_blank" rel="noopener">VeriChain &mdash; ZK/AgentFi IP Depth</a>
@@ -727,13 +822,13 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
       <div class="jc-icon" aria-hidden="true">&#128200;</div>
       <div class="jc-type">VC / Financial Investor</div>
       <div class="jc-title">Seed, Series A, deep-tech fund, sovereign wealth, family office</div>
-      <div class="jc-desc">You need market size, revenue model, comparables, risk register, and the team story. The sovereign AI market is moving from boardroom policy to procurement mandate in 2026 — the timing is rare. Start with the full investor business plan, then the specific valuation reports.</div>
+      <div class="jc-desc">You need market size, revenue model, comparables, risk register, and the team story. The sovereign AI market is moving from boardroom policy to procurement mandate in 2026 — the timing is rare. Start with the pitch deck, then the full investor business plan and valuation reports.</div>
       <div class="jc-links">
+        <a class="deck-link" href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener">&#9656; Investor Pitch Deck (start here)</a>
         <a href="https://intellica-15c.pages.dev/investors" target="_blank" rel="noopener">VeriCrypt &mdash; Full Investor Business Plan</a>
         <a href="https://intellica-15c.pages.dev/icv" target="_blank" rel="noopener">Cortex &mdash; Palantir AIP comparable pitch</a>
         <a href="https://intellica-15c.pages.dev/verichain_val" target="_blank" rel="noopener">VeriChain &mdash; Lighter/$3B Opinion comparable</a>
         <a href="https://intellica-15c.pages.dev/verity_val" target="_blank" rel="noopener">Verity &mdash; Thought Machine comparable</a>
-        <a href="https://intellica-15c.pages.dev/" target="_blank" rel="noopener">Intellica &mdash; Company Overview</a>
       </div>
     </div>
     <div class="jc cust">
@@ -823,39 +918,40 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
 
 <hr class="divider">
 
+<!-- FOUNDER -->
 <div id="team" class="sec" aria-labelledby="team-heading">
   <div class="sec-eye">The Founder</div>
   <h2 class="sec-h" id="team-heading">Investors invest in <em>people first.</em></h2>
-  <p class="sec-lead">One founder. Every line of code. Thirty years of enterprise software experience. Two graduate degrees. A career built on a single question that the entire industry is only now learning to ask: why do people actually use — or refuse to use — the technology we build for them?</p>
+  <p class="sec-lead">One founder. Every line of code. Thirty years of enterprise software experience. Two graduate degrees. A career built on a single question that the entire industry is only now learning to ask: why do people actually use &mdash; or refuse to use &mdash; the technology we build for them?</p>
 
   <div class="team-card">
     <div class="team-avatar" aria-hidden="true">&#128104;&#8205;&#128187;</div>
     <div class="team-content">
 
       <div class="team-name">Damain Peter Ramsajan</div>
-      <div class="team-title">Founder &amp; Sole Author &mdash; Intellica AI INC</div>
+      <div class="team-title">Founder &amp; Sole Author &mdash; Intellica AI, Inc.</div>
 
       <div class="team-bio" style="display:flex;flex-direction:column;gap:1.4rem;margin-top:1.4rem;">
 
-        <p>Damain entered enterprise technology in 2000, in the immediate aftermath of the dot-net crash. The timing was not incidental — it was foundational. His first years in the industry, working at Trinidad Systems Limited and then at CommNett alongside certified experts from Cisco, Microsoft, and Network Appliance, were spent in an environment where customers had just watched billions evaporate on technology that never delivered measurable value. Hype had collapsed. What remained was a discipline that defined the cohort: find real, non-fluffy ways to deliver verifiable solutions to sceptical customers, or don't ship at all. That instinct has never left him.</p>
+        <p>Damain entered enterprise technology in 2000, in the immediate aftermath of the dot-net crash. The timing was not incidental &mdash; it was foundational. His first years in the industry, working at Trinidad Systems Limited and then at CommNett alongside certified experts from Cisco, Microsoft, and Network Appliance, were spent in an environment where customers had just watched billions evaporate on technology that never delivered measurable value. Hype had collapsed. What remained was a discipline that defined the cohort: find real, non-fluffy ways to deliver verifiable solutions to sceptical customers, or don't ship at all. That instinct has never left him.</p>
 
-        <p>By 2007 he had formalised that instinct into an MSc in Strategic Business IT at the University of Portsmouth, with a thesis on the acceptability and use of technology — specifically studying the adoption of IBM Maximo's Enterprise Asset Management implementation at BPTT, one of the largest energy operators in the region. His research sat squarely in the Technology Acceptance Model (TAM) tradition: the academic framework, originating with Davis (1989), that asks not <em>"does the technology work?"</em> but <em>"will users actually adopt it, and why?"</em> Perceived usefulness. Perceived ease of use. The gap between deployment and behaviour change. These were not peripheral questions for Damain — they were his intellectual foundation, applied to enterprise software at a major oil and gas operator, producing findings that practitioners in governance training and IT implementation could directly act on.</p>
+        <p>By 2007 he had formalised that instinct into an MSc in Strategic Business IT at the University of Portsmouth, with a thesis on the acceptability and use of technology &mdash; specifically studying the adoption of IBM Maximo's Enterprise Asset Management implementation at BPTT, one of the largest energy operators in the region. His research sat squarely in the Technology Acceptance Model (TAM) tradition: the academic framework, originating with Davis (1989), that asks not <em>"does the technology work?"</em> but <em>"will users actually adopt it, and why?"</em> Perceived usefulness. Perceived ease of use. The gap between deployment and behaviour change. These were not peripheral questions for Damain &mdash; they were his intellectual foundation, applied to enterprise software at a major oil and gas operator, producing findings that practitioners in governance training and IT implementation could directly act on.</p>
 
-        <p>That foundation shaped every engagement that followed. Working across energy sector, government, and enterprise clients on IT governance, architecture, and training initiatives, his roles always contained an architecture dimension — but always through the lens of the human adoption problem. A technically correct system that users don't adopt is not a delivered system. It is a liability with a user interface. He never forgot that.</p>
+        <p>That foundation shaped every engagement that followed. Working across energy sector, government, and enterprise clients on IT governance, architecture, and training initiatives, his roles always contained an architecture dimension &mdash; but always through the lens of the human adoption problem. A technically correct system that users don't adopt is not a delivered system. It is a liability with a user interface. He never forgot that.</p>
 
-        <p>In 2019, approaching 50, he travelled to Aston University in Birmingham to study a Postgraduate Diploma in Software Engineering, with a specific focus on engineering multi-agent systems. He has been building complex systems in Python, TypeScript, and Rust since — each one more architecturally rigorous than the last. The academic grounding in formal methods combined with thirty years of watching real users interact with real enterprise software produced something rare: a systems architect who simultaneously understands what formal correctness requires and what actual adoption demands. Those two things are usually held by different people. In Damain they are the same person.</p>
+        <p>In 2019, approaching 50, he travelled to Aston University in Birmingham to study a Postgraduate Diploma in Software Engineering, with a specific focus on engineering multi-agent systems. He has been building complex systems in Python, TypeScript, and Rust since &mdash; each one more architecturally rigorous than the last. The academic grounding in formal methods combined with thirty years of watching real users interact with real enterprise software produced something rare: a systems architect who simultaneously understands what formal correctness requires and what actual adoption demands. Those two things are usually held by different people. In Damain they are the same person.</p>
 
-        <p>The result is the Intellica portfolio. Every design decision across ASL, Cortex, VeriCrypt, VeriChain, and Verity reflects both constraints simultaneously. VeriCrypt's one-command CISO deployment model is a TAM decision — reduce perceived effort to zero so the adoption barrier disappears entirely. Cortex's natural language interface over SAP, Maximo, Salesforce, and Snowflake is a TAM decision — replace the interfaces users hate with the interface they already know. Verity's seven-day migration with cryptographic proof is a TAM decision — make the switching cost so low and the evidence so clear that no procurement committee can manufacture a reason to delay. Every system is formally verified. Every system is designed to be used.</p>
+        <p>The result is the Intellica portfolio. Every design decision across ASL, Cortex, VeriCrypt, VeriChain, and Verity reflects both constraints simultaneously. VeriCrypt's one-command deployment model is a TAM decision &mdash; reduce perceived effort to zero so the adoption barrier disappears entirely. Cortex's natural language interface over SAP, Maximo, Salesforce, and Snowflake is a TAM decision &mdash; replace the interfaces users hate with the interface they already know. Verity's seven-day migration with cryptographic proof is a TAM decision &mdash; make the switching cost so low and the evidence so clear that no procurement committee can manufacture a reason to delay. Every system is formally verified. Every system is designed to be used.</p>
 
-        <p>In 2026, <strong>42% of enterprise AI initiatives have been abandoned — more than double the prior year. Not because the models don't work. Because deployment and adoption are not the same thing, and most AI builders have never studied the difference.</strong> Damain studied it in 2007. He has been building for it ever since.</p>
+        <p>In 2026, <strong>42% of enterprise AI initiatives have been abandoned &mdash; more than double the prior year. Not because the models don't work. Because deployment and adoption are not the same thing, and most AI builders have never studied the difference.</strong> Damain studied it in 2007. He has been building for it ever since.</p>
 
-      </div><!-- /team-bio -->
+      </div>
 
       <div class="team-stats" style="margin-top:2rem;">
         <div class="ts-item"><div class="ts-num">2000</div><div class="ts-lbl">Entered enterprise tech — post dot-net crash, zero tolerance for hype</div></div>
         <div class="ts-item"><div class="ts-num">TAM</div><div class="ts-lbl">MSc thesis grounded in Technology Acceptance Model — 2007, University of Portsmouth</div></div>
         <div class="ts-item"><div class="ts-num">~30yr</div><div class="ts-lbl">Enterprise software experience across energy, government, finance &amp; telecoms</div></div>
-        <div class="ts-item"><div class="ts-num">2</div><div class="ts-lbl">Graduate degrees — MSc Strategic Business IT · PGDip Software Engineering (MAS)</div></div>
+        <div class="ts-item"><div class="ts-num">2</div><div class="ts-lbl">Graduate degrees — MSc Strategic Business IT &middot; PGDip Software Engineering (MAS)</div></div>
         <div class="ts-item"><div class="ts-num">5</div><div class="ts-lbl">Formally-specified production systems — sole author, every line of code</div></div>
         <div class="ts-item"><div class="ts-num">42%</div><div class="ts-lbl">Enterprise AI initiatives abandoned in 2025 — the adoption gap Damain has studied since 2007</div></div>
       </div>
@@ -868,9 +964,10 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
         <a href="https://vericrypt-7qp.pages.dev/dpr" target="_blank" rel="noopener" class="tc-btn tc-email">&#128196; Full Profile</a>
       </div>
 
-    </div><!-- /team-content -->
-  </div><!-- /team-card -->
-</div><!-- /team -->
+    </div>
+  </div>
+</div>
+
 <hr class="divider">
 
 <!-- REPOSITORIES -->
@@ -917,45 +1014,44 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
     </div>
   </div>
 
-<!-- ARC42 INDEX -->
-<div style="margin-bottom:1.5rem">
-  <div class="sec-eye" style="margin-bottom:1rem">arc42 Architecture Documents</div>
-  <p style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;max-width:640px">Complete arc42 architecture documentation for all six Intellica systems. Each document follows the arc42 template for software architecture communication and is independently maintained in its respective repository.</p>
-  <div class="arc-grid">
-    <a class="arc-link" href="https://github.com/agentseedlanguage-cpu/agentseed/blob/main/ASL_V_0_2_0_ARC42.md" target="_blank" rel="noopener">
-      <span class="arc-tag" style="background:rgba(255,68,68,0.12);color:var(--red)">ASL</span>
-      <span class="arc-text">Agent Seed Language — arc42 v0.2.0<span class="arc-sub">Language specification · P1–P8 compile-time safety invariants · seedc compiler &amp; seedvm runtime architecture</span></span>
-      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-    </a>
-    <a class="arc-link" href="https://github.com/intellica-ai-llc/cortex/blob/main/CORTEX_ARC42.md" target="_blank" rel="noopener">
-      <span class="arc-tag" style="background:rgba(168,85,247,0.13);color:var(--purple)">CX</span>
-      <span class="arc-text">Intellecta Cortex — arc42<span class="arc-sub">Sovereign AI execution substrate · VESSEL-governed agentic control plane · Strangler Fig enterprise absorption architecture</span></span>
-      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-    </a>
-    <a class="arc-link" href="https://github.com/DamainRamsajan/vericrypt/blob/main/VERICRYPT_ARC42.md?plain=1" target="_blank" rel="noopener">
-      <span class="arc-tag" style="background:rgba(0,212,255,0.12);color:var(--cyan)">VC</span>
-      <span class="arc-text">VeriCrypt — arc42<span class="arc-sub">Post-quantum cryptographic posture engine · Air-gapped compliance artefact generation · DORA &amp; NIST PQC architecture</span></span>
-      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-    </a>
-    <a class="arc-link" href="https://github.com/intellica-ai-llc/verichain/blob/main/VERICHAIN_ARC42.md" target="_blank" rel="noopener">
-      <span class="arc-tag" style="background:rgba(0,255,136,0.11);color:var(--green)">CH</span>
-      <span class="arc-text">VeriChain (DPD) — arc42<span class="arc-sub">Web4 AgentFi Layer-1 · ORCHID bio-inspired consensus · NANOZK layerwise proofs · Lightning settlement architecture</span></span>
-      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-    </a>
-    <a class="arc-link" href="https://github.com/intellica-ai-llc/verichain/blob/main/MAS_ARC42_ARCHITECTURE.md" target="_blank" rel="noopener">
-      <span class="arc-tag" style="background:rgba(245,158,11,0.12);color:var(--gold)">MAS</span>
-      <span class="arc-text">Multi-Agent System — arc42 (VeriChain Agents)<span class="arc-sub">Autonomous agent architecture for agents that earn and spend on VeriChain · Trustless decision marketplace · Agent-loop specification</span></span>
-      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-    </a>
-    <a class="arc-link" href="https://github.com/DamainRamsajan/verity-core-banking/blob/main/VERITY_ARC42.md" target="_blank" rel="noopener">
-      <span class="arc-tag" style="background:rgba(255,184,0,0.13);color:var(--amber)">VB</span>
-      <span class="arc-text">Verity Core Banking Platform — arc42<span class="arc-sub">Formally verified banking OS · TLA+ verified ledger · 7-day cryptographic migration · 328 BIAN v14.0 service domains</span></span>
-      <span class="arc-arrow" aria-hidden="true">&#8599;</span>
-    </a>
+  <div style="margin-bottom:1.5rem">
+    <div class="sec-eye" style="margin-bottom:1rem">arc42 Architecture Documents</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;max-width:640px">Complete arc42 architecture documentation for all six Intellica systems. Each document follows the arc42 template for software architecture communication and is independently maintained in its respective repository.</p>
+    <div class="arc-grid">
+      <a class="arc-link" href="https://github.com/agentseedlanguage-cpu/agentseed/blob/main/ASL_V_0_2_0_ARC42.md" target="_blank" rel="noopener">
+        <span class="arc-tag" style="background:rgba(255,68,68,0.12);color:var(--red)">ASL</span>
+        <span class="arc-text">Agent Seed Language — arc42 v0.2.0<span class="arc-sub">Language specification &middot; P1&ndash;P8 compile-time safety invariants &middot; seedc compiler &amp; seedvm runtime architecture</span></span>
+        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+      </a>
+      <a class="arc-link" href="https://github.com/intellica-ai-llc/cortex/blob/main/CORTEX_ARC42.md" target="_blank" rel="noopener">
+        <span class="arc-tag" style="background:rgba(168,85,247,0.13);color:var(--purple)">CX</span>
+        <span class="arc-text">Intellecta Cortex — arc42<span class="arc-sub">Sovereign AI execution substrate &middot; VESSEL-governed agentic control plane &middot; Strangler Fig enterprise absorption architecture</span></span>
+        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+      </a>
+      <a class="arc-link" href="https://github.com/DamainRamsajan/vericrypt/blob/main/VERICRYPT_ARC42.md?plain=1" target="_blank" rel="noopener">
+        <span class="arc-tag" style="background:rgba(0,212,255,0.12);color:var(--cyan)">VC</span>
+        <span class="arc-text">VeriCrypt — arc42<span class="arc-sub">Post-quantum cryptographic posture engine &middot; Air-gapped compliance artefact generation &middot; DORA &amp; NIST PQC architecture</span></span>
+        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+      </a>
+      <a class="arc-link" href="https://github.com/intellica-ai-llc/verichain/blob/main/VERICHAIN_ARC42.md" target="_blank" rel="noopener">
+        <span class="arc-tag" style="background:rgba(0,255,136,0.11);color:var(--green)">CH</span>
+        <span class="arc-text">VeriChain (DPD) — arc42<span class="arc-sub">Web4 AgentFi Layer-1 &middot; ORCHID bio-inspired consensus &middot; NANOZK layerwise proofs &middot; Lightning settlement architecture</span></span>
+        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+      </a>
+      <a class="arc-link" href="https://github.com/intellica-ai-llc/verichain/blob/main/MAS_ARC42_ARCHITECTURE.md" target="_blank" rel="noopener">
+        <span class="arc-tag" style="background:rgba(245,158,11,0.12);color:var(--gold)">MAS</span>
+        <span class="arc-text">Multi-Agent System — arc42 (VeriChain Agents)<span class="arc-sub">Autonomous agent architecture for agents that earn and spend on VeriChain &middot; Trustless decision marketplace &middot; Agent-loop specification</span></span>
+        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+      </a>
+      <a class="arc-link" href="https://github.com/DamainRamsajan/verity-core-banking/blob/main/VERITY_ARC42.md" target="_blank" rel="noopener">
+        <span class="arc-tag" style="background:rgba(255,184,0,0.13);color:var(--amber)">VB</span>
+        <span class="arc-text">Verity Core Banking Platform — arc42<span class="arc-sub">Formally verified banking OS &middot; TLA+ verified ledger &middot; 7-day cryptographic migration &middot; 328 BIAN v14.0 service domains</span></span>
+        <span class="arc-arrow" aria-hidden="true">&#8599;</span>
+      </a>
+    </div>
   </div>
 </div>
 </div>
-
 <hr class="divider">
 
 <!-- CTA -->
@@ -965,7 +1061,8 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
     <h2 class="cta-h" id="cta-heading">Let's talk. Damain responds within 24 hours.</h2>
     <p class="cta-p">Whether you're evaluating one system or the entire sovereign portfolio, the fastest path forward is a 30-minute live briefing. Damain will walk through the architecture, the valuation, and your specific area of interest &mdash; no slides, just the systems and the numbers.</p>
     <div class="cta-btns">
-      <a href="https://calendly.com/peterdramsajan/30min" target="_blank" rel="noopener" class="btn-p">&#128197; Book 30-Minute Briefing</a>
+      <a href="https://intellica-15c.pages.dev/pitch.html" target="_blank" rel="noopener" class="btn-p">&#9656; Open the Pitch Deck</a>
+      <a href="https://calendly.com/peterdramsajan/30min" target="_blank" rel="noopener" class="btn-s">&#128197; Book 30-Minute Briefing</a>
       <a href="mailto:dpramsajan@meeting-mind.com" class="btn-s">&#9993; Send Email</a>
     </div>
     <div class="contact-grid">
@@ -998,9 +1095,6 @@ footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-cont
 </div><!-- /main -->
 
 <script>
-// =====================================================
-// GOOGLE FORM CONFIGURATION
-// =====================================================
 const GOOGLE_FORM_ID = 'YOUR_GOOGLE_FORM_ID_HERE';
 const FORM_FIELDS = {
   name:  'entry.YOUR_NAME_FIELD_ID',
@@ -1011,11 +1105,7 @@ const FORM_FIELDS = {
   ts:    'entry.YOUR_TIMESTAMP_FIELD_ID'
 };
 const BACKUP_EMAIL = 'dpramsajan@meeting-mind.com';
-// =====================================================
 
-// =====================================================
-// SESSION PERSISTENCE
-// =====================================================
 const STORAGE_KEY = 'intellica_nda_signed';
 const REMEMBER_DAYS = 30;
 let signedNDAData = null;
@@ -1075,15 +1165,10 @@ function escapeHTML(str){
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
 }
-// =====================================================
 
-// =====================================================
-// INIT — DOM-READY EVENT LISTENERS
-// =====================================================
 function initListeners(){
   var signBtn = document.getElementById('signBtn');
   var agreeCb = document.getElementById('g-agree');
-
   if(signBtn && agreeCb){
     agreeCb.addEventListener('change', function(){
       signBtn.disabled = !this.checked;
@@ -1099,7 +1184,6 @@ if(document.readyState === 'loading'){
 } else {
   initListeners();
 }
-// =====================================================
 
 function signNDA(){
   const name  = document.getElementById('g-name').value.trim();
@@ -1129,7 +1213,6 @@ function signNDA(){
   const ref = 'NDA-' + Date.now().toString(36).toUpperCase();
   signedNDAData = { name, email, org, title, type, ts, ref };
 
-  // Session persistence
   const storageData = { name, ref, ts };
   if(remember){
     storageData.expires = new Date(Date.now() + REMEMBER_DAYS * 24 * 60 * 60 * 1000).toISOString();
@@ -1138,14 +1221,12 @@ function signNDA(){
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(storageData));
   }
 
-  // Save to localStorage for admin recovery
   try {
     const existing = JSON.parse(localStorage.getItem('intellica_nda_signings') || '[]');
     existing.push(signedNDAData);
     localStorage.setItem('intellica_nda_signings', JSON.stringify(existing));
   } catch(e){}
 
-  // Post to Google Form
   if(GOOGLE_FORM_ID !== 'YOUR_GOOGLE_FORM_ID_HERE'){
     const fd = new URLSearchParams();
     fd.append(FORM_FIELDS.name,  name);
@@ -1161,7 +1242,6 @@ function signNDA(){
     }).catch(function(){});
   }
 
-  // Fallback mailto
   try {
     const subject = encodeURIComponent('Intellica AI NDA Signed — ' + ref);
     const body = encodeURIComponent(
@@ -1180,7 +1260,6 @@ function signNDA(){
     }
   } catch(e){}
 
-  // Show access granted
   document.getElementById('ndaForm').style.display = 'none';
   document.getElementById('accessGranted').classList.add('show');
   document.getElementById('signedBadge').style.display = 'inline-flex';
@@ -1241,7 +1320,6 @@ function closeGate(){
   }, 100);
 }
 
-// Admin recovery
 if(window.location.search.includes('admin')){
   try {
     var signings = JSON.parse(localStorage.getItem('intellica_nda_signings') || '[]');

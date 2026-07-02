@@ -7,14 +7,14 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 /* ============================
    DESIGN TOKENS
    Palette: near-black / deep navy / electric cyan / verified green / caution amber
-   Type: Space Grotesk (display/body) + JetBrains Mono (data/code/labels)
-   Signature: The vertical "slide rail" — a glowing cyan left-spine that 
-   anchors every slide and signals both sovereign architecture and formal specification
+   Signature: the sovereign rail — a glowing cyan left-spine anchors every slide
+   New for this version: Instrument Serif for the hero pull-quote thesis moment;
+   upgraded contrast, tighter type scale, amber urgency accent
 ============================ */
 :root {
   --black:    #070B12;
@@ -24,7 +24,7 @@
   --border2:  #263352;
   --dim:      #374D6B;
   --muted:    #607090;
-  --body:     #9BAFC8;
+  --body:     #A8B8D0;
   --head:     #D8E6F5;
   --white:    #EDF4FF;
   --cyan:     #00CFFF;
@@ -32,9 +32,15 @@
   --amber:    #FFB800;
   --red:      #FF3D3D;
   --purple:   #9D6EFF;
+  --gold:     #F59E0B;
   --rail-w:   4px;
   --font-d:   'Space Grotesk', sans-serif;
   --font-m:   'JetBrains Mono', monospace;
+  --font-s:   'Instrument Serif', serif;
+  /* Spacing */
+  --nav-h:    54px;
+  --foot-h:   52px;
+  --ctrl-h:   54px;
   --ease:     cubic-bezier(0.22,1,0.36,1);
 }
 
@@ -44,19 +50,56 @@ body {
   height:100%; background:var(--black); color:var(--body);
   font-family:var(--font-d); font-size:15px; line-height:1.6;
   overflow:hidden; -webkit-font-smoothing:antialiased;
+  display:flex; flex-direction:column;
 }
 @media(prefers-reduced-motion:reduce){ *{ transition:none!important; animation:none!important; } }
 ::selection{ background:rgba(0,207,255,0.25); color:var(--white); }
 :focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; border-radius:2px; }
 
 /* ============================
+   DATA-ROOM NAV (top)
+============================ */
+.dr-nav {
+  height:var(--nav-h);
+  background:rgba(7,11,18,0.98);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 20px;
+  flex-shrink:0;
+  z-index:200;
+  -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+}
+.nav-brand {
+  font-family:var(--font-m); font-size:13px; font-weight:700;
+  color:var(--white); letter-spacing:.08em; text-decoration:none; flex-shrink:0;
+}
+.nav-brand span { color:var(--cyan); }
+.nav-links { display:flex; gap:1.25rem; align-items:center; }
+.nav-links a {
+  font-size:11px; font-weight:500; letter-spacing:.06em; color:var(--muted);
+  text-decoration:none; text-transform:uppercase; transition:color .2s; white-space:nowrap;
+}
+.nav-links a:hover { color:var(--cyan); }
+.nav-contact { display:flex; gap:.5rem; flex-shrink:0; }
+.nc-btn {
+  font-size:11px; font-weight:600; padding:5px 11px; border-radius:3px;
+  text-decoration:none; transition:all .15s; letter-spacing:.02em; white-space:nowrap;
+}
+.nc-email { background:rgba(0,207,255,0.1); color:var(--cyan); border:1px solid rgba(0,207,255,0.25); }
+.nc-email:hover { background:rgba(0,207,255,0.18); }
+.nc-wa    { background:rgba(0,240,120,0.1); color:var(--green); border:1px solid rgba(0,240,120,0.25); }
+.nc-wa:hover    { background:rgba(0,240,120,0.18); }
+.nc-cal   { background:rgba(157,110,255,0.1); color:var(--purple); border:1px solid rgba(157,110,255,0.25); }
+.nc-cal:hover   { background:rgba(157,110,255,0.18); }
+
+/* ============================
    DECK SHELL
 ============================ */
 .deck {
-  width:100vw; height:100vh;
+  flex:1;
   display:grid;
   grid-template-rows:1fr auto;
-  grid-template-columns:1fr;
+  overflow:hidden;
 }
 
 /* ============================
@@ -68,7 +111,6 @@ body {
   height:100%;
 }
 
-/* Individual slide */
 .slide {
   position:absolute; inset:0;
   display:grid;
@@ -78,63 +120,53 @@ body {
   transition:opacity 0.42s var(--ease), transform 0.42s var(--ease);
 }
 .slide.active {
-  opacity:1; pointer-events:all;
-  transform:translateX(0);
+  opacity:1; pointer-events:all; transform:translateX(0);
 }
 .slide.exit {
-  opacity:0;
-  transform:translateX(-60px);
-  pointer-events:none;
+  opacity:0; transform:translateX(-60px); pointer-events:none;
 }
 
-/* The sovereign rail — the signature element */
+/* The sovereign rail */
 .rail {
   width:var(--rail-w);
-  background:linear-gradient(180deg,
-    transparent 0%,
-    var(--cyan) 20%,
-    var(--cyan) 80%,
-    transparent 100%
-  );
+  background:linear-gradient(180deg,transparent 0%,var(--cyan) 20%,var(--cyan) 80%,transparent 100%);
   box-shadow:0 0 18px rgba(0,207,255,0.45), 0 0 48px rgba(0,207,255,0.15);
   flex-shrink:0;
 }
 
-/* Slide content area */
-.sc {
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  height:100%;
-  padding:0;
-  position:relative;
+/* Rail colour variants per slide type */
+.slide.slide-thesis .rail {
+  background:linear-gradient(180deg,transparent 0%,var(--amber) 20%,var(--cyan) 80%,transparent 100%);
+  box-shadow:0 0 18px rgba(255,184,0,0.35), 0 0 40px rgba(0,207,255,0.15);
 }
 
-/* Background grid overlay */
+.sc {
+  overflow:hidden; display:flex; flex-direction:column; height:100%; position:relative;
+}
+
+/* Background grid */
 .sc::before {
   content:''; position:absolute; inset:0;
   background-image:
-    linear-gradient(rgba(0,207,255,0.014) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,207,255,0.014) 1px,transparent 1px);
+    linear-gradient(rgba(0,207,255,0.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,207,255,0.012) 1px,transparent 1px);
   background-size:56px 56px;
   pointer-events:none; z-index:0;
 }
 
-/* Slide inner — sits above grid */
 .si {
   position:relative; z-index:1;
-  flex:1; display:flex;
-  flex-direction:column;
-  padding:48px 60px 32px 52px;
+  flex:1; display:flex; flex-direction:column;
+  padding:40px 56px 28px 48px;
   overflow:auto;
 }
 
 /* ============================
-   SLIDE CHROME — eyebrow + slide number
+   SLIDE EYEBROW
 ============================ */
 .s-eye {
   display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:36px;
+  margin-bottom:28px;
 }
 .s-eye-left {
   font-family:var(--font-m); font-size:10px; font-weight:500;
@@ -142,37 +174,48 @@ body {
   display:flex; align-items:center; gap:10px;
 }
 .s-eye-left::before {
-  content:''; display:block; width:24px; height:1px;
-  background:rgba(0,207,255,0.5);
+  content:''; display:block; width:24px; height:1px; background:rgba(0,207,255,0.5);
 }
 .s-eye-right {
-  font-family:var(--font-m); font-size:10px; color:var(--dim);
-  letter-spacing:.06em;
+  font-family:var(--font-m); font-size:10px; color:var(--dim); letter-spacing:.06em;
 }
 
 /* ============================
-   TYPOGRAPHY SCALE
+   TYPOGRAPHY
 ============================ */
 .display {
-  font-size:clamp(2.4rem,4.5vw,4rem);
-  font-weight:700; line-height:1.02;
+  font-size:clamp(2.2rem,4vw,3.6rem);
+  font-weight:700; line-height:1.04;
   letter-spacing:-0.03em; color:var(--white);
 }
 .display em { font-style:normal; color:var(--cyan); }
 .display .g  { color:var(--green); }
 .display .a  { color:var(--amber); }
 
+/* Instrument Serif pull-quote — the signature moment on Slide 1 */
+.thesis-line {
+  font-family:var(--font-s);
+  font-size:clamp(2.6rem,5vw,4.4rem);
+  font-style:italic;
+  font-weight:400;
+  line-height:1.08;
+  letter-spacing:-0.01em;
+  color:var(--white);
+}
+.thesis-line em { font-style:normal; color:var(--cyan); }
+.thesis-line .a { color:var(--amber); }
+
 .h2 {
-  font-size:clamp(1.5rem,2.8vw,2.4rem);
-  font-weight:700; line-height:1.08;
-  letter-spacing:-0.025em; color:var(--white);
-  margin-bottom:6px;
+  font-size:clamp(1.4rem,2.5vw,2.2rem);
+  font-weight:700; line-height:1.1;
+  letter-spacing:-0.025em; color:var(--white); margin-bottom:6px;
 }
 .h2 em { font-style:normal; color:var(--cyan); }
 .h2 .g { color:var(--green); }
+.h2 .a { color:var(--amber); }
 
 .lead {
-  font-size:16px; color:var(--body); line-height:1.72;
+  font-size:15px; color:var(--body); line-height:1.72;
   max-width:640px; margin-top:12px;
 }
 .lead strong { color:var(--head); font-weight:500; }
@@ -183,44 +226,30 @@ body {
 ============================ */
 
 /* Stat grid */
-.stat-grid {
-  display:grid; gap:1px;
-  background:var(--border); border:1px solid var(--border);
-  border-radius:6px; overflow:hidden;
-}
+.stat-grid { display:grid; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
 .stat-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
 .stat-grid.cols-4 { grid-template-columns:repeat(4,1fr); }
 .stat-grid.cols-2 { grid-template-columns:repeat(2,1fr); }
-.si-stat {
-  background:var(--card); padding:20px 24px;
-}
+.si-stat { background:var(--card); padding:18px 22px; }
 .si-stat.hi { background:linear-gradient(135deg,rgba(0,207,255,0.07),rgba(0,240,120,0.04)); }
-.ss-n {
-  font-family:var(--font-m); font-size:2rem; font-weight:700;
-  color:var(--cyan); line-height:1; margin-bottom:4px;
-}
+.ss-n { font-family:var(--font-m); font-size:1.9rem; font-weight:700; color:var(--cyan); line-height:1; margin-bottom:4px; }
 .ss-n.g { color:var(--green); }
 .ss-n.a { color:var(--amber); }
 .ss-n.p { color:var(--purple); }
-.ss-l { font-size:11px; color:var(--muted); line-height:1.45; }
+.ss-l { font-size:12px; color:var(--muted); line-height:1.45; }
 .ss-sub { font-size:10px; color:var(--dim); margin-top:2px; }
 
 /* Card grid */
 .card-grid { display:grid; gap:12px; }
 .card-grid.cols-2 { grid-template-columns:1fr 1fr; }
 .card-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
-.vc {
-  background:var(--card); border:1px solid var(--border);
-  border-radius:6px; padding:20px 22px;
-}
-.vc.cyan  { border-left:3px solid var(--cyan); }
-.vc.green { border-left:3px solid var(--green); }
-.vc.amber { border-left:3px solid var(--amber); }
-.vc.purple{ border-left:3px solid var(--purple); }
-.vc-t {
-  font-size:13px; font-weight:700; color:var(--white);
-  margin-bottom:6px; display:flex; align-items:center; gap:8px;
-}
+.vc { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:18px 20px; }
+.vc.cyan   { border-left:3px solid var(--cyan); }
+.vc.green  { border-left:3px solid var(--green); }
+.vc.amber  { border-left:3px solid var(--amber); }
+.vc.purple { border-left:3px solid var(--purple); }
+.vc.red    { border-left:3px solid var(--red); }
+.vc-t { font-size:13px; font-weight:700; color:var(--white); margin-bottom:6px; display:flex; align-items:center; gap:8px; }
 .vc-b { font-size:12.5px; color:var(--muted); line-height:1.6; }
 .vc-b strong { color:var(--head); font-weight:500; }
 
@@ -228,22 +257,20 @@ body {
 .mbadge {
   display:inline-flex; align-items:center; gap:7px;
   font-family:var(--font-m); font-size:10.5px; font-weight:700;
-  padding:5px 12px; border-radius:3px;
-  letter-spacing:.07em; text-transform:uppercase;
+  padding:5px 12px; border-radius:3px; letter-spacing:.07em; text-transform:uppercase;
 }
-.mbadge.cyan  { background:rgba(0,207,255,0.1);  color:var(--cyan);   border:1px solid rgba(0,207,255,0.2); }
-.mbadge.green { background:rgba(0,240,120,0.09); color:var(--green);  border:1px solid rgba(0,240,120,0.2); }
-.mbadge.amber { background:rgba(255,184,0,0.09); color:var(--amber);  border:1px solid rgba(255,184,0,0.2); }
-.mbadge.red   { background:rgba(255,61,61,0.09); color:var(--red);    border:1px solid rgba(255,61,61,0.2); }
-.mbadge.purple{ background:rgba(157,110,255,0.1);color:var(--purple); border:1px solid rgba(157,110,255,0.2); }
-.mbadge .dot  { width:6px; height:6px; border-radius:50%; background:currentColor;
-  box-shadow:0 0 6px currentColor; }
+.mbadge.cyan   { background:rgba(0,207,255,0.1);  color:var(--cyan);   border:1px solid rgba(0,207,255,0.2); }
+.mbadge.green  { background:rgba(0,240,120,0.09); color:var(--green);  border:1px solid rgba(0,240,120,0.2); }
+.mbadge.amber  { background:rgba(255,184,0,0.09); color:var(--amber);  border:1px solid rgba(255,184,0,0.2); }
+.mbadge.red    { background:rgba(255,61,61,0.09); color:var(--red);    border:1px solid rgba(255,61,61,0.2); }
+.mbadge.purple { background:rgba(157,110,255,0.1);color:var(--purple); border:1px solid rgba(157,110,255,0.2); }
+.mbadge .dot   { width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 6px currentColor; }
 
-/* Two-column layout */
-.two-col { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; }
-.two-col-61 { display:grid; grid-template-columns:1.3fr 1fr; gap:32px; align-items:start; }
+/* Two-column layouts */
+.two-col    { display:grid; grid-template-columns:1fr 1fr;     gap:32px; align-items:start; }
+.two-col-61 { display:grid; grid-template-columns:1.3fr 1fr;  gap:32px; align-items:start; }
 
-/* Timeline row */
+/* Timeline */
 .tl { display:flex; flex-direction:column; gap:0; }
 .tl-item { display:flex; gap:16px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--border); }
 .tl-item:last-child { border-bottom:none; }
@@ -254,15 +281,8 @@ body {
 
 /* Competitive matrix */
 .matrix { width:100%; border-collapse:collapse; }
-.matrix th {
-  font-family:var(--font-m); font-size:10px; font-weight:700; letter-spacing:.08em;
-  text-transform:uppercase; color:var(--muted); padding:10px 14px;
-  text-align:left; border-bottom:1px solid var(--border);
-}
-.matrix td {
-  padding:10px 14px; font-size:12.5px; color:var(--body);
-  border-bottom:1px solid var(--border);
-}
+.matrix th { font-family:var(--font-m); font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
+.matrix td { padding:10px 14px; font-size:12.5px; color:var(--body); border-bottom:1px solid var(--border); }
 .matrix tr.hi-row td { background:rgba(0,207,255,0.04); }
 .matrix tr.hi-row td:first-child { color:var(--cyan); font-weight:700; }
 .matrix .ck { color:var(--green); font-weight:700; }
@@ -270,229 +290,302 @@ body {
 .matrix .pa { color:var(--amber); }
 .matrix tr:last-child td { border-bottom:none; }
 
-/* Use-of-funds bar */
+/* Use-of-funds */
 .uof { display:flex; flex-direction:column; gap:10px; }
 .uof-item { display:flex; align-items:center; gap:12px; }
-.uof-label { font-family:var(--font-m); font-size:11px; color:var(--body); min-width:140px; }
+.uof-label { font-family:var(--font-m); font-size:11px; color:var(--body); min-width:155px; }
 .uof-track { flex:1; height:8px; background:var(--border); border-radius:4px; overflow:hidden; }
-.uof-bar { height:100%; border-radius:4px; }
-.uof-pct { font-family:var(--font-m); font-size:11px; color:var(--muted); min-width:36px; text-align:right; }
+.uof-bar   { height:100%; border-radius:4px; }
+.uof-pct   { font-family:var(--font-m); font-size:11px; color:var(--muted); min-width:36px; text-align:right; }
 
-/* Milestone row */
+/* Milestone */
 .ml-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-.ml-card {
-  background:var(--card); border:1px solid var(--border); border-radius:6px;
-  padding:18px 20px; display:flex; flex-direction:column; gap:8px;
-}
+.ml-card { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:16px 18px; display:flex; flex-direction:column; gap:8px; }
 .ml-month { font-family:var(--font-m); font-size:10px; color:var(--cyan); letter-spacing:.08em; text-transform:uppercase; }
 .ml-title { font-size:13px; font-weight:700; color:var(--white); line-height:1.3; }
 .ml-desc  { font-size:11.5px; color:var(--muted); line-height:1.5; }
 
-/* Title slide special */
-.slide-title .sc {
-  background:radial-gradient(ellipse at 30% -10%, rgba(0,207,255,0.07) 0%, transparent 55%),
-             radial-gradient(ellipse at 90% 80%, rgba(0,240,120,0.04) 0%, transparent 50%),
-             var(--deep);
-}
-
-/* Team slide avatar */
-.founder-card {
-  display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:start;
-  background:var(--card); border:1px solid var(--border); border-radius:6px;
-  padding:28px 28px;
-}
-.f-avatar {
-  width:72px; height:72px; border-radius:50%;
-  background:linear-gradient(135deg,rgba(0,207,255,0.25),rgba(0,240,120,0.12));
-  border:2px solid rgba(0,207,255,0.3); display:flex;
-  align-items:center; justify-content:center; font-size:2rem; flex-shrink:0;
-}
-.f-name  { font-size:18px; font-weight:700; color:var(--white); margin-bottom:3px; }
-.f-title { font-family:var(--font-m); font-size:10.5px; color:var(--cyan); letter-spacing:.07em; margin-bottom:12px; }
-.f-bio   { font-size:13px; color:var(--body); line-height:1.68; margin-bottom:14px; }
-.f-stats { display:flex; gap:20px; flex-wrap:wrap; }
-.fs-item { text-align:center; }
-.fs-n { font-family:var(--font-m); font-size:1.1rem; font-weight:700; color:var(--cyan); }
-.fs-l { font-size:10px; color:var(--dim); margin-top:1px; }
-
-/* Glow system pill */
-.sys-pill {
-  font-family:var(--font-m); font-size:9.5px; font-weight:700;
-  padding:3px 8px; border-radius:2px; letter-spacing:.05em; text-transform:uppercase;
-}
+/* System pill */
+.sys-pill { font-family:var(--font-m); font-size:9.5px; font-weight:700; padding:3px 8px; border-radius:2px; letter-spacing:.05em; text-transform:uppercase; }
 .sp-asl  { background:rgba(255,61,61,0.1);   color:#FF6B6B; border:1px solid rgba(255,61,61,0.2); }
 .sp-cx   { background:rgba(157,110,255,0.1); color:var(--purple); border:1px solid rgba(157,110,255,0.2); }
 .sp-vc   { background:rgba(0,207,255,0.1);   color:var(--cyan); border:1px solid rgba(0,207,255,0.2); }
 .sp-ch   { background:rgba(0,240,120,0.09);  color:var(--green); border:1px solid rgba(0,240,120,0.2); }
 .sp-vb   { background:rgba(255,184,0,0.09);  color:var(--amber); border:1px solid rgba(255,184,0,0.2); }
 
-/* Divider */
-.div { border:none; border-top:1px solid var(--border); margin:20px 0; }
-
 /* Section label */
-.sec-lbl {
-  font-family:var(--font-m); font-size:10px; font-weight:700;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--cyan);
-  margin-bottom:14px;
-}
+.sec-lbl { font-family:var(--font-m); font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--cyan); margin-bottom:14px; }
 
-/* Not SaaS strip */
-.not-saas-strip {
-  display:inline-flex; align-items:center; gap:8px;
-  background:rgba(0,240,120,0.05); border:1px solid rgba(0,240,120,0.15);
-  border-radius:3px; padding:6px 14px; margin-bottom:16px;
-  font-family:var(--font-m); font-size:11.5px; color:var(--body);
-}
-.not-saas-strip .s { text-decoration:line-through; color:var(--dim); }
-.not-saas-strip .affirm { color:var(--green); font-weight:700; }
+/* Opt block */
+.opt-block { background:var(--deep); border:1px solid var(--border); border-radius:3px; padding:12px 14px; }
+.opt-lbl   { font-family:var(--font-m); font-size:10px; color:var(--cyan); letter-spacing:.12em; margin-bottom:4px; }
+.opt-title { font-size:13px; font-weight:700; color:var(--white); margin-bottom:3px; }
+.opt-body  { font-size:12px; color:var(--muted); line-height:1.55; }
+.opt-stack { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+
+/* Phase table */
+.ptable { width:100%; border-collapse:collapse; margin-top:8px; }
+.ptable tr { border-bottom:1px solid var(--border); }
+.ptable tr:last-child { border-bottom:none; }
+.ptable td { padding:8px 0; font-size:12px; }
+.ptable td:first-child { color:var(--muted); padding-right:1rem; }
+.ptable td:last-child  { color:var(--head); text-align:right; font-family:var(--font-m); font-size:11px; }
+.ptable tr.total td    { color:var(--cyan)!important; font-weight:700; font-size:13px!important; padding-top:10px!important; }
+
+/* Phases */
+.phases { display:flex; flex-direction:column; gap:0; margin-top:12px; }
+.phase { display:flex; align-items:flex-start; gap:12px; padding:8px 0; border-bottom:1px solid var(--border); }
+.phase:last-child { border-bottom:none; }
+.ph-num   { font-family:var(--font-m); font-size:11px; color:var(--cyan); min-width:2rem; padding-top:1px; }
+.ph-c     { flex:1; }
+.ph-name  { font-size:12.5px; font-weight:700; color:var(--white); margin-bottom:2px; }
+.ph-desc  { font-size:11px; color:var(--muted); }
+.ph-price { font-family:var(--font-m); font-size:11.5px; color:var(--cyan); white-space:nowrap; padding-top:1px; }
 
 /* Pulsing sovereign dot */
 .sov-dot { width:7px; height:7px; border-radius:50%; background:var(--cyan);
   box-shadow:0 0 8px var(--cyan); display:inline-block;
   animation:sovp 2.4s ease-in-out infinite; }
-@keyframes sovp {
-  0%,100%{box-shadow:0 0 8px rgba(0,207,255,0.7)}
-  50%{box-shadow:0 0 20px rgba(0,207,255,1),0 0 8px rgba(0,207,255,0.4)}
+@keyframes sovp { 0%,100%{box-shadow:0 0 8px rgba(0,207,255,0.7)} 50%{box-shadow:0 0 20px rgba(0,207,255,1),0 0 8px rgba(0,207,255,0.4)} }
+
+/* ============================
+   SLIDE 01 SPECIAL — Thesis Card
+   Deliberately minimal. One serif claim. Three proof anchors. 
+============================ */
+.slide-thesis .sc {
+  background:
+    radial-gradient(ellipse at 18% 50%, rgba(255,184,0,0.04) 0%,transparent 50%),
+    radial-gradient(ellipse at 85% 20%, rgba(0,207,255,0.06) 0%,transparent 50%),
+    var(--deep);
+}
+
+.thesis-top {
+  display:flex; align-items:center; gap:12px; margin-bottom:36px;
+}
+.thesis-eyebrow {
+  font-family:var(--font-m); font-size:10px; font-weight:500; letter-spacing:.16em;
+  color:var(--cyan); text-transform:uppercase; display:flex; align-items:center; gap:10px;
+}
+.thesis-eyebrow::before { content:''; display:block; width:28px; height:1px; background:rgba(0,207,255,0.5); }
+
+.thesis-body {
+  flex:1; display:flex; flex-direction:column; justify-content:center; gap:0;
+  max-width:800px;
+}
+
+.thesis-claim {
+  font-family:var(--font-s);
+  font-size:clamp(2.4rem,4.8vw,4rem);
+  font-style:italic;
+  font-weight:400;
+  line-height:1.1;
+  color:var(--white);
+  letter-spacing:-0.01em;
+  margin-bottom:24px;
+}
+.thesis-claim em   { font-style:normal; color:var(--cyan); }
+.thesis-claim .amb { font-style:normal; color:var(--amber); }
+
+.thesis-proof {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:var(--border); border:1px solid var(--border);
+  border-radius:4px; overflow:hidden; max-width:680px; margin-bottom:32px;
+}
+.tp-cell { background:var(--card); padding:16px 18px; }
+.tp-n    { font-family:var(--font-m); font-size:1.6rem; font-weight:700; color:var(--cyan); line-height:1; margin-bottom:4px; }
+.tp-n.g  { color:var(--green); }
+.tp-n.a  { color:var(--amber); }
+.tp-l    { font-size:11px; color:var(--muted); line-height:1.4; }
+
+.thesis-pills { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:28px; }
+
+.thesis-contact {
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+  padding-top:24px; border-top:1px solid var(--border);
+}
+.tc-info { display:flex; flex-direction:column; gap:3px; }
+.tc-name { font-size:14px; font-weight:700; color:var(--white); }
+.tc-role { font-family:var(--font-m); font-size:10px; color:var(--cyan); letter-spacing:.07em; }
+.tc-meta { font-family:var(--font-m); font-size:10.5px; color:var(--muted); }
+
+.raise-pill {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,184,0,0.08); border:1px solid rgba(255,184,0,0.2);
+  border-radius:4px; padding:8px 16px;
+  font-family:var(--font-m); font-size:11px; color:var(--amber); letter-spacing:.05em;
+}
+.raise-pill .r-num { font-size:1.1rem; font-weight:700; }
+
+/* ============================
+   SLIDE 04 — Title special background
+============================ */
+.slide-solution .sc {
+  background:radial-gradient(ellipse at 30% -10%, rgba(0,207,255,0.07) 0%, transparent 55%),
+             radial-gradient(ellipse at 90% 80%, rgba(0,240,120,0.04) 0%, transparent 50%),
+             var(--deep);
 }
 
 /* ============================
    CONTROLS BAR
 ============================ */
 .controls {
-  height:54px; background:rgba(7,11,18,0.97);
+  height:var(--ctrl-h); background:rgba(7,11,18,0.97);
   border-top:1px solid var(--border);
-  display:flex; align-items:center;
-  justify-content:space-between;
+  display:flex; align-items:center; justify-content:space-between;
   padding:0 20px;
   -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
 }
-.ctrl-left { display:flex; align-items:center; gap:8px; }
+.ctrl-left   { display:flex; align-items:center; gap:8px; }
 .ctrl-center { display:flex; align-items:center; gap:6px; }
-.ctrl-right { display:flex; align-items:center; gap:12px; }
-
-.pip {
-  width:7px; height:7px; border-radius:50%;
-  background:var(--border2); cursor:pointer;
-  transition:background 0.2s, transform 0.2s;
-  border:none; padding:0;
-}
+.ctrl-right  { display:flex; align-items:center; gap:12px; }
+.pip { width:7px; height:7px; border-radius:50%; background:var(--border2); cursor:pointer; transition:background .2s,transform .2s; border:none; padding:0; }
 .pip.active { background:var(--cyan); transform:scale(1.35); box-shadow:0 0 8px var(--cyan); }
 .pip:hover:not(.active) { background:var(--muted); }
-
-.cb { /* control button */
-  background:var(--card); border:1px solid var(--border);
-  color:var(--body); font-size:13px; font-family:var(--font-d);
-  padding:6px 16px; border-radius:4px; cursor:pointer;
-  transition:all .15s; display:flex; align-items:center; gap:6px;
-}
-.cb:hover { border-color:var(--cyan); color:var(--cyan); }
+.cb { background:var(--card); border:1px solid var(--border); color:var(--body); font-size:13px; font-family:var(--font-d); padding:6px 16px; border-radius:4px; cursor:pointer; transition:all .15s; display:flex; align-items:center; gap:6px; }
+.cb:hover  { border-color:var(--cyan); color:var(--cyan); }
 .cb:disabled { opacity:.35; cursor:not-allowed; }
 .cb.p { background:var(--cyan); color:var(--black); border-color:var(--cyan); font-weight:700; }
 .cb.p:hover { background:#33D8FF; }
-
-.ctrl-brand { font-family:var(--font-m); font-size:10px; color:var(--dim); letter-spacing:.08em; }
+.ctrl-brand   { font-family:var(--font-m); font-size:10px; color:var(--dim); letter-spacing:.08em; }
 .slide-counter { font-family:var(--font-m); font-size:11px; color:var(--muted); }
-
-/* Fullscreen hint */
 .fs-hint { font-family:var(--font-m); font-size:10px; color:var(--dim); letter-spacing:.06em; cursor:pointer; }
 .fs-hint:hover { color:var(--muted); }
+
+/* ============================
+   DATA-ROOM FOOTER
+============================ */
+.dr-footer {
+  background:rgba(7,11,18,0.98);
+  border-top:1px solid var(--border);
+  padding:0 20px;
+  height:var(--foot-h);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:nowrap; gap:1rem; flex-shrink:0;
+}
+.ft-brand { font-family:var(--font-m); font-size:11px; color:var(--muted); letter-spacing:.06em; white-space:nowrap; }
+.ft-brand span { color:var(--cyan); }
+.ft-legal { font-size:10px; color:var(--dim); line-height:1.5; flex:1; text-align:center; max-width:600px; }
+.ft-legal strong { color:var(--muted); }
+.ft-right { display:flex; gap:12px; flex-shrink:0; }
+.ft-right a { font-family:var(--font-m); font-size:10px; color:var(--muted); text-decoration:none; transition:color .15s; white-space:nowrap; }
+.ft-right a:hover { color:var(--cyan); }
 
 /* ============================
    RESPONSIVE
 ============================ */
 @media(max-width:900px){
-  .si { padding:28px 24px 20px 20px; }
+  .si { padding:24px 20px 18px 18px; }
   .two-col,.two-col-61 { grid-template-columns:1fr; gap:20px; }
   .stat-grid.cols-4 { grid-template-columns:repeat(2,1fr); }
   .stat-grid.cols-3 { grid-template-columns:repeat(2,1fr); }
   .ml-grid { grid-template-columns:1fr; }
   .card-grid.cols-3 { grid-template-columns:1fr; }
   .matrix { font-size:11px; }
-  .display { font-size:clamp(1.8rem,6vw,2.8rem); }
-  .founder-card { grid-template-columns:1fr; }
-  .f-avatar { display:none; }
+  .display { font-size:clamp(1.7rem,5.5vw,2.6rem); }
+  .thesis-claim { font-size:clamp(1.8rem,5.5vw,3rem); }
+  .thesis-proof { grid-template-columns:1fr 1fr; }
+  .nav-links { display:none; }
+  .ft-legal { display:none; }
 }
 @media(max-width:600px){
-  .si { padding:20px 16px 16px; }
+  .si { padding:18px 14px 14px; }
   .stat-grid.cols-3,.stat-grid.cols-4 { grid-template-columns:1fr 1fr; }
   .card-grid.cols-2,.card-grid.cols-3 { grid-template-columns:1fr; }
   .controls { padding:0 10px; }
   .ctrl-brand,.fs-hint { display:none; }
+  .thesis-proof { grid-template-columns:1fr; }
+  .dr-nav { padding:0 12px; }
+  .dr-footer { padding:0 12px; }
 }
 </style>
 </head>
 <body>
 
+<!-- ══ DATA ROOM NAV ══ -->
+<nav class="dr-nav" role="navigation" aria-label="Main navigation">
+  <a href="https://intellica-15c.pages.dev/intellica_data_room" class="nav-brand" aria-label="Intellica AI data room">INTELLICA<span>·AI</span></a>
+  <div class="nav-links">
+    <a href="https://intellica-15c.pages.dev/intellica_data_room#journey">Investor Paths</a>
+    <a href="https://intellica-15c.pages.dev/intellica_data_room#systems">Five Systems</a>
+    <a href="https://intellica-15c.pages.dev/intellica_data_room#team">Founder</a>
+    <a href="https://intellica-15c.pages.dev/intellica_data_room#repos">Repositories</a>
+    <a href="https://intellica-15c.pages.dev/intellica_data_room#cta">Contact</a>
+  </div>
+  <div class="nav-contact">
+    <a href="mailto:dpramsajan@meeting-mind.com" class="nc-btn nc-email">&#9993; Email</a>
+    <a href="https://wa.me/18687195236" target="_blank" rel="noopener" class="nc-btn nc-wa">&#128172; WhatsApp</a>
+    <a href="https://calendly.com/peterdramsajan/30min" target="_blank" rel="noopener" class="nc-btn nc-cal">&#128197; Book Call</a>
+  </div>
+</nav>
+
+<!-- ══ DECK ══ -->
 <div class="deck" id="deck">
 
-  <!-- ===================================================
-       SLIDES VIEWPORT
-  =================================================== -->
   <div class="slides-vp" id="slidesVp">
 
     <!-- =============================================
-         SLIDE 01 — TITLE / UNFAIR ADVANTAGE LEAD
-         Research: Lead With Your Unfair Advantage.
-         Sovereign + air-gapped is the unfair advantage.
-         First 4 slides get 60% of all investor attention.
+         SLIDE 01 — THE THESIS (NEW — different from data room hero)
+         Research says: your title slide must deliver one sentence
+         that anyone can repeat to their partner in 30 seconds.
+         This slide is NOT an overview. It is a claim.
+         The claim: proof before regulation required it.
+         Design: Instrument Serif italic — the only serif moment in the deck.
+         Everything else stays mono/grotesk. This one slide breathes differently.
     ============================================= -->
-    <div class="slide slide-title active" data-slide="1">
+    <div class="slide slide-thesis active" data-slide="1">
       <div class="rail"></div>
       <div class="sc">
         <div class="si">
-          <div class="s-eye">
-            <div class="s-eye-left">Intellica AI, Inc. &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; June 2026</div>
-            <div class="s-eye-right">01 / 13</div>
-          </div>
-
-          <div style="margin-bottom:20px;">
-            <div class="not-saas-strip">
-              <span class="sov-dot"></span>
-              This is <span class="s">&nbsp;SaaS&nbsp;</span> &nbsp;→&nbsp; <span class="affirm">Sovereign. Air-gapped. By architecture, not policy.</span>
+          <div class="thesis-top">
+            <div class="thesis-eyebrow">
+              Intellica AI, Inc. &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; June 2026
+            </div>
+            <div style="margin-left:auto">
+              <span class="s-eye-right" style="font-family:var(--font-m);font-size:10px;color:var(--dim);letter-spacing:.06em;">01 / 13</span>
             </div>
           </div>
 
-          <div class="display" style="margin-bottom:14px;">
-            Five sovereign AI systems.<br>
-            <em>One founder.</em><br>
-            <span class="g">One proven platform.</span>
-          </div>
-
-          <p class="lead" style="max-width:580px;margin-bottom:28px;">
-            Every line of code across ASL, Cortex, VeriCrypt, VeriChain, and Verity Core Banking is authored, owned, and operated by a single founder on a <strong>formally-specified, air-gapped substrate</strong> — with zero external runtime dependencies.
-            Built as the world pivots to sovereign everything.
-          </p>
-
-          <div class="stat-grid cols-3" style="max-width:520px;margin-bottom:28px;">
-            <div class="si-stat">
-              <div class="ss-n">€750K</div>
-              <div class="ss-l">Seed raise<br><span class="ss-sub">SAFE · 12% implied</span></div>
+          <div class="thesis-body">
+            <div class="thesis-claim">
+              The AI compliance infrastructure<br>
+              the world's regulators <em>now require</em> —<br>
+              built, <span class="amb">proven</span>, and running.
             </div>
-            <div class="si-stat">
-              <div class="ss-n g">€8.2B</div>
-              <div class="ss-l">Portfolio base valuation<br><span class="ss-sub">4-system triangulation</span></div>
-            </div>
-            <div class="si-stat">
-              <div class="ss-n a">18mo</div>
-              <div class="ss-l">Runway to Series A<br><span class="ss-sub">Milestones defined</span></div>
-            </div>
-          </div>
 
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;">
-            <span class="sys-pill sp-asl">ASL · Platform</span>
-            <span class="sys-pill sp-cx">Cortex · Sovereign AI OS</span>
-            <span class="sys-pill sp-vc">VeriCrypt · PQC Compliance</span>
-            <span class="sys-pill sp-ch">VeriChain · AgentFi L1</span>
-            <span class="sys-pill sp-vb">Verity · Core Banking OS</span>
-          </div>
-
-          <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;">
-            <div>
-              <div style="font-size:12.5px;font-weight:700;color:var(--white);">Damain Peter Ramsajan</div>
-              <div style="font-family:var(--font-m);font-size:10px;color:var(--cyan);letter-spacing:.07em;margin-top:2px;">FOUNDER &amp; SOLE AUTHOR · INTELLICA AI, INC.</div>
+            <div class="thesis-proof">
+              <div class="tp-cell">
+                <div class="tp-n">DORA</div>
+                <div class="tp-l">In enforcement Jan 2025. 22,000 EU financial entities must act. Fine ceiling: 2% global turnover.</div>
+              </div>
+              <div class="tp-cell">
+                <div class="tp-n g">49</div>
+                <div class="tp-l">Active conformance checks passing. Master Build 9/9 complete. VeriCrypt is ready today.</div>
+              </div>
+              <div class="tp-cell">
+                <div class="tp-n a">€8.2B</div>
+                <div class="tp-l">Portfolio base valuation. Five sovereign systems. One founder. One proven platform.</div>
+              </div>
             </div>
-            <div style="font-family:var(--font-m);font-size:10.5px;color:var(--muted);">
-              dpramsajan@meeting-mind.com &nbsp;·&nbsp; +1 868 719 5236
+
+            <div class="thesis-pills">
+              <span class="sys-pill sp-asl">ASL · Platform Foundation</span>
+              <span class="sys-pill sp-cx">Cortex · Sovereign AI OS</span>
+              <span class="sys-pill sp-vc">VeriCrypt · PQC Compliance</span>
+              <span class="sys-pill sp-ch">VeriChain · AgentFi L1</span>
+              <span class="sys-pill sp-vb">Verity · Core Banking OS</span>
+            </div>
+
+            <div class="thesis-contact">
+              <div class="tc-info">
+                <div class="tc-name">Damain Peter Ramsajan</div>
+                <div class="tc-role">FOUNDER &amp; SOLE AUTHOR · INTELLICA AI, INC.</div>
+                <div class="tc-meta" style="margin-top:4px;">dpramsajan@meeting-mind.com &nbsp;·&nbsp; +1 868 719 5236</div>
+              </div>
+              <div class="raise-pill">
+                <span>Raising</span>
+                <span class="r-num">€750K</span>
+                <span>SAFE · €6.25M cap · 18-month runway to Series A</span>
+              </div>
             </div>
           </div>
         </div>
@@ -500,9 +593,7 @@ body {
     </div>
 
     <!-- =============================================
-         SLIDE 02 — THE PROBLEM (PAS STRUCTURE)
-         Specific pain, specific cost, regulatory mandate.
-         Investors must believe the problem before the solution.
+         SLIDE 02 — THE PROBLEM
     ============================================= -->
     <div class="slide" data-slide="2">
       <div class="rail"></div>
@@ -513,41 +604,27 @@ body {
             <div class="s-eye-right">02 / 13</div>
           </div>
           <div class="h2">Enterprise AI has a <em>sovereignty crisis.</em></div>
-          <p class="lead" style="margin-bottom:24px;">
+          <p class="lead" style="margin-bottom:20px;">
             Every major enterprise runs AI on shared infrastructure — cloud APIs, foreign model providers, multi-tenant data centres. <strong>This is now illegal in regulated industries and strategically indefensible everywhere else.</strong>
           </p>
-          <div class="card-grid cols-2" style="margin-bottom:22px;">
-            <div class="vc red">
-              <div class="vc-t">⚠ The regulatory burning platform</div>
-              <div class="vc-b">DORA Article 9 (Jan 2025): EU mandates crypto-agility across 21+ financial entity types. NIS2 explicit PQC (Jan 2026). CNSA 2.0 enforcement (Jan 2027). <strong>Fines up to 2% of global annual turnover.</strong> Non-compliance is not an option.</div>
-            </div>
-            <div class="vc red">
-              <div class="vc-t">⚠ The harvest-now-decrypt-later threat</div>
-              <div class="vc-b">Nation-state actors are harvesting encrypted data today to decrypt with quantum computers in 5–10 years. Every financial record and state secret in transit is <strong>already compromised at the packet level.</strong> Migration to PQC is urgent, not eventual.</div>
-            </div>
-            <div class="vc amber">
-              <div class="vc-t">⚡ Cloud AI = data sovereignty violation</div>
-              <div class="vc-b">Routing sensitive workloads through OpenAI, Azure, or AWS violates GDPR data residency, DORA operational resilience, and NIS2 supply chain security simultaneously. <strong>Legal exposure is existential for regulated enterprises.</strong></div>
-            </div>
-            <div class="vc amber">
-              <div class="vc-t">⚡ The retrofitting trap</div>
-              <div class="vc-b">Competitors are bolting air-gap modes onto cloud-native architectures after the fact — expensive, brittle, unconvincing to regulators. <strong>McKinsey (Mar 2026): sovereign AI migrations take 3–4 years</strong> when built as an afterthought. First-mover window is closing.</div>
-            </div>
+          <div class="card-grid cols-2" style="margin-bottom:18px;">
+            <div class="vc red"><div class="vc-t">⚠ The regulatory burning platform</div><div class="vc-b">DORA Article 9 (Jan 2025): EU mandates crypto-agility across 21+ financial entity types. NIS2 explicit PQC (Jan 2026). CNSA 2.0 enforcement (Jan 2027). <strong>Fines up to 2% of global annual turnover.</strong></div></div>
+            <div class="vc red"><div class="vc-t">⚠ Harvest-now, decrypt-later</div><div class="vc-b">Nation-state actors are harvesting encrypted data today to decrypt with quantum computers in 5–10 years. Every financial record in transit is <strong>already compromised at the packet level.</strong></div></div>
+            <div class="vc amber"><div class="vc-t">⚡ Cloud AI = data sovereignty violation</div><div class="vc-b">Routing sensitive workloads through OpenAI, Azure, or AWS violates GDPR data residency, DORA operational resilience, and NIS2 supply chain security simultaneously. <strong>Legal exposure is existential for regulated enterprises.</strong></div></div>
+            <div class="vc amber"><div class="vc-t">⚡ The retrofitting trap</div><div class="vc-b">Competitors bolt air-gap modes onto cloud-native architectures after the fact — expensive, brittle, unconvincing to regulators. <strong>McKinsey (Mar 2026): sovereign AI migrations take 3–4 years as an afterthought.</strong></div></div>
           </div>
           <div class="stat-grid cols-4">
             <div class="si-stat"><div class="ss-n a">€6.08M</div><div class="ss-l">Avg EU financial breach cost (2025)</div></div>
             <div class="si-stat"><div class="ss-n a">2%</div><div class="ss-l">DORA max fine (global annual turnover)</div></div>
-            <div class="si-stat"><div class="ss-n a">5–10yr</div><div class="ss-l">Timeline for quantum decryption of today's data</div></div>
-            <div class="si-stat"><div class="ss-n a">21+</div><div class="ss-l">EU financial entity types subject to DORA</div></div>
+            <div class="si-stat"><div class="ss-n a">5–10yr</div><div class="ss-l">Timeline for quantum decryption</div></div>
+            <div class="si-stat"><div class="ss-n a">22,000</div><div class="ss-l">EU financial entities subject to DORA</div></div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- =============================================
-         SLIDE 03 — WHY NOW (the timing moat)
-         Specific technical + regulatory shifts.
-         Investors want surgical "why now", not general trends.
+         SLIDE 03 — WHY NOW
     ============================================= -->
     <div class="slide" data-slide="3">
       <div class="rail"></div>
@@ -558,54 +635,24 @@ body {
             <div class="s-eye-right">03 / 13</div>
           </div>
           <div class="h2">Six binding deadlines. <em>One 24-month window.</em></div>
-          <p class="lead" style="margin-bottom:22px;">
-            The sovereign AI pivot is not emerging — it has already been mandated by law. Every event below is real, dated, and creates enterprise spend that cannot be deferred.
-          </p>
-          <div class="tl" style="margin-bottom:24px;">
-            <div class="tl-item">
-              <div class="tl-date">AUG 2024</div>
-              <div class="tl-dot"></div>
-              <div class="tl-text"><strong>NIST finalises ML-KEM (FIPS 203), ML-DSA (FIPS 204), SLH-DSA (FIPS 205)</strong> — the mandated post-quantum cryptography standards. Enterprises now have legal standards to comply with. VeriCrypt implements all three.</div>
-            </div>
-            <div class="tl-item">
-              <div class="tl-date">JAN 2025</div>
-              <div class="tl-dot"></div>
-              <div class="tl-text"><strong>DORA full enforcement begins.</strong> Article 9 explicitly mandates crypto-agility across all 21+ EU financial entity types. First regulatory penalties for non-compliance are now legally possible.</div>
-            </div>
-            <div class="tl-item">
-              <div class="tl-date">MAR 2025</div>
-              <div class="tl-dot"></div>
-              <div class="tl-text"><strong>NIST selects HQC as 5th PQC algorithm</strong> (non-lattice backup, final standard 2027). Compliance surface expands. VeriCrypt's conformance engine is designed for algorithm-agility.</div>
-            </div>
-            <div class="tl-item">
-              <div class="tl-date">JAN 2026</div>
-              <div class="tl-dot"></div>
-              <div class="tl-text"><strong>EU COM(2026) 13 final:</strong> NIS2 amendment with explicit PQC requirement written into directive text. First time PQC is a hard legal obligation, not a best practice.</div>
-            </div>
-            <div class="tl-item">
-              <div class="tl-date">JAN 2027</div>
-              <div class="tl-dot"></div>
-              <div class="tl-text"><strong>CNSA 2.0 enforcement begins</strong> for US national security systems and all supply chains that touch them. PQC attestations required in government procurement globally.</div>
-            </div>
-            <div class="tl-item">
-              <div class="tl-date">2030</div>
-              <div class="tl-dot"></div>
-              <div class="tl-text"><strong>EU deadline:</strong> All high-risk cryptographic systems migrated. IDC: 60% of orgs with digital sovereignty requirements will have migrated sensitive workloads. <strong>Enterprises that begin in 2026 finish in time. Those that begin in 2028 do not.</strong></div>
-            </div>
+          <p class="lead" style="margin-bottom:18px;">The sovereign AI pivot is not emerging — it has already been mandated by law. Every event below is real, dated, and creates enterprise spend that cannot be deferred.</p>
+          <div class="tl" style="margin-bottom:20px;">
+            <div class="tl-item"><div class="tl-date">AUG 2024</div><div class="tl-dot"></div><div class="tl-text"><strong>NIST finalises ML-KEM (FIPS 203), ML-DSA (FIPS 204), SLH-DSA (FIPS 205)</strong> — mandated PQC standards. Enterprises now have legal standards to comply with. VeriCrypt implements all three.</div></div>
+            <div class="tl-item"><div class="tl-date">JAN 2025</div><div class="tl-dot"></div><div class="tl-text"><strong>DORA full enforcement begins.</strong> Article 9 explicitly mandates crypto-agility across all 21+ EU financial entity types. First regulatory penalties are now legally possible.</div></div>
+            <div class="tl-item"><div class="tl-date">MAR 2025</div><div class="tl-dot"></div><div class="tl-text"><strong>NIST selects HQC as 5th PQC algorithm</strong> (non-lattice backup). Compliance surface expands. VeriCrypt's engine is designed for algorithm-agility.</div></div>
+            <div class="tl-item"><div class="tl-date">JAN 2026</div><div class="tl-dot"></div><div class="tl-text"><strong>EU COM(2026) 13 final:</strong> NIS2 amendment with explicit PQC requirement. First time PQC is a hard legal obligation, not a best practice.</div></div>
+            <div class="tl-item"><div class="tl-date">JAN 2027</div><div class="tl-dot"></div><div class="tl-text"><strong>CNSA 2.0 enforcement begins</strong> for US national security systems. PQC attestations required in government procurement globally.</div></div>
+            <div class="tl-item"><div class="tl-date">2030</div><div class="tl-dot"></div><div class="tl-text"><strong>EU deadline:</strong> All high-risk cryptographic systems migrated. <strong>Enterprises that begin in 2026 finish in time. Those that begin in 2028 do not.</strong></div></div>
           </div>
-          <div class="vc cyan" style="max-width:640px;">
-            <div class="vc-t">McKinsey March 2026 global survey confirms:</div>
-            <div class="vc-b">"Sovereign AI has crossed from boardroom aspiration to procurement mandate. Enterprise interest is now widespread. The two biggest winners will be companies <strong>building sovereign solutions by design</strong> — not those retrofitting." The window for first-mover positioning closes within 12–24 months.</div>
-          </div>
+          <div class="vc cyan" style="max-width:640px;"><div class="vc-t">McKinsey March 2026 global survey:</div><div class="vc-b">"Sovereign AI has crossed from boardroom aspiration to procurement mandate. The two biggest winners will be companies <strong>building sovereign solutions by design</strong> — not those retrofitting." The window for first-mover positioning closes within 12–24 months.</div></div>
         </div>
       </div>
     </div>
 
     <!-- =============================================
          SLIDE 04 — THE SOLUTION
-         One diagram's worth of clarity. What it does mechanically.
     ============================================= -->
-    <div class="slide" data-slide="4">
+    <div class="slide slide-solution" data-slide="4">
       <div class="rail"></div>
       <div class="sc">
         <div class="si">
@@ -614,58 +661,23 @@ body {
             <div class="s-eye-right">04 / 13</div>
           </div>
           <div class="h2">The world's first <em>sovereign-native</em> enterprise AI platform.</div>
-          <p class="lead" style="margin-bottom:24px;">
-            Intellica did not build AI products on top of someone else's cloud. It built the <strong>compiler, the runtime, and all five systems</strong> — from scratch, sovereign-first. The result is an AI platform that physically cannot call home.
-          </p>
-          <div class="two-col" style="margin-bottom:20px;">
+          <p class="lead" style="margin-bottom:20px;">Intellica did not build AI products on top of someone else's cloud. It built the <strong>compiler, the runtime, and all five systems</strong> — from scratch, sovereign-first. The result is an AI platform that physically cannot call home.</p>
+          <div class="two-col" style="margin-bottom:0;">
             <div>
               <div class="sec-lbl">The platform stack (ASL)</div>
               <div style="display:flex;flex-direction:column;gap:8px;">
-                <div class="vc green">
-                  <div class="vc-t">seedc — The Compiler</div>
-                  <div class="vc-b">Formally-specified compiler for the Agent Seed Language. Produces verifiable, deterministic binaries with P1–P8 compile-time safety invariants. <strong>Every Intellica system is a verified ASL program.</strong></div>
-                </div>
-                <div class="vc green">
-                  <div class="vc-t">seedvm — The Runtime</div>
-                  <div class="vc-b">Isolated, air-gapped execution environment. No external API calls in steady state. Runs inside the customer's own hardware — on-prem, data centre, or classified environment.</div>
-                </div>
-                <div class="vc cyan">
-                  <div class="vc-t">The sovereignty guarantee</div>
-                  <div class="vc-b">Sovereignty is <strong>architectural</strong> — encoded in the compiler and runtime. Not a mode. Not a policy. Not a configuration flag. It cannot be accidentally disabled. <strong>This is the world-first.</strong></div>
-                </div>
+                <div class="vc green"><div class="vc-t">seedc — The Compiler</div><div class="vc-b">Formally-specified compiler for the Agent Seed Language. Produces verifiable, deterministic binaries with P1–P8 compile-time safety invariants. <strong>Every Intellica system is a verified ASL program.</strong></div></div>
+                <div class="vc green"><div class="vc-t">seedvm — The Runtime</div><div class="vc-b">Isolated, air-gapped execution environment. No external API calls in steady state. Runs inside the customer's own hardware.</div></div>
+                <div class="vc cyan"><div class="vc-t">The sovereignty guarantee</div><div class="vc-b">Sovereignty is <strong>architectural</strong> — encoded in the compiler and runtime. Not a mode. Not a policy. Not a configuration flag. <strong>This is the world-first.</strong></div></div>
               </div>
             </div>
             <div>
               <div class="sec-lbl">Five sovereign systems, one platform</div>
-              <div style="display:flex;flex-direction:column;gap:8px;">
-                <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:14px 16px;">
-                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                    <span style="font-size:13px;font-weight:700;color:var(--white);">Cortex</span>
-                    <span class="sys-pill sp-cx">Sovereign AI OS</span>
-                  </div>
-                  <div style="font-size:12px;color:var(--muted);">Replaces SAP, Oracle, Salesforce — invisibly, without vendor detection. Zero external calls.</div>
-                </div>
-                <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:14px 16px;">
-                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                    <span style="font-size:13px;font-weight:700;color:var(--white);">VeriCrypt</span>
-                    <span class="sys-pill sp-vc">PQC Compliance</span>
-                  </div>
-                  <div style="font-size:12px;color:var(--muted);">Machine-provable PQC conformance artefacts for regulators. Runs fully air-gapped. 49 checks passing.</div>
-                </div>
-                <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:14px 16px;">
-                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                    <span style="font-size:13px;font-weight:700;color:var(--white);">VeriChain</span>
-                    <span class="sys-pill sp-ch">AgentFi L1</span>
-                  </div>
-                  <div style="font-size:12px;color:var(--muted);">Sovereign-native validator nodes. Agents earn Bitcoin over Lightning. NANOZK proofs: 5.5KB, 24ms.</div>
-                </div>
-                <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:14px 16px;">
-                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                    <span style="font-size:13px;font-weight:700;color:var(--white);">Verity</span>
-                    <span class="sys-pill sp-vb">Core Banking OS</span>
-                  </div>
-                  <div style="font-size:12px;color:var(--muted);">7-day bank migration. TLA+ verified ledger. 328 BIAN v14 domains. Runs inside the bank's perimeter.</div>
-                </div>
+              <div style="display:flex;flex-direction:column;gap:7px;">
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:12px 14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><span style="font-size:13px;font-weight:700;color:var(--white);">Cortex</span><span class="sys-pill sp-cx">Sovereign AI OS</span></div><div style="font-size:12px;color:var(--muted);">Replaces SAP, Oracle, Salesforce — invisibly. Zero external calls.</div></div>
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:12px 14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><span style="font-size:13px;font-weight:700;color:var(--white);">VeriCrypt</span><span class="sys-pill sp-vc">PQC Compliance</span></div><div style="font-size:12px;color:var(--muted);">Machine-provable PQC conformance. Fully air-gapped. 49 checks passing.</div></div>
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:12px 14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><span style="font-size:13px;font-weight:700;color:var(--white);">VeriChain</span><span class="sys-pill sp-ch">AgentFi L1</span></div><div style="font-size:12px;color:var(--muted);">Sovereign-native validator nodes. Agents earn Bitcoin over Lightning. NANOZK proofs: 5.5KB, 24ms.</div></div>
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:12px 14px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><span style="font-size:13px;font-weight:700;color:var(--white);">Verity</span><span class="sys-pill sp-vb">Core Banking OS</span></div><div style="font-size:12px;color:var(--muted);">7-day bank migration. TLA+ verified ledger. 328 BIAN v14 domains.</div></div>
               </div>
             </div>
           </div>
@@ -675,9 +687,6 @@ body {
 
     <!-- =============================================
          SLIDE 05 — DEFENSIBLE MOAT
-         Research: moat slide does 30% of underwriting in 2026.
-         a16z and Lightspeed de-rate "proprietary AI" as meaningless.
-         Must be specific. Must address the wrapper risk.
     ============================================= -->
     <div class="slide" data-slide="5">
       <div class="rail"></div>
@@ -688,39 +697,20 @@ body {
             <div class="s-eye-right">05 / 13</div>
           </div>
           <div class="h2">Four moats. <em>All structural. None policyware.</em></div>
-          <p class="lead" style="margin-bottom:20px;">
-            "Proprietary AI" is not a moat. Here is exactly what is: four distinct, independently defensible barriers that compound with time and adoption.
-          </p>
-          <div class="card-grid cols-2" style="margin-bottom:20px;">
-            <div class="vc cyan">
-              <div class="vc-t">① Architectural moat — the compiler</div>
-              <div class="vc-b">ASL (seedc + seedvm) is the only formally-specified AI agent compiler with P1–P8 compile-time safety invariants and air-gapped runtime. <strong>No competitor can ship this in 18 months</strong> — it requires formal verification expertise that takes years to build. This is the world-first.</div>
-            </div>
-            <div class="vc green">
-              <div class="vc-t">② Standards depth — machine-provable compliance</div>
-              <div class="vc-b">VeriCrypt holds arc42 96/100 with 49 active conformance checks, Master Build 9/9, and native CBOM generation. No competitor covers <strong>DORA + NIST PQC + NIS2 + SCITT + PQFIF</strong> from a single formally-verified engine. Each is a separate contract.</div>
-            </div>
-            <div class="vc amber">
-              <div class="vc-t">③ Migration lock-in — structural, not contractual</div>
-              <div class="vc-b">Enterprise PQC migrations take 5–15 years. Banks that begin their migration on Verity will not switch core banking systems mid-migration. <strong>First-mover lock-in is architectural</strong> — once formally-verified proofs are anchored to a production ledger, switching costs are existential.</div>
-            </div>
-            <div class="vc purple">
-              <div class="vc-t">④ Wrapper immunity — no model dependency</div>
-              <div class="vc-b">When investors ask "what happens if OpenAI ships this feature?" — the answer is: <strong>nothing changes.</strong> Intellica does not call any foundation model API. ASL is the model boundary. Every product works if every cloud model disappears tomorrow.</div>
-            </div>
+          <p class="lead" style="margin-bottom:18px;">"Proprietary AI" is not a moat. Here is exactly what is: four distinct, independently defensible barriers that compound with time and adoption.</p>
+          <div class="card-grid cols-2" style="margin-bottom:18px;">
+            <div class="vc cyan"><div class="vc-t">① Architectural moat — the compiler</div><div class="vc-b">ASL (seedc + seedvm) is the only formally-specified AI agent compiler with P1–P8 compile-time safety invariants and air-gapped runtime. <strong>No competitor can ship this in 18 months</strong> — it requires formal verification expertise that takes years to build.</div></div>
+            <div class="vc green"><div class="vc-t">② Standards depth — machine-provable compliance</div><div class="vc-b">VeriCrypt holds arc42 96/100 with 49 active conformance checks, Master Build 9/9, and native CBOM generation. No competitor covers <strong>DORA + NIST PQC + NIS2 + SCITT + PQFIF</strong> from a single formally-verified engine.</div></div>
+            <div class="vc amber"><div class="vc-t">③ Migration lock-in — structural, not contractual</div><div class="vc-b">Enterprise PQC migrations take 5–15 years. Banks that begin on Verity will not switch mid-migration. <strong>First-mover lock-in is architectural</strong> — formally-verified proofs anchored to a production ledger make switching costs existential.</div></div>
+            <div class="vc purple"><div class="vc-t">④ Wrapper immunity — no model dependency</div><div class="vc-b">"What if OpenAI ships this feature?" — <strong>Nothing changes.</strong> Intellica does not call any foundation model API. ASL is the model boundary. Every product works if every cloud model disappears tomorrow.</div></div>
           </div>
-          <div class="vc cyan" style="max-width:100%;">
-            <div class="vc-t">The honest competitive picture</div>
-            <div class="vc-b">TrustLayers, Thales, and CrowdStrike cover 1–2 standards each, via cloud-native tooling, without formal verification. IBM Quantum Safe and Entrust are hardware-first. None own the compiler. None produce machine-provable artefacts. None are sovereign-native. <strong>The combination of formal verification + air-gap + multi-standard coverage is genuinely novel in the market.</strong></div>
-          </div>
+          <div class="vc cyan"><div class="vc-t">The honest competitive picture</div><div class="vc-b">TrustLayers, Thales, and CrowdStrike cover 1–2 standards each, via cloud-native tooling, without formal verification. IBM Quantum Safe and Entrust are hardware-first. None own the compiler. None produce machine-provable artefacts. None are sovereign-native. <strong>The combination of formal verification + air-gap + multi-standard coverage is genuinely novel.</strong></div></div>
         </div>
       </div>
     </div>
 
     <!-- =============================================
-         SLIDE 06 — MARKET SIZE (bottoms-up)
-         Research: investors de-rate top-down TAM immediately.
-         Show bottoms-up math: X customers × Y price = Z.
+         SLIDE 06 — MARKET SIZE
     ============================================= -->
     <div class="slide" data-slide="6">
       <div class="rail"></div>
@@ -731,76 +721,26 @@ body {
             <div class="s-eye-right">06 / 13</div>
           </div>
           <div class="h2">Bottoms-up. <em>Beachhead → platform → sovereign economy.</em></div>
-          <p class="lead" style="margin-bottom:22px;">
-            Not a TAM slide. A customer count × price × penetration model — the only market sizing VCs trust in 2026.
-          </p>
-          <div class="card-grid cols-3" style="margin-bottom:20px;">
-            <div class="vc cyan">
-              <div class="vc-t">Beachhead — VeriCrypt</div>
-              <div class="vc-b">
-                <strong>~5,000</strong> EU DORA-subject fintechs (payment institutions, e-money, investment firms)<br><br>
-                × <strong>€125K avg</strong> (Tier 1 engagement)<br><br>
-                = <strong>€625M SAM</strong> — beachhead alone, before banks<br><br>
-                Win rate needed for €3M ARR: <strong>24 customers</strong>
-              </div>
-            </div>
-            <div class="vc green">
-              <div class="vc-t">Expand — Full DORA universe</div>
-              <div class="vc-b">
-                <strong>21+</strong> DORA entity types including systemic banks<br><br>
-                Tier 2 (€200M–1B turnover): <strong>€450K/yr</strong><br>
-                Tier 3 (>€1B turnover): <strong>€1.8M–3.8M/yr</strong><br><br>
-                3 Tier-3 customers = <strong>€10M+ ARR</strong>
-              </div>
-            </div>
-            <div class="vc amber">
-              <div class="vc-t">Platform — Sovereign AI economy</div>
-              <div class="vc-b">
-                Cortex (enterprise AI OS): €180K/yr anchor<br>
-                Verity (core banking): €45K–€450K/yr<br>
-                VeriChain (AgentFi): validator fees + protocol revenue<br><br>
-                <strong>Platform play multiplies each beachhead customer 3–4×</strong>
-              </div>
-            </div>
+          <p class="lead" style="margin-bottom:18px;">Not a TAM slide. A customer count × price × penetration model — the only market sizing VCs trust in 2026.</p>
+          <div class="card-grid cols-3" style="margin-bottom:18px;">
+            <div class="vc cyan"><div class="vc-t">Beachhead — VeriCrypt</div><div class="vc-b"><strong>~5,000</strong> EU DORA-subject fintechs<br><br>× <strong>€125K avg</strong> (Tier 1 engagement)<br><br>= <strong>€625M SAM</strong> — beachhead alone<br><br>Win rate for €3M ARR: <strong>24 customers</strong></div></div>
+            <div class="vc green"><div class="vc-t">Expand — Full DORA universe</div><div class="vc-b"><strong>21+</strong> DORA entity types incl. systemic banks<br><br>Tier 2 (€200M–1B turnover): <strong>€450K/yr</strong><br>Tier 3 (&gt;€1B): <strong>€1.8M–3.8M/yr</strong><br><br>3 Tier-3 customers = <strong>€10M+ ARR</strong></div></div>
+            <div class="vc amber"><div class="vc-t">Platform — Sovereign AI economy</div><div class="vc-b">Cortex: €180K/yr anchor<br>Verity: €45K–€450K/yr<br>VeriChain: validator fees + protocol revenue<br><br><strong>Platform play multiplies each customer 3–4×</strong></div></div>
           </div>
-          <div class="two-col-61" style="gap:24px;">
+          <div class="two-col-61" style="gap:20px;">
             <div>
-              <div class="sec-lbl">Why now creates urgency (demand pull, not push)</div>
+              <div class="sec-lbl">Demand pull, not push</div>
               <div class="tl">
-                <div class="tl-item">
-                  <div class="tl-date">2025–27</div>
-                  <div class="tl-dot"></div>
-                  <div class="tl-text"><strong>Compliance-driven mandatory spend.</strong> DORA and NIS2 require budget allocation regardless of economic conditions — this is not discretionary IT spend.</div>
-                </div>
-                <div class="tl-item">
-                  <div class="tl-date">2027–30</div>
-                  <div class="tl-dot"></div>
-                  <div class="tl-text"><strong>Migration-driven platform expansion.</strong> Customers that begin VeriCrypt engagements convert to Cortex and Verity as migration deepens.</div>
-                </div>
-                <div class="tl-item">
-                  <div class="tl-date">2030+</div>
-                  <div class="tl-dot"></div>
-                  <div class="tl-text"><strong>Sovereign AI economy.</strong> VeriChain and ASL developer ecosystem compound. Caribbean and emerging market sovereign AI becomes a distinct expansion vector.</div>
-                </div>
+                <div class="tl-item"><div class="tl-date">2025–27</div><div class="tl-dot"></div><div class="tl-text"><strong>Compliance-driven mandatory spend.</strong> DORA and NIS2 require budget allocation regardless of economic conditions — not discretionary IT spend.</div></div>
+                <div class="tl-item"><div class="tl-date">2027–30</div><div class="tl-dot"></div><div class="tl-text"><strong>Migration-driven platform expansion.</strong> VeriCrypt customers convert to Cortex and Verity as migration deepens.</div></div>
+                <div class="tl-item"><div class="tl-date">2030+</div><div class="tl-dot"></div><div class="tl-text"><strong>Sovereign AI economy.</strong> VeriChain and ASL developer ecosystem compound. Emerging market sovereign AI becomes a distinct expansion vector.</div></div>
               </div>
             </div>
             <div class="stat-grid cols-2">
-              <div class="si-stat hi">
-                <div class="ss-n">€18B</div>
-                <div class="ss-l">Cybersecurity VC funding 2025 (3-yr high)</div>
-              </div>
-              <div class="si-stat">
-                <div class="ss-n g">60%</div>
-                <div class="ss-l">Orgs migrating sovereign workloads by 2028 (IDC)</div>
-              </div>
-              <div class="si-stat">
-                <div class="ss-n a">3–4yr</div>
-                <div class="ss-l">Avg sovereign AI migration timeline (McKinsey)</div>
-              </div>
-              <div class="si-stat">
-                <div class="ss-n p">€37B</div>
-                <div class="ss-l">Enterprise gen-AI spend 2025 (20× in 2 years)</div>
-              </div>
+              <div class="si-stat hi"><div class="ss-n">€18B</div><div class="ss-l">Cybersecurity VC funding 2025 (3-yr high)</div></div>
+              <div class="si-stat"><div class="ss-n g">60%</div><div class="ss-l">Orgs migrating sovereign workloads by 2028 (IDC)</div></div>
+              <div class="si-stat"><div class="ss-n a">3–4yr</div><div class="ss-l">Avg sovereign AI migration (McKinsey)</div></div>
+              <div class="si-stat"><div class="ss-n p">€37B</div><div class="ss-l">Enterprise gen-AI spend 2025</div></div>
             </div>
           </div>
         </div>
@@ -809,7 +749,6 @@ body {
 
     <!-- =============================================
          SLIDE 07 — TRACTION
-         Verifiable signals only. One number > five vague claims.
     ============================================= -->
     <div class="slide" data-slide="7">
       <div class="rail"></div>
@@ -820,78 +759,40 @@ body {
             <div class="s-eye-right">07 / 13</div>
           </div>
           <div class="h2">Technical proof. <em>Architecture that ships.</em></div>
-          <p class="lead" style="margin-bottom:22px;">
-            At pre-revenue seed stage, the proof of traction is the depth and verifiability of the technical work. Here is what can be independently verified today.
-          </p>
-          <div class="stat-grid cols-4" style="margin-bottom:20px;">
-            <div class="si-stat hi">
-              <div class="ss-n">97/100</div>
-              <div class="ss-l">Highest arc42 score<br><span class="ss-sub">Verity, 22 versions</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n">96/100</div>
-              <div class="ss-l">VeriCrypt arc42<br><span class="ss-sub">8 world firsts documented</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n g">9/9</div>
-              <div class="ss-l">VeriCrypt master build<br><span class="ss-sub">All builds passing</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n g">49</div>
-              <div class="ss-l">Active conformance checks<br><span class="ss-sub">VeriCrypt, live</span></div>
-            </div>
+          <p class="lead" style="margin-bottom:18px;">At pre-revenue seed stage, the proof of traction is the depth and verifiability of the technical work. Here is what can be independently verified today.</p>
+          <div class="stat-grid cols-4" style="margin-bottom:18px;">
+            <div class="si-stat hi"><div class="ss-n">97/100</div><div class="ss-l">Highest arc42 score<br><span class="ss-sub">Verity, 22 versions</span></div></div>
+            <div class="si-stat hi"><div class="ss-n">96/100</div><div class="ss-l">VeriCrypt arc42<br><span class="ss-sub">8 world firsts documented</span></div></div>
+            <div class="si-stat hi"><div class="ss-n g">9/9</div><div class="ss-l">VeriCrypt master build<br><span class="ss-sub">All builds passing</span></div></div>
+            <div class="si-stat hi"><div class="ss-n g">49</div><div class="ss-l">Active conformance checks<br><span class="ss-sub">VeriCrypt, live</span></div></div>
           </div>
-          <div class="two-col" style="margin-bottom:20px;">
+          <div class="two-col">
             <div>
               <div class="sec-lbl">Verifiable technical milestones</div>
               <div style="display:flex;flex-direction:column;gap:8px;">
                 <div class="vc cyan"><div class="vc-t">ASL v15.2 — public, live</div><div class="vc-b">Full compiler + runtime + conformance suite published on GitHub under agentseedlanguage-cpu. <strong>Independently auditable today.</strong></div></div>
-                <div class="vc cyan"><div class="vc-t">162 architecture gaps closed — Verity</div><div class="vc-b">22 arc42 versions, each remediating specific gaps. Full audit trail in the public repository. <strong>No other solo-founder banking platform has this depth.</strong></div></div>
-                <div class="vc cyan"><div class="vc-t">VeriCrypt Master Build 9/9</div><div class="vc-b">All build milestones complete. 49 active conformance checks cover DORA, NIST PQC, NIS2, SCITT, PQFIF. <strong>Ready for first pilot engagement today.</strong></div></div>
+                <div class="vc cyan"><div class="vc-t">162 architecture gaps closed — Verity</div><div class="vc-b">22 arc42 versions, each remediating specific gaps. Full audit trail in the public repository.</div></div>
+                <div class="vc cyan"><div class="vc-t">VeriCrypt Master Build 9/9</div><div class="vc-b">All build milestones complete. 49 active conformance checks. <strong>Ready for first pilot today.</strong></div></div>
               </div>
             </div>
             <div>
               <div class="sec-lbl">World firsts (8 documented, VeriCrypt alone)</div>
-              <div style="display:flex;flex-direction:column;gap:6px;">
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">01</span>
-                  <span style="font-size:12.5px;color:var(--body);">Machine-provable, air-gapped PQC compliance artefacts (.pqc files)</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">02</span>
-                  <span style="font-size:12.5px;color:var(--body);">DORA + NIST PQC + NIS2 + SCITT in a single formally-verified engine</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">03</span>
-                  <span style="font-size:12.5px;color:var(--body);">Regulator-verifiable without accessing bank systems</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">04</span>
-                  <span style="font-size:12.5px;color:var(--body);">Formally-specified agent compiler with sovereign-native runtime (ASL)</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">05</span>
-                  <span style="font-size:12.5px;color:var(--body);">TLA+-verified core banking OS with 7-day migration proof (Verity)</span>
-                </div>
-                <div style="display:flex;gap:8px;padding:8px 0;">
-                  <span style="color:var(--green);font-weight:700;flex-shrink:0;">+3</span>
-                  <span style="font-size:12.5px;color:var(--body);">See VeriCrypt Valuation Report for full 8-item world-firsts analysis</span>
-                </div>
+              <div style="display:flex;flex-direction:column;gap:0;">
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:13px;">01</span><span style="font-size:12.5px;color:var(--body);">Machine-provable, air-gapped PQC compliance artefacts (.pqc files)</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:13px;">02</span><span style="font-size:12.5px;color:var(--body);">DORA + NIST PQC + NIS2 + SCITT in one formally-verified engine</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:13px;">03</span><span style="font-size:12.5px;color:var(--body);">Regulator-verifiable without accessing bank systems</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:13px;">04</span><span style="font-size:12.5px;color:var(--body);">Formally-specified agent compiler with sovereign-native runtime (ASL)</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:13px;">05</span><span style="font-size:12.5px;color:var(--body);">TLA+-verified core banking OS with 7-day migration proof (Verity)</span></div>
+                <div style="display:flex;gap:8px;padding:8px 0;"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-size:13px;">+3</span><span style="font-size:12.5px;color:var(--body);">See VeriCrypt Valuation Report for full 8-item world-firsts analysis</span></div>
               </div>
             </div>
-          </div>
-          <div class="vc amber">
-            <div class="vc-t">Pipeline signals (current)</div>
-            <div class="vc-b">Warm introduction pathway to CARICOM government ministries via 30-year enterprise relationship (former UWI CIO). Targeted outreach to EU fintech pilot cohort (DORA compliance as entry point). First customer target: EU-regulated fintech at €125K Starter engagement. <strong>Contact for pipeline details: dpramsajan@meeting-mind.com</strong></div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- =============================================
-         SLIDE 08 — COMPETITIVE LANDSCAPE
-         Matrix format. Show exactly where Intellica wins.
-         Address every major competitor honestly.
+         SLIDE 08 — COMPETITIVE MATRIX
     ============================================= -->
     <div class="slide" data-slide="8">
       <div class="rail"></div>
@@ -902,10 +803,8 @@ body {
             <div class="s-eye-right">08 / 13</div>
           </div>
           <div class="h2">Where we win. <em>Where we don't. Why it matters.</em></div>
-          <p class="lead" style="margin-bottom:20px;">
-            No competitor claims are exaggerated. The matrix below reflects publicly verifiable capabilities as of June 2026.
-          </p>
-          <div style="overflow-x:auto;margin-bottom:20px;">
+          <p class="lead" style="margin-bottom:18px;">No competitor claims are exaggerated. The matrix below reflects publicly verifiable capabilities as of June 2026.</p>
+          <div style="overflow-x:auto;margin-bottom:18px;">
             <table class="matrix">
               <thead>
                 <tr>
@@ -918,74 +817,18 @@ body {
                 </tr>
               </thead>
               <tbody>
-                <tr class="hi-row">
-                  <td>Formally-verified PQC conformance</td>
-                  <td class="ck">✓ Machine-provable</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                </tr>
-                <tr>
-                  <td>Air-gapped / sovereign-native</td>
-                  <td class="ck">✓ Architectural</td>
-                  <td class="cr">✗ Cloud-native</td>
-                  <td class="pa">△ Hardware only</td>
-                  <td class="pa">△ Partial</td>
-                  <td class="pa">△ HSM only</td>
-                </tr>
-                <tr class="hi-row">
-                  <td>DORA + NIST PQC + NIS2 + SCITT</td>
-                  <td class="ck">✓ All four</td>
-                  <td class="pa">△ 1–2 standards</td>
-                  <td class="pa">△ 1–2 standards</td>
-                  <td class="pa">△ NIST only</td>
-                  <td class="pa">△ NIST only</td>
-                </tr>
-                <tr>
-                  <td>Regulator-verifiable artefacts</td>
-                  <td class="ck">✓ .pqc files</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                </tr>
-                <tr class="hi-row">
-                  <td>Owned compiler / runtime stack</td>
-                  <td class="ck">✓ ASL (seedc + seedvm)</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                  <td class="cr">✗</td>
-                </tr>
-                <tr>
-                  <td>Cross-system platform (5 products)</td>
-                  <td class="ck">✓ One substrate</td>
-                  <td class="cr">✗ Point solution</td>
-                  <td class="cr">✗ Point solution</td>
-                  <td class="cr">✗ Point solution</td>
-                  <td class="cr">✗ Point solution</td>
-                </tr>
-                <tr class="hi-row">
-                  <td>Deployment topology</td>
-                  <td class="ck">✓ On-prem, air-gap, cloud-optional</td>
-                  <td class="cr">Cloud-only</td>
-                  <td class="pa">On-prem HSM</td>
-                  <td class="pa">Cloud + on-prem</td>
-                  <td class="pa">HSM + cloud</td>
-                </tr>
+                <tr class="hi-row"><td>Formally-verified PQC conformance</td><td class="ck">✓ Machine-provable</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td></tr>
+                <tr><td>Air-gapped / sovereign-native</td><td class="ck">✓ Architectural</td><td class="cr">✗ Cloud-native</td><td class="pa">△ Hardware only</td><td class="pa">△ Partial</td><td class="pa">△ HSM only</td></tr>
+                <tr class="hi-row"><td>DORA + NIST PQC + NIS2 + SCITT</td><td class="ck">✓ All four</td><td class="pa">△ 1–2</td><td class="pa">△ 1–2</td><td class="pa">△ NIST only</td><td class="pa">△ NIST only</td></tr>
+                <tr><td>Regulator-verifiable artefacts</td><td class="ck">✓ .pqc files</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td></tr>
+                <tr class="hi-row"><td>Owned compiler / runtime stack</td><td class="ck">✓ ASL (seedc + seedvm)</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td></tr>
+                <tr><td>Cross-system platform (5 products)</td><td class="ck">✓ One substrate</td><td class="cr">✗ Point solution</td><td class="cr">✗</td><td class="cr">✗</td><td class="cr">✗</td></tr>
               </tbody>
             </table>
           </div>
           <div class="card-grid cols-2">
-            <div class="vc cyan">
-              <div class="vc-t">Where Intellica does not compete (yet)</div>
-              <div class="vc-b">Hardware Security Modules (HSMs) — Thales and Entrust dominate physical key storage. <strong>This is a complement, not a competitor</strong>: VeriCrypt generates the compliance artefacts that sit on top of HSM-stored keys. Both are needed. Both can be sold together.</div>
-            </div>
-            <div class="vc green">
-              <div class="vc-t">The honest acquirer thesis</div>
-              <div class="vc-b">Thales is the highest-fit strategic acquirer: they sell to every DORA-subject institution globally, lack formal verification, and are actively building PQC capability. <strong>VeriCrypt fills their exact gap.</strong> IBM and Check Point are secondary acquirer targets.</div>
-            </div>
+            <div class="vc cyan"><div class="vc-t">Where Intellica does not compete (yet)</div><div class="vc-b">Hardware Security Modules (HSMs) — Thales and Entrust dominate physical key storage. <strong>This is a complement, not a competitor</strong>: VeriCrypt generates the compliance artefacts that sit on top of HSM-stored keys.</div></div>
+            <div class="vc green"><div class="vc-t">The honest acquirer thesis</div><div class="vc-b">Thales is the highest-fit strategic acquirer: they sell to every DORA-subject institution globally, lack formal verification, and are actively building PQC capability. <strong>VeriCrypt fills their exact gap.</strong></div></div>
           </div>
         </div>
       </div>
@@ -993,8 +836,6 @@ body {
 
     <!-- =============================================
          SLIDE 09 — BUSINESS MODEL
-         DORA-anchored pricing. VCs want to see CAC, LTV direction.
-         Show the recurring revenue logic.
     ============================================= -->
     <div class="slide" data-slide="9">
       <div class="rail"></div>
@@ -1004,63 +845,31 @@ body {
             <div class="s-eye-left">Business Model</div>
             <div class="s-eye-right">09 / 13</div>
           </div>
-          <div class="h2">Pricing anchored to <em>DORA fine exposure,</em> not to market convention.</div>
-          <p class="lead" style="margin-bottom:22px;">
-            When your customer's alternative is a fine of up to 2% of global annual turnover, the pricing conversation is not about cost — it is about risk transfer. Every tier is priced as a fraction of the avoided fine.
-          </p>
-          <div class="card-grid cols-3" style="margin-bottom:20px;">
-            <div class="vc cyan">
-              <div class="vc-t">Tier 1 — Fintech Starter</div>
-              <div class="vc-b">
-                <strong style="font-size:1.2rem;color:var(--cyan);">€125K / yr</strong><br><br>
-                Target: EU fintechs with €50–200M turnover<br>
-                DORA fine exposure: €1M–4M<br>
-                Pricing = ~6% of minimum fine exposure<br><br>
-                Includes: CBOM generation, DORA conformance report, NIST PQC audit, 49 checks, annual artefact refresh
-              </div>
-            </div>
-            <div class="vc green">
-              <div class="vc-t">Tier 2 — Mid-Market Bank</div>
-              <div class="vc-b">
-                <strong style="font-size:1.2rem;color:var(--green);">€450K / yr</strong><br><br>
-                Target: Banks with €200M–1B turnover<br>
-                DORA fine exposure: €4M–20M<br>
-                Pricing = ~3% of minimum fine exposure<br><br>
-                Includes: Tier 1 + NIS2 alignment, SCITT supply chain evidence, migration roadmap, quarterly artefacts
-              </div>
-            </div>
-            <div class="vc amber">
-              <div class="vc-t">Tier 3 — Systemically Important</div>
-              <div class="vc-b">
-                <strong style="font-size:1.2rem;color:var(--amber);">€1.8M–3.8M / yr</strong><br><br>
-                Target: G-SIBs, CSDs, CCPs, systemic institutions<br>
-                DORA fine exposure: €20M–400M+<br>
-                Pricing = &lt;1% of minimum fine exposure<br><br>
-                Includes: Tier 2 + PQFIF, regulator liaison support, bespoke algorithm tracking, dedicated SLA
-              </div>
-            </div>
+          <div class="h2">Pricing anchored to <em>DORA fine exposure,</em> not market convention.</div>
+          <p class="lead" style="margin-bottom:18px;">When your customer's alternative is a fine of up to 2% of global annual turnover, the pricing conversation is not about cost — it is about risk transfer.</p>
+          <div class="card-grid cols-3" style="margin-bottom:18px;">
+            <div class="vc cyan"><div class="vc-t">Tier 1 — Fintech Starter</div><div class="vc-b"><strong style="font-size:1.1rem;color:var(--cyan);">€125K / yr</strong><br><br>EU fintechs €50–200M turnover<br>DORA fine exposure: €1M–4M<br>Pricing ≈ 6% of minimum fine</div></div>
+            <div class="vc green"><div class="vc-t">Tier 2 — Mid-Market Bank</div><div class="vc-b"><strong style="font-size:1.1rem;color:var(--green);">€450K / yr</strong><br><br>Banks €200M–1B turnover<br>DORA fine exposure: €4M–20M<br>Pricing ≈ 3% of minimum fine</div></div>
+            <div class="vc amber"><div class="vc-t">Tier 3 — Systemic</div><div class="vc-b"><strong style="font-size:1.1rem;color:var(--amber);">€1.8M–3.8M / yr</strong><br><br>G-SIBs, CSDs, CCPs<br>DORA fine exposure: €20M–400M+<br>Pricing &lt;1% of minimum fine</div></div>
           </div>
           <div class="two-col">
             <div>
               <div class="sec-lbl">Revenue model</div>
               <div style="display:flex;flex-direction:column;gap:8px;">
-                <div class="vc cyan"><div class="vc-t">Annual SaaS-equivalent (Sovereign-as-a-Service)</div><div class="vc-b">Recurring annual licence fee for compliance engine. <strong>Churn is structurally near-zero</strong>: switching mid-migration would void regulatory artefacts already submitted.</div></div>
-                <div class="vc green"><div class="vc-t">VeriWatch — monitoring layer (pipeline)</div><div class="vc-b">Continuous PQC posture monitoring as a recurring layer on top of the base engagement. Adds €25K–200K/yr per customer on renewal.</div></div>
-                <div class="vc amber"><div class="vc-t">Partner programme — channel expansion</div><div class="vc-b">Three-tier: Silver (referral), Gold (co-sell), Platinum (OEM). Targets EU Big Four, regional system integrators, and Thales channel partners.</div></div>
+                <div class="vc cyan"><div class="vc-t">Annual Sovereign-as-a-Service</div><div class="vc-b">Recurring annual licence fee. <strong>Churn is structurally near-zero</strong>: switching mid-migration would void regulatory artefacts already submitted.</div></div>
+                <div class="vc green"><div class="vc-t">VeriWatch — monitoring layer</div><div class="vc-b">Continuous PQC posture monitoring adds €25K–200K/yr per customer on renewal.</div></div>
+                <div class="vc amber"><div class="vc-t">Partner programme</div><div class="vc-b">Silver (referral), Gold (co-sell), Platinum (OEM). Targets EU Big Four and Thales channel partners.</div></div>
               </div>
             </div>
             <div>
-              <div class="sec-lbl">Unit economics direction (pre-revenue projections)</div>
+              <div class="sec-lbl">Unit economics (pre-revenue projections)</div>
               <div class="stat-grid cols-2" style="margin-bottom:12px;">
-                <div class="si-stat"><div class="ss-n">&lt;€15K</div><div class="ss-l">Estimated CAC (warm intro + compliance mandate)</div></div>
+                <div class="si-stat"><div class="ss-n">&lt;€15K</div><div class="ss-l">Estimated CAC (compliance mandate demand pull)</div></div>
                 <div class="si-stat"><div class="ss-n g">8×+</div><div class="ss-l">LTV/CAC at Tier 1 (5-yr contract horizon)</div></div>
-                <div class="si-stat"><div class="ss-n a">~90%</div><div class="ss-l">Gross margin target (software + artefact delivery)</div></div>
+                <div class="si-stat"><div class="ss-n a">~90%</div><div class="ss-l">Gross margin target</div></div>
                 <div class="si-stat"><div class="ss-n p">24</div><div class="ss-l">Customers to reach €3M ARR at blended Tier 1</div></div>
               </div>
-              <div class="vc red">
-                <div class="vc-t">Path to Series A trigger</div>
-                <div class="vc-b">€3M ARR + 3 named Tier-2 contracts + VeriWatch live → Series A at implied €30–50M pre-money.</div>
-              </div>
+              <div class="vc red"><div class="vc-t">Series A trigger</div><div class="vc-b">€3M ARR + 3 named Tier-2 contracts + VeriWatch live → Series A at implied €30–50M pre-money.</div></div>
             </div>
           </div>
         </div>
@@ -1069,13 +878,10 @@ body {
 
     <!-- =============================================
          SLIDE 10 — THE FOUNDER
-         Rebuilt completely. The real story:
-         dot-net crash discipline → TAM thesis 2007
-         → 19 years studying the adoption gap
-         → 42% abandoned rate in 2026
-         → Intellica is the answer to that question.
-         NO pipeline name-drops. NO "warm intros".
-         Every credential is a shipped fact.
+         Research: this is where the emotional investment decision is made.
+         YC: investors invest in people first at seed stage.
+         The narrative must answer: is this your life's work?
+         Unique hook: TAM thesis in 2007 predicted the 2026 adoption crisis.
     ============================================= -->
     <div class="slide" data-slide="10">
       <div class="rail"></div>
@@ -1086,65 +892,57 @@ body {
             <div class="s-eye-right">10 / 13</div>
           </div>
 
-          <div class="h2">The builder who studied <em>why AI gets abandoned</em> — nineteen years before it became the industry's defining crisis.</div>
+          <div class="h2">The builder who studied <em>why AI gets abandoned</em> — nineteen years before it became the defining crisis.</div>
 
-          <div class="tam-arc" style="margin-top:20px;">
-            <div class="tam-left">
-              <div class="tam-item">
-                <div class="tam-year">2000</div>
-                <div class="tam-body">
-                  <div class="tam-title">Entered enterprise tech — post dot-net crash</div>
-                  <div class="tam-desc">Cisco, Microsoft, and NetApp-certified environment. Customers had just watched billions evaporate on technology that never delivered. The lesson was permanent: verifiable outcomes or don't ship.</div>
-                </div>
+          <div class="two-col-61" style="margin-top:18px;gap:28px;">
+            <div style="display:flex;flex-direction:column;gap:0;">
+
+              <div class="tl-item" style="padding:10px 0;">
+                <div class="tl-date">2000</div>
+                <div class="tl-dot"></div>
+                <div class="tl-text"><strong>Entered enterprise tech — post dot-net crash.</strong> Trinidad Systems Limited, then CommNett alongside Cisco, Microsoft, NetApp-certified experts. Customers had watched billions evaporate. The lesson was permanent: verifiable outcomes or don't ship.</div>
               </div>
-              <div class="tam-item">
-                <div class="tam-year">2007</div>
-                <div class="tam-body">
-                  <div class="tam-title">MSc Strategic Business IT — University of Portsmouth</div>
-                  <div class="tam-desc">Thesis: IBM Maximo EAM adoption at BPTT, grounded in Davis's Technology Acceptance Model (1989). The research question was not "does it work?" but <em>"will users actually adopt it — and why?"</em> Perceived usefulness. Perceived ease of use. The deployment-vs-adoption gap.</div>
-                </div>
+
+              <div class="tl-item" style="padding:10px 0;">
+                <div class="tl-date">2007</div>
+                <div class="tl-dot"></div>
+                <div class="tl-text"><strong>MSc Strategic Business IT — University of Portsmouth.</strong> Thesis: IBM Maximo EAM adoption at BPTT, grounded in Davis's Technology Acceptance Model (1989). Research question: not "does it work?" but <em>"will users actually adopt it — and why?"</em> Perceived usefulness. Perceived ease of use. The deployment-vs-adoption gap.</div>
               </div>
-              <div class="tam-item">
-                <div class="tam-year">2000–19</div>
-                <div class="tam-body">
-                  <div class="tam-title">~20 years across energy, government, enterprise</div>
-                  <div class="tam-desc">IT governance, architecture, and training across oil and gas, government ministries, and enterprise clients. Architecture always through the TAM lens: a technically correct system that users don't adopt is a liability with a user interface.</div>
-                </div>
+
+              <div class="tl-item" style="padding:10px 0;">
+                <div class="tl-date">2000–19</div>
+                <div class="tl-dot"></div>
+                <div class="tl-text"><strong>~20 years across energy, government, enterprise.</strong> IT governance, architecture, and training. Architecture always through the TAM lens: a technically correct system that users don't adopt is a liability with a user interface.</div>
               </div>
-              <div class="tam-item">
-                <div class="tam-year">2019</div>
-                <div class="tam-body">
-                  <div class="tam-title">PGDip Software Engineering — Aston University, Birmingham</div>
-                  <div class="tam-desc">Focus: engineering multi-agent systems. Formal methods combined with decades of watching real users reject real enterprise software. Built in Python, TypeScript, and Rust since. The two disciplines — formal correctness and human adoption — are usually held by different people. In Damain they are the same person.</div>
-                </div>
+
+              <div class="tl-item" style="padding:10px 0;">
+                <div class="tl-date">2019</div>
+                <div class="tl-dot"></div>
+                <div class="tl-text"><strong>PGDip Software Engineering — Aston University, Birmingham.</strong> Focus: multi-agent systems. Built in Python, TypeScript, and Rust since. The two disciplines — formal correctness and human adoption — are usually held by different people. In Damain they are the same person.</div>
               </div>
-              <div class="tam-item">
-                <div class="tam-year">2024–26</div>
-                <div class="tam-body">
-                  <div class="tam-title">Intellica AI — Five sovereign systems, sole author</div>
-                  <div class="tam-desc">ASL, Cortex, VeriCrypt, VeriChain, Verity. Every design decision reflects both constraints: formal verification and adoption design simultaneously. VeriCrypt's one-command deployment, Cortex's natural language interface over SAP, Verity's 7-day migration proof — all TAM decisions. Every system is formally verified. Every system is designed to be used.</div>
-                </div>
+
+              <div class="tl-item" style="padding:10px 0;border-bottom:none;">
+                <div class="tl-date">2024–26</div>
+                <div class="tl-dot"></div>
+                <div class="tl-text"><strong>Five sovereign systems — sole author, every line.</strong> ASL, Cortex, VeriCrypt, VeriChain, Verity. Every design decision reflects both constraints simultaneously: formal verification and adoption engineering. VeriCrypt's one-command deployment is a TAM decision. Cortex's natural language interface is a TAM decision. Verity's 7-day migration proof is a TAM decision.</div>
               </div>
+
             </div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
 
-            <div class="tam-right">
-              <div class="tam-insight hi">
-                <div class="tam-insight-t">The 2026 punchline</div>
-                <div class="tam-insight-b"><strong>42% of enterprise AI initiatives were abandoned in 2025</strong> — more than double the prior year. Not because the models don't work. Because deployment and adoption are not the same thing, and most AI builders have never studied the difference. Damain studied it in 2007. He has been building for it ever since.</div>
-              </div>
-              <div class="tam-insight g">
-                <div class="tam-insight-t">Why TAM is in the architecture</div>
-                <div class="tam-insight-b">VeriCrypt's one-command CISO deployment: <strong>reduce perceived effort to zero.</strong> Cortex's natural language over SAP: <strong>replace the interface users hate.</strong> Verity's 7-day migration with cryptographic proof: <strong>make the switching cost so low no committee can delay.</strong> These are not UX choices. They are adoption engineering.</div>
-              </div>
-              <div class="tam-insight a">
-                <div class="tam-insight-t">The Trinidad &amp; Tobago dimension</div>
-                <div class="tam-insight-b">Damain builds with a specific perspective and moral voice from the Caribbean — a region that has watched technology waves arrive, extract, and leave. Intellica is sovereign-first in part because he understands what it means when the infrastructure is owned by someone else. That is not a detail. It is the thesis.</div>
+              <div class="vc cyan" style="border-left-width:3px;">
+                <div class="vc-t" style="font-size:12px;letter-spacing:.05em;color:var(--cyan);font-family:var(--font-m);text-transform:uppercase;">The 2026 punchline</div>
+                <div class="vc-b" style="font-size:13.5px;color:var(--body);line-height:1.65;margin-top:6px;"><strong>42% of enterprise AI initiatives were abandoned in 2025</strong> — more than double the prior year. Not because the models don't work. Because deployment and adoption are not the same thing, and most AI builders have never studied the difference.<br><br>Damain studied it in 2007. He has been building for it ever since.</div>
               </div>
 
-              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+              <div class="vc green">
+                <div class="vc-t">Why TAM is in the architecture</div>
+                <div class="vc-b">VeriCrypt's one-command deployment: <strong>reduce perceived effort to zero.</strong> Cortex's natural language over SAP: <strong>replace the interface users hate.</strong> Verity's 7-day migration with proof: <strong>make the switching cost so low no committee can delay.</strong></div>
+              </div>
+
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
                 <a href="mailto:dpramsajan@meeting-mind.com" style="font-family:var(--font-m);font-size:10px;color:var(--cyan);text-decoration:none;padding:5px 10px;border:1px solid rgba(0,207,255,0.2);border-radius:3px;">✉ dpramsajan@meeting-mind.com</a>
                 <a href="https://wa.me/18687195236" target="_blank" rel="noopener" style="font-family:var(--font-m);font-size:10px;color:var(--green);text-decoration:none;padding:5px 10px;border:1px solid rgba(0,240,120,0.2);border-radius:3px;">💬 +1 868 719 5236</a>
-                <a href="https://www.linkedin.com/in/damain-ramsajan-63204b23/" target="_blank" rel="noopener" style="font-family:var(--font-m);font-size:10px;color:#0A66C2;text-decoration:none;padding:5px 10px;border:1px solid rgba(10,102,194,0.25);border-radius:3px;">in LinkedIn</a>
                 <a href="https://calendly.com/peterdramsajan/30min" target="_blank" rel="noopener" style="font-family:var(--font-m);font-size:10px;color:var(--purple);text-decoration:none;padding:5px 10px;border:1px solid rgba(157,110,255,0.2);border-radius:3px;">📅 Book 30-min briefing</a>
               </div>
             </div>
@@ -1155,8 +953,6 @@ body {
 
     <!-- =============================================
          SLIDE 11 — FINANCIALS & ASK
-         18-month model, use of funds, milestones.
-         Research: specific, defensible, milestone-to-Series-A.
     ============================================= -->
     <div class="slide" data-slide="11">
       <div class="rail"></div>
@@ -1167,64 +963,34 @@ body {
             <div class="s-eye-right">11 / 13</div>
           </div>
           <div class="h2"><em>€750,000</em> seed · 18-month runway · SAFE structure.</div>
-          <p class="lead" style="margin-bottom:20px;">
-            Every dollar tied to a milestone. Every milestone tied to the Series A trigger. <strong>No vanity projections.</strong>
-          </p>
-          <div class="two-col" style="margin-bottom:22px;">
+          <p class="lead" style="margin-bottom:18px;">Every dollar tied to a milestone. Every milestone tied to the Series A trigger. <strong>No vanity projections.</strong></p>
+          <div class="two-col" style="margin-bottom:18px;">
             <div>
               <div class="sec-lbl">Use of funds — 18-month deployment</div>
               <div class="uof" style="margin-bottom:16px;">
-                <div class="uof-item">
-                  <div class="uof-label">Engineering &amp; Infrastructure</div>
-                  <div class="uof-track"><div class="uof-bar" style="width:40%;background:var(--cyan);"></div></div>
-                  <div class="uof-pct">40%</div>
-                </div>
-                <div class="uof-item">
-                  <div class="uof-label">Go-to-Market / Sales</div>
-                  <div class="uof-track"><div class="uof-bar" style="width:30%;background:var(--green);"></div></div>
-                  <div class="uof-pct">30%</div>
-                </div>
-                <div class="uof-item">
-                  <div class="uof-label">Legal / IP / Compliance</div>
-                  <div class="uof-track"><div class="uof-bar" style="width:20%;background:var(--amber);"></div></div>
-                  <div class="uof-pct">20%</div>
-                </div>
-                <div class="uof-item">
-                  <div class="uof-label">Operations / Admin</div>
-                  <div class="uof-track"><div class="uof-bar" style="width:10%;background:var(--purple);"></div></div>
-                  <div class="uof-pct">10%</div>
-                </div>
+                <div class="uof-item"><div class="uof-label">Engineering &amp; Infrastructure</div><div class="uof-track"><div class="uof-bar" style="width:40%;background:var(--cyan);"></div></div><div class="uof-pct">40%</div></div>
+                <div class="uof-item"><div class="uof-label">Go-to-Market / Sales</div><div class="uof-track"><div class="uof-bar" style="width:30%;background:var(--green);"></div></div><div class="uof-pct">30%</div></div>
+                <div class="uof-item"><div class="uof-label">Legal / IP / Compliance</div><div class="uof-track"><div class="uof-bar" style="width:20%;background:var(--amber);"></div></div><div class="uof-pct">20%</div></div>
+                <div class="uof-item"><div class="uof-label">Operations / Admin</div><div class="uof-track"><div class="uof-bar" style="width:10%;background:var(--purple);"></div></div><div class="uof-pct">10%</div></div>
               </div>
               <div class="sec-lbl">Round structure</div>
-              <div style="display:flex;flex-direction:column;gap:6px;">
-                <div class="vc cyan"><div class="vc-t">Instrument: Post-money SAFE</div><div class="vc-b">Valuation cap: €6.25M (implied 12% dilution at €750K). Single cap, no MFN stacking. Standard YC SAFE terms. Fast close — no priced round complexity at this stage.</div></div>
-                <div class="vc green"><div class="vc-t">Option pool: 10% pre-money</div><div class="vc-b">Reserved for first 3 hires (engineering lead, EU enterprise sales, regulatory advisor). Fully disclosed in cap table.</div></div>
+              <div style="display:flex;flex-direction:column;gap:7px;">
+                <div class="vc cyan"><div class="vc-t">Instrument: Post-money SAFE</div><div class="vc-b">Valuation cap: €6.25M (implied 12% dilution at €750K). Single cap, no MFN stacking. Standard YC SAFE terms.</div></div>
+                <div class="vc green"><div class="vc-t">Option pool: 10% pre-money</div><div class="vc-b">Reserved for first 3 hires: engineering lead, EU enterprise sales, regulatory advisor.</div></div>
               </div>
             </div>
             <div>
-              <div class="sec-lbl">18-month milestones (milestone-to-Series-A logic)</div>
+              <div class="sec-lbl">18-month milestones → Series A</div>
               <div class="ml-grid" style="grid-template-columns:1fr;">
-                <div class="ml-card">
-                  <div class="ml-month">Months 1–3</div>
-                  <div class="ml-title">First paying customer</div>
-                  <div class="ml-desc">EU DORA-subject fintech at €125K Starter engagement. VeriCrypt deployed on-prem. First .pqc artefact submitted to regulator.</div>
-                </div>
-                <div class="ml-card">
-                  <div class="ml-month">Months 4–9</div>
-                  <div class="ml-title">Provisional patent + 5 customers</div>
-                  <div class="ml-desc">Patent cluster filed on machine-provable compliance artefact methodology. 5 customers at blended €200K = €1M ARR. VeriWatch beta launched.</div>
-                </div>
-                <div class="ml-card">
-                  <div class="ml-month">Months 10–18</div>
-                  <div class="ml-title">Series A trigger</div>
-                  <div class="ml-desc">€3M ARR · 3 named Tier-2 contracts · 1 Caribbean government pilot (Cortex) · VeriWatch live on 3 customers → Series A at €30–50M pre-money.</div>
-                </div>
+                <div class="ml-card"><div class="ml-month">Months 1–3</div><div class="ml-title">First paying customer</div><div class="ml-desc">EU DORA-subject fintech at €125K. VeriCrypt deployed on-prem. First .pqc artefact submitted to regulator.</div></div>
+                <div class="ml-card"><div class="ml-month">Months 4–9</div><div class="ml-title">Patent cluster + 5 customers</div><div class="ml-desc">Provisional patent filed on machine-provable compliance artefact methodology. 5 customers at blended €200K = €1M ARR. VeriWatch beta launched.</div></div>
+                <div class="ml-card"><div class="ml-month">Months 10–18</div><div class="ml-title">Series A trigger</div><div class="ml-desc">€3M ARR · 3 named Tier-2 contracts · VeriWatch live on 3 customers → Series A at €30–50M pre-money.</div></div>
               </div>
             </div>
           </div>
           <div class="stat-grid cols-4">
             <div class="si-stat"><div class="ss-n">€750K</div><div class="ss-l">Raise amount</div></div>
-            <div class="si-stat"><div class="ss-n g">12%</div><div class="ss-l">Implied dilution (SAFE cap)</div></div>
+            <div class="si-stat"><div class="ss-n g">12%</div><div class="ss-l">Implied dilution</div></div>
             <div class="si-stat"><div class="ss-n a">18mo</div><div class="ss-l">Runway to Series A</div></div>
             <div class="si-stat"><div class="ss-n p">€3M</div><div class="ss-l">ARR target at Series A</div></div>
           </div>
@@ -1234,8 +1000,6 @@ body {
 
     <!-- =============================================
          SLIDE 12 — RISK REGISTER
-         Research: founders who show they understand risks
-         build more conviction than those who ignore them.
     ============================================= -->
     <div class="slide" data-slide="12">
       <div class="rail"></div>
@@ -1246,107 +1010,72 @@ body {
             <div class="s-eye-right">12 / 13</div>
           </div>
           <div class="h2">Honest risks. <em>Specific mitigations.</em></div>
-          <p class="lead" style="margin-bottom:20px;">
-            VCs fund founders who see around corners, not founders who pretend risks don't exist. Here are the material risks and how they are managed.
-          </p>
+          <p class="lead" style="margin-bottom:18px;">VCs fund founders who see around corners, not founders who pretend risks don't exist.</p>
           <div class="card-grid cols-2">
-            <div class="vc red">
-              <div class="vc-t">⚠ Solo founder concentration risk</div>
-              <div class="vc-b"><strong>Risk:</strong> All IP and execution capability concentrated in one person.<br><br><strong>Mitigation:</strong> Fully documented arc42 architecture for all five systems. ASL is formally specified — a second engineer can build on it without the founder. First hire with €750K is an engineering lead. IP assigned to Delaware C-Corp.</div>
-            </div>
-            <div class="vc red">
-              <div class="vc-t">⚠ Pre-revenue customer acquisition</div>
-              <div class="vc-b"><strong>Risk:</strong> No signed customers at close.<br><br><strong>Mitigation:</strong> Compliance mandate creates demand-pull (DORA is law, not preference). Warm intro network via former UWI CIO. VeriCrypt is production-ready today. First customer target is a 90-day close, not a 12-month one.</div>
-            </div>
-            <div class="vc amber">
-              <div class="vc-t">⚡ Regulatory standard evolution</div>
-              <div class="vc-b"><strong>Risk:</strong> NIST adds new PQC algorithms; compliance requirements change.<br><br><strong>Mitigation:</strong> VeriCrypt's conformance engine is algorithm-agile by design (NIST HQC already tracked). ASL's formal specification makes adding new algorithm checks a low-complexity extension.</div>
-            </div>
-            <div class="vc amber">
-              <div class="vc-t">⚡ Large incumbent response (Thales, IBM)</div>
-              <div class="vc-b"><strong>Risk:</strong> Thales or IBM builds a competing formally-verified compliance engine.<br><br><strong>Mitigation:</strong> Formal verification expertise takes 3–5 years to build. Intellica's 18-month head start + first customer lock-in + patent cluster creates a window. Thales acquiring VeriCrypt is also a base-case exit scenario.</div>
-            </div>
-            <div class="vc green">
-              <div class="vc-t">✓ Geography risk — managed</div>
-              <div class="vc-b">Trinidad and Tobago base creates a unique positioning advantage (Caribbean sovereign AI voice) and is not a customer access barrier. All EU customer engagement is remote. Delaware C-Corp structure satisfies investor legal requirements.</div>
-            </div>
-            <div class="vc green">
-              <div class="vc-t">✓ AI regulation risk — managed</div>
-              <div class="vc-b">EU AI Act compliance is built in — sovereign architecture with formal verification and full auditability satisfies the highest-risk AI Act tier requirements. VeriCrypt's air-gapped operation eliminates most AI Act data concerns by design.</div>
-            </div>
+            <div class="vc red"><div class="vc-t">⚠ Solo founder concentration risk</div><div class="vc-b"><strong>Risk:</strong> All IP and execution capability concentrated in one person.<br><br><strong>Mitigation:</strong> Fully documented arc42 architecture for all five systems. ASL is formally specified — a second engineer can build on it without the founder. First hire with €750K is an engineering lead.</div></div>
+            <div class="vc red"><div class="vc-t">⚠ Pre-revenue customer acquisition</div><div class="vc-b"><strong>Risk:</strong> No signed customers at close.<br><br><strong>Mitigation:</strong> Compliance mandate creates demand-pull (DORA is law). VeriCrypt is production-ready today. First customer target is a 90-day close, not a 12-month one.</div></div>
+            <div class="vc amber"><div class="vc-t">⚡ Regulatory standard evolution</div><div class="vc-b"><strong>Risk:</strong> NIST adds new PQC algorithms.<br><br><strong>Mitigation:</strong> VeriCrypt's conformance engine is algorithm-agile by design (NIST HQC already tracked). ASL's formal specification makes adding new algorithm checks a low-complexity extension.</div></div>
+            <div class="vc amber"><div class="vc-t">⚡ Large incumbent response (Thales, IBM)</div><div class="vc-b"><strong>Risk:</strong> Thales or IBM builds a competing formally-verified compliance engine.<br><br><strong>Mitigation:</strong> Formal verification expertise takes 3–5 years to build. Thales acquiring VeriCrypt is also a base-case exit scenario.</div></div>
+            <div class="vc green"><div class="vc-t">✓ Geography risk — managed</div><div class="vc-b">All EU customer engagement is remote. Delaware C-Corp structure satisfies investor legal requirements. Geography is not a customer access barrier.</div></div>
+            <div class="vc green"><div class="vc-t">✓ AI regulation risk — managed</div><div class="vc-b">EU AI Act compliance is built in — sovereign architecture with formal verification satisfies the highest-risk tier requirements. Air-gapped operation eliminates most data concerns by design.</div></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- =============================================
-         SLIDE 13 — CLOSE / CALL TO ACTION
-         Clean, memorable, one clear next step.
+       <!-- =============================================
+         SLIDE 13 — CLOSE / THE ASK
     ============================================= -->
     <div class="slide" data-slide="13">
       <div class="rail"></div>
       <div class="sc">
-        <div class="si" style="justify-content:center;align-items:flex-start;">
+        <div class="si">
           <div class="s-eye">
             <div class="s-eye-left">The Ask</div>
             <div class="s-eye-right">13 / 13</div>
           </div>
 
-          <div class="not-saas-strip" style="margin-bottom:20px;">
-            <span class="sov-dot"></span>
-            Sovereign. Air-gapped. Five systems. One platform. One founder. One round.
+          <div style="font-family:var(--font-s);font-style:italic;font-size:clamp(2rem,4.5vw,3.6rem);font-weight:400;line-height:1.1;color:var(--white);letter-spacing:-0.01em;margin-bottom:20px;max-width:700px;">
+            The window for<br>
+            <span style="font-style:normal;color:var(--cyan);">first-mover positioning</span><br>
+            closes within 24 months.
           </div>
 
-          <div class="display" style="margin-bottom:16px;max-width:720px;">
-            The world is pivoting to<br>
-            <em>sovereign everything.</em><br>
-            <span class="g">Intellica already built it.</span>
-          </div>
-
-          <p class="lead" style="max-width:600px;margin-bottom:28px;">
-            We are raising <strong>€750,000 on a SAFE</strong> at a €6.25M cap to close our first three DORA pilot customers, file the provisional patent cluster, and reach €3M ARR in 18 months. The next 24 months represent a <strong>rare, mandate-driven first-mover window</strong> in sovereign AI infrastructure.
+          <p class="lead" style="max-width:580px;margin-bottom:24px;">
+            We are raising <strong>€750,000 on a SAFE</strong> at a €6.25M cap to close our first three DORA pilot customers, file the provisional patent cluster, and reach €3M ARR in 18 months.
           </p>
 
-          <div class="stat-grid cols-3" style="max-width:560px;margin-bottom:32px;">
-            <div class="si-stat hi">
-              <div class="ss-n">€750K</div>
-              <div class="ss-l">Raise on SAFE<br><span class="ss-sub">€6.25M cap · 12% implied</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n g">€3M</div>
-              <div class="ss-l">ARR target in 18 months<br><span class="ss-sub">24 Tier-1 customers</span></div>
-            </div>
-            <div class="si-stat hi">
-              <div class="ss-n a">€30–50M</div>
-              <div class="ss-l">Series A pre-money target<br><span class="ss-sub">On €3M ARR + 3 Tier-2</span></div>
-            </div>
+          <div class="stat-grid cols-3" style="max-width:540px;margin-bottom:28px;">
+            <div class="si-stat hi"><div class="ss-n">€750K</div><div class="ss-l">Raise on SAFE<br><span class="ss-sub">€6.25M cap · 12% implied</span></div></div>
+            <div class="si-stat hi"><div class="ss-n g">€3M</div><div class="ss-l">ARR in 18 months<br><span class="ss-sub">24 Tier-1 customers</span></div></div>
+            <div class="si-stat hi"><div class="ss-n a">€30–50M</div><div class="ss-l">Series A pre-money<br><span class="ss-sub">On €3M ARR + 3 Tier-2</span></div></div>
           </div>
 
-          <div class="card-grid cols-3" style="max-width:640px;margin-bottom:24px;">
+          <div class="card-grid cols-3" style="max-width:580px;margin-bottom:22px;">
             <a href="mailto:dpramsajan@meeting-mind.com" style="text-decoration:none;">
-              <div class="vc cyan" style="text-align:center;padding:20px 16px;cursor:pointer;">
-                <div style="font-size:1.6rem;margin-bottom:8px;">✉</div>
+              <div class="vc cyan" style="text-align:center;padding:18px 14px;cursor:pointer;transition:all .2s;">
+                <div style="font-size:1.5rem;margin-bottom:6px;">✉</div>
                 <div class="vc-t" style="justify-content:center;">Email</div>
                 <div class="vc-b" style="font-size:11px;">dpramsajan<br>@meeting-mind.com</div>
               </div>
             </a>
             <a href="https://wa.me/18687195236" target="_blank" rel="noopener" style="text-decoration:none;">
-              <div class="vc green" style="text-align:center;padding:20px 16px;cursor:pointer;">
-                <div style="font-size:1.6rem;margin-bottom:8px;">💬</div>
+              <div class="vc green" style="text-align:center;padding:18px 14px;cursor:pointer;transition:all .2s;">
+                <div style="font-size:1.5rem;margin-bottom:6px;">💬</div>
                 <div class="vc-t" style="justify-content:center;">WhatsApp</div>
                 <div class="vc-b" style="font-size:11px;">+1 868 719 5236<br>Message anytime</div>
               </div>
             </a>
             <a href="https://calendly.com/peterdramsajan/30min" target="_blank" rel="noopener" style="text-decoration:none;">
-              <div class="vc amber" style="text-align:center;padding:20px 16px;cursor:pointer;">
-                <div style="font-size:1.6rem;margin-bottom:8px;">📅</div>
+              <div class="vc amber" style="text-align:center;padding:18px 14px;cursor:pointer;transition:all .2s;">
+                <div style="font-size:1.5rem;margin-bottom:6px;">📅</div>
                 <div class="vc-t" style="justify-content:center;">Book a Briefing</div>
                 <div class="vc-b" style="font-size:11px;">30-minute call<br>via Calendly</div>
               </div>
             </a>
           </div>
 
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div style="display:flex;gap:7px;flex-wrap:wrap;">
             <span class="sys-pill sp-asl">ASL · Platform Foundation</span>
             <span class="sys-pill sp-cx">Cortex · Sovereign AI OS</span>
             <span class="sys-pill sp-vc">VeriCrypt · PQC Compliance</span>
@@ -1359,18 +1088,14 @@ body {
 
   </div><!-- /slides-vp -->
 
-  <!-- ============================
-       CONTROLS BAR
-  ============================ -->
+  <!-- ══ CONTROLS BAR ══ -->
   <div class="controls" role="navigation" aria-label="Slide navigation">
     <div class="ctrl-left">
       <span class="ctrl-brand">INTELLICA·AI</span>
       <span class="ctrl-brand" style="color:var(--border2);">·</span>
       <span class="ctrl-brand">CONFIDENTIAL</span>
     </div>
-
     <div class="ctrl-center" id="pips" role="tablist" aria-label="Go to slide"></div>
-
     <div class="ctrl-right">
       <button class="cb" id="prevBtn" onclick="navigate(-1)" aria-label="Previous slide">← Prev</button>
       <span class="slide-counter" id="counter" aria-live="polite">1 / 13</span>
@@ -1381,21 +1106,31 @@ body {
 
 </div><!-- /deck -->
 
+<!-- ══ DATA ROOM FOOTER ══ -->
+<footer class="dr-footer" role="contentinfo">
+  <div class="ft-brand">INTELLICA<span>·AI</span>, Inc. &middot; Confidential &middot; June 2026</div>
+  <div class="ft-legal">
+    <strong>Intellica AI, Inc.</strong> &mdash; 901 N Market St, Suite 100, Wilmington, DE 19801.
+    Proprietary and confidential. All IP is the exclusive property of Intellica AI, Inc.
+    Forward-looking statements are not guarantees. This is not an offer to sell securities.
+  </div>
+  <div class="ft-right">
+    <a href="mailto:dpramsajan@meeting-mind.com">dpramsajan@meeting-mind.com</a>
+    <a href="https://wa.me/18687195236">+1 868 719 5236</a>
+    <a href="https://intellica-15c.pages.dev/intellica_data_room">← Data Room</a>
+  </div>
+</footer>
+
 <script>
-// ============================
-// DECK ENGINE
-// ============================
 const TOTAL = 13;
 let current = 1;
 let animating = false;
 
-const slides  = () => document.querySelectorAll('.slide');
 const pipsEl  = document.getElementById('pips');
 const counter = document.getElementById('counter');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 
-// Build pips
 for(let i = 1; i <= TOTAL; i++){
   const b = document.createElement('button');
   b.className = 'pip' + (i === 1 ? ' active' : '');
@@ -1419,25 +1154,16 @@ function updateControls(){
 function goTo(n){
   if(animating || n === current || n < 1 || n > TOTAL) return;
   animating = true;
-
   const oldSlide = document.querySelector('.slide.active');
   const newSlide = document.querySelector('[data-slide="' + n + '"]');
   if(!newSlide){ animating = false; return; }
-
   const dir = n > current ? 1 : -1;
-
-  // Prep incoming
   newSlide.style.transform = 'translateX(' + (dir * 60) + 'px)';
   newSlide.style.opacity = '0';
-  newSlide.classList.remove('exit');
-  newSlide.classList.remove('active');
-
+  newSlide.classList.remove('exit','active');
   requestAnimationFrame(() => {
-    // Exit current
     oldSlide.classList.add('exit');
     oldSlide.classList.remove('active');
-
-    // Enter new
     newSlide.style.transition = 'none';
     requestAnimationFrame(() => {
       newSlide.style.transition = '';
@@ -1445,43 +1171,32 @@ function goTo(n){
       newSlide.style.opacity = '';
       newSlide.classList.add('active');
     });
-
     current = n;
     updateControls();
-
-    setTimeout(() => {
-      oldSlide.classList.remove('exit');
-      animating = false;
-    }, 450);
+    setTimeout(() => { oldSlide.classList.remove('exit'); animating = false; }, 450);
   });
 }
 
 function navigate(d){ goTo(current + d); }
 
-// Keyboard navigation
 document.addEventListener('keydown', e => {
-  if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); navigate(1); }
-  if(e.key === 'ArrowLeft'  || e.key === 'PageUp')   { e.preventDefault(); navigate(-1); }
+  if(['ArrowRight',' ','PageDown'].includes(e.key)){ e.preventDefault(); navigate(1); }
+  if(['ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); navigate(-1); }
   if(e.key === 'Home') goTo(1);
   if(e.key === 'End')  goTo(TOTAL);
   if(e.key === 'f' || e.key === 'F') toggleFS();
 });
 
-// Touch / swipe
 let tx = 0;
 document.getElementById('slidesVp').addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
-document.getElementById('slidesVp').addEventListener('touchend',   e => {
+document.getElementById('slidesVp').addEventListener('touchend', e => {
   const dx = e.changedTouches[0].clientX - tx;
   if(Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
 }, {passive:true});
 
-// Fullscreen
 function toggleFS(){
-  if(!document.fullscreenElement){
-    document.documentElement.requestFullscreen().catch(()=>{});
-  } else {
-    document.exitFullscreen().catch(()=>{});
-  }
+  if(!document.fullscreenElement){ document.documentElement.requestFullscreen().catch(()=>{}); }
+  else { document.exitFullscreen().catch(()=>{}); }
 }
 
 updateControls();
