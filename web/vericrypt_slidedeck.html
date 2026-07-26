@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeriCrypt — Y Combinator Application · Fall 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f4f0;
+    --proof: #00c896;
+    --proof-dim: rgba(0,200,150,0.12);
+    --amber: #e8a020;
+    --amber-dim: rgba(232,160,32,0.15);
+    --red: #e03030;
+    --slate: #1a1e24;
+    --mid: #2c333d;
+    --muted: #6b7685;
+    --rule: rgba(245,244,240,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 56px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--proof);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .nav-slides {
+    display: flex;
+    gap: 4px;
+  }
+
+  .nav-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+  }
+
+  .nav-dot.active, .nav-dot:hover { background: var(--proof); transform: scale(1.4); }
+
+  .nav-counter {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── SLIDES ── */
+  .deck {
+    width: 100%;
+  }
+
+  .slide {
+    min-height: 100vh;
+    padding: 100px 80px 80px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .slide-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--proof);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slide-num::after {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--proof);
+    opacity: 0.4;
+  }
+
+  h1 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .em { color: var(--proof); font-style: italic; }
+  .amber { color: var(--amber); }
+  .red { color: var(--red); }
+  .muted { color: var(--muted); }
+
+  p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: rgba(245,244,240,0.82);
+    max-width: 680px;
+    margin-bottom: 20px;
+  }
+
+  /* ── TERMINAL BLOCK ── */
+  .terminal {
+    background: #0d1117;
+    border: 1px solid rgba(0,200,150,0.25);
+    border-radius: 6px;
+    padding: 24px 28px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    margin: 28px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .terminal::before {
+    content: '● ● ●';
+    position: absolute;
+    top: 10px; left: 18px;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 4px;
+  }
+
+  .terminal-inner { margin-top: 20px; }
+
+  .t-cmd { color: var(--proof); }
+  .t-ok { color: #00c896; }
+  .t-warn { color: var(--amber); }
+  .t-fail { color: var(--red); }
+  .t-dim { color: var(--muted); }
+  .t-white { color: var(--white); }
+
+  /* ── STAT GRID ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin: 36px 0;
+  }
+
+  .stat {
+    background: var(--slate);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 24px 20px;
+    position: relative;
+  }
+
+  .stat::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 6px 0 0 6px;
+    background: var(--proof);
+  }
+
+  .stat.amber::before { background: var(--amber); }
+  .stat.red-accent::before { background: var(--red); }
+
+  .stat-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--proof);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat.amber .stat-val { color: var(--amber); }
+  .stat.red-accent .stat-val { color: var(--red); }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 14px;
+  }
+
+  .comp-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .comp-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: middle;
+    color: rgba(245,244,240,0.85);
+  }
+
+  .comp-table tr:first-child td { background: var(--proof-dim); }
+  .comp-table tr:first-child td:first-child { color: var(--proof); font-weight: 500; }
+
+  .check { color: var(--proof); font-weight: 600; }
+  .cross { color: var(--red); }
+  .partial { color: var(--amber); }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 28px 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 64px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    align-items: start;
+    padding: 16px 0;
+  }
+
+  .tl-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--proof);
+    letter-spacing: 0.08em;
+    padding-top: 2px;
+    text-align: right;
+    padding-right: 20px;
+  }
+
+  .tl-content {
+    padding-left: 20px;
+    border-left: 3px solid transparent;
+  }
+
+  .tl-item.active .tl-content { border-left-color: var(--proof); }
+  .tl-item.coming .tl-content { border-left-color: var(--amber); }
+
+  .tl-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .tl-body {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── MOAT CARDS ── */
+  .moat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 28px 0;
+  }
+
+  .moat-card {
+    background: var(--slate);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 28px 24px;
+    position: relative;
+  }
+
+  .moat-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 40px;
+    font-weight: 600;
+    color: var(--proof-dim);
+    line-height: 1;
+    margin-bottom: 12px;
+    color: rgba(0,200,150,0.2);
+  }
+
+  .moat-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--proof);
+    margin-bottom: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .moat-body {
+    font-size: 14px;
+    color: rgba(245,244,240,0.75);
+    line-height: 1.6;
+  }
+
+  /* ── FIRSTS LIST ── */
+  .firsts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 28px 0;
+  }
+
+  .first-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    align-items: start;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .first-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 600;
+    color: rgba(0,200,150,0.35);
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .first-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .first-body {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── REVENUE TIERS ── */
+  .tier-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 28px 0;
+  }
+
+  .tier {
+    background: var(--slate);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 24px 20px;
+    text-align: center;
+  }
+
+  .tier.primary {
+    border-color: rgba(0,200,150,0.4);
+    background: rgba(0,200,150,0.06);
+  }
+
+  .tier-price {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--proof);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .tier-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .tier-desc {
+    font-size: 13px;
+    color: rgba(245,244,240,0.7);
+    line-height: 1.5;
+  }
+
+  /* ── RISK REGISTER ── */
+  .risk-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 28px 0;
+  }
+
+  .risk-item {
+    display: grid;
+    grid-template-columns: 60px 200px 1fr;
+    gap: 20px;
+    align-items: start;
+    padding: 16px 20px;
+    background: var(--slate);
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+  }
+
+  .risk-id {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .risk-label {
+    font-size: 13px;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .risk-mit {
+    font-size: 13px;
+    color: rgba(245,244,240,0.65);
+    line-height: 1.5;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .badge-high { background: rgba(224,48,48,0.2); color: var(--red); }
+  .badge-med { background: rgba(232,160,32,0.2); color: var(--amber); }
+  .badge-low { background: rgba(0,200,150,0.15); color: var(--proof); }
+
+  /* ── ASK SLIDE ── */
+  .ask-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 36px 0;
+  }
+
+  .ask-block {
+    background: var(--slate);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 32px 28px;
+  }
+
+  .ask-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+
+  .ask-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 40px;
+    font-weight: 600;
+    color: var(--proof);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .ask-detail {
+    font-size: 14px;
+    color: rgba(245,244,240,0.7);
+    line-height: 1.6;
+  }
+
+  /* ── MILESTONE LIST ── */
+  .milestones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .milestone {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+    padding: 14px 20px;
+    background: var(--slate);
+    border-radius: 6px;
+    border-left: 3px solid var(--proof);
+    align-items: start;
+  }
+
+  .ms-period {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--proof);
+    letter-spacing: 0.08em;
+    padding-top: 2px;
+  }
+
+  .ms-text {
+    font-size: 14px;
+    color: rgba(245,244,240,0.85);
+    line-height: 1.5;
+  }
+
+  /* ── PROOF BADGE ── */
+  .proof-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--proof-dim);
+    border: 1px solid rgba(0,200,150,0.3);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--proof);
+    letter-spacing: 0.08em;
+    margin: 4px 4px 4px 0;
+  }
+
+  .proof-badge::before {
+    content: '✓';
+    font-size: 11px;
+  }
+
+  /* ── COVER SLIDE ── */
+  #slide-1 {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 20% 50%, rgba(0,200,150,0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(232,160,32,0.03) 0%, transparent 50%);
+  }
+
+  .cover-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .cover-h1 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 600;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+
+  .cover-sub {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: clamp(20px, 3vw, 30px);
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(245,244,240,0.6);
+    margin-bottom: 48px;
+    line-height: 1.3;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .cover-meta-item { }
+
+  .cover-meta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 4px;
+  }
+
+  .cover-meta-val {
+    font-size: 15px;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* ── FOUNDER ── */
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin: 28px 0;
+  }
+
+  .founder-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ft-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
+  }
+
+  .ft-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--proof);
+    padding-top: 2px;
+  }
+
+  .ft-text {
+    font-size: 14px;
+    color: rgba(245,244,240,0.8);
+    line-height: 1.6;
+  }
+
+  .founder-key-box {
+    background: var(--slate);
+    border: 1px solid rgba(0,200,150,0.25);
+    border-radius: 6px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .fk-item { }
+
+  .fk-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 4px;
+  }
+
+  .fk-val {
+    font-size: 14px;
+    color: var(--white);
+    line-height: 1.5;
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 32px 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 2px;
+    background: var(--proof);
+    transition: width 0.3s ease;
+    z-index: 200;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .slide { padding: 80px 24px 60px; }
+    nav { padding: 0 20px; }
+    .moat-grid, .ask-grid, .founder-grid { grid-template-columns: 1fr; }
+    .tier-row { grid-template-columns: repeat(2, 1fr); }
+    .risk-item { grid-template-columns: 1fr; gap: 8px; }
+    .tl-date { text-align: left; }
+    .timeline::before { left: 0; }
+    .tl-item { grid-template-columns: 1fr; }
+    .first-item { grid-template-columns: 36px 1fr; gap: 12px; }
+    .milestone { grid-template-columns: 80px 1fr; }
+    .comp-table { font-size: 12px; }
+    .comp-table th, .comp-table td { padding: 10px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">VeriCrypt · YC F26</div>
+  <div class="nav-slides" id="navDots"></div>
+  <div class="nav-counter" id="navCounter">1 / 10</div>
+</nav>
+
+<div class="progress" id="progressBar"></div>
+
+<div class="deck" id="deck">
+
+<!-- ─────────────────────── SLIDE 1: COVER ─────────────────────── -->
+<section class="slide" id="slide-1" data-slide="1">
+  <div class="cover-eyebrow">Y Combinator · Fall 2026 · Intellica AI, Inc.</div>
+  <div class="cover-h1">VeriCrypt</div>
+  <div class="cover-sub">We built a compiler for regulatory AI agents.<br>The first product proves — not opines — whether your bank will be fined.</div>
+
+  <div class="terminal" style="max-width:620px">
+    <div class="terminal-inner">
+      <span class="t-cmd">$ ./vericrypt scan --cert-dir /data/certs/ --mode parallel</span><br><br>
+      <span class="t-dim">[ 1/7 ] Certificate ingestion ............. 847 assets</span><br>
+      <span class="t-dim">[ 2/7 ] Knowledge graph ................... 1,204 edges</span><br>
+      <span class="t-warn">[ 3/7 ] HNDL exposure .................... 312 at risk</span><br>
+      <span class="t-dim">[ 4/7 ] ASL VM — axioms compiled ......... DORA / NIST</span><br>
+      <span class="t-fail">[ 5/7 ] DORA Art.9(4)(c) RSA floor ....... COUNTEREXAMPLE</span><br>
+      <span class="t-ok">[ 6/7 ] CycloneDX 1.7 CBOM .............. generated</span><br>
+      <span class="t-ok">[ 7/7 ] SLH-DSA signed .pqc .............. 47 seconds</span><br><br>
+      <span class="t-white">report: scan_20260703.pqc  ·  regulator-verifiable offline</span>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Raising</div>
+      <div class="cover-meta-val">€750K · SAFE · €6.25M cap</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Stage</div>
+      <div class="cover-meta-val">Pre-revenue · Binary shipping</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Founder</div>
+      <div class="cover-meta-val">Damain Ramsajan · sole author</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Contact</div>
+      <div class="cover-meta-val">dpramsajan@meeting-mind.com</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── SLIDE 2: PROBLEM ─────────────────────── -->
+<section class="slide" id="slide-2" data-slide="2">
+  <div class="slide-num">02 · The Problem</div>
+  <h2>Every bank is already <span class="em">non-compliant</span>.<br>None can prove they aren't.</h2>
+
+  <p>DORA Article 9 is law since January 2025. It mandates crypto-agility across 22,000 EU financial entities. Fine ceiling: 2% of global annual turnover — €200M for a €10B bank, per infraction.</p>
+
+  <p>Every existing PQC assessment tool produces a <strong>consultant's opinion in a PDF</strong>. A regulator can challenge it. The bank's only defence is "our consultants said so." That is not a legal defence under DORA's evidentiary standard.</p>
+
+  <div class="stat-grid">
+    <div class="stat red-accent">
+      <div class="stat-val">22K</div>
+      <div class="stat-label">EU financial entities under DORA mandatory spend</div>
+    </div>
+    <div class="stat red-accent">
+      <div class="stat-val">2%</div>
+      <div class="stat-label">Fine ceiling of global annual turnover per violation</div>
+    </div>
+    <div class="stat amber">
+      <div class="stat-val">$4.2B</div>
+      <div class="stat-label">Net-new PQC compliance spend triggered 2025–2026</div>
+    </div>
+    <div class="stat amber">
+      <div class="stat-val">5–10yr</div>
+      <div class="stat-label">Timeline for quantum decryption of today's harvested data</div>
+    </div>
+  </div>
+
+  <p>Three compounding crises simultaneously: <strong>DORA enforcement now</strong>, <strong>harvest-now-decrypt-later attacks active</strong>, and <strong>no tool exists that produces regulator-verifiable proof</strong>. IBM, SandboxAQ, and Arqit all require cloud upload — which violates DORA Art. 5 data sovereignty for Tier-3 institutions by design.</p>
+</section>
+
+<!-- ─────────────────────── SLIDE 3: SOLUTION ─────────────────────── -->
+<section class="slide" id="slide-3" data-slide="3">
+  <div class="slide-num">03 · The Solution</div>
+  <h2>We produce a <span class="em">proof</span>.<br>Everyone else produces an opinion.</h2>
+
+  <p>VeriCrypt compiles DORA and NIST regulatory axioms to deterministic bytecode, executes them against a bank's cryptographic inventory in an air-gapped environment, and produces a <strong>.pqc file</strong> — a machine-provable, cryptographically-signed compliance artifact that any regulator can independently verify offline without trusting the bank or the vendor.</p>
+
+  <p>This is not a feature difference. It is a category difference — the difference between a consulting report and a mathematical theorem.</p>
+
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-val">1</div>
+      <div class="stat-label">Binary. One command. No cloud. No account. No telemetry.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">60s</div>
+      <div class="stat-label">Full DORA Art.5–14 compliance proof generated</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">49</div>
+      <div class="stat-label">Active conformance checks passing. Master Build 9/9.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">0</div>
+      <div class="stat-label">External calls in steady state. Sovereign by architecture.</div>
+    </div>
+  </div>
+
+  <p>The go-to-market is built into the product: send the binary, they run it in their air-gapped environment, they see <span class="red">COUNTEREXAMPLE</span> on their RSA-2048 certificates, they buy the signed report licence. The first scan is free. The proof is not.</p>
+</section>
+
+<!-- ─────────────────────── SLIDE 4: WHY NOW ─────────────────────── -->
+<section class="slide" id="slide-4" data-slide="4">
+  <div class="slide-num">04 · Why Now</div>
+  <h2>Six binding deadlines.<br><span class="em">One 24-month window.</span></h2>
+
+  <div class="timeline">
+    <div class="tl-item active">
+      <div class="tl-date">AUG 2024</div>
+      <div class="tl-content">
+        <div class="tl-title">NIST finalises FIPS 203, 204, 205</div>
+        <div class="tl-body">ML-KEM, ML-DSA, SLH-DSA now have legal standards. VeriCrypt implements all three. $4.2B in net-new compliance spend triggered.</div>
+      </div>
+    </div>
+    <div class="tl-item active">
+      <div class="tl-date">JAN 2025</div>
+      <div class="tl-content">
+        <div class="tl-title">DORA full enforcement begins — past, overdue</div>
+        <div class="tl-body">Article 9 mandates crypto-agility for 22,000 EU entities. Every bank is in remediation right now. Fine exposure is live.</div>
+      </div>
+    </div>
+    <div class="tl-item active">
+      <div class="tl-date">JAN 2026</div>
+      <div class="tl-content">
+        <div class="tl-title">NIS2 amendment with explicit PQC requirement</div>
+        <div class="tl-body">First time PQC is a hard legal obligation, not best practice, for critical infrastructure across EU member states.</div>
+      </div>
+    </div>
+    <div class="tl-item coming">
+      <div class="tl-date">SEP 2026</div>
+      <div class="tl-content">
+        <div class="tl-title">FIPS 140-2 → Historical list</div>
+        <div class="tl-body">All FIPS 140-2 certificates become invalid for federal procurement. US-connected EU banks must act immediately. <strong>3 months away.</strong></div>
+      </div>
+    </div>
+    <div class="tl-item coming">
+      <div class="tl-date">JAN 2027</div>
+      <div class="tl-content">
+        <div class="tl-title">CNSA 2.0 enforcement for US national security</div>
+        <div class="tl-body">PQC attestations required in all US government procurement globally. Every US-connected financial institution is in scope.</div>
+      </div>
+    </div>
+    <div class="tl-item coming">
+      <div class="tl-date">2030</div>
+      <div class="tl-content">
+        <div class="tl-title">EU high-risk systems must be quantum-safe</div>
+        <div class="tl-body">Banks that begin in 2026 finish in time. Banks that begin in 2028 do not. First-mover lock-in is structural: formal artefacts submitted to regulators cannot be re-issued by a different system.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── SLIDE 5: MOAT ─────────────────────── -->
+<section class="slide" id="slide-5" data-slide="5">
+  <div class="slide-num">05 · Defensible Moat</div>
+  <h2>Four structural moats.<br><span class="em">None of them are policyware.</span></h2>
+
+  <div class="moat-grid">
+    <div class="moat-card">
+      <div class="moat-num">01</div>
+      <div class="moat-title">The compiler</div>
+      <div class="moat-body">We own ASL — the formally-specified agent compiler (seedc + seedvm) with P1–P8 compile-time safety invariants. No competitor can ship this in 18 months. It required years of formal verification research. We built it in five days because we had thirty years of architecture experience behind every decision.</div>
+    </div>
+    <div class="moat-card">
+      <div class="moat-num">02</div>
+      <div class="moat-title">Machine-provable artefacts</div>
+      <div class="moat-body">The .pqc file format embeds bytecode + execution seed + schedule trace + ProofMeta. A regulator can bit-identically replay the compliance execution offline without trusting us or the bank. <strong>No competitor produces this.</strong> Arqit, IBM QSE, and SandboxAQ all produce PDF reports. Reports are opinions. .pqc files are proofs.</div>
+    </div>
+    <div class="moat-card">
+      <div class="moat-num">03</div>
+      <div class="moat-title">Migration lock-in</div>
+      <div class="moat-body">Enterprise PQC migrations take 5–15 years. Once a bank submits a VeriCrypt .pqc artefact to their regulator, switching to a different compliance engine would void those artefacts and restart the audit process. First-mover lock-in is architectural, not contractual.</div>
+    </div>
+    <div class="moat-card">
+      <div class="moat-num">04</div>
+      <div class="moat-title">No model dependency</div>
+      <div class="moat-body">"What if OpenAI ships this?" — nothing changes. VeriCrypt does not call any foundation model API. ASL is the model boundary. Every product works if every cloud AI disappears tomorrow. This is the sovereignty guarantee and it is encoded in the compiler, not a config flag.</div>
+    </div>
+  </div>
+
+  <div>
+    <span class="proof-badge">arc42 96/100</span>
+    <span class="proof-badge">8 world firsts documented</span>
+    <span class="proof-badge">23 ADRs</span>
+    <span class="proof-badge">Patent cluster ready to file</span>
+  </div>
+</section>
+
+<!-- ─────────────────────── SLIDE 6: TRACTION ─────────────────────── -->
+<section class="slide" id="slide-6" data-slide="6">
+  <div class="slide-num">06 · Traction</div>
+  <h2>Pre-revenue. <span class="em">Not pre-product.</span></h2>
+
+  <p>At pre-revenue seed stage, the proof of traction is the depth and verifiability of the technical work. Every item below is independently auditable today — no slides, no demos, just code.</p>
+
+  <div class="firsts-list">
+    <div class="first-item">
+      <div class="first-num">F1</div>
+      <div>
+        <div class="first-title">ASL Virtual Machine Runtime — shipping</div>
+        <div class="first-body">Regulatory axioms compile to deterministic bytecode. Bit-identical replay without trusting the vendor. No competitor has this. <a href="https://github.com/agentseedlanguage-cpu/agentseed" style="color:var(--proof);font-size:12px">github.com/agentseedlanguage-cpu/agentseed</a></div>
+      </div>
+    </div>
+    <div class="first-item">
+      <div class="first-num">F2</div>
+      <div>
+        <div class="first-title">Proof-Carrying Output (.pqc) — production</div>
+        <div class="first-body">Report embeds bytecode + seed + schedule trace. Regulator verifies independently offline with vericrypt-verify. Master Build 9/9 complete.</div>
+      </div>
+    </div>
+    <div class="first-item">
+      <div class="first-num">F3</div>
+      <div>
+        <div class="first-title">DORA + NIST PQC + NIS2 + SCITT — all four, one engine</div>
+        <div class="first-body">49 active conformance checks. FIPS 203/204/205 natively. CycloneDX 1.7 CBOM. SLH-DSA signed artefacts. No competitor covers all four frameworks.</div>
+      </div>
+    </div>
+    <div class="first-item">
+      <div class="first-num">F4</div>
+      <div>
+        <div class="first-title">Multiplicative HNDL exposure model with Shapley attribution</div>
+        <div class="first-body">Per-asset quantum risk contribution with coalition-structured Shapley values and formal Ld > Ha temporal hazard model. The only tool that quantifies harvest-now-decrypt-later exposure per certificate.</div>
+      </div>
+    </div>
+    <div class="first-item">
+      <div class="first-num">F5</div>
+      <div>
+        <div class="first-title">arc42 96/100 — Grade A+ architecture documentation</div>
+        <div class="first-body">Base + 5 Addenda + Consolidation Report. 23 ADRs. Living Index pattern. 18-class threat model. Terminology canon. Reduces acquirer due diligence cost materially.</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="muted" style="font-size:14px">Arqit — the closest public comparable — launched "Encryption Intelligence" in Jan 2026 and generated $623K from 11 contracts in H1 FY2026. Arqit produces reports. VeriCrypt produces proofs. The gap is unbridgeable without a complete rewrite.</p>
+</section>
+
+<!-- ─────────────────────── SLIDE 7: MARKET ─────────────────────── -->
+<section class="slide" id="slide-7" data-slide="7">
+  <div class="slide-num">07 · Market</div>
+  <h2>The only <span class="em">mandatory spend</span><br>category in enterprise security.</h2>
+
+  <p>This is not discretionary IT spend. DORA is law. NIST standards are finalised. The budget exists whether the CFO wants it or not. VeriCrypt is the highest-value layer of the compliance stack — the only layer that cannot be commoditised.</p>
+
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-val">$18B</div>
+      <div class="stat-label">PQC compliance market 2026</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">22%</div>
+      <div class="stat-label">CAGR → $40.5B by 2030</div>
+    </div>
+    <div class="stat amber">
+      <div class="stat-val">€625M</div>
+      <div class="stat-label">SAM — beachhead alone (5K EU fintechs × €125K)</div>
+    </div>
+    <div class="stat amber">
+      <div class="stat-val">24</div>
+      <div class="stat-label">Customers to reach €3M ARR at Tier A blended</div>
+    </div>
+  </div>
+
+  <div class="tier-row">
+    <div class="tier primary">
+      <div class="tier-price">€125K</div>
+      <div class="tier-label">Tier A · Fintech Starter</div>
+      <div class="tier-desc">One signed .pqc report. DORA verdict + CBOM + roadmap. 90-day licence. Primary commercial offer.</div>
+    </div>
+    <div class="tier">
+      <div class="tier-price">€425K</div>
+      <div class="tier-label">Tier B · Mid-Market</div>
+      <div class="tier-desc">Unlimited scans. All frameworks. Editable axioms. €1B–€50B AUM institutions.</div>
+    </div>
+    <div class="tier">
+      <div class="tier-price">€950K</div>
+      <div class="tier-label">Tier C · Large</div>
+      <div class="tier-desc">Dedicated axiom customisation. HSM-mode signing. Technical account manager. €50B–€500B AUM.</div>
+    </div>
+    <div class="tier">
+      <div class="tier-price">€3.8M</div>
+      <div class="tier-label">Tier D · G-SIB</div>
+      <div class="tier-desc">Multi-entity. White-label verifier. VeriChain STH. GRC integration. Systemically important institutions.</div>
+    </div>
+  </div>
+
+  <p style="font-size:14px; color:var(--muted)">Series A trigger: €3M ARR + 3 named Tier-B contracts + VeriWatch live → Series A at implied €30–50M pre-money. Unit economics: &lt;€15K CAC, 8× LTV/CAC at Tier A on 5-year horizon, ~90% gross margin.</p>
+</section>
+
+<!-- ─────────────────────── SLIDE 8: COMPETITION ─────────────────────── -->
+<section class="slide" id="slide-8" data-slide="8">
+  <div class="slide-num">08 · Competition</div>
+  <h2>Where we win.<br><span class="em">Where we don't. Why it matters.</span></h2>
+
+  <p>No competitor claims are exaggerated. The matrix reflects publicly verifiable capabilities as of July 2026.</p>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>VeriCrypt</th>
+        <th>SandboxAQ</th>
+        <th>Arqit EI</th>
+        <th>IBM QSE</th>
+        <th>Thales</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Formally-verified PQC conformance</td>
+        <td class="check">✓ Machine-provable</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+      </tr>
+      <tr>
+        <td>Air-gapped / sovereign-native</td>
+        <td class="check">✓ Architectural</td>
+        <td class="cross">✗ Cloud required</td>
+        <td class="cross">✗ Cloud required</td>
+        <td class="partial">△ Partial</td>
+        <td class="partial">△ HSM only</td>
+      </tr>
+      <tr>
+        <td>DORA + NIST + NIS2 + SCITT</td>
+        <td class="check">✓ All four</td>
+        <td class="partial">△ 1–2</td>
+        <td class="partial">△ 1–2</td>
+        <td class="partial">△ NIST only</td>
+        <td class="partial">△ NIST only</td>
+      </tr>
+      <tr>
+        <td>Regulator-verifiable artefact</td>
+        <td class="check">✓ .pqc offline</td>
+        <td class="cross">✗ PDF report</td>
+        <td class="cross">✗ PDF report</td>
+        <td class="cross">✗ PDF/CBOM</td>
+        <td class="cross">✗</td>
+      </tr>
+      <tr>
+        <td>Owned compiler + runtime</td>
+        <td class="check">✓ ASL (seedc+seedvm)</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+      </tr>
+      <tr>
+        <td>HNDL per-asset Shapley model</td>
+        <td class="check">✓ Formal Ld > Ha</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Thales is the highest-fit strategic acquirer: they sell to every DORA-subject institution globally, lack formal verification, and are actively building PQC capability. VeriCrypt fills their exact gap — and <strong>VeriCrypt's .pqc reports reference Thales Luna HSM configurations natively</strong>. The architecture was designed to complement, not compete with, the HSM layer.</p>
+</section>
+
+<!-- ─────────────────────── SLIDE 9: FOUNDER ─────────────────────── -->
+<section class="slide" id="slide-9" data-slide="9">
+  <div class="slide-num">09 · The Founder</div>
+  <h2>The builder who studied <span class="em">why AI gets abandoned</span><br>nineteen years before it became the crisis.</h2>
+
+  <div class="founder-grid">
+    <div class="founder-timeline">
+      <div class="ft-item">
+        <div class="ft-year">2000</div>
+        <div class="ft-text">Entered enterprise tech post dot-net crash. Trinidad Systems Limited, then CommNett with Cisco/Microsoft/NetApp-certified engineers. Customers had watched billions evaporate. The rule: verifiable outcomes or don't ship.</div>
+      </div>
+      <div class="ft-item">
+        <div class="ft-year">2007</div>
+        <div class="ft-text">MSc Strategic Business IT, University of Portsmouth. Thesis on IBM Maximo EAM adoption at BPTT using the Technology Acceptance Model. Research question: not "does it work?" but <em>"will users actually adopt it — and why?"</em></div>
+      </div>
+      <div class="ft-item">
+        <div class="ft-year">2019</div>
+        <div class="ft-text">PGDip Software Engineering, Aston University. Focus: multi-agent systems. Built in Python, TypeScript, and Rust since. Two disciplines — formal correctness and human adoption — usually held by different people. In Damain: the same person.</div>
+      </div>
+      <div class="ft-item">
+        <div class="ft-year">2024–26</div>
+        <div class="ft-text">Five sovereign systems — sole author, every line. ASL compiler (5 days), Verity core banking (7 days), VeriCrypt (Master Build 9/9 complete). Every design decision simultaneously satisfies formal verification and TAM adoption constraints.</div>
+      </div>
+    </div>
+
+    <div class="founder-key-box">
+      <div class="fk-item">
+        <div class="fk-label">The punchline</div>
+        <div class="fk-val" style="color:var(--amber)">42% of enterprise AI initiatives abandoned in 2025 — more than double the prior year. Not because models don't work. Because deployment and adoption are not the same thing.</div>
+      </div>
+      <div class="fk-item">
+        <div class="fk-label">TAM is in the architecture</div>
+        <div class="fk-val">VeriCrypt's one-command deployment: reduce perceived effort to zero. One binary, no cloud, no account — perceived ease of use is architectural, not UX.</div>
+      </div>
+      <div class="fk-item">
+        <div class="fk-label">Why this founder, why now</div>
+        <div class="fk-val">30 years of enterprise: knows why banks don't adopt. MSc in adoption science: knows how to fix it. Sole author of a formally-specified compiler: knows how to build it. These don't usually coexist.</div>
+      </div>
+      <div class="fk-item">
+        <div class="fk-label">Location</div>
+        <div class="fk-val">Trinidad & Tobago · Remote · Delaware C-Corp · Ready for SF</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── SLIDE 10: THE ASK ─────────────────────── -->
+<section class="slide" id="slide-10" data-slide="10">
+  <div class="slide-num">10 · The Ask</div>
+  <h2>€750,000 seed.<br><span class="em">18 months to Series A.</span></h2>
+
+  <p>Every euro tied to a milestone. Every milestone tied to the Series A trigger. No vanity projections.</p>
+
+  <div class="ask-grid">
+    <div class="ask-block">
+      <div class="ask-label">Round structure</div>
+      <div class="ask-val">€750K</div>
+      <div class="ask-detail">Post-money SAFE · €6.25M cap · 12% implied dilution · Standard YC SAFE terms · 10% option pool pre-money reserved for first 3 hires</div>
+    </div>
+    <div class="ask-block">
+      <div class="ask-label">Series A trigger</div>
+      <div class="ask-val">€3M ARR</div>
+      <div class="ask-detail">3 named Tier-B contracts + VeriWatch live on 3 customers → Series A at €30–50M pre-money. 24 Tier-A customers = €3M ARR at blended pricing.</div>
+    </div>
+  </div>
+
+  <div class="milestones">
+    <div class="milestone">
+      <div class="ms-period">Months 1–3</div>
+      <div class="ms-text"><strong>First paying customer</strong> — EU DORA-subject fintech at €125K. VeriCrypt deployed on-prem. First .pqc artefact submitted to regulator. + Provisional patent filed (5 claims, ~€20K attorney fees).</div>
+    </div>
+    <div class="milestone">
+      <div class="ms-period">Months 4–9</div>
+      <div class="ms-text"><strong>5 customers · €1M ARR</strong> — VeriWatch beta launched. Thales partnership conversation initiated. SWIFT PQC working group submission. Sep 21 FIPS deadline creates immediate demand pull.</div>
+    </div>
+    <div class="milestone">
+      <div class="ms-period">Months 10–18</div>
+      <div class="ms-text"><strong>€3M ARR · 3 Tier-B contracts · Series A</strong> — Regulatory Axiom Marketplace beta. VeriWatch live on 3 customers. Series A at €30–50M pre-money implied by revenue + IP stack.</div>
+    </div>
+  </div>
+
+  <div class="risk-grid" style="margin-top:32px">
+    <div class="risk-item">
+      <div class="risk-id">Highest risk<div class="badge badge-high">Open</div></div>
+      <div class="risk-label">No patents filed yet</div>
+      <div class="risk-mit">5-claim provisional is 6–8 weeks of attorney time and ~€20K. Changes every acquirer conversation. Windsor Drake Q1 2026: patent clusters command 2–4× acquisition premiums. This is the single highest-leverage pre-raise action.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-id">Managed<div class="badge badge-med">Known</div></div>
+      <div class="risk-label">Solo founder</div>
+      <div class="risk-mit">Full arc42 documentation (5 addenda, 23 ADRs, 49 conformance checks) means any senior Rust engineer can onboard. First hire with €750K is engineering lead. Architecture is fully specified — the system survives its author.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-id">Mitigated<div class="badge badge-low">Built in</div></div>
+      <div class="risk-label">Long enterprise sales cycle</div>
+      <div class="risk-mit">Phase 1 "first scan free" model bypasses procurement. CISO runs binary, sees value, buys. No procurement committee required for a €125K compliance risk decision when the alternative is a €200M DORA fine.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; margin-top:8px">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px">Damain Peter Ramsajan</div>
+      <div style="font-size:15px;color:var(--white)">dpramsajan@meeting-mind.com</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:2px">+1 868 719 5236 · vericrypt-7qp.pages.dev</div>
+    </div>
+    <div style="margin-left:auto">
+      <a href="https://vericrypt-7qp.pages.dev" style="display:inline-block;background:var(--proof);color:#000;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;padding:12px 24px;border-radius:4px;text-decoration:none;letter-spacing:0.08em;text-transform:uppercase">Download Free Binary →</a>
+    </div>
+  </div>
+</section>
+
+</div><!-- /deck -->
+
+<footer>
+  INTELLICA AI, INC. · 901 N Market St, Suite 100, Wilmington, DE 19801 · Confidential · July 2026<br>
+  Forward-looking statements are not guarantees. Not an offer to sell securities.
+</footer>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const navDots = document.getElementById('navDots');
+  const navCounter = document.getElementById('navCounter');
+  const progressBar = document.getElementById('progressBar');
+  const total = slides.length;
+
+  // Build nav dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Slide ${i + 1}`);
+    dot.addEventListener('click', () => {
+      slides[i].scrollIntoView({ behavior: 'smooth' });
+    });
+    navDots.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.nav-dot');
+
+  function updateNav() {
+    const scrollPos = window.scrollY + window.innerHeight / 2;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const progress = Math.min((window.scrollY / docHeight) * 100, 100);
+    progressBar.style.width = progress + '%';
+
+    let activeIdx = 0;
+    slides.forEach((slide, i) => {
+      const rect = slide.getBoundingClientRect();
+      if (rect.top <= window.innerHeight / 2) activeIdx = i;
+    });
+
+    dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+    navCounter.textContent = `${activeIdx + 1} / ${total}`;
+  }
+
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    const current = Array.from(slides).findIndex(s => {
+      const r = s.getBoundingClientRect();
+      return r.top <= window.innerHeight / 2 && r.bottom >= window.innerHeight / 2;
+    });
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      const next = Math.min(current + 1, total - 1);
+      slides[next].scrollIntoView({ behavior: 'smooth' });
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prev = Math.max(current - 1, 0);
+      slides[prev].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+</body>
+</html>

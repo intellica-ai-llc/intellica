@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementation Scoping Document — TT Stack, T&amp;T Yozma, and the Seven National Sectors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161513; --paper:#faf7f0; --paper-panel:#ffffff;
+    --red:#1E5AB0; --red-deep:#143d7d; --gold:#a9832b; --line:#e4ddcc; --muted:#6b6558;
+    --sidebar-bg:#141312; --sidebar-ink:#d9d4c6; --sidebar-muted:#8a8375; --sidebar-active:#1E5AB0;
+    --maxw:900px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans', sans-serif; font-size:16px; line-height:1.65;}
+  a{color:var(--red-deep);}
+  .app{display:flex; min-height:100vh;}
+  .sidebar{position:fixed; top:0; left:0; bottom:0; width:300px; background:var(--sidebar-bg); color:var(--sidebar-ink); overflow-y:auto; padding:0 0 40px 0; border-right:1px solid #000; z-index:20;}
+  .sidebar-header{padding:26px 24px 18px 24px; border-bottom:1px solid #2b2a26; position:sticky; top:0; background:var(--sidebar-bg); z-index:2;}
+  .sidebar-mark{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+  .sidebar-mark .chip{width:28px; height:28px; border-radius:3px; background:linear-gradient(135deg, var(--red) 0%, var(--red-deep) 60%, #000 100%); display:flex; align-items:center; justify-content:center; font-family:'Source Serif 4', serif; font-weight:700; color:#f2e9d8; font-size:13px; flex:none;}
+  .sidebar-mark .kicker{font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--sidebar-muted);}
+  .sidebar-header h1{font-family:'Source Serif 4', serif; font-size:15.5px; line-height:1.35; margin:0 0 6px 0; color:#f2ede0; font-weight:600;}
+  .sidebar-header p{font-size:11.5px; color:var(--sidebar-muted); margin:0; line-height:1.5;}
+  .toc{padding:10px 14px 10px 14px;}
+  .toc-part{margin-top:16px;}
+  .toc-part-label{font-family:'IBM Plex Mono', monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); padding:6px 12px 4px 12px;}
+  .toc a{display:block; padding:5px 12px; font-size:12.6px; color:var(--sidebar-ink); text-decoration:none; border-radius:4px; border-left:2px solid transparent; line-height:1.4;}
+  .toc a:hover{background:#201f1b; color:#fff;}
+  .toc a.active{background:#1a2436; border-left:2px solid var(--sidebar-active); color:#fff; font-weight:500;}
+  .toc .num{font-family:'IBM Plex Mono', monospace; color:var(--sidebar-muted); margin-right:6px; font-size:11px;}
+  .main{margin-left:300px; flex:1; padding:0; max-width:calc(100% - 300px);}
+  .content{max-width:var(--maxw); margin:0 auto; padding:60px 48px 120px 48px;}
+  .cover{border-bottom:3px solid var(--ink); padding-bottom:30px; margin-bottom:44px;}
+  .cover .seal-row{display:flex; align-items:center; gap:14px; margin-bottom:24px;}
+  .seal{width:50px; height:50px; border-radius:50%; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-family:'Source Serif 4', serif; font-weight:700; font-size:17px; background:repeating-linear-gradient(135deg, #fff, #fff 6px, #f2ece0 6px, #f2ece0 12px); flex:none;}
+  .seal span{color:var(--red-deep);}
+  .cover .republic{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);}
+  .cover h1{font-family:'Source Serif 4', serif; font-size:2.15rem; line-height:1.15; margin:0 0 12px 0; font-weight:700; letter-spacing:-.01em;}
+  .cover .subtitle{font-size:1.03rem; color:#3a362f; margin:0 0 20px 0; max-width:680px; line-height:1.5;}
+  .cover .meta-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px 30px; font-size:13px; padding-top:16px; border-top:1px solid var(--line);}
+  .cover .meta-grid div span.k{display:block; font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin-bottom:2px;}
+  .cover .meta-grid div span.v{color:var(--ink); font-weight:500;}
+  .part-marker{display:flex; align-items:baseline; gap:14px; margin:64px 0 8px 0;}
+  .part-marker .roman{font-family:'Source Serif 4', serif; font-size:12.5px; color:var(--red-deep); font-weight:700; letter-spacing:.06em;}
+  .part-marker .rule{flex:1; height:1px; background:var(--line);}
+  .part-title{font-family:'Source Serif 4', serif; font-size:1.4rem; font-weight:700; margin:0 0 36px 0; color:var(--ink);}
+  section.doc-section{padding-top:12px; margin-bottom:12px; scroll-margin-top:24px;}
+  section.doc-section h2{font-family:'Source Serif 4', serif; font-size:1.4rem; font-weight:600; margin:0 0 4px 0; display:flex; align-items:baseline; gap:10px;}
+  section.doc-section h2 .secnum{font-family:'IBM Plex Mono', monospace; font-size:.9rem; color:var(--red-deep); font-weight:500;}
+  section.doc-section .section-standfirst{color:var(--muted); font-size:.9rem; margin:0 0 20px 0; font-style:italic;}
+  section.doc-section h3{font-family:'Source Serif 4', serif; font-size:1.08rem; font-weight:600; margin:28px 0 8px 0; color:var(--red-deep);}
+  section.doc-section p{margin:0 0 14px 0;}
+  section.doc-section strong{color:var(--ink);}
+  .callout{background:var(--paper-panel); border:1px solid var(--line); border-left:3px solid var(--red); border-radius:2px; padding:15px 19px; margin:18px 0; font-size:.92rem;}
+  .callout .callout-label{font-family:'IBM Plex Mono', monospace; font-size:9.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--red-deep); margin-bottom:6px; font-weight:600;}
+  table.datatable{width:100%; border-collapse:collapse; margin:16px 0 24px 0; font-size:.84rem;}
+  table.datatable th{text-align:left; font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); border-bottom:2px solid var(--ink); padding:7px 9px;}
+  table.datatable td{padding:8px 9px; border-bottom:1px solid var(--line); vertical-align:top;}
+  table.datatable tr:last-child td{border-bottom:1px solid var(--ink);}
+  table.datatable tr.total-row td{font-weight:700; border-top:2px solid var(--ink); border-bottom:3px double var(--ink);}
+  .tag-row{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 20px 0;}
+  .tag{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.04em; border:1px solid var(--line); border-radius:20px; padding:4px 12px; color:var(--muted);}
+  .end-marker{text-align:center; color:var(--line); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.3em; margin:80px 0 20px 0;}
+  @media (max-width: 900px){
+    .sidebar{transform:translateX(-100%); transition:transform .25s ease;}
+    .sidebar.open{transform:translateX(0);}
+    .main{margin-left:0; max-width:100%;}
+    .content{padding:26px 18px 100px 18px;}
+    .menu-toggle{display:flex !important;}
+  }
+  .menu-toggle{display:none; position:fixed; top:16px; left:16px; z-index:30; width:42px; height:42px; border-radius:50%; background:var(--ink); color:#fff; align-items:center; justify-content:center; border:none; cursor:pointer; font-size:18px;}
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menuToggle">&#9776;</button>
+<div class="app">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-mark"><div class="chip">TT</div><div class="kicker">Internal Working Document</div></div>
+      <h1>Implementation Scoping Document</h1>
+      <p>Companion to the National Digital Enterprise and Entrepreneurship Programme submission — man-hour, staffing, and vendor-level detail, not for parliamentary tabling.</p>
+    </div>
+    <div class="toc" id="tocList">
+      <a href="#purpose"><span class="num">·</span>Purpose &amp; How to Use This Document</a>
+      <div class="toc-part">
+        <div class="toc-part-label">Structural Pillars</div>
+        <a href="#p1"><span class="num">1</span>Pillar One — TT Stack</a>
+        <a href="#p2"><span class="num">2</span>Pillar Two — T&amp;T Yozma</a>
+        <a href="#p3"><span class="num">2a</span>Pillar Two-B — Compute Utility Power</a>
+      </div>
+      <div class="toc-part">
+        <div class="toc-part-label">Seven National Sectors</div>
+        <a href="#s1"><span class="num">3</span>Sector 1 — Expert Data-Generation</a>
+        <a href="#s2"><span class="num">4</span>Sector 2 — Orchestration Consulting</a>
+        <a href="#s3"><span class="num">5</span>Sector 3 — Verification &amp; Red-Team</a>
+        <a href="#s4"><span class="num">6</span>Sector 4 — Teleoperation Data</a>
+        <a href="#s5"><span class="num">7</span>Sector 5 — VLA Fine-Tuning</a>
+        <a href="#s6"><span class="num">8</span>Sector 6 — Chip Design Services</a>
+        <a href="#s7"><span class="num">9</span>Sector 7 — Flagship Methodology</a>
+      </div>
+      <div class="toc-part">
+        <div class="toc-part-label">Procurement &amp; Delivery</div>
+        <a href="#rfp"><span class="num">10</span>RFP &amp; Procurement Schedule</a>
+        <a href="#roadmap"><span class="num">11</span>Master Roadmap, Year 1–3</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="cover">
+        <div class="seal-row">
+          <div class="seal"><span>TT</span></div>
+          <div>
+            <div class="republic">National Digital Enterprise and Entrepreneurship Programme</div>
+            <div class="republic">Implementation Scoping — Working Document</div>
+          </div>
+        </div>
+        <h1>Implementation Scoping Document</h1>
+        <p class="subtitle">Bottom-up staffing, task, equipment, and vendor detail for the TT Stack, T&amp;T Yozma, and each of the seven national industry sectors — the operational layer beneath the policy submission, not a substitute for it.</p>
+        <div class="meta-grid">
+          <div><span class="k">Companion to</span><span class="v">National Digital Enterprise and Entrepreneurship Programme (parliamentary submission)</span></div>
+          <div><span class="k">Status</span><span class="v">Internal delivery-planning document — AACE Class 4–5 estimates throughout</span></div>
+          <div><span class="k">Purpose</span><span class="v">Procurement scoping, staffing plans, budget defensibility</span></div>
+          <div><span class="k">Audience</span><span class="v">Programme Management Office, procurement officers, sector authorities</span></div>
+        </div>
+      </div>
+
+      <section class="doc-section" id="purpose">
+        <h2><span class="secnum">·</span>Purpose and How to Use This Document</h2>
+        <p class="section-standfirst">Why this exists separately from the parliamentary submission, and how the two documents relate.</p>
+        <p>The parliamentary submission argues the case for the programme and states defensible three-year cost ranges per sector. It deliberately does not carry staffing tables, named equipment vendors, or man-hour detail — that level of granularity does not belong in front of Parliament, and including it would bury the policy argument under procurement mechanics. This document is where that mechanics lives: for each of the seven sectors and both structural pillars, a staffing table with real Trinidad and Tobago wage data and statutory on-costs, a named-vendor equipment table where physical or licensed equipment is involved, and a reconciliation showing how the bottom-up build relates to the top-level Phase 1–3 figures already defended in the parliamentary document.</p>
+        <p>Every figure here is an <strong>AACE International Class 4–5 estimate</strong> (order-of-magnitude to preliminary, ±30–50% accuracy) — built from real market rates, real Trinidad and Tobago statutory data, and named vendor pricing pages where public pricing exists, but not yet vendor-quoted. Reaching Class 2–3 (±10–20%, the precision an actual procurement requires) is the job of the RFP schedule in Section 10: this document tells a procurement officer what to ask for and roughly what to expect to pay, not what a vendor will actually quote.</p>
+        <div class="callout">
+          <div class="callout-label">Statutory on-cost standard, applied throughout</div>
+          Every salary figure in this document carries the employer National Insurance (NIS) contribution: 16.2% combined (employer share ≈10.8%) through December 2026, rising to 19.2% combined (employer share ≈12.8%) from January 2027, calculated on insurable earnings capped at TT$13,600/month. The Health Surcharge (employee-side deduction, max TT$8.25/week) is never added as an employer cost. The Green Fund Levy (0.3% of gross revenue) is a business tax applied once a sector authority or enterprise is revenue-generating, tracked separately from payroll. Where a role's cost spans the January 2027 rate change, both years are shown.
+        </div>
+      </section>
+
+      <div class="part-marker"><span class="roman">Part I</span><div class="rule"></div></div>
+      <p class="part-title">Structural Pillars — Bottom-Up Build</p>
+
+        <div class="callout">
+          <div class="callout-label">Executive compensation benchmark — real comparables, not generic professional averages</div>
+          Director-tier compensation throughout this document is benchmarked against actual, publicly reported Trinidad and Tobago state-enterprise executive pay, not the national average professional salary used for working-level roles. Reported monthly figures for comparable state enterprises: NGC President ≈TT$150,000; Trinidad Petroleum Holdings (successor to Petrotrin) President ≈TT$180,000, Vice-President ≈TT$120,000; TSTT CEO package >TT$200,000; UDeCOTT CEO ≈TT$65,000; NIPDEC General Manager ≈TT$58,250; NIDCO President ≈TT$50,000 basic plus housing, entertainment, and travel allowances. This document applies a two-tier structure: <strong>Tier A</strong> (national-programme-scale directors overseeing a single-year capital flow in the hundreds of millions to billions of TT dollars — the T&amp;T Yozma Executive Director, the TT Stack Programme Lead, the Sovereign AI Compute Utility negotiation lead) is benchmarked to the NGC/Petrotrin range, TT$120,000–180,000/month; <strong>Tier B</strong> (sector authority directors overseeing a three-year programme in the tens to low hundreds of millions) is benchmarked to the UDeCOTT/NIPDEC/NIDCO range, TT$55,000–90,000/month. A director paid below what Trinidad and Tobago already pays the head of NIDCO to oversee road and infrastructure projects is not a credible candidate to run a national AI-industry authority, and this document corrects that error explicitly rather than leaving it to be caught at the procurement stage.
+        </div>
+
+
+        <h2><span class="secnum">1</span>Pillar One — TT Stack</h2>
+        <p class="section-standfirst">Identity, payments, business registration, and the developer tier of the Sovereign AI Compute Commons. Excludes the Sovereign AI Compute Export Utility (Section 6.4a of the parliamentary document), which is project-finance scale and scoped separately with NGC and T&amp;TEC, not as a standard software build.</p>
+
+        <h3>1.1 Central Delivery Team — Staffing</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Programme/Technical Lead (Tier A — see benchmark note above)</td><td>1</td><td>Bachelor's, computer science/engineering, 8+ yrs experience</td><td>120,000–160,000</td></tr>
+          <tr><td>Deputy Technical Lead</td><td>1</td><td>Bachelor's, computer science/engineering, 5+ yrs experience</td><td>35,000–50,000</td></tr>
+          <tr><td>Senior Backend/API Engineer</td><td>6–10</td><td>Bachelor's, computer science</td><td>14,000–22,000</td></tr>
+          <tr><td>DevOps/Cloud Infrastructure Engineer</td><td>3–5</td><td>Bachelor's, computer science, or equivalent certification</td><td>13,000–20,000</td></tr>
+          <tr><td>Security Liaison (internal, coordinates with independent auditor)</td><td>2</td><td>Bachelor's + security certification (CISSP/OSCP-equivalent)</td><td>16,000–24,000</td></tr>
+          <tr><td>Product Manager</td><td>2–3</td><td>Bachelor's, any discipline + product experience</td><td>14,000–20,000</td></tr>
+          <tr><td>QA/Test Engineer</td><td>3–4</td><td>Associate degree or equivalent technical certificate</td><td>9,000–14,000</td></tr>
+          <tr><td>Developer Relations / API Documentation</td><td>2</td><td>Bachelor's, computer science or technical writing</td><td>11,000–16,000</td></tr>
+        </table>
+        <p>Roles are anchored to Trinidad and Tobago's documented average professional salary (≈TT$9,500/month nationally) plus role-specific premiums for scarce technical skills (cloud infrastructure, security), consistent with the banding logic already applied to Sector 4 in the parliamentary document. Given VerifyTT is already live and built with Deloitte as implementation contractor (Section 6.1 of the parliamentary document), this team is scoped as an <em>extension and in-house transition</em> team, not a from-zero build team — headcount is weighted toward integration, API design, and DevOps rather than core identity-platform engineering, which already exists.</p>
+
+        <table class="datatable">
+          <tr><th>Cost item, central team</th><th>2026 (16.2% NIS)</th><th>2027 onward (19.2% NIS)</th></tr>
+          <tr><td>Fully loaded monthly payroll (19–27 staff, blended)</td><td>TT$330,000–560,000</td><td>TT$337,000–572,000</td></tr>
+          <tr><td>Fully loaded annual payroll</td><td>TT$3.96M–6.72M</td><td>TT$4.04M–6.86M</td></tr>
+        </table>
+
+        <h3>1.2 Infrastructure and Equipment — Named Vendors</h3>
+        <table class="datatable">
+          <tr><th>Item</th><th>Named vendor/source</th><th>Basis</th><th>Annual cost</th></tr>
+          <tr><td>Cloud hosting — API gateway, compute, database (identity + payments + registration APIs)</td><td>AWS GovCloud, Microsoft Azure Government, or Google Cloud (final selection subject to data-residency review, Section 6.5)</td><td>Mid-scale API platform: Kubernetes cluster, managed Postgres, CDN, API gateway, at national-transaction-volume scale</td><td>US$180,000–480,000 (TT$1.22M–3.26M)</td></tr>
+          <tr><td>Developer sandbox environment</td><td>Same cloud provider, isolated account/VPC</td><td>Lower-traffic, non-production environment with synthetic test identities</td><td>US$36,000–96,000 (TT$245,000–653,000)</td></tr>
+          <tr><td>Independent security audit (RFP-6)</td><td>Independent cybersecurity firm, structurally separate from the build contractor</td><td>Penetration testing and security review, pre- and post-go-live, semi-annual cadence</td><td>US$60,000–160,000 (TT$408,000–1.09M) per audit cycle, two cycles/year in Year 1</td></tr>
+          <tr><td>Sovereign AI Compute Commons — developer tier (Section 6.4)</td><td>GPU cloud provider (AWS, GCP, Azure, or CoreWeave/Lambda-class specialist) — separate from the export utility</td><td>Rate-limited, non-production GPU access for registered founders; H100-class instances at blended on-demand/reserved pricing (~US$1.50–3.00/GPU-hour)</td><td>US$120,000–360,000 (TT$816,000–2.45M), scaling with registered developer count</td></tr>
+        </table>
+
+        <h3>1.3 Contracted Deliverables — the Remaining Un-Staffed TT Stack Components</h3>
+        <p>The central team above (Section 1.1) covers standing engineering headcount. Four further TT Stack components are one-time or fixed-price systems-integration contracts rather than headcount, and are costed individually below rather than left as an unquantified residual:</p>
+        <table class="datatable">
+          <tr><th>Item</th><th>Basis</th><th>Cost, one-time</th></tr>
+          <tr><td>Board of Inland Revenue integration (business-registration-in-minutes, Section 6.3)</td><td>Government-to-government API integration, comparable in scope to a mid-size national tax-system interface project</td><td>TT$8M–15M</td></tr>
+          <tr><td>e-Residency legal and technical extension (Section 6.3)</td><td>Non-resident registration pathway, legal framework plus platform extension of the BIR integration above</td><td>TT$10M–18M</td></tr>
+          <tr><td>National payments-rail integration, banks and GovpayTT (Section 6.2)</td><td>The heaviest single TT Stack lift — UPI-equivalent interoperability build plus bank-by-bank onboarding</td><td>TT$20M–30M</td></tr>
+          <tr><td>API and data-governance legal/technical framework (Section 6.5, RFP-5)</td><td>Joint legal-plus-technical advisory engagement</td><td>TT$5M–8M</td></tr>
+          <tr class="total-row"><td>Contracted deliverables, one-time total</td><td></td><td>TT$43M–71M</td></tr>
+        </table>
+
+        <h3>1.4 TT Stack Full Phase 1–3 Cost</h3>
+        <table class="datatable">
+          <tr><th>Component</th><th>Three-year total</th></tr>
+          <tr><td>Central delivery team, fully loaded payroll (Section 1.1)</td><td>TT$20.1M–42.9M</td></tr>
+          <tr><td>Infrastructure and cloud hosting, three years (Section 1.2)</td><td>TT$8.1M–22.2M</td></tr>
+          <tr><td>Contracted deliverables, one-time (Section 1.3)</td><td>TT$43M–71M</td></tr>
+          <tr class="total-row"><td>TT Stack, full three-year cost</td><td>TT$71.2M–136.1M</td></tr>
+        </table>
+        <p>This is the complete, bottom-up TT Stack cost — every component named, every figure sourced to a real market rate, T&amp;T wage data, or a comparable integration project's real scope. No residual or unitemised balance remains.</p>
+      </section>
+
+      <section class="doc-section" id="p2">
+        <h2><span class="secnum">2</span>Pillar Two — T&amp;T Yozma</h2>
+        <p class="section-standfirst">The oversight secretariat, fund administration, and legal-structuring costs beneath the capital commitment itself. The TT$9–12 billion/year Tier 1 commitment and TT$4–5 billion/year Tier 2 commitment (Sections 7.1, 7.1a of the parliamentary document) are capital deployed into funds, not operating cost — this section scopes the operating cost of running the mechanism.</p>
+
+        <h3>2.1 Oversight Secretariat — Staffing</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Oversight Board Executive Director</td><td>1</td><td>Bachelor's + finance/investment credential (CFA-equivalent), 10+ yrs</td><td>28,000–40,000</td></tr>
+          <tr><td>Investment Committee Support / Fund Analyst</td><td>3–4</td><td>Bachelor's, finance or economics</td><td>16,000–24,000</td></tr>
+          <tr><td>Tier 2 Infrastructure-Finance Subcommittee Staff (Section 7.1a)</td><td>2–3</td><td>Bachelor's + project-finance experience</td><td>22,000–32,000</td></tr>
+          <tr><td>Compliance and Reporting Officer</td><td>2</td><td>Bachelor's + compliance/AML certification</td><td>15,000–22,000</td></tr>
+          <tr><td>Diaspora Fund-Manager Liaison (Section 7.5)</td><td>1–2</td><td>Bachelor's, finance or international relations</td><td>14,000–20,000</td></tr>
+        </table>
+        <p>Year 2's co-investment capability (Section 7.1h, Channel B) adds 3–5 investment professionals at TT$25,000–45,000/month, reflecting genuine scarcity of venture-investment operating experience in the local labour market — this premium is intentional and consistent with Section 7.8's fund-manager-scarcity risk mitigation. This capability is not staffed in Year 1.</p>
+
+        <h3>2.2 Fund Administration and Legal — Named Vendor Categories</h3>
+        <table class="datatable">
+          <tr><th>Item</th><th>Named vendor/source</th><th>Basis</th><th>Annual cost</th></tr>
+          <tr><td>Tier 1 fund administration (per fund)</td><td>Fund-admin providers serving emerging managers — Sydecar, Carta, NAV Fund Administration Group (final selection per fund, at fund manager's discretion within an approved panel)</td><td>Documented 2026 market rate for a US$10–50M-equivalent fund: NAV calculation, capital calls, distributions, K-1/tax-equivalent prep, quarterly reporting</td><td>US$25,000–75,000 per fund/year</td></tr>
+          <tr><td>Tier 1 fund administration, aggregate (25–40 funds)</td><td>—</td><td>Per-fund cost above × fund count</td><td>US$625,000–3.0M (TT$4.25M–20.4M)/year</td></tr>
+          <tr><td>Tier 2 co-investment vehicle administration</td><td>Institutional-grade provider — Juniper Square or equivalent, given the vehicle's larger, more concentrated position size (Section 7.1a)</td><td>Documented 2026 rate for a large, complex vehicle with project-finance structures</td><td>US$150,000–350,000 (TT$1.02M–2.38M)/year</td></tr>
+          <tr><td>Legal — initial LPA template and tripartite-structure drafting (one-time)</td><td>Retained Trinidad and Tobago commercial law firm + international venture-fund counsel</td><td>Standard market-rate fund-formation legal work, adapted to the tripartite mandate (Section 7.1)</td><td>US$150,000–400,000 (TT$1.02M–2.72M), one-time</td></tr>
+          <tr><td>Legal — per-fund review and side-letter negotiation</td><td>Same counsel panel</td><td>Standard market rate per fund formation</td><td>US$15,000–40,000 per fund, one-time</td></tr>
+        </table>
+
+        <h3>2.3 T&amp;T Yozma Operating Cost, Full Total</h3>
+        <table class="datatable">
+          <tr><th>Component</th><th>Annual cost, full scale</th></tr>
+          <tr><td>Oversight secretariat, fully loaded payroll (Section 2.1)</td><td>TT$1.5M–2.9M</td></tr>
+          <tr><td>Tier 1 fund administration, 25–40 funds (Section 2.2)</td><td>TT$4.25M–20.4M</td></tr>
+          <tr><td>Tier 2 co-investment vehicle administration (Section 2.2)</td><td>TT$1.02M–2.38M</td></tr>
+          <tr><td>Legal, amortised across Year 1's fund-formation wave</td><td>TT$1M–2M</td></tr>
+          <tr class="total-row"><td>T&amp;T Yozma operating cost, full annual total</td><td>TT$7.77M–27.68M/year</td></tr>
+        </table>
+        <p>Phased across three years assuming a ramp from eight to twelve funds in Year 1 (Section 7.7 of the parliamentary submission) to the full 25–40 by Year 2, the three-year operating total is approximately TT$23M–83M. This is tracked as its own Programme Management Office budget line (RFP-16), separate from the TT Stack's governance cost — the two pillars' operating costs should never be blended into a single figure, since they answer to different oversight structures.</p>
+      </section>
+
+      <section class="doc-section" id="p3">
+        <h2><span class="secnum">2a</span>Pillar Two-B — Sovereign AI Compute Export Utility: Power and Generation</h2>
+        <p class="section-standfirst">The single largest capital line in the whole programme, scoped bottom-up against Trinidad and Tobago's real national generation fleet — and a materially cheaper path exists than pure new-build.</p>
+
+        <h3>2a.1 The Real Scale Problem, Stated in National Terms</h3>
+        <p>Trinidad and Tobago's total installed national generation capacity is approximately <strong>2,365MW</strong>: PowerGen's three plants (Point Lisas 838MW, Port-of-Spain 270MW, Penal 236MW) totalling 1,344MW; TGU's 720MW combined-cycle plant, which alone supplies roughly half the country's electricity; Trinity Power's 225MW; and Tobago's Cove and Scarborough plants adding a further 76MW. The Hummingbird AI Holdings (150–500MW) and Ernst &amp; Young (300MW) MOUs, combined, total 450–800MW — <strong>19% to 34% of the entire country's current generation capacity</strong>, for two data-centre projects. TGU itself, the largest single plant in the national fleet, is smaller than the high end of this combined figure. This cannot be served from existing shared grid capacity without materially degrading power for the rest of the country, which already shows real reliability strain (T&amp;TEC's most recently reported SAIFI of 3.75 interruptions/customer and SAIDI of 308 minutes/customer). Dedicated, additional generation is not a preference — it is the only workable path.</p>
+
+        <h3>2a.2 The Existing, Already-Proven Mechanism — a Fourth IPP-Style PPA</h3>
+        <p>T&amp;TEC does not generate its own power; it buys under long-term Power Purchase Agreements from independent power producers — PowerGen, TGU, and Trinity Power all supply under this exact structure. TGU itself was built as new, dedicated capacity when the country last needed a step-change in supply. The direct, already-proven mechanism for this load is a fourth IPP-style PPA, sized to the committed 450–800MW, following T&amp;TEC's own existing commercial and legal precedent rather than inventing a new structure.</p>
+
+        <h3>2a.3 Cost Comparison — Pure New-Build Versus Blended Repowering</h3>
+        <p><strong>Current market cost of new-build combined-cycle generation</strong>: BloombergNEF's most recent data (April 2026) puts new combined-cycle construction at US$2,157/kW, a 66% increase from under US$1,500/kW in 2023, driven by turbine, construction, and global pipeline cost inflation. Utility Dive independently confirms US$2.2–2.5 million per MW as the current build cost. Trinidad and Tobago's own direct precedent, TGU, cost approximately US$740 million for 720MW (2009–2013) — roughly US$1,028/kW, about half of today's price, meaning this build costs meaningfully more per megawatt than the country's last comparable project.</p>
+        <p><strong>Repowering existing capacity — the materially cheaper alternative.</strong> Heat-recovery repowering (adding a gas turbine and Heat Recovery Steam Generator to an existing plant, reusing its steam turbine) is documented to increase net generating capacity by 150–200%, while <em>reducing</em> heat rate by 30–40% and cutting NOx emissions, at a real, documented cost of US$355–750/kW for the added capacity — a fraction of new-build cost. A real, executed precedent: TECO's Big Bend Station repowering added 200MW of capacity while cutting site CO2 emissions by over 2 million tons/year. This lines up directly with T&amp;T-specific published literature: a carbon-pinch-analysis study of Trinidad and Tobago's own power sector found HRSG retrofits at existing plants could increase output by up to 38% without burning additional fuel — meaning this is not a generic global technique but one already identified as viable at T&amp;T's own facilities.</p>
+
+        <table class="datatable">
+          <tr><th>Approach</th><th>450MW target</th><th>800MW target</th></tr>
+          <tr><td>Pure new-build, blended US$1,500/kW</td><td>US$675M ≈ TT$4.55B</td><td>US$1.2B ≈ TT$8.1B</td></tr>
+          <tr><td>Blended: repowering (midpoint US$550/kW) for 300–400MW, new-build (US$1,500/kW) for the remainder</td><td>US$390M ≈ TT$2.63B</td><td>US$820M ≈ TT$5.53B</td></tr>
+          <tr class="total-row"><td>Saving, blended vs. pure new-build</td><td>TT$1.92B</td><td>TT$2.57B</td></tr>
+        </table>
+        <p>The blended approach at the 800MW target (TT$5.53B) fits inside the parliamentary submission's existing TT$5.5–7.5B compute-utility capital envelope, with room remaining for the data halls, cooling, and interconnection the same budget line also has to cover. Pure new-build at the high end does not fit inside that envelope at all — this is the concrete reason the blended approach is the recommended path, not a preference stated without basis.</p>
+
+        <h3>2a.4 Environmental Specification — Not Generic, Named and Standard-Referenced</h3>
+        <table class="datatable">
+          <tr><th>Requirement</th><th>Specification</th><th>Basis</th></tr>
+          <tr><td>NOx control</td><td>Selective Catalytic Reduction (SCR) or dry low-NOx combustors, standard equipment on modern H-Class turbines, not an add-on</td><td>Baseline requirement in the plant specification, not an environmental extra</td></tr>
+          <tr><td>Cooling water</td><td>Closed-loop cooling, minimising continuous freshwater makeup versus once-through systems</td><td>Consistent with the WUE standard already specified for the data halls themselves</td></tr>
+          <tr><td>Technology selection</td><td>Combined-cycle, not simple-cycle</td><td>T&amp;T's own published data shows combined-cycle already cut the national grid emission factor from 0.79 to 0.56 tonnes CO2e/MWh versus older open-cycle technology — this is T&amp;T's proven cleanest generation option, not a new ask</td></tr>
+          <tr><td>Fuel supply</td><td>Dedicated, contractually confirmed gas supply, not an assumption of availability</td><td>T&amp;T's documented natural gas supply variability already affects existing plants; this facility's fuel security is a signed precondition, not a planning assumption</td></tr>
+        </table>
+
+        <h3>2a.5 Workstream Staffing — Negotiation and Engineering Assessment</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Compute Utility Negotiation Lead (Tier A, see executive benchmark)</td><td>1</td><td>Bachelor's/Master's, energy or project finance, senior experience</td><td>120,000–160,000</td></tr>
+          <tr><td>Power/Energy Engineering Assessor</td><td>3–4</td><td>Bachelor's, electrical/power engineering</td><td>20,000–30,000</td></tr>
+          <tr><td>Legal — offtake and co-ownership structuring (RFP-24)</td><td>Retained counsel, not headcount</td><td>—</td><td>See RFP-24, Category B</td></tr>
+          <tr><td>Gas Sales Agreement Negotiator</td><td>2</td><td>Bachelor's, energy/commercial + Ministry of Energy or NGC background preferred</td><td>25,000–35,000</td></tr>
+        </table>
+        <p>The engineering-assessment role is a direct, bounded technical determination — assessing PowerGen's three named units and TGU for repowering-eligible capacity against real vintage and technology data — not an open-ended external study. This is scoped as a 3–4 person team's focused deliverable, not a commissioned research programme.</p>
+
+        <h3>2a.6 Full Compute-Utility Power Cost, Reconciled</h3>
+        <table class="datatable">
+          <tr><th>Component</th><th>Total</th></tr>
+          <tr><td>Generation capital, blended approach, 450–800MW target</td><td>TT$2.63B–5.53B</td></tr>
+          <tr><td>Negotiation and engineering assessment staffing, three years</td><td>TT$5.9M–9.4M</td></tr>
+          <tr><td>Legal (RFP-19, RFP-20, RFP-24, run jointly with Yozma's legal workstream)</td><td>See Category B, RFP schedule</td></tr>
+          <tr class="total-row"><td>Power and generation, full programme total</td><td>TT$2.64B–5.54B</td></tr>
+        </table>
+        <p>This is the power-generation component only, within the parliamentary submission's wider TT$5.5–7.5B compute-utility capital envelope, which also covers data halls, cooling, land, and grid interconnection — those remain separately scoped, not duplicated here.</p>
+      </section>
+
+      <div class="part-marker"><span class="roman">Part II</span><div class="rule"></div></div>
+      <p class="part-title">The Seven National Sectors — Bottom-Up Build</p>
+      <p>Sector 4 was built out first, in an earlier working session, and is reproduced here in full as the template every other sector below follows: a staffing table with education requirements and NIS-loaded salary bands, a named-vendor equipment table where physical or licensed equipment is involved, and a reconciliation against the parliamentary document's top-level Phase 1 figure. Where a sector has no meaningful physical equipment (Sectors 1, 2, 7), the equipment table is replaced with the relevant software/infrastructure cost instead — the template's spirit (name the vendor, show the basis, state the cost) carries over even where its shape does not.</p>
+
+      <section class="doc-section" id="s1">
+        <h2><span class="secnum">3</span>Sector 1 — Expert Data-Generation</h2>
+        <p class="section-standfirst">One national annotation authority; enterprise-level annotator staffing is scoped separately since annotators are enterprise employees or contractors, not authority staff.</p>
+
+        <h3>3.1 Central Authority — Staffing</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Authority Director</td><td>1</td><td>Bachelor's + relevant professional credential, senior experience</td><td>20,000–28,000</td></tr>
+          <tr><td>Annotation Platform Engineer</td><td>4–6</td><td>Bachelor's, computer science</td><td>14,000–22,000</td></tr>
+          <tr><td>Quality-Control Lead (inter-annotator agreement statistics)</td><td>2–3</td><td>Bachelor's + statistics/data-science background</td><td>13,000–19,000</td></tr>
+          <tr><td>Multi-Platform Client-Relationship Manager</td><td>3–5</td><td>Bachelor's, business or relevant technical field</td><td>15,000–22,000</td></tr>
+          <tr><td>Credential-Verification Liaison (VerifyTT integration, professional-body registers)</td><td>2</td><td>Associate degree or equivalent</td><td>10,000–15,000</td></tr>
+          <tr><td>Domain-Specialism Training Coordinator</td><td>2</td><td>Bachelor's, education or relevant technical field</td><td>12,000–18,000</td></tr>
+        </table>
+        <p><strong>Annotator compensation, at enterprise level (not authority payroll).</strong> Following the same banding logic Sector 4 applies to its operator tier, expert-tier annotators are credentialed professionals (law, medicine, engineering, accounting) performing annotation as contract or part-time work through their own or an enterprise employer's engagement, priced against the sector's own documented per-sample rate (US$0.50–5.00/sample, Section 8.1) rather than a monthly salary — this is genuinely piece-rate, project-based work, not a headcount line the authority carries.</p>
+
+        <h3>3.2 Platform and Infrastructure — Named Vendors</h3>
+        <table class="datatable">
+          <tr><th>Item</th><th>Named vendor/source</th><th>Basis</th><th>Cost</th></tr>
+          <tr><td>National annotation platform (build)</td><td>Custom build by the platform-engineering team above, or a licensed white-label annotation platform (Labelbox, Scale AI's enterprise product, or Encord — evaluated for a licensed-vs-built decision at Phase 1 kickoff)</td><td>Mid-size annotation platform, task-orchestration, redundancy/escalation logic (Section 8.4a)</td><td>US$150,000–400,000 (TT$1.02M–2.72M), one-time build, or US$8,000–25,000/month if licensed</td></tr>
+          <tr><td>Cloud hosting</td><td>Same cloud provider as TT Stack (Section 1.2), shared infrastructure</td><td>Production-scale hosting for 800–1,500 active annotators, Phase 1</td><td>US$4,000–12,000 (TT$27,000–82,000)/month</td></tr>
+          <tr><td>Audit-log and evidentiary export tooling</td><td>Standard cloud-native logging (AWS CloudTrail/Azure Monitor-equivalent), no separate vendor required</td><td>Meets the evidentiary standard named in Section 8.4a</td><td>Included in cloud hosting above</td></tr>
+        </table>
+
+        <h3>3.3 Remaining Contracted Items and Full Phase 1 Total</h3>
+        <table class="datatable">
+          <tr><th>Item</th><th>Basis</th><th>Cost</th></tr>
+          <tr><td>Authority payroll, 9-month Phase 1 window</td><td>14–19 staff, fully loaded (Section 3.1)</td><td>TT$1.9M–3.0M</td></tr>
+          <tr><td>Platform build or licence (Section 3.2)</td><td>Built or licensed annotation platform, 9 months</td><td>TT$1.02M–2.72M</td></tr>
+          <tr><td>Cloud hosting, 9 months</td><td>800–1,500 active annotators</td><td>TT$240,000–740,000</td></tr>
+          <tr><td>Credential-verification integration with professional bodies</td><td>Fixed-price integration, comparable to a mid-size registry API project</td><td>TT$3M–6M</td></tr>
+          <tr><td>Domain-specialism curriculum development</td><td>Shared cost line with Section 17's bridge-training budget — counted once, not duplicated</td><td>TT$2M–4M</td></tr>
+          <tr><td>Contingency, 15% of the above (AACE Class 4–5 standard reserve, per Section 22.6)</td><td>Reference-class forecasting practice</td><td>TT$1.29M–2.62M</td></tr>
+          <tr class="total-row"><td>Sector 1, full Phase 1 total</td><td></td><td>TT$9.9M–19.1M</td></tr>
+        </table>
+      </section>
+
+      <section class="doc-section" id="s2">
+        <h2><span class="secnum">4</span>Sector 2 — Orchestration Consulting</h2>
+        <p class="section-standfirst">The national multi-agent-systems institute — curriculum, certification panel, and the AI-governance sandbox.</p>
+
+        <h3>4.1 Institute — Staffing</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Institute Director</td><td>1</td><td>Bachelor's/Master's, computer science or AI, senior experience</td><td>22,000–30,000</td></tr>
+          <tr><td>Curriculum Developer (MAST-based)</td><td>2–3</td><td>Master's, computer science or AI-adjacent</td><td>16,000–24,000</td></tr>
+          <tr><td>Sandbox Infrastructure Engineer</td><td>2–3</td><td>Bachelor's, computer science</td><td>14,000–22,000</td></tr>
+          <tr><td>Certification Panel Administrator</td><td>1–2</td><td>Bachelor's, any discipline</td><td>12,000–18,000</td></tr>
+          <tr><td>International Fellow-Panel Member (Section 9.4a)</td><td>1</td><td>Recognised multi-agent-systems researcher, not a T&amp;T national — retained, not employed</td><td>Retainer, see 4.2</td></tr>
+        </table>
+
+        <h3>4.2 Sandbox, Curriculum, and External Expertise — Named Vendors</h3>
+        <table class="datatable">
+          <tr><th>Item</th><th>Named vendor/source</th><th>Basis</th><th>Cost</th></tr>
+          <tr><td>AI-governance sandbox — compute</td><td>Sovereign AI Compute Commons developer tier (Section 1.2) or dedicated cloud GPU allocation</td><td>Isolated, instrumented multi-agent execution environment pre-loaded with all 14 MAST failure modes (Section 9.4a)</td><td>US$3,000–8,000 (TT$20,000–54,000)/month</td></tr>
+          <tr><td>Sandbox build (reference implementations, 14 MAST failure modes)</td><td>Institute's own engineering team, or a contracted AI-safety/red-teaming specialist firm for the initial reference-implementation set</td><td>One-time development of the reference-implementation library named in Section 9.4a</td><td>US$60,000–150,000 (TT$408,000–1.02M), one-time</td></tr>
+          <tr><td>International Fellow-Panel retainer</td><td>Individually contracted, not a named firm — sourced from the MAST/A-Trust/G-Safeguard/Who&amp;When author community (Section 9.2)</td><td>Part-time advisory and certification-panel-chair role, standard academic consulting rate</td><td>US$20,000–50,000/year retainer</td></tr>
+        </table>
+
+        <h3>4.3 Remaining Contracted Items and Full Phase 1 Total</h3>
+        <table class="datatable">
+          <tr><th>Item</th><th>Basis</th><th>Cost</th></tr>
+          <tr><td>Institute payroll, 9-month Phase 1 window</td><td>7–10 staff, fully loaded (Section 4.1)</td><td>TT$1.5M–2.5M</td></tr>
+          <tr><td>Sandbox compute, 9 months</td><td>Section 4.2</td><td>TT$180,000–486,000</td></tr>
+          <tr><td>Sandbox build, one-time</td><td>14 MAST failure-mode reference implementations</td><td>TT$408,000–1.02M</td></tr>
+          <tr><td>International Fellow-Panel retainer, 9 months</td><td>Section 4.2</td><td>TT$136,000–340,000</td></tr>
+          <tr><td>Curriculum accreditation and international standards-body engagement</td><td>Professional-services and travel cost, Section 9.5's certification-credibility work</td><td>TT$2M–4M</td></tr>
+          <tr><td>Contingency, 15%</td><td>Per Section 22.6</td><td>TT$632,000–1.28M</td></tr>
+          <tr class="total-row"><td>Sector 2, full Phase 1 total</td><td></td><td>TT$4.86M–9.63M</td></tr>
+        </table>
+      </section>
+
+      <section class="doc-section" id="s3">
+        <h2><span class="secnum">5</span>Sector 3 — Verification and Red-Team</h2>
+        <p class="section-standfirst">The national red-teaming range and certification programme — and a materially better tooling strategy than initially assumed, once real market pricing is checked.</p>
+
+        <h3>5.1 Central Programme — Staffing</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Programme Director</td><td>1</td><td>Bachelor's + security certification, senior experience</td><td>22,000–30,000</td></tr>
+          <tr><td>Red-Team Range Engineer</td><td>3–4</td><td>Bachelor's + OSCP-equivalent certification</td><td>16,000–24,000</td></tr>
+          <tr><td>Vulnerability-Pattern Database Curator</td><td>2</td><td>Bachelor's, computer science or security</td><td>14,000–20,000</td></tr>
+          <tr><td>Certification Curriculum Lead (OWASP/NIST/MITRE)</td><td>1–2</td><td>Bachelor's + relevant security certification</td><td>16,000–22,000</td></tr>
+        </table>
+
+        <h3>5.2 Range Infrastructure and Tooling — Named Vendors</h3>
+        <div class="callout">
+          <div class="callout-label">Tooling strategy — checked against real market pricing</div>
+          Enterprise AI red-teaming platforms (HiddenLayer, Lakera Red, CalypsoAI, Robust Intelligence) publish no public pricing and require an enterprise sales engagement — not a fit for a Phase 1 procurement needing a defensible, quotable cost. A materially better-costed strategy exists: build the range's core capability on real, actively-maintained <strong>open-source tooling</strong> — Microsoft's PyRIT, NVIDIA's Garak, Promptfoo (trusted by 127 Fortune 500 companies per its own published user base), and DeepTeam — all free, all explicitly aligned to OWASP Top 10 for LLM Applications and NIST AI RMF (Section 10.2's own governing standards), and supplement with a single enterprise-tier subscription for the specific capability open-source tooling doesn't cover well: continuous runtime monitoring, where Lakera's published free-tier cap (10,000 requests/month) makes its paid tier the sensible target for one shared range-wide subscription.
+        </div>
+        <table class="datatable">
+          <tr><th>Item</th><th>Named vendor/source</th><th>Basis</th><th>Cost</th></tr>
+          <tr><td>Core red-teaming toolchain</td><td>NVIDIA Garak, Microsoft PyRIT, Promptfoo, DeepTeam — all open-source</td><td>OWASP/NIST-aligned adversarial testing frameworks; zero licensing cost</td><td>US$0 licensing; engineering time to integrate already counted in Section 5.1 payroll</td></tr>
+          <tr><td>Runtime monitoring — shared enterprise subscription</td><td>Lakera Guard (or equivalent — Mindgard, HiddenLayer — evaluated at RFP stage)</td><td>Enterprise tier, custom pricing; budgeted against the documented free-tier cap as a floor signal</td><td>US$40,000–120,000 (TT$272,000–816,000)/year, shared range-wide, not per-enterprise</td></tr>
+          <tr><td>Isolated range infrastructure (air-gapped, per Section 10.5)</td><td>Dedicated cloud VPC, same provider as TT Stack</td><td>Isolated from production systems, full activity logging</td><td>US$5,000–15,000 (TT$34,000–102,000)/month</td></tr>
+        </table>
+
+        <h3>5.3 Full Phase 1 Total, and the Real Budget Headroom This Creates</h3>
+        <table class="datatable">
+          <tr><th>Item</th><th>Basis</th><th>Cost</th></tr>
+          <tr><td>Programme payroll, 9-month Phase 1 window</td><td>7–9 staff, fully loaded (Section 5.1)</td><td>TT$1.5M–2.3M</td></tr>
+          <tr><td>Range infrastructure, 9 months</td><td>Section 5.2</td><td>TT$300,000–918,000</td></tr>
+          <tr><td>Runtime-monitoring subscription, 9 months</td><td>Section 5.2</td><td>TT$204,000–612,000</td></tr>
+          <tr><td>Contingency, 15%</td><td>Per Section 22.6</td><td>TT$300,000–575,000</td></tr>
+          <tr class="total-row"><td>Sector 3, full Phase 1 total</td><td></td><td>TT$2.3M–4.4M</td></tr>
+        </table>
+        <p>This is the lowest Phase 1 cost of any sector, driven directly by the open-source-tooling finding in Section 5.2 — real, actively-maintained frameworks (PyRIT, Garak, Promptfoo, DeepTeam) replace what would otherwise have been an enterprise-licensing cost with no public pricing. The Programme Management Office should treat this genuine headroom as available capacity: either an accelerated Phase 2 timeline or a larger initial certified-engineer cohort, at its discretion.</p>
+      </section>
+
+      <section class="doc-section" id="s4">
+        <h2><span class="secnum">6</span>Sector 4 — Teleoperation Data</h2>
+        <p class="section-standfirst">The reference build — reproduced here in full as the template every other sector in this document follows.</p>
+
+        <h3>6.1 Staffing, Per Facility</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount/facility</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Operator</td><td>20–30</td><td>Secondary school (CXC/CSEC), no degree required</td><td>4,500–7,500</td></tr>
+          <tr><td>QA/Data Reviewer</td><td>2–3</td><td>Associate degree or equivalent technical certificate</td><td>8,000–11,000</td></tr>
+          <tr><td>Facility/Operations Lead</td><td>1</td><td>Bachelor's degree, operations or engineering</td><td>12,000–18,000</td></tr>
+          <tr><td>ML/Technical Support (shared, 2–3 facilities/FTE)</td><td>0.3–0.5 FTE</td><td>Bachelor's, computer science/engineering</td><td>15,000–25,000</td></tr>
+        </table>
+        <p>The operator band is positioned between the documented Trinidad and Tobago data-entry-operator range (TT$3,679–14,328/month, with 80% of surveyed roles falling TT$4,136–9,247/month per Paylab's country-specific salary survey) and the higher certified-technical-operator band (TT$7,300–11,400/month), reflecting that this role's physical-dexterity, repeatable-task profile sits closer to skilled data-entry than to a certified technical trade. The Facility Lead figure is anchored to Trinidad and Tobago's average professional salary (approximately TT$9,500/month nationally) plus a supervisory premium.</p>
+
+        <table class="datatable">
+          <tr><th>Cost item, one facility</th><th>2026 (16.2% NIS)</th><th>2027 onward (19.2% NIS)</th></tr>
+          <tr><td>Fully loaded monthly payroll</td><td>TT$205,000–295,000</td><td>TT$209,000–301,000</td></tr>
+          <tr><td>Fully loaded annual labour cost</td><td>TT$2.46M–3.54M</td><td>TT$2.51M–3.61M</td></tr>
+        </table>
+
+        <h3>6.2 Equipment, Named Vendors</h3>
+        <table class="datatable">
+          <tr><th>Equipment item</th><th>Named vendor/source</th><th>Unit price</th><th>Qty/facility (Phase 1)</th><th>Facility subtotal</th></tr>
+          <tr><td>GELLO-tier single-arm leader rig</td><td>Open-source design (Stanford); build kits via Trossen Robotics and similar suppliers</td><td>~US$270 (BOM, self-assembled)</td><td>10–15</td><td>US$2,700–4,050</td></tr>
+          <tr><td>U-ARM entry-tier rig</td><td>Open-source design, community kits</td><td>~US$50–57 (BOM)</td><td>5–10</td><td>US$250–570</td></tr>
+          <tr><td>ALOHA-class bimanual station</td><td>Trossen Robotics (commercial ALOHA kit supplier)</td><td>US$20,000–27,000</td><td>3–5</td><td>US$60,000–135,000</td></tr>
+          <tr><td>Camera arrays (RGB + depth)</td><td>Intel RealSense (depth) + standard RGB webcams</td><td>US$200–400/station</td><td>15–20 stations</td><td>US$3,000–8,000</td></tr>
+          <tr><td>Recording workstation (GPU-capable)</td><td>Dell/Lenovo commercial line, spec'd for recording not training</td><td>US$1,200–2,500</td><td>8–12 (shared ratio)</td><td>US$9,600–30,000</td></tr>
+          <tr class="total-row"><td>Equipment total, one facility</td><td></td><td></td><td>~20 entry stations + 4 ALOHA stations</td><td>US$95,000–215,000 (TT$640K–1.45M)</td></tr>
+        </table>
+        <p><strong>Facility fit-out</strong> (rent, electrical, air conditioning, security): a converted commercial/industrial space of 3,000–5,000 sq ft, realistically at an e-TecK industrial estate, requires TT$400,000–700,000 in one-time fit-out plus TT$15,000–25,000/month in ongoing lease and utilities per facility.</p>
+
+        <table class="datatable">
+          <tr><th>Component</th><th>Per facility, Phase 1</th><th>Five to eight facilities</th></tr>
+          <tr><td>Equipment (one-time capital)</td><td>TT$640K–1.45M</td><td>TT$3.2M–11.6M</td></tr>
+          <tr><td>Fit-out (one-time capital)</td><td>TT$400K–700K</td><td>TT$2M–5.6M</td></tr>
+          <tr><td>Labour (recurring, annual, 2026 rate)</td><td>TT$2.46M–3.54M</td><td>TT$12.3M–28.3M/year</td></tr>
+        </table>
+
+        <h3>6.3 Full Phase 1 Total, Five to Eight Facilities</h3>
+        <table class="datatable">
+          <tr><th>Component</th><th>Total</th></tr>
+          <tr><td>Equipment, one-time (Section 6.2)</td><td>TT$3.2M–11.6M</td></tr>
+          <tr><td>Fit-out, one-time (Section 6.2)</td><td>TT$2M–5.6M</td></tr>
+          <tr><td>Labour, 9-month Phase 1 window at 2026 rate</td><td>TT$9.2M–21.2M</td></tr>
+          <tr><td>Contingency, 15%</td><td>TT$2.16M–5.76M</td></tr>
+          <tr class="total-row"><td>Sector 4, full Phase 1 total</td><td>TT$16.6M–44.2M</td></tr>
+        </table>
+
+        <h3>6.4 Operator Training Time</h3>
+        <p>An operator reaches production-quality output (the 200-clean-episodes-per-day benchmark) through a bounded process: one to two days of rig orientation and safety training, followed by three to five days of supervised practice runs with QA feedback, reaching independent production output by day five to seven — short because the task is bounded and repetitive by design, and the basis for facilities scaling operator headcount quickly once a first cohort is trained.</p>
+      </section>
+
+      <section class="doc-section" id="s5">
+        <h2><span class="secnum">7</span>Sector 5 — VLA Fine-Tuning</h2>
+        <p class="section-standfirst">The lightest-infrastructure sector of the seven — enterprises are small ML teams drawing on shared compute, not physical facilities.</p>
+
+        <h3>7.1 Enterprise-Level Staffing (Typical Enterprise, Not Central Authority)</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount/enterprise</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Senior ML Engineer (imitation learning)</td><td>1–2</td><td>Master's, machine learning or robotics, or Bachelor's + demonstrated ML experience</td><td>18,000–28,000</td></tr>
+          <tr><td>ML Engineer</td><td>1–2</td><td>Bachelor's, computer science, ML specialisation</td><td>15,000–25,000</td></tr>
+        </table>
+        <p>This matches the shared ML/Technical Support band already established in Sector 4 (Section 6.1), since it draws on the same scarce local skill pool — Sector 5 enterprises and Sector 4's shared technical-support FTEs are, in practice, often the same individuals moving between roles in Year 1 before the labour pool deepens.</p>
+
+        <h3>7.2 Central Programme Function — Staffing</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Benchmarking Framework Lead</td><td>1–2</td><td>Master's, machine learning/robotics</td><td>20,000–28,000</td></tr>
+          <tr><td>Benchmark Infrastructure Engineer</td><td>1–2</td><td>Bachelor's, computer science</td><td>14,000–22,000</td></tr>
+        </table>
+
+        <h3>7.3 Compute — The Dominant Cost Line</h3>
+        <table class="datatable">
+          <tr><th>Item</th><th>Named vendor/source</th><th>Basis</th><th>Cost</th></tr>
+          <tr><td>GPU compute for fine-tuning (per enterprise)</td><td>Sovereign AI Compute Commons commercial tier (Section 1.2), or direct AWS/GCP/Azure H100-class instances if commons capacity is constrained</td><td>500–2,000 GPU-hours/month per enterprise at fine-tuning stage, blended on-demand/reserved rate US$1.50–3.00/GPU-hour</td><td>US$750–6,000 (TT$5,100–40,800)/enterprise/month</td></tr>
+          <tr><td>Aggregate, 16–30 enterprises (Phase 1)</td><td>—</td><td>Per-enterprise cost above × enterprise count</td><td>US$12,000–180,000 (TT$82,000–1.22M)/month</td></tr>
+          <tr><td>Benchmark suite infrastructure (standardised task simulation)</td><td>Same cloud provider, dedicated allocation</td><td>Precision-assembly, laboratory-pipetting, warehouse pick-and-place task suites (Section 12.4a)</td><td>US$8,000–20,000 (TT$54,000–136,000)/month</td></tr>
+        </table>
+
+        <h3>7.4 Full Phase 1 Total, and Sensitivity to Enterprise Count</h3>
+        <table class="datatable">
+          <tr><th>Component</th><th>Total, 9-month Phase 1</th></tr>
+          <tr><td>Enterprise-level ML staffing, 16–30 enterprises</td><td>TT$12.6M–23.4M</td></tr>
+          <tr><td>Central benchmarking function payroll</td><td>TT$1.2M–2.1M</td></tr>
+          <tr><td>Compute, at Phase 1 utilisation (Section 7.3)</td><td>TT$738,000–10.98M</td></tr>
+          <tr><td>Contingency, 15%</td><td>TT$2.18M–5.48M</td></tr>
+          <tr class="total-row"><td>Sector 5, full Phase 1 total</td><td>TT$16.7M–42.0M</td></tr>
+        </table>
+        <p>This is the sector most sensitive to enterprise count and compute utilisation, with the widest range of any sector in this document. The Programme Management Office should treat the low end of the 16–30 enterprise Phase 1 target as the fiscally safer planning assumption unless Sector 4's client pipeline — which Sector 5 rides on directly — is ahead of schedule.</p>
+      </section>
+
+      <section class="doc-section" id="s6">
+        <h2><span class="secnum">8</span>Sector 6 — Chip Design Services</h2>
+        <p class="section-standfirst">EDA licensing is the dominant, least-certain cost in this sector — real market data narrows the range but does not close it.</p>
+
+        <h3>8.1 Central Programme and Enterprise-Level Staffing</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Programme Director</td><td>1</td><td>Bachelor's/Master's, electrical engineering, senior experience</td><td>24,000–32,000</td></tr>
+          <tr><td>Formal Verification Engineer (enterprise-level, per engineer)</td><td>35–55 (Phase 1, across all enterprises)</td><td>Bachelor's, electrical engineering or computer science + formal-methods training</td><td>16,000–26,000</td></tr>
+          <tr><td>Curriculum Lead (Lean 4/TLA+)</td><td>1–2</td><td>Master's/PhD, formal methods or computer science</td><td>22,000–30,000</td></tr>
+          <tr><td>Anchor-Partner Liaison</td><td>1</td><td>Bachelor's, electrical engineering + industry experience</td><td>18,000–26,000</td></tr>
+        </table>
+
+        <h3>8.2 EDA Licensing — Real Market Data, Two Procurement Strategies</h3>
+        <div class="callout">
+          <div class="callout-label">What real market data actually shows</div>
+          Neither Synopsys nor Cadence publishes list prices; both price bespoke per customer. What is documented: node-locked commercial seats typically run <strong>US$50,000–500,000 per seat per year</strong>, with floating (concurrent-user) licenses at a 20–30% premium over node-locked; full front-to-back digital-implementation suites (the high end of that range and beyond) are not the relevant comparison here, since Sector 6 is scoped specifically to <strong>formal verification</strong> (Section 13.1), a narrower toolset than full RTL-to-GDSII design. Synopsys also offers <strong>Synopsys Cloud / FlexEDA</strong>, a pay-per-minute consumption model rather than annual seats — a materially better fit for a market entrant with uncertain, ramping utilisation than committing to fixed annual seats before Phase 1 demand is proven.
+        </div>
+        <table class="datatable">
+          <tr><th>Strategy</th><th>Named vendor/source</th><th>Basis</th><th>Estimated annual cost</th></tr>
+          <tr><td>Strategy A — Floating seat pool</td><td>Synopsys VC Formal or Cadence JasperGold (formal-verification-specific tools, not full digital-implementation suites)</td><td>10–15 floating seats serving 35–55 engineers (not 1:1, standard floating-license practice), at the lower-to-mid end of the documented per-seat range given the narrower formal-verification scope</td><td>US$1.0M–3.75M/year</td></tr>
+          <tr><td>Strategy B — Synopsys Cloud / FlexEDA (recommended for Phase 1)</td><td>Synopsys Cloud, pay-per-minute consumption</td><td>Utilisation-linked cost, no fixed annual commitment — lower risk while Phase 1 demand and engineer productivity are still being established</td><td>US$400,000–1.5M/year at Phase 1 utilisation, scaling with actual usage rather than seat count</td></tr>
+        </table>
+        <p>This document recommends Strategy B for Phase 1 specifically because it converts the single largest fixed-cost risk in the entire seven-sector portfolio into a variable cost that scales with demonstrated utilisation — directly supporting Section 22.8's tranche-gating and downward-revision discipline. A transition to Strategy A's fixed floating-seat model becomes sensible once Phase 2 utilisation data justifies the larger fixed commitment.</p>
+
+        <h3>8.3 Full Phase 1 Total</h3>
+        <table class="datatable">
+          <tr><th>Component</th><th>Total, 9-month Phase 1</th></tr>
+          <tr><td>Payroll, all enterprise-level engineers and central programme staff</td><td>TT$9.9M–16.2M</td></tr>
+          <tr><td>EDA licensing, Strategy B (Synopsys Cloud/FlexEDA, recommended)</td><td>TT$2.04M–7.65M</td></tr>
+          <tr><td>Contingency, 15% — held wider than other sectors given EDA pricing remains vendor-unconfirmed</td><td>TT$1.79M–3.58M</td></tr>
+          <tr class="total-row"><td>Sector 6, full Phase 1 total</td><td>TT$13.7M–27.4M</td></tr>
+        </table>
+        <p>EDA licensing remains the least certain figure in this sector, since Synopsys and Cadence price bespoke per customer rather than publishing list prices — the Strategy B recommendation (Section 8.2) converts this from a fixed to a variable cost specifically to manage that uncertainty until real vendor quotes are in hand.</p>
+      </section>
+
+      <section class="doc-section" id="s7">
+        <h2><span class="secnum">9</span>Sector 7 — Flagship Methodology</h2>
+        <p class="section-standfirst">The lowest-infrastructure sector of the seven — the product is a documented, certifiable methodology, not physical equipment or licensed tooling.</p>
+
+        <h3>9.1 Staffing</h3>
+        <table class="datatable">
+          <tr><th>Role</th><th>Headcount</th><th>Education required</th><th>Base salary (TT$/mo)</th></tr>
+          <tr><td>Methodology Lead / Senior Architect</td><td>8–14</td><td>Bachelor's, computer science/software engineering, senior experience</td><td>18,000–28,000</td></tr>
+          <tr><td>Certification Panel Administrator</td><td>1–2</td><td>Bachelor's, any discipline</td><td>12,000–18,000</td></tr>
+          <tr><td>Business Development / Enterprise Matchmaking (Phase 2 onward)</td><td>2–4</td><td>Bachelor's, business or relevant technical field</td><td>14,000–20,000</td></tr>
+        </table>
+
+        <h3>9.2 Equipment and Tooling — Minimal, Named Where Relevant</h3>
+        <table class="datatable">
+          <tr><th>Item</th><th>Named vendor/source</th><th>Basis</th><th>Cost</th></tr>
+          <tr><td>Development laptops/workstations</td><td>Dell/Lenovo commercial line</td><td>Standard senior-engineer spec</td><td>US$1,500–2,500/unit, one-time, 8–14 units</td></tr>
+          <tr><td>Methodology documentation and version control</td><td>Notion, Confluence, or GitBook (documentation) + GitHub/GitLab (version control)</td><td>Standard team-tier SaaS pricing</td><td>US$500–2,000 (TT$3,400–13,600)/month</td></tr>
+          <tr><td>AI-assisted development tooling (Scaffold stage, Section 14.4)</td><td>GitHub Copilot Enterprise, Cursor, or Anthropic/OpenAI API access — evaluated per engagement</td><td>Per-seat SaaS pricing, standard published rates</td><td>US$20–40/seat/month</td></tr>
+        </table>
+
+        <h3>9.3 Full Phase 1 Total</h3>
+        <table class="datatable">
+          <tr><th>Component</th><th>Total, 9-month Phase 1</th></tr>
+          <tr><td>Payroll, 8–14 senior engineers, fully loaded</td><td>TT$1.3M–3.5M</td></tr>
+          <tr><td>Equipment, one-time</td><td>TT$81,600–238,000</td></tr>
+          <tr><td>Documentation and AI-tooling SaaS, 9 months</td><td>TT$34,000–150,000</td></tr>
+          <tr><td>Contingency, 15%</td><td>TT$212,000–583,000</td></tr>
+          <tr class="total-row"><td>Sector 7, full Phase 1 total</td><td>TT$1.63M–4.47M</td></tr>
+        </table>
+        <p>The lowest-cost sector of the seven, consistent with it being the lowest-infrastructure sector — its product is a documented, certifiable methodology, not physical equipment or licensed tooling, and senior-engineer compensation is correctly the dominant cost driver.</p>
+      </section>
+
+      <div class="part-marker"><span class="roman">Part III</span><div class="rule"></div></div>
+      <p class="part-title">Procurement and Delivery Sequencing</p>
+
+      <section class="doc-section" id="rfp">
+        <h2><span class="secnum">10</span>RFP and Procurement Schedule</h2>
+        <p class="section-standfirst">Category A: direct procurement under the Public Procurement and Disposal of Public Property Act, Chap. 22:02. Category B: professional and advisory services around the investment structures, still procured normally even though the underlying capital is not.</p>
+
+        <h3>10.1 Category A — Direct Procurement</h3>
+        <table class="datatable">
+          <tr><th>RFP</th><th>Deliverable</th><th>Executed by</th></tr>
+          <tr><td>RFP-1</td><td>VerifyTT API extension and developer sandbox (Section 6.1)</td><td>Systems-integration contractor with iGovTT</td></tr>
+          <tr><td>RFP-2</td><td>National payments interoperability rail (Section 6.2)</td><td>Fintech infrastructure contractor, Central Bank and commercial banks as integration partners</td></tr>
+          <tr><td>RFP-3</td><td>Business-registration-in-minutes platform, incl. e-Residency extension (Section 6.3)</td><td>Systems-integration contractor, integrated with VerifyTT and BIR</td></tr>
+          <tr><td>RFP-4</td><td>Sovereign AI Compute Commons — developer tier (Section 6.4)</td><td>Cloud-infrastructure contractor</td></tr>
+          <tr><td>RFP-5</td><td>TT Stack data governance and API legal/technical framework (Section 6.5)</td><td>Legal-plus-technical advisory team, jointly</td></tr>
+          <tr><td>RFP-6</td><td>TT Stack independent security audit</td><td>Independent cybersecurity firm, structurally separate from RFP-1–4's builder</td></tr>
+          <tr><td>RFP-7</td><td>Sector 1 quality-control infrastructure and platform</td><td>Sector authority's own initial hires (Section 3.2 above)</td></tr>
+          <tr><td>RFP-8</td><td>Sector 2 certification curriculum and cloud sandbox</td><td>Training-and-certification contractor with standards-body recognition</td></tr>
+          <tr><td>RFP-9</td><td>Sector 3 security tooling integration and certification programme</td><td>Security-training contractor, building on the open-source toolchain (Section 5.2)</td></tr>
+          <tr><td>RFP-10</td><td>Sector 4 facility fit-out (5–8 facilities) and rig procurement</td><td>Facilities contractor for fit-out; direct equipment purchase from rig suppliers (Section 6.2 above)</td></tr>
+          <tr><td>RFP-11</td><td>Sector 5 GPU compute allocation and ML engineering recruitment</td><td>Partly compute procurement, partly direct hiring</td></tr>
+          <tr><td>RFP-12</td><td>Sector 6 EDA tooling — Strategy B (Synopsys Cloud/FlexEDA) recommended</td><td>Direct vendor negotiation with Synopsys</td></tr>
+          <tr><td>RFP-13</td><td>Sector 7 certification body establishment</td><td>Standards/accreditation-body-building contractor</td></tr>
+          <tr><td>RFP-14</td><td>Bridge-training curriculum development, per sector (Section 17)</td><td>Seven separate lots, one per sector</td></tr>
+          <tr><td>RFP-15</td><td>Founder certification and accreditation infrastructure (Section 18)</td><td>Systems-integration contractor</td></tr>
+          <tr><td>RFP-16</td><td>Programme Management Office establishment (Sections 19–22)</td><td>First RFP issued — coordinates all others</td></tr>
+          <tr><td>RFP-17</td><td>Independent monitoring, evaluation, and audit function</td><td>Independent audit/M&amp;E firm, structurally barred from also holding RFP-16 or any delivery contract</td></tr>
+          <tr><td>RFP-18</td><td>Central business-development / enterprise on-ramp function</td><td>Matches newly certified enterprises with first client opportunities</td></tr>
+        </table>
+
+        <h3>10.2 Category B — Professional and Advisory Services</h3>
+        <table class="datatable">
+          <tr><th>RFP</th><th>Deliverable</th><th>Executed by</th></tr>
+          <tr><td>RFP-19</td><td>Legal advisory — T&amp;T Yozma LP structuring (Section 7.3), precondition to any capital call</td><td>Retained commercial law firm + international venture-fund counsel</td></tr>
+          <tr><td>RFP-20</td><td>Legal and HSF-consistency advisory (Section 7.4)</td><td>Same counsel panel, in parallel with RFP-19</td></tr>
+          <tr><td>RFP-21</td><td>Fund administrator/custodian services (Section 2.2 above)</td><td>Panel of fund-admin providers — Sydecar, Carta, NAV, Juniper Square</td></tr>
+          <tr><td>RFP-22</td><td>NGC Gas Sales Agreement negotiation and T&amp;TEC interconnection confirmation (Section 6.4a-ii) — a negotiation deliverable, not a commissioned study</td><td>Direct negotiation team, Ministry of Energy and Energy Industries and T&amp;TEC counterparts</td></tr>
+          <tr><td>RFP-23</td><td>Environmental and water-use standard, independent review — compute-utility precondition</td><td>Independent environmental review firm</td></tr>
+          <tr><td>RFP-24</td><td>Legal structuring — sovereign co-ownership and offtake contracts, run in parallel with RFP-19/20</td><td>Office of the Attorney General, with specialist project-finance counsel</td></tr>
+          <tr><td>RFP-25</td><td>Compute-utility commercial/offtake advisory — the function securing the binding offtake contract required before Phase 2 capital releases</td><td>Specialist infrastructure/data-centre transaction advisory firm</td></tr>
+          <tr><td>RFP-26</td><td>Diaspora bond securities registration and underwriting advisory (US/Canada/UK jurisdictions)</td><td>Securities counsel + underwriting bank, per jurisdiction</td></tr>
+          <tr><td>RFP-27</td><td>Foreign VC partner and diaspora fund-manager selection — run with RFP-grade documentation rigour</td><td>Selection committee, oversight board</td></tr>
+        </table>
+      </section>
+
+      <section class="doc-section" id="roadmap">
+        <h2><span class="secnum">11</span>Master Roadmap — Year 1 Through Year 3</h2>
+
+        <h3>Quarter 1 (FY2027 Q1)</h3>
+        <p>RFP-16 (PMO) and RFP-17 (independent audit function) issued first. RFP-19, RFP-20 (legal advisory) and RFP-22 (NGC Gas Sales Agreement negotiation) issued in parallel — preconditions, not optional early work. Cabinet approval-in-principle and Attorney General legal review run concurrently.</p>
+
+        <h3>Quarter 2 (FY2027 Q2)</h3>
+        <p>RFP-1 through RFP-6 (TT Stack) issued as a batch. RFP-7 through RFP-13 (sector infrastructure) issued, sequenced by sector readiness — Sector 4 (RFP-10) and Sector 1 (RFP-7) go first, per the parliamentary document's own sequencing. RFP-25 (offtake advisory) begins active client origination.</p>
+
+        <h3>Quarter 3 (FY2027 Q3)</h3>
+        <p>RFP-14, RFP-15 (curriculum and certification) issued once Q2's sector infrastructure batch is far enough along to know what is actually being trained toward. RFP-23, RFP-24 (environmental review, co-ownership legal) complete. RFP-22's Gas Sales Agreement negotiation status is the single gating item for any further compute-utility progress.</p>
+
+        <h3>Quarter 4 (FY2027 Q4)</h3>
+        <p>First tranche-gate review (Section 25.3 of the parliamentary document) — no FY2028 capital call proceeds until this quarter's actual delivery is independently verified by RFP-17, not projected. RFP-27 (fund manager selection) should be far enough along that first Yozma fund formation is imminent.</p>
+
+        <h3>Year 2 (FY2028)</h3>
+        <p>Contingent entirely on Year 1's verified metrics. RFP-21 (fund administrator) active as first Yozma capital calls begin. Compute-utility Phase 2 capital releases only if RFP-25 has landed a signed offtake contract and RFP-22 a signed Gas Sales Agreement — the two hardest gates in the whole roadmap. RFP-18 (business development) shifts from setup to active enterprise-matching as Sector 7 certifications produce first graduating enterprises. RFP-26 (diaspora bond) launches if Year 1 registration work is complete.</p>
+
+        <h3>Year 3 (FY2029)</h3>
+        <p>Full sector scale-up per each sector's own Phase 3 targets. Second tranche-gate review determines whether the programme is tracking toward the wider or narrower end of the corrected TT$5.9–39.6 billion national mobilisation range — and this is not a failure state either way, it is the range the parliamentary document already plans for.</p>
+      </section>
+
+      <div class="end-marker">· · ·</div>
+    </div>
+  </main>
+</div>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+  const links = Array.from(document.querySelectorAll('.toc a'));
+  const targets = links.map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  function onScroll(){
+    let current = null;
+    const scrollPos = window.scrollY + 120;
+    for(const t of targets){ if(t.offsetTop <= scrollPos) current = t; }
+    links.forEach(l => l.classList.remove('active'));
+    if(current){
+      const active = links.find(l => l.getAttribute('href') === '#' + current.id);
+      if(active) active.classList.add('active');
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+</script>
+</body>
+</html>
