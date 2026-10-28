@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Writing Architecture Documentation with arc42: a one-day workshop</title>
+<meta name="description" content="One-day hands-on workshop at UWI St Augustine, Saturday 5 December 2026. Write architecture documentation your team will actually use, using arc42.">
+<meta property="og:title" content="Writing Architecture Documentation with arc42">
+<meta property="og:description" content="One-day hands-on workshop, Saturday 5 December 2026, UWI St Augustine.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"EducationEvent","name":"Writing Architecture Documentation with arc42","startDate":"2026-12-05T09:00:00-04:00","endDate":"2026-12-05T17:00:00-04:00","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":{"@type":"Place","name":"UWI St Augustine","address":{"@type":"PostalAddress","addressLocality":"St Augustine","addressCountry":"TT"}},"description":"A one-day beginner workshop on writing architecture documentation with arc42.","offers":{"@type":"Offer","price":"999","priceCurrency":"TTD","validThrough":"2026-11-10","availability":"https://schema.org/InStock"}}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#f6f8f9;--panel:#fff;--ink:#0e2233;--mut:#4d6072;--teal:#00796f;--sun:#f2b631;--tint:#e3f1ef;--line:#d5dee3;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1721;--panel:#12212e;--ink:#eaf1f5;--mut:#9db1c0;--teal:#3fc4b6;--tint:#133130;--line:#24384a;--on:#06201d}}
+:root[data-theme="dark"]{--bg:#0b1721;--panel:#12212e;--ink:#eaf1f5;--mut:#9db1c0;--teal:#3fc4b6;--tint:#133130;--line:#24384a;--on:#06201d}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+h1,h2,h3{font-family:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;line-height:1.1;margin:0}
+h1{font-size:clamp(2.3rem,6vw,3.9rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,3.5vw,2.3rem);font-weight:800;letter-spacing:-.01em;margin-bottom:.5em}
+h3{font-size:1.15rem;font-weight:600;margin:1.4em 0 .3em}
+p{max-width:64ch}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+nav{max-width:1040px;margin:auto;padding:10px 20px;display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.logo{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;margin-right:auto;color:var(--ink)}
+.logo i{display:inline-block;width:.8em;height:.8em;background:var(--sun);border-radius:2px;margin-right:.4em;transform:translateY(1px)}
+nav button{border:0;background:none;color:var(--mut);font:inherit;font-size:.95rem;padding:7px 12px;border-radius:6px;cursor:pointer}
+nav button.on{color:var(--ink);box-shadow:inset 0 -3px 0 var(--sun)}
+main{max-width:1040px;margin:auto;padding:0 20px 80px}
+section.tab{display:none}section.tab.on{display:block}
+.band{padding:56px 0;border-top:1px solid var(--line)}
+.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:40px;align-items:center;padding:48px 0 56px}
+.hero p.lead{font-size:1.2rem;color:var(--mut);margin:18px 0 26px}
+.btn{display:inline-block;background:var(--teal);color:var(--on);padding:13px 24px;border-radius:8px;text-decoration:none;border:0;font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost{background:none;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.facts{margin-top:22px;color:var(--mut);font-size:.95rem}
+.sheet{background:var(--panel);border:2px solid var(--ink);border-radius:4px;padding:14px}
+.sheet small{display:block;color:var(--mut);margin-bottom:10px;font-size:.85rem}
+.cells{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cells button{aspect-ratio:1;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:3px;font:inherit;font-size:.78rem;line-height:1.2;padding:6px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between}
+.cells button b{font-family:"Bricolage Grotesque",sans-serif;font-size:1.3rem}
+.cells button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.cells button.on b{color:var(--sun)}
+#q{min-height:3.2em;margin:12px 0 0;font-weight:500}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px 36px}
+.cols h3{margin-top:0}
+.cols p{margin:.3em 0 0;color:var(--mut)}
+.time{display:grid;grid-template-columns:5.2rem 1fr;gap:6px 16px;margin:0;padding:0;list-style:none;max-width:680px}
+.time li{display:contents}
+.time b{font-family:"Bricolage Grotesque",sans-serif;color:var(--teal)}
+.time li>span{border-bottom:1px solid var(--line);padding-bottom:8px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px}
+.plan.star{border:2px solid var(--teal)}
+.plan .pr{font-family:"Bricolage Grotesque",sans-serif;font-size:1.7rem;font-weight:800;margin:6px 0}
+.plan p{color:var(--mut);margin:.2em 0}
+form{display:grid;gap:12px;max-width:520px;margin-top:20px}
+label{font-weight:500;font-size:.95rem}
+input,select,textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);margin-top:4px}
+details{border-top:1px solid var(--line);padding:14px 0;max-width:700px}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--mut);margin:.5em 0 0}
+.deck{background:var(--ink);color:var(--bg);border-radius:6px;padding:clamp(24px,5vw,56px);min-height:340px}
+.deck h2{color:var(--sun)}
+.deck p,.deck li{font-size:1.15rem;max-width:56ch}
+.ctl{display:flex;gap:10px;align-items:center;margin-top:14px}
+.ctl span{margin-left:auto;color:var(--mut)}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top}
+pre{background:var(--tint);padding:14px;border-radius:6px;overflow-x:auto;font-size:.85rem;line-height:1.5}
+.chk label{display:block;margin:6px 0;font-weight:400}.chk input{width:auto;margin-right:8px}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--mut);font-size:.9rem}
+@media(max-width:780px){.hero{grid-template-columns:1fr}}
+@media print{header,.ctl,.btn{display:none}.tab{display:block!important}}
+</style>
+</head>
+<body>
+<header><nav>
+<span class="logo"><i></i>arc42 in a Day</span>
+<button data-t="home" class="on">Workshop</button>
+<button data-t="student">Student guide</button>
+<button data-t="register">Register</button>
+</nav></header>
+<main>
+
+<section id="home" class="tab on">
+<div class="hero">
+<div>
+<h1>Write architecture documentation your team will actually use</h1>
+<p class="lead">One day, hands on. You leave with a first-draft arc42 document for a real system, and a method you can repeat on Monday.</p>
+<div class="actions"><a class="btn" href="#register" id="cta">Reserve a seat</a><a class="btn ghost" href="#day">See the day</a></div>
+<p class="facts" id="facts"></p>
+</div>
+<div class="sheet" aria-label="The twelve arc42 sections">
+<small>The arc42 template has twelve sections. Tap one to see the question it answers.</small>
+<div class="cells" id="cells"></div>
+<p id="q">Start with section 1.</p>
+</div>
+</div>
+
+<div class="band">
+<h2>What goes wrong without it</h2>
+<div class="cols">
+<div><h3>Knowledge lives in heads</h3><p>Newcomers wait for someone to explain how things fit together.</p></div>
+<div><h3>Decisions get forgotten</h3><p>Teams re-debate old choices, or break them by accident.</p></div>
+<div><h3>Qualities stay vague</h3><p>“Fast” and “secure” mean different things to different people.</p></div>
+<div><h3>Machines read it too</h3><p>AI tools act on what is written and guess what isn’t.</p></div>
+</div>
+</div>
+
+<div class="band">
+<h2>What you will be able to do</h2>
+<div class="cols">
+<div><h3>Set the goals</h3><p>Identify stakeholders and write quality goals with numbers instead of adjectives.</p></div>
+<div><h3>Draw the system</h3><p>Sketch a context view and a Level-1 building-block view, then write one component contract.</p></div>
+<div><h3>Show behaviour</h3><p>Describe a runtime scenario with a failure branch, and a deployment view.</p></div>
+<div><h3>Record why</h3><p>Write an architecture decision record (ADR) that lists the road not taken.</p></div>
+<div><h3>Work with AI</h3><p>Let AI draft a section, then find and fix its mistakes.</p></div>
+<div><h3>Write for agents</h3><p>Shape documentation so both people and coding agents can use it.</p></div>
+</div>
+</div>
+
+<div class="band" id="day">
+<h2>The day, 9:00 to 5:00</h2>
+<p>Every part runs the same loop: a finished example, then your turn. Your team picks a real system on the way in, so the document you build is yours.</p>
+<ul class="time">
+<li><b>09:00</b><span>Opening and foundations: what architecture is, and what arc42 is</span></li>
+<li><b>10:20</b><span>Goals, quality and stakeholders, then constraints, context and strategy</span></li>
+<li><b>13:00</b><span>Building blocks, runtime and deployment, then crosscutting concepts</span></li>
+<li><b>14:50</b><span>Decisions, quality scenarios, risks and glossary</span></li>
+<li><b>15:40</b><span>AI lab: draft, red-team, repair</span></li>
+<li><b>16:20</b><span>Writing for agents as readers, close and your 30-day plan</span></li>
+</ul>
+</div>
+
+<div class="band">
+<h2>You leave with</h2>
+<div class="cols">
+<div><h3>A complete skeleton</h3><p>All twelve arc42 sections drafted for your own system.</p></div>
+<div><h3>Reusable pieces</h3><p>A contract, an ADR and measurable quality scenarios you can copy into real work.</p></div>
+<div><h3>A repeatable method</h3><p>An AI prompt template, a red-team checklist and a 30-day plan.</p></div>
+</div>
+</div>
+
+<div class="band">
+<h2>How you will learn</h2>
+<p>The day is built on how people pick up a new skill: see it done, try it yourself, then check your work with someone else.</p>
+<div class="cols">
+<div><h3>See it done</h3><p>For every section, a finished example from a real-world app, so you know what good looks like before you start.</p></div>
+<div><h3>Do it yourself</h3><p>Early exercises are mostly filled in. Later ones give you only a template, then a blank page, so the support fades as you grow.</p></div>
+<div><h3>Check with peers</h3><p>Swap drafts with another team using a short checklist, and retake the opening quiz at the end to see your own progress.</p></div>
+</div>
+</div>
+
+<div class="band">
+<h2>Who it’s for</h2>
+<p>Developers, tech leads, analysts, testers and managers who build or maintain software and have never written architecture documentation, or never made it stick. No architecture background needed, and no UML.</p>
+<p>This is a beginner workshop. If you already write arc42 documents regularly, much of it will be review.</p>
+</div>
+
+<div class="band" id="join">
+<h2>Register for 5 December</h2>
+<p id="ebt2"></p>
+<div class="plans" id="plans"></div>
+<form id="f">
+<label>Your name<input name="n" required autocomplete="name"></label>
+<label>Email<input name="e" type="email" required autocomplete="email"></label>
+<label>Team or organisation (optional)<input name="t"></label>
+<select name="p" id="sel" hidden></select>
+<label>Anything we should know?<textarea name="m" rows="3"></textarea></label>
+<div class="actions"><button class="btn" id="go" type="submit">Reserve a seat</button><a class="btn ghost" href="mailto:peterdramsajan@gmail.com">Email us instead</a></div>
+<p id="msg" role="status"></p>
+</form>
+</div>
+
+<div class="band">
+<h2>Seats are open for 5 December</h2>
+<p id="ebt"></p>
+<div class="actions"><button class="btn" id="ebgo">Reserve a seat</button></div>
+</div>
+
+<div class="band">
+<h2>Questions</h2>
+<details><summary>Where and when?</summary><p>Saturday 5 December 2026, 9:00 am to 5:00 pm at UWI St Augustine. Registered participants get the exact room by email before the day.</p></details>
+<details><summary>Do I need to know UML?</summary><p>No. Boxes, arrows and plain words are enough.</p></details>
+<details><summary>Which system do we document?</summary><p>One your team can explain from memory, such as a school library, a clinic booking system or a maxi-taxi tracker. Please don’t share confidential details.</p></details>
+<details><summary>Will we use AI?</summary><p>Yes, but you write the first draft yourselves. Then you use AI to find gaps, and you check every line it produces.</p></details>
+<details><summary>What should I bring?</summary><p>A laptop with a Markdown editor that previews Mermaid diagrams, or a shared document your team can edit.</p></details>
+<details><summary>Is it a certification?</summary><p>No. It is a practical workshop that ends with a document you can use.</p></details>
+</div>
+<footer>Workshop built on arc42, a free and open template for architecture documentation by Gernot Starke and Peter Hruschka. <span id="host"></span></footer>
+</section>
+
+<section id="student" class="tab">
+<div class="band" style="border:0;padding-top:32px">
+<h2>Student guide</h2>
+<h3>Before the day</h3>
+<p>Install or open a Markdown editor with Mermaid preview, or prepare a shared doc. Think of a system your team could explain from memory. Don’t bring passwords, keys, personal data or client-confidential material.</p>
+<h3>Your deliverable</h3>
+<div class="tbl"><table>
+<tr><th>Exercise</th><th>Produces</th><th>Section</th></tr>
+<tr><td>1</td><td>Summary, quality goals, stakeholders</td><td>1</td></tr>
+<tr><td>2</td><td>Constraints</td><td>2</td></tr>
+<tr><td>3</td><td>Context view</td><td>3</td></tr>
+<tr><td>4</td><td>Strategy table</td><td>4</td></tr>
+<tr><td>5</td><td>Level-1 blocks and one contract</td><td>5</td></tr>
+<tr><td>6</td><td>One runtime scenario</td><td>6</td></tr>
+<tr><td>7</td><td>Deployment sketch</td><td>7</td></tr>
+<tr><td>8</td><td>Crosscutting concepts</td><td>8</td></tr>
+<tr><td>9</td><td>One ADR</td><td>9</td></tr>
+<tr><td>10–11</td><td>Quality scenarios, risks, glossary</td><td>10–12</td></tr>
+<tr><td>12</td><td>AI-drafted section, red-teamed</td><td>Any</td></tr>
+</table></div>
+<h3>Team skeleton</h3>
+<pre id="skel"># &lt;System name&gt; — arc42 skeleton
+## 1. Introduction and Goals
+### 1.1 Requirements overview
+### 1.2 Quality goals (top 3–5, each with a scenario)
+### 1.3 Stakeholders (role, expectation)
+## 2. Constraints (ID, constraint, why, effect)
+## 3. Context and Scope
+### 3.1 Business context (diagram)
+### 3.2 Technical context (table)
+## 4. Solution Strategy (goal, approach, why, trade-off)
+## 5. Building Block View
+### 5.1 Level 1 (diagram + table)
+### 5.2 Contract: &lt;block&gt;
+## 6. Runtime View (scenario + failure branch)
+## 7. Deployment View (environments, mapping table)
+## 8. Crosscutting Concepts
+## 9. Architecture Decisions (ADR-0001…)
+## 10. Quality Requirements (tree + scenarios)
+## 11. Risks and Technical Debt
+## 12. Glossary</pre>
+<button class="btn" id="copy">Copy skeleton</button>
+<h3>Mermaid in 30 seconds</h3>
+<pre>```mermaid
+graph LR
+  A[Customer] --&gt; B[Order app]
+  B --&gt;|HTTPS| C[Payment provider]
+```</pre>
+<h3>Check before you leave</h3>
+<div class="chk">
+<label><input type="checkbox">All 12 headings present, even rough</label>
+<label><input type="checkbox">Every quality goal has a scenario with a number</label>
+<label><input type="checkbox">Every block in section 5 traces to a strategy or goal</label>
+<label><input type="checkbox">Section 6 participants match section 5 names</label>
+<label><input type="checkbox">At least one ADR with an alternative and a negative consequence</label>
+<label><input type="checkbox">IDs (C1, ADR-0001) are referenced somewhere else</label>
+</div>
+<h3>Rules for AI today</h3>
+<p>Write a human draft first. Then ask AI why, and what’s missing, not only to write it. You decide: give every AI line a verdict of accepted, rejected or edited, with a reason.</p>
+<h3>Your 30 days</h3>
+<p>Week 1: finish sections 1–4 with your real team. Week 2: sections 5–6, one contract per critical block. Week 3: three ADRs, five scenarios, risks. Week 4: try the agent experiment (no docs, a short index plus two contracts, or the full arc42) and share what you find.</p>
+</div>
+</section>
+
+<section id="register" class="tab"></section>
+</main>
+
+<script>
+(function(){
+/* EDIT THESE: fill in your real details and the page updates itself */
+var CONFIG={
+  email:"peterdramsajan@gmail.com",
+  date:"Saturday 5 December 2026, 9:00 am to 5:00 pm", venue:"UWI St Augustine",
+  host:"",
+  early:{price:"TT$999",ends:"2026-11-11T03:59:59Z",label:"10 November"},
+  plans:[
+    {name:"Workshop seat",price:"TT$999",note:"Early bird price per person until 10 November. Full day, all materials.",star:true}
+  ]
+};
+var left=Math.ceil((new Date(CONFIG.early.ends)-new Date())/864e5),ebOn=left>0;
+if(!ebOn){CONFIG.plans[0].price="";CONFIG.plans[0].note="The early bird has ended. Email us for the current price."}
+var tabs=["home","student","register"];
+function show(t){if(tabs.indexOf(t)<0)t="home";
+tabs.forEach(function(x){document.getElementById(x).classList.toggle("on",x===t)});
+document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("on",b.dataset.t===t)})}
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){show(b.dataset.t);window.scrollTo(0,0);try{location.hash=b.dataset.t}catch(e){}}});
+var h=(location.hash||"").slice(1);if(tabs.indexOf(h)>-1)show(h);
+
+var Q=[["Introduction and goals","Why does it exist, and what matters most?"],["Constraints","What can’t we change?"],["Context and scope","Who do we talk to?"],["Solution strategy","What is our approach?"],["Building blocks","What are the parts?"],["Runtime","How do the parts interact?"],["Deployment","Where does it run?"],["Crosscutting concepts","What recurs everywhere?"],["Decisions","Why this choice?"],["Quality requirements","How good, measurably?"],["Risks and debt","What could go wrong?"],["Glossary","What do the words mean?"]];
+var cells=document.getElementById("cells"),q=document.getElementById("q");
+Q.forEach(function(x,i){var b=document.createElement("button");b.innerHTML="<b>"+(i+1)+"</b>"+x[0];
+b.onclick=function(){cells.querySelectorAll("button").forEach(function(c){c.classList.remove("on")});b.classList.add("on");q.textContent=x[1]};cells.appendChild(b)});
+
+var facts=[CONFIG.date,CONFIG.venue].filter(Boolean).join(", ");
+document.getElementById("facts").textContent=facts||"Next dates announced soon. Join the waiting list below.";
+document.getElementById("host").textContent=CONFIG.host;
+var live=!!CONFIG.date;
+var ctaText=live?"Reserve a seat":"Join the waiting list";
+document.getElementById("cta").textContent=ctaText;document.getElementById("go").textContent=ctaText;
+var pl=document.getElementById("plans"),sel=document.getElementById("sel");
+CONFIG.plans.forEach(function(p){var d=document.createElement("div");d.className="plan"+(p.star?" star":"");
+d.innerHTML="<h3 style='margin:0'>"+p.name+"</h3><div class='pr'>"+(p.price||"Price to be announced")+"</div><p>"+p.note+"</p>";pl.appendChild(d);
+var o=document.createElement("option");o.textContent=p.name;sel.appendChild(o)});
+document.getElementById("register").appendChild(document.getElementById("join"));
+var ebt=ebOn?(left+" day"+(left===1?"":"s")+" left at the early bird price of "+CONFIG.early.price+" (until "+CONFIG.early.label+")"):"The early bird price has ended.";
+document.getElementById("ebt").textContent=ebt;document.getElementById("ebt2").textContent=ebt;
+document.getElementById("cta").onclick=function(e){e.preventDefault();show("register");window.scrollTo(0,0)};
+document.getElementById("ebgo").onclick=function(){show("register");window.scrollTo(0,0)};
+document.getElementById("f").onsubmit=function(e){e.preventDefault();var f=e.target,m=document.getElementById("msg");
+if(!CONFIG.email){m.textContent="Registration isn’t switched on yet. Check back soon.";return}
+var body="Name: "+f.n.value+"\nEmail: "+f.e.value+"\nTeam: "+f.t.value+"\nSeat: "+f.p.value+"\nNotes: "+f.m.value;
+location.href="mailto:"+CONFIG.email+"?subject="+encodeURIComponent("arc42 workshop: "+ctaText)+"&body="+encodeURIComponent(body);
+m.textContent="Your email app should open with your details ready to send."};
+
+document.getElementById("copy").onclick=function(){var t=document.getElementById("skel").textContent,b=this;
+try{navigator.clipboard.writeText(t).then(function(){b.textContent="Copied"},function(){b.textContent="Copy failed: select the text"})}catch(x){b.textContent="Copy failed: select the text"}};
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>arc42 workshop slides</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#0b1721;--panel:#12212e;--ink:#eaf1f5;--mut:#9db1c0;--teal:#3fc4b6;--sun:#f2b631;--line:#24384a}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:#050c12;color:var(--ink);font:400 30px/1.5 "IBM Plex Sans",system-ui,sans-serif;overflow:hidden}
+#stage{position:fixed;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;background:var(--bg);overflow:hidden}
+.s{position:absolute;inset:0;padding:72px 88px;display:none;flex-direction:column;justify-content:center;gap:18px}
+.s.on{display:flex}
+h1,h2{font-family:"Bricolage Grotesque","Arial Narrow",sans-serif;line-height:1.05;margin:0;letter-spacing:-.02em}
+h1{font-size:84px;font-weight:800}h2{font-size:56px;font-weight:800;color:var(--sun);margin-bottom:12px}
+p,ul,ol{margin:0}ul,ol{padding-left:1.1em}li{margin:.25em 0}
+.m{color:var(--mut)}.k{color:var(--teal);font-weight:600}
+.s table{border-collapse:collapse;width:100%;font-size:26px}.s td,.s th{border-bottom:1px solid var(--line);padding:10px 12px;text-align:left}
+.g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.g div{background:var(--panel);border:1px solid var(--line);padding:12px 14px;font-size:23px;border-radius:4px}.g b{color:var(--sun);font-family:"Bricolage Grotesque",sans-serif;font-size:30px;display:block}
+#bar{position:fixed;left:0;top:0;height:5px;background:var(--sun);width:0;z-index:5;transition:width .25s}
+#hud{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;align-items:center;padding:10px 14px;background:rgba(5,12,18,.88);font:500 14px system-ui,sans-serif;z-index:5;transition:opacity .3s}
+#hud button{background:none;border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:6px 10px;cursor:pointer;font:inherit}
+#hud span{margin-left:auto;color:var(--mut)}
+body.idle #hud{opacity:0;pointer-events:none}body.idle{cursor:none}
+#notes{position:fixed;left:0;right:0;bottom:48px;background:rgba(5,12,18,.94);padding:16px 22px;font:400 20px/1.5 system-ui,sans-serif;display:none;z-index:4;max-height:40vh;overflow:auto}
+body.nt #notes{display:block}
+#ov{position:fixed;inset:0;background:#050c12;z-index:8;display:none;overflow:auto;padding:24px;font:500 16px system-ui,sans-serif}
+body.ov #ov{display:block}
+#ov div{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+#ov button{text-align:left;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:14px;cursor:pointer;font:inherit;min-height:84px}
+#ov button.on{border-color:var(--sun)}#ov b{color:var(--sun);margin-right:6px}
+body.pres #hud span::before{content:"Presenter view  "}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.18s}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}#bar{transition:none}}
+@media print{@page{size:1280px 720px;margin:0}html,body{overflow:visible;height:auto}#stage{position:static;transform:none!important;height:auto;width:1280px}.s{display:flex!important;position:relative;height:720px;break-after:page}#hud,#bar,#notes,#ov{display:none!important}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="stage"></div>
+<div id="notes" role="note"></div>
+<div id="ov"><div id="ovg"></div></div>
+<div id="hud">
+<button id="b-prev" aria-label="Previous slide">Back</button><button id="b-next" aria-label="Next slide">Next</button>
+<button id="b-ov">Overview (O)</button><button id="b-nt">Notes (N)</button><button id="b-pr">Presenter window (P)</button><button id="b-fs">Full screen (F)</button><button id="b-tm">Timer (T)</button>
+<span id="cnt"></span>
+</div>
+<script>
+/* Add or edit slides here. t = title, h = slide HTML, n = speaker notes. */
+var SL=[
+{t:"Title",h:"<h1>Writing Architecture Documentation with arc42</h1><p class='m'>A one-day beginner workshop</p><p>By 17:00 you will have a first-draft arc42 for a real system and a method you can reuse.</p>"},
+{t:"Why we need this",h:"<h2>Why we need this</h2><ul><li><span class='k'>Knowledge lives in heads.</span> Newcomers wait for someone to explain.</li><li><span class='k'>Decisions are forgotten.</span> Teams re-debate old choices or break them by accident.</li><li><span class='k'>Qualities go unstated.</span> “Fast” and “secure” mean different things to different people.</li><li><span class='k'>Machines are now readers.</span> AI tools act on what is written and guess what isn’t.</li></ul>",n:"Ask: which of these have you lived through?"},
+{t:"Learning outcomes",h:"<h2>By the end of today you can</h2><ul><li>Explain what software architecture and arc42 are</li><li>Identify stakeholders and write measurable quality goals</li><li>Draw a context view and a Level-1 building-block view, and write one component contract</li><li>Describe a runtime scenario and a deployment view</li><li>Record one decision as an ADR</li><li>Use AI to draft sections, then find and fix its mistakes</li></ul>"},
+{t:"How we will learn",h:"<h2>How we will learn</h2><p>Each part follows one loop:</p><p class='k'>Why, what goes in and out, steps, worked example, try it, check.</p><p><span class='k'>I do</span>, then <span class='k'>we do</span>, then <span class='k'>you do</span>.</p><p class='m'>Exercises 1–3 are mostly filled in, 4–6 are templates, 7–11 start blank.</p>",n:"A rough but complete skeleton beats a polished but partial one."},
+{t:"Rules for AI today",h:"<h2>Rules for AI today</h2><ol><li><span class='k'>Human draft first</span> (Exercises 1–11)</li><li><span class='k'>AI second:</span> ask it why and what’s missing, not only “write it”</li><li><span class='k'>You decide:</span> every AI line gets a human verdict</li></ol>"},
+{t:"Teams and cases",h:"<h2>Form teams, choose your case</h2><ul><li>Teams of 3–4</li><li>Pick one system your team can explain from memory</li></ul><p class='m'>School library lending · Clinic appointment booking · Maxi-taxi arrival tracker · Community fundraising platform · Your own</p><p>Write on your team card: system name, one-sentence purpose, three likely users.</p>",n:"Do not let anyone pick Doubles-to-Go; it is the facilitator’s example."},
+{t:"What is architecture?",h:"<h2>What is software architecture?</h2><p>The significant decisions about how a system is organised: its main parts, how they connect, the qualities it must achieve, and the rules that keep it coherent.</p><p class='k'>“Significant” means costly to change later.</p><p class='m'>Structure · Qualities · Decisions</p>",n:"Ask for one hard-to-change choice from the room: database, language, one app or many."},
+{t:"Trade-offs",h:"<h2>Architecture is trade-offs</h2><table><tr><th>Decision</th><th>Gains</th><th>Costs</th></tr><tr><td>Cache data on the phone</td><td>Faster screens</td><td>Data may be stale</td></tr><tr><td>Queue payment confirmations</td><td>Survives outages</td><td>Slight delay, more parts</td></tr><tr><td>One big application</td><td>Simple to deploy</td><td>Harder to scale parts</td></tr></table><p class='k'>Every decision gains one quality and costs another.</p>"},
+{t:"What good docs are",h:"<h2>What good documentation is</h2><p>✗ A complete design spec written once up front</p><p>✗ A copy of the code in prose</p><p>✗ A document nobody updates</p><p class='k'>✓ Write down what is hard to see in the code: boundaries, qualities, decisions, reasons.</p>"},
+{t:"Stakeholders",h:"<h2>Stakeholders and concerns</h2><p><span class='k'>Stakeholder:</span> a person, group or organisation with an interest in the system.</p><p><span class='k'>Concern:</span> something a stakeholder cares about, such as “Can I recover a lost order?” or “Can I deploy on Friday?”</p><p class='m'>If nobody has a concern about it, don’t document it.</p>"},
+{t:"Zoom levels",h:"<h2>Zoom levels (the C4 idea)</h2><table><tr><th>Level</th><th>Shows</th></tr><tr><td>1 Context</td><td>The system as one box, with people and systems around it</td></tr><tr><td>2 Containers</td><td>Runnable or deployable pieces</td></tr><tr><td>3 Components</td><td>Inside one container</td></tr><tr><td>4 Code</td><td>Rarely documented</td></tr></table>"},
+{t:"What is arc42?",h:"<h2>What is arc42?</h2><ul><li>A free, open-source template for architecture documentation</li><li>Created by Gernot Starke and Peter Hruschka</li><li>A structure, not a method: you still do the architecture</li><li>Not all 12 sections are mandatory. Size it to your system.</li></ul>"},
+{t:"The 12 sections",h:"<h2>The 12 sections</h2><div class='g'><div><b>1</b>Goals</div><div><b>2</b>Constraints</div><div><b>3</b>Context</div><div><b>4</b>Strategy</div><div><b>5</b>Building blocks</div><div><b>6</b>Runtime</div><div><b>7</b>Deployment</div><div><b>8</b>Crosscutting concepts</div><div><b>9</b>Decisions</div><div><b>10</b>Quality</div><div><b>11</b>Risks and debt</div><div><b>12</b>Glossary</div></div><p class='m'>Goals and constraints shape strategy; strategy shapes structure; decisions explain the choices.</p>"},
+{t:"Break",h:"<h1>Break</h1><p class='m'>Back at 10:20 for Part 2: goals, quality and stakeholders.</p>"},
+{t:"Part 2: Introduction and goals",h:"<p class='m'>Part 2 · 10:20 to 11:10</p><h1>§1 Introduction and goals</h1><p>Why it exists, what matters most, and who cares.</p>"},
+{t:"§1 purpose and parts",h:"<h2>§1: one picture for every reader</h2><table><tr><th>Part</th><th>Content</th></tr><tr><td>1.1 Requirements overview</td><td>What it does, why, what it replaces</td></tr><tr><td>1.2 Quality goals</td><td>Top 3 (max 5) qualities for the architecture</td></tr><tr><td>1.3 Stakeholders</td><td>Who, and what they expect</td></tr></table><p class='m'>Quality goals are for the architecture, not project goals.</p>",n:"Get §1 wrong and everything downstream drifts."},
+{t:"1.1 Requirements overview",h:"<h2>1.1 Requirements overview</h2><p><span class='k'>Include:</span> what the system is for, 3–7 key functions, why now, what it replaces, a link to the full requirements.</p><p><span class='k'>Leave out:</span> technology names, diagrams, component detail.</p><p class='k'>Test: a newcomer can say in 30 seconds what it is for.</p>"},
+{t:"Example: Doubles-to-Go 1.1",h:"<h2>Example: Doubles-to-Go</h2><p>Lets customers order from nearby street vendors on their phone, pay online and collect without queuing. It replaces phone calls, WhatsApp messages and cash-only queues, which lose orders at peak lunchtime.</p><p class='m'>Key functions: browse vendors · place and pay for an order · SMS when ready · vendor stock and menu management · daily payout report</p>",n:"Contrast with the weak version: “A scalable, robust, cloud-native platform.”"},
+{t:"Quality goals: the idea",h:"<h2>Quality goals</h2><ul><li><span class='k'>Functional:</span> what it does. <span class='k'>Quality:</span> how well.</li><li>Qualities shape architecture more than features do. A very fast system and a very cheap one are built differently.</li><li>You can’t maximise everything, so choose three.</li></ul><p class='m'>“Launch by June” is a project goal or a constraint, not a quality goal.</p>"},
+{t:"Why adjectives fail",h:"<h2>Numbers beat adjectives</h2><table><tr><th>Vague</th><th>Measurable</th></tr><tr><td>“Should be fast.”</td><td>95% of order confirmations appear within 3 s at 300 orders per minute.</td></tr></table><p>“Fast”, “secure” and “easy” can’t be tested. A scenario makes them verifiable.</p>"},
+{t:"Scenario anatomy",h:"<h2>Scenario: short form first</h2><p class='k'>Stimulus → Response → Metric</p><p>Long form (SEI): source, stimulus, environment, artifact, response, response measure.</p><p class='m'>Types: usage, change, failure. Don’t force all six parts when some are obvious.</p>"},
+{t:"Example quality goals",h:"<h2>Doubles-to-Go quality goals</h2><table><tr><th>Goal</th><th>Scenario</th></tr><tr><td>#reliable</td><td>Connection drops during payment: on reconnect, exactly one order and one charge exist (1,000 simulated drops)</td></tr><tr><td>#usable</td><td>First-time customer on a low-end phone over 3G orders in under 90 s without help (9 of 10 users)</td></tr><tr><td>#secure</td><td>Security scan finds zero stored card numbers</td></tr></table>"},
+{t:"Choose your top 3",h:"<h2>How to choose your top 3</h2><ol><li>List 6–8 candidate qualities</li><li>Ask: if we had to sacrifice it, would stakeholders object?</li><li>Prefer qualities that are expensive to fix later</li><li>Rank by stakeholder importance, keep three</li><li>Write each as #label plus one sentence</li></ol>"},
+{t:"Check: fix these four",h:"<h2>Fix these four (pairs, 5 min)</h2><p>Rewrite each as a scenario with a number:</p><ol><li>“The app should be fast.”</li><li>“It must be secure.”</li><li>“Easy to maintain.”</li><li>“Highly available.”</li></ol>",n:"Sample answers: (1) 95% of pages load in under 2 s on 3G. (2) An unauthenticated request to any order endpoint is rejected 100% of the time. (3) A new payment provider can be added by one developer within 5 days. (4) Orders can be placed in 99.5% of lunch hours per month."},
+{t:"Stakeholders",h:"<h2>1.3 Stakeholders</h2><p>A stakeholder is not the same as a user: also owners, operators, support, developers, auditors, suppliers.</p><p>Walk the system’s life and ask who touches it: <span class='k'>use, buy, run, support, build, audit, supply.</span></p><p class='k'>For each: what would make them unhappy? That is the expectation.</p>"},
+{t:"Example stakeholders",h:"<h2>Doubles-to-Go stakeholders</h2><table><tr><td>Customers</td><td>Order quickly; never lose money or orders</td></tr><tr><td>Vendors</td><td>Simple phone UI; payout accuracy</td></tr><tr><td>Business owner</td><td>Growth, low running cost</td></tr><tr><td>Payment provider</td><td>Correct, compliant use of its API</td></tr><tr><td>Support staff</td><td>Diagnose a failed order in minutes</td></tr><tr><td>Developers (4)</td><td>Understand and change the system safely</td></tr></table>"},
+{t:"Exercise 1",h:"<h2>Exercise 1: write §1 (25 min)</h2><ul><li><span class='k'>1.1</span> (5 min): one paragraph and 3–5 key functions</li><li><span class='k'>1.3</span> (8 min): 5–6 stakeholders with expectations</li><li><span class='k'>1.2</span> (12 min): top 3 goals, one short-form scenario each</li></ul><p class='m'>Output: one page in arc42-team.md</p>"},
+{t:"Peer review: §1",h:"<h2>Peer review (5 min)</h2><p>Swap with another team and tick:</p><ul><li>1.1 says what it replaces, with no technology names</li><li>3–5 quality goals, none a project goal</li><li>Every scenario has a number</li><li>Every stakeholder has an expectation</li><li>Each goal traces to a stakeholder</li></ul>"}
+];
+var st=document.getElementById("stage"),nt=document.getElementById("notes"),i=0,pres=location.search.indexOf("presenter")>-1;
+SL.forEach(function(x){var e=document.createElement("section");e.className="s";e.innerHTML=x.h;st.appendChild(e)});
+var els=st.children,ovg=document.getElementById("ovg");
+SL.forEach(function(x,k){var b=document.createElement("button");b.innerHTML="<b>"+(k+1)+"</b>"+x.t;b.onclick=function(){document.body.classList.remove("ov");go(k)};ovg.appendChild(b)});
+function fit(){var s=Math.min(innerWidth/1280,(innerHeight-(document.fullscreenElement?0:0))/720);st.style.transform="translate(-50%,-50%) scale("+s+")"}
+addEventListener("resize",fit);fit();
+var ch=window.BroadcastChannel?new BroadcastChannel("arc42-slides"):null;
+if(ch)ch.onmessage=function(e){go(e.data,true)};
+function render(){for(var k=0;k<els.length;k++)els[k].classList.toggle("on",k===i);
+document.getElementById("bar").style.width=((i+1)/SL.length*100)+"%";
+document.getElementById("cnt").textContent=(i+1)+" / "+SL.length;
+nt.textContent=SL[i].n?SL[i].n:"No notes for this slide.";
+ovg.querySelectorAll("button").forEach(function(b,k){b.classList.toggle("on",k===i)});
+try{history.replaceState(null,"",(pres?"?presenter":location.pathname.split("/").pop()||"")+"#"+(i+1))}catch(e){}}
+function go(n,quiet){n=Math.max(0,Math.min(SL.length-1,n));if(n===i&&quiet)return;i=n;
+var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+if(document.startViewTransition&&!reduce)document.startViewTransition(render);else render();
+if(ch&&!quiet)ch.postMessage(i)}
+function tog(c){document.body.classList.toggle(c)}
+var wl=null;
+async function fs(){try{if(document.fullscreenElement)await document.exitFullscreen();else{await document.documentElement.requestFullscreen();if(navigator.wakeLock)wl=await navigator.wakeLock.request("screen")}}catch(e){}}
+document.addEventListener("fullscreenchange",fit);
+document.addEventListener("visibilitychange",async function(){if(document.fullscreenElement&&!wl&&navigator.wakeLock&&document.visibilityState==="visible"){try{wl=await navigator.wakeLock.request("screen")}catch(e){}}});
+var t0=null,tmr=null;
+function timer(){var c=document.getElementById("cnt");if(tmr){clearInterval(tmr);tmr=null;render();return}t0=Date.now();tmr=setInterval(function(){var s=Math.floor((Date.now()-t0)/1000);c.textContent=(i+1)+" / "+SL.length+"   "+Math.floor(s/60)+":"+("0"+s%60).slice(-2)},1000)}
+function pw(){window.open(location.pathname+"?presenter#"+(i+1),"arc42-presenter","width=900,height=700")}
+document.addEventListener("keydown",function(e){if(e.metaKey||e.ctrlKey||e.altKey)return;var k=e.key;
+if(k==="ArrowRight"||k==="ArrowDown"||k==="PageDown"||k===" "||k==="Enter"){e.preventDefault();go(i+1)}
+else if(k==="ArrowLeft"||k==="ArrowUp"||k==="PageUp"||k==="Backspace"){e.preventDefault();go(i-1)}
+else if(k==="Home")go(0);else if(k==="End")go(SL.length-1);
+else if(k==="f"||k==="F")fs();else if(k==="o"||k==="O")tog("ov");else if(k==="n"||k==="N")tog("nt");
+else if(k==="t"||k==="T")timer();else if(k==="p"||k==="P")pw();else if(k==="Escape")document.body.classList.remove("ov")});
+var sx=null;
+document.addEventListener("touchstart",function(e){sx=e.touches[0].clientX},{passive:true});
+document.addEventListener("touchend",function(e){if(sx===null)return;var d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)go(i+(d<0?1:-1));sx=null});
+var idle;function wake(){document.body.classList.remove("idle");clearTimeout(idle);if(document.fullscreenElement)idle=setTimeout(function(){document.body.classList.add("idle")},2500)}
+document.addEventListener("mousemove",wake);
+document.getElementById("b-prev").onclick=function(){go(i-1)};document.getElementById("b-next").onclick=function(){go(i+1)};
+document.getElementById("b-ov").onclick=function(){tog("ov")};document.getElementById("b-nt").onclick=function(){tog("nt")};
+document.getElementById("b-pr").onclick=pw;document.getElementById("b-fs").onclick=fs;document.getElementById("b-tm").onclick=timer;
+if(pres)document.body.classList.add("pres","nt");
+var h=parseInt((location.hash||"").slice(1),10);if(h)i=Math.max(0,Math.min(SL.length-1,h-1));
+render();
+</script>
+</body>
+</html>
