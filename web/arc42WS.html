@@ -35,20 +35,22 @@ nav button.on{color:var(--ink);box-shadow:inset 0 -3px 0 var(--sun)}
 main{max-width:1040px;margin:auto;padding:0 20px 80px}
 section.tab{display:none}section.tab.on{display:block}
 .band{padding:56px 0;border-top:1px solid var(--line)}
-.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:40px;align-items:center;padding:48px 0 56px}
-.hero p.lead{font-size:1.2rem;color:var(--mut);margin:18px 0 26px}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:start;padding:34px 0 38px}
+.hero h1{font-size:clamp(2rem,4vw,3.05rem);line-height:1.08}
+.hero p.lead{font-size:1.2rem;color:var(--mut);margin:14px 0 22px}
 .btn{display:inline-block;background:var(--teal);color:var(--on);padding:13px 24px;border-radius:8px;text-decoration:none;border:0;font:inherit;font-weight:600;cursor:pointer}
 .btn.ghost{background:none;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
 .actions{display:flex;gap:12px;flex-wrap:wrap}
 .facts{margin-top:22px;color:var(--mut);font-size:.95rem}
 .sheet{background:var(--panel);border:2px solid var(--ink);border-radius:4px;padding:14px}
 .sheet small{display:block;color:var(--mut);margin-bottom:10px;font-size:.85rem}
-.cells{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.cells button{aspect-ratio:1;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:3px;font:inherit;font-size:.78rem;line-height:1.2;padding:6px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between}
+.cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.hero>*{min-width:0}
+.cells button{aspect-ratio:auto;min-height:64px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:3px;font:inherit;font-size:.78rem;line-height:1.2;padding:6px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between}
 .cells button b{font-family:"Bricolage Grotesque",sans-serif;font-size:1.3rem}
 .cells button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .cells button.on b{color:var(--sun)}
-#q{min-height:3.2em;margin:12px 0 0;font-weight:500}
+#q{min-height:2.6em;margin:12px 0 0;font-weight:500}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px 36px}
 .cols h3{margin-top:0}
 .cols p{margin:.3em 0 0;color:var(--mut)}
@@ -77,7 +79,9 @@ details p{color:var(--mut);margin:.5em 0 0}
 pre{background:var(--tint);padding:14px;border-radius:6px;overflow-x:auto;font-size:.85rem;line-height:1.5}
 .chk label{display:block;margin:6px 0;font-weight:400}.chk input{width:auto;margin-right:8px}
 footer{border-top:1px solid var(--line);padding:24px 0;color:var(--mut);font-size:.9rem}
-@media(max-width:780px){.hero{grid-template-columns:1fr}}
+@media(max-width:780px){.hero{grid-template-columns:1fr;padding-top:22px}.cells{grid-template-columns:repeat(3,minmax(0,1fr))}.cells button{min-height:58px}.sheet{box-shadow:5px 5px 0 var(--sun)}}
+.btn.wa{background:#25d366;color:#06270f}
+[hidden]{display:none!important}
 .seg{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
 .seg button{border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;padding:10px 16px;border-radius:99px;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -132,17 +136,15 @@ body{position:relative}
 
 <section id="home" class="tab on">
 <div class="hero">
-<div>
+<div class="hcopy">
 <span class="pill" id="pill"></span>
-<h1>Master <span class="hl">arc42</span>, the open template for documenting software architecture</h1>
-<p class="lead">Twelve sections give every goal, constraint, interface and decision a clear home, so your team, your stakeholders and your AI coding tools work from the same picture. One hands-on day, for engineers at every level.</p>
-<p class="why">AI tools can generate code, but they can’t read your intent. Documentation that records goals, contracts and decisions is how you hand it over.</p>
-<div style="height:22px"></div>
+<h1>Master <span class="hl">arc42</span>: architecture docs people and AI can act on</h1>
+<p class="lead">arc42 is a free, open template for documenting software architecture. One hands-on day to write yours, for engineers at every level.</p>
 <div class="actions"><a class="btn" href="#register" id="cta">Reserve a seat</a><a class="btn ghost" href="#day">See the day</a></div>
 <p class="facts" id="facts"></p>
 </div>
 <div class="sheet" aria-label="The twelve arc42 sections">
-<small>The arc42 template has twelve sections. Tap one to see the question it answers.</small>
+<small>Tap a section to see the question it answers.</small>
 <div class="cells" id="cells"></div>
 <p id="q">Start with section 1.</p>
 </div>
@@ -157,7 +159,8 @@ body{position:relative}
 
 <div class="band" id="what">
 <h2>What arc42 is, and why it matters now</h2>
-<div class="two">
+<p class="why">AI tools can generate code, but they can’t read your intent. Documentation that records goals, contracts and decisions is how you hand it over.</p>
+<div class="two" style="margin-top:22px">
 <div>
 <h3>What it is</h3>
 <p>arc42 is a free, open template for documenting software and system architecture. Its twelve sections give each kind of architecture information a clear place: goals and constraints, context, building blocks, runtime behaviour, deployment, crosscutting concepts, decisions, quality scenarios, risks and a glossary.</p>
@@ -269,12 +272,12 @@ body{position:relative}
 <p id="ebt2"></p>
 <div class="plans" id="plans"></div>
 <form id="f">
-<label>Your name<input name="n" required autocomplete="name"></label>
-<label>Email<input name="e" type="email" required autocomplete="email"></label>
-<label>Team or organisation (optional)<input name="t"></label>
-<select name="p" id="sel" hidden></select>
-<label>Anything we should know?<textarea name="m" rows="3"></textarea></label>
-<div class="actions"><button class="btn" id="go" type="submit">Reserve a seat</button><a class="btn ghost" href="mailto:peterdramsajan@gmail.com">Email us instead</a></div>
+<label>Your name<input name="name" required autocomplete="name"></label>
+<label>Email<input name="email" type="email" required autocomplete="email"></label>
+<label>Team or organisation (optional)<input name="team"></label>
+<select name="seat" id="sel" hidden></select>
+<label>Anything we should know?<textarea name="message" rows="3"></textarea></label>
+<div class="actions"><a class="btn" id="extform" href="#" hidden target="_blank" rel="noopener">Open the registration form</a><button class="btn" id="go" type="submit">Reserve a seat</button><a class="btn wa" id="wa" href="#" hidden target="_blank" rel="noopener">Prefer WhatsApp?</a><a class="btn ghost" href="mailto:peterdramsajan@gmail.com">Email us instead</a></div>
 <p id="msg" role="status"></p>
 </form>
 </div>
@@ -433,7 +436,11 @@ var CONFIG={
   date:"Saturday 5 December 2026, 9:00 am to 5:00 pm", venue:"UWI St Augustine",
   host:"",
   facilitator:{name:"",role:"",bio:""},   /* fill in to show a facilitator section */
-  early:{price:"TT$999",ends:"2026-11-11T03:59:59Z",label:"10 November"},
+  whatsapp:"",       /* digits only, with country code, e.g. 18681234567 */
+  formUrl:"",        /* link to a hosted form (Google Forms, Tally). Opens in a new tab */
+  formEndpoint:"",   /* or a Formspree-style address that accepts form posts */
+  seats:{left:null}, /* set a number only if it is true, e.g. {left:12} */
+  early:{price:"TT$999",standard:"",ends:"2026-11-11T03:59:59Z",label:"10 November"},   /* standard: e.g. "TT$1,299" */
   plans:[
     {name:"Workshop seat",price:"TT$999",note:"Early bird price per person until 10 November. Full day, all materials.",star:true}
   ]
@@ -464,7 +471,7 @@ var cells=document.getElementById("cells"),q=document.getElementById("q");
 Q.forEach(function(x,i){var b=document.createElement("button");b.innerHTML="<b>"+(i+1)+"</b>"+x[0];
 b.onclick=function(){cells.querySelectorAll("button").forEach(function(c){c.classList.remove("on")});b.classList.add("on");q.textContent=x[1]};cells.appendChild(b)});
 
-var facts=[CONFIG.date,CONFIG.venue].filter(Boolean).join(", ");
+var facts=[CONFIG.date,CONFIG.venue,(CONFIG.seats&&CONFIG.seats.left!=null?CONFIG.seats.left+" seats left":"")].filter(Boolean).join(", ");
 document.getElementById("facts").textContent=facts||"Next dates announced soon. Join the waiting list below.";
 document.getElementById("host").textContent=CONFIG.host;
 document.getElementById("pill").textContent=ebOn?("Early bird "+CONFIG.early.price+" until "+CONFIG.early.label):"Saturday 5 December 2026";
@@ -476,19 +483,24 @@ var ctaText=live?"Reserve a seat":"Join the waiting list";
 document.getElementById("cta").textContent=ctaText;document.getElementById("go").textContent=ctaText;
 var pl=document.getElementById("plans"),sel=document.getElementById("sel");
 CONFIG.plans.forEach(function(p){var d=document.createElement("div");d.className="plan"+(p.star?" star":"");
-d.innerHTML="<h3 style='margin:0'>"+p.name+"</h3><div class='pr'>"+(p.price||"Price to be announced")+"</div><p>"+p.note+"</p>";pl.appendChild(d);
+d.innerHTML="<h3 style='margin:0'>"+p.name+"</h3><div class='pr'>"+(p.price||"Price to be announced")+(ebOn&&CONFIG.early.standard?" <s style='font-size:1rem;color:var(--mut);font-weight:500'>"+CONFIG.early.standard+"</s>":"")+"</div><p>"+p.note+"</p>";pl.appendChild(d);
 var o=document.createElement("option");o.textContent=p.name;sel.appendChild(o)});
 document.getElementById("register").appendChild(document.getElementById("join"));
-var ebt=ebOn?(left+" day"+(left===1?"":"s")+" left at the early bird price of "+CONFIG.early.price+" (until "+CONFIG.early.label+")"):"The early bird price has ended.";
+var ebt=ebOn?(left+" day"+(left===1?"":"s")+" left at the early bird price of "+CONFIG.early.price+" (until "+CONFIG.early.label+(CONFIG.early.standard?", then "+CONFIG.early.standard:"")+")"):"The early bird price has ended.";
 document.getElementById("ebt").textContent=ebt;document.getElementById("ebt2").textContent=ebt;
 document.getElementById("cta").onclick=function(e){e.preventDefault();show("register");window.scrollTo(0,0)};
 document.getElementById("ebgo").onclick=function(){show("register");window.scrollTo(0,0)};
 document.getElementById("f").onsubmit=function(e){e.preventDefault();var f=e.target,m=document.getElementById("msg");
 if(!CONFIG.email){m.textContent="Registration isn’t switched on yet. Check back soon.";return}
-var body="Name: "+f.n.value+"\nEmail: "+f.e.value+"\nTeam: "+f.t.value+"\nSeat: "+f.p.value+"\nNotes: "+f.m.value;
+var E=f.elements,body="Name: "+E["name"].value+"\nEmail: "+E["email"].value+"\nTeam: "+E["team"].value+"\nSeat: "+E["seat"].value+"\nNotes: "+E["message"].value;
 location.href="mailto:"+CONFIG.email+"?subject="+encodeURIComponent("arc42 workshop: "+ctaText)+"&body="+encodeURIComponent(body);
 m.textContent="Your email app should open with your details ready to send."};
 
+var wa=document.getElementById("wa");
+if(CONFIG.whatsapp){wa.href="https://wa.me/"+CONFIG.whatsapp+"?text="+encodeURIComponent("Hello, I’d like to reserve a seat for the arc42 workshop on 5 December at UWI St Augustine.");wa.hidden=false}
+if(CONFIG.formUrl){var xf=document.getElementById("extform");xf.href=CONFIG.formUrl;xf.hidden=false;document.getElementById("go").hidden=true;document.querySelectorAll("#f label").forEach(function(l){l.hidden=true})}
+if(CONFIG.formEndpoint){document.getElementById("f").onsubmit=function(e){e.preventDefault();var f=e.target,m=document.getElementById("msg"),b=document.getElementById("go");b.disabled=true;m.textContent="Sending…";
+fetch(CONFIG.formEndpoint,{method:"POST",body:new FormData(f),headers:{Accept:"application/json"}}).then(function(r){if(!r.ok)throw 0;f.reset();m.textContent="Thank you. Your request is in, and we will reply by email."}).catch(function(){m.textContent="Sorry, that didn’t send. Please use WhatsApp or email instead."}).then(function(){b.disabled=false})}}
 document.getElementById("copy").onclick=function(){var t=document.getElementById("skel").textContent,b=this;
 try{navigator.clipboard.writeText(t).then(function(){b.textContent="Copied"},function(){b.textContent="Copy failed: select the text"})}catch(x){b.textContent="Copy failed: select the text"}};
 })();
